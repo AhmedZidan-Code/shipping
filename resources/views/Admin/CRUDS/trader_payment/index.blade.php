@@ -199,7 +199,7 @@
                                 cache: true
                             }
                         });
-                    }, 1500); // 2000 milliseconds = 2 seconds
+                    }, 1500); //// 2000 milliseconds = 2 seconds
 
                 });
             });
