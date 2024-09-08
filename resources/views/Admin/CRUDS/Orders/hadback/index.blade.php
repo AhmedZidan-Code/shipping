@@ -1,0 +1,359 @@
+@extends('Admin.layouts.inc.app')
+@section('title')
+    المرتجعات
+@endsection
+@section('css')
+@endsection
+@section('content')
+    <form action="{{ route('hadback.index') }}">
+
+        <div class="row mb-3">
+            <div class="col-md-4 ">
+                <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> تاريخ البداية </span>
+
+                </label>
+                <input type="date" id="fromDate"
+                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}"
+                       @endisset
+                    name="fromDate" class="showBonds form-control">
+
+            </div>
+            <div class="col-md-4">
+                <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> تاريخ النهاية </span>
+
+                </label>
+                <input type="date" id="toDate"
+                    @isset($request['toDate']) value="{{ $request['toDate'] }}"
+                       @endisset
+                    name="toDate" class="showBonds form-control">
+            </div>
+
+            <div class="d-flex flex-column mb-7 fv-row col-sm-4">
+                <!--begin::Label-->
+                <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> التاجر</span>
+                </label>
+                <select id='trader_id' name="trader_id" style='width: 200px;'>
+                    <option selected value="0">- ابحث عن التاجر</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> الحالة </span>
+
+                </label>
+
+                <select id="order_status" class="form-control showBonds" name="status">
+                    <option selected disabled>اختر</option>
+                    <option
+                        @isset($request['status']) @if ($request['status'] == 'partial_delivery_to_customer') selected @endif   @endisset
+                        value="partial_delivery_to_customer">مسلم جزئيا</option>
+                    <option
+                        @isset($request['status']) @if ($request['status'] == 'not_delivery') selected @endif   @endisset
+                        value="not_delivery">لم يسلم</option>
+
+                    <option
+                        @isset($request['status']) @if ($request['status'] == 'cancel') selected @endif   @endisset
+                        value="cancel">لاغي </optiيذon>
+
+
+                </select>
+
+
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary my-4">بحث</button>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="card">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="card-title mb-0 flex-grow-1"> تقارير التجار</h5>
+
+
+        </div>
+
+        <div class="card-body">
+            <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                style="width:100%">
+                <thead>
+                    <tr>
+                        <th> اختر</th>
+                        <th>#</th>
+                        <th>الحالة</th>
+
+                        <th>اسم العميل</th>
+                        <th>المحافظة</th>
+
+                        <th>رقم تليفون العميل</th>
+
+                        <th>التاجر</th>
+
+                        <th>قيمة الشحنة</th>
+                        <th> الملاحظات</th>
+                        <th>تاريخ التحويل</th>
+                        <th> تاريخ الانشاء</th>
+
+                        <th> تفاصيل الطلب</th>
+                    </tr>
+
+                <tfoot>
+                    <tr style="background: whitesmoke;">
+                        <td> </td>
+
+
+
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> المجموع </td>
+                        <td id="ahmed"> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+
+
+                    </tr>
+
+
+                </tfoot>
+
+            </table>
+            <div class="row">
+                <div class="col-md-3 ">
+                    <label for="number" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                        <span class="required mr-1"> المبلغ </span>
+                    </label>
+                    <input type="number" name="total" id="total_value" class="showBonds form-control" disabled>
+                </div>
+                {{-- <div class="col-md-2 ">
+                    <label for="cash" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                        <span class="required mr-1"> نقدي </span>
+                    </label>
+                    <input type="number" id="cash" name="cashe" class="showBonds form-control">
+                </div>
+                <div class="col-md-2 ">
+                    <label for="cheque" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                        <span class="required mr-1"> غير نقدي</span>
+                    </label>
+                    <input type="number" id="cheque" name="cheque" class="showBonds form-control">
+                </div> --}}
+                <div class="col-md-3 ">
+                    <label for="date" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                        <span class="required mr-1"> التاريخ </span>
+                    </label>
+                    <input type="date" id="date" name="date" class="showBonds form-control">
+                </div>
+                <div class="col-md-3 ">
+                    <label for="notes" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                        <span class="required mr-1"> الملاحظات </span>
+                    </label>
+                    <textarea id="notes" name="notes" class="showBonds form-control"></textarea>
+                </div>
+                    <div class=" d-flex justify-content-center ">
+
+                        <button class="btn btn-success" onclick="change_status();" style="margin-right: 80%; width: 200px;">
+                            تم
+                            الدفع</button>
+                    </div>
+
+            </div>
+
+
+        </div>
+    </div>
+@endsection
+@section('js')
+    <script>
+        var columns = [
+
+            {
+                data: 'checkbox',
+                name: 'checkbox'
+            },
+            {
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'status',
+                name: 'status'
+            },
+
+            {
+                data: 'customer_name',
+                name: 'customer_name'
+            },
+            {
+                data: 'province.title',
+                name: 'province.title'
+            },
+
+            {
+                data: 'customer_phone',
+                name: 'customer_phone'
+            },
+
+            {
+                data: 'trader.name',
+                name: 'trader.name'
+            },
+
+            {
+                data: 'shipment_value',
+                name: 'shipment_value'
+            },
+            {
+                data: 'notes',
+                name: 'notes'
+            },
+            {
+                data: 'converted_date',
+                name: 'converted_date'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+
+            {
+                data: 'orderDetails',
+                name: 'orderDetails'
+            },
+        ];
+    </script>
+    @if (request('trader_id'))
+        @include('Admin.layouts.inc.ajax', ['url' => 'hadback'])
+    @endif
+    <script>
+        $(document).on('change', '.showBonds', function() {
+            var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            var trader_id = $('#trader_id').val();
+            var status = $('#order_status').val();
+
+            var url = "{{ route('tradersReports.index') }}";
+            url = url + "?-=-";
+            if (fromDate != null) {
+                url = url + "&&fromDate=" + fromDate;
+            }
+            if (toDate != null) {
+                url = url + "&&toDate=" + toDate;
+            }
+            if (trader_id != null) {
+                url = url + "&&trader_id=" + trader_id;
+            }
+            if (status != null) {
+                url = url + "&&status=" + status;
+            }
+            // window.location.href = url;
+        })
+    </script>
+
+    <script>
+        function change_status() {
+            var selectedValues = [];
+            var totalValue = 0
+            let amount = $('#total_value').val();
+            let date = $('#date').val();
+            let notes = $('#notes').val();
+            let trader_id = {{ request('trader_id') }};
+            $('.myCheckboxClass:checked').each(function() {
+                selectedValues.push($(this).val());
+            });
+            $('.myCheckboxClass:checked').each(function() {
+                selectedValues.push($(this).val());
+            });
+            if (selectedValues.length == '') {
+                alert("من فضلك قم بادخال الاوردرات");
+                return;
+            }
+            $.ajax({
+                url: '{{ route('hadback.store') }}',
+                type: 'POST',
+                data: {
+                    amount: amount,
+                    date: date,
+                    notes: notes,
+                    trader_id: trader_id,
+                    selectedValues: selectedValues,
+                    _token: '{{ csrf_token() }}' // Add CSRF token if needed
+                },
+                beforeSend: function() {
+                    // Optionally, show a loader or disable the button
+                },
+                complete: function() {
+                    // Optionally, hide the loader or enable the button
+                },
+                success: function(data) {
+                    if (data.code == 200) {
+                        toastr.success(data.message);
+                        $('#table').DataTable().ajax.reload(null, false);
+                    } else {
+                        toastr.error(data.message);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status === 422) { // Laravel validation error
+                        var errors = jqXHR.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value[0]); // Show the first error message for each field
+                        });
+                    } else {
+                        toastr.error('حدث خطأ غير متوقع، حاول مرة أخرى.');
+                    }
+                }
+            });
+        }
+    </script>
+
+
+
+    <link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
+    <script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
+
+    <script>
+        (function() {
+
+            $("#trader_id").select2({
+                placeholder: 'Channel...',
+                // width: '350px',
+                allowClear: true,
+                ajax: {
+                    url: '{{ route('admin.getTraders') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term || '',
+                            page: params.page || 1
+                        }
+                    },
+                    cache: true
+                }
+            });
+        })();
+        let totalValue = 0;
+
+        $(document).on('change', '.myCheckboxClass', function() {
+            let dataBaseValue = parseFloat($(this).attr('data_base')) || 0;
+
+            if ($(this).is(':checked')) {
+                totalValue += dataBaseValue;
+            } else {
+                totalValue -= dataBaseValue;
+            }
+            $('#total_value').val(totalValue);
+            console.log(totalValue);
+
+        });
+    </script>
+@endsection

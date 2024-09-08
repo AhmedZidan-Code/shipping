@@ -1,0 +1,367 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Order;
+
+use App\Http\Controllers\Controller;
+use App\Http\Traits\LogActivityTrait;
+use App\Models\Order;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
+class DeliveryConvertedOrderController extends Controller
+{
+    use LogActivityTrait;
+
+
+    function __construct()
+    {
+        $this->middleware('permission:عرض الطلبات', ['only' => ['index']]);
+        $this->middleware('permission:العمليات علي الطلبات', ['only' => ['destroy']]);
+    }
+
+
+    public function index(Request $request)
+    {
+ 
+    
+     
+       
+             if ($request->ajax()) {
+            $rows = Order::query()->latest()->with(['province', 'trader', 'delivery'])
+            
+            ->where('status', 'converted_to_delivery')->orderBy('converted_date', 'desc');
+               
+          if ($request->delivery_id) {
+            $rows->where('delivery_id', $request->delivery_id);
+           }
+           if($request->province_id)
+           {
+            $rows->where('province_id', $request->province_id);
+           }
+           
+            return DataTables::of($rows)
+                ->addColumn('action', function ($row) {
+
+                    $edit = '';
+                    $delete = '';
+
+                    if(!auth()->user()->can('العمليات علي الطلبات'))
+                        $edit='hidden';
+                    if(!auth()->user()->can('العمليات علي الطلبات'))
+                        $delete='hidden';
+
+                    $url=route('admin.orderDetails',$row->id);
+                    $route=route('orders.edit',$row->id);
+
+
+                    return '
+
+                            <button ' . $delete . '  class="btn rounded-pill btn-danger waves-effect waves-light delete"
+                                    data-id="' . $row->id . '">
+                            <span class="svg-icon svg-icon-3">
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </span>
+                            </button>
+
+                            <a href='.$url.' class="btn rounded-pill btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                             <a href='.$route.' class="btn rounded-pill btn-outline-dark"><i class="fa fa-edit" aria-hidden="true"></i></a>
+
+                       ';
+
+
+                })
+                
+                ->addColumn('convert_order', function ($row) {
+                    
+                    return '<input type="checkbox" class="orders_ids" data-delivery="'.$row->delivery_id.'" value="'.$row->id.'" />';
+                })
+
+                ->editColumn('province_id', function ($row) {
+                    return $row->province->title ?? '';
+                })
+                ->addColumn('orderDetails', function ($row) {
+                    $url=route('admin.orderDetails',$row->id);
+                    return "<a href='$url' class='btn btn-outline-dark'><i class='fa fa-eye' aria-hidden='true'></i></a>";
+                })
+
+
+                ->addColumn('residual', function ($row) {
+                 return '';
+                })
+
+                ->editColumn('status', function ($row) {
+
+                    $status='';
+                    if(!auth()->user()->can('العمليات علي الطلبات'))
+                        $status='hidden';
+
+                    $data='';
+
+                    if($row->status=='converted_to_delivery')
+                        $data='محول الي مندوب';
+
+                    if($row->status=='total_delivery_to_customer')
+                        $data='التسليم';
+                    if($row->status=='partial_delivery_to_customer')
+                        $data='تسليم جزئي';
+
+                    if($row->status=='not_delivery')
+                        $data='عدم استلام';
+
+                    if($row->status=='total_delivery_to_customer')
+                        $data='تم الدفع';
+
+                    if($row->status=='collection')
+                        $data='تحصيل';
+                    if($row->status=='delaying')
+                        $data='ماجل';
+
+                    if($row->status=='cancel')
+                        $data='لاغي';
+                    if($row->status=='under_implementation')
+                        $data='تحت التنفيذ';
+
+
+
+                    return "<button $status  data-id='$row->id' class='btn btn-success changeStatusData'>  $data
+
+</button>";
+
+
+
+//                    $option1 = '';
+//                    $option2 = '';
+//                    $option3 = '';
+//                    $option4 = '';
+//                    if ($row->status == 'converted_to_delivery')
+//                        $option1 = 'selected';
+//                    elseif ($row->status == 'total_delivery_to_customer')
+//                        $option2 = 'selected';
+//                    elseif ($row->status == 'partial_delivery_to_customer')
+//                        $option3 = 'selected';
+//                    elseif ($row->status == 'not_delivery') {
+//                        $option4 = 'selected';
+//                    } else {
+//
+//                    }
+//                    $status = "<select name='status' data-id='$row->id' class='form-control changeStatus'>
+//                       <option selected disabled> اختر  الحالة</option>
+//                       <option $option1 value='converted_to_delivery'>تم التحويل التاجر  </option>
+//                       <option $option2 value='total_delivery_to_customer'>تم التسليم الكلي للعميل </option>
+//                       <option $option3 value='partial_delivery_to_customer'>  تم التسليم الجزئي للعميل  </option>
+//                       <option $option4 value='not_delivery'>  لم يتم التسليم </option>
+//
+//                     </select>";
+//
+//                    return $status;
+
+                })
+
+
+                ->editColumn('trader_id', function ($row) {
+                    return $row->trader->name ?? '';
+                })
+                ->editColumn('created_at', function ($admin) {
+                    return date('Y/m/d', strtotime($admin->created_at));
+                })
+                ->escapeColumns([])
+                ->make(true);
+
+
+        } else {
+            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الطلبات المحولة للمناديب");
+
+        }
+        $delivieries = DB::table('deliveries')->get();
+       
+       
+        return view('Admin.CRUDS.Orders.deliveryConvertedOrders.index',compact('delivieries'));
+    }
+
+
+    public function create(Request $request)
+    {
+        $status=$request->status;
+        $order=Order::findOrFail($request->id);
+
+        return view('Admin.CRUDS.Orders.deliveryConvertedOrders.parts.reason',compact('order','status'));
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'status'=>'required',
+            'refused_reason'=>'required',
+
+        ]);
+
+        $order=Order::findOrFail($request->order_id);
+        $old=$order;
+
+        $order->update([
+            'status'=>$request->status,
+            'refused_reason'=>$request->refused_reason,
+        ]);
+
+        $this->add_log_activity($old,auth('admin')->user(),"  تم تعديل حالة طلب برقم $order->id ");
+
+
+        return response()->json(
+            [
+                'code' => 200,
+                'message' => 'تمت العملية بنجاح!'
+            ]);
+    }
+
+
+    public function destroy( $id)
+    {
+        $order=Order::findOrFail($id);
+        $old = $order;
+        $order->delete();
+
+        $this->add_log_activity($old, auth('admin')->user(), " تم   حذف بيانات الطلب    $old->id ");
+
+
+        return response()->json(
+            [
+                'code' => 200,
+                'message' => 'تمت العملية بنجاح!'
+            ]);
+    }//end fun
+
+
+    public function changeStatusForOrder($id){
+        $order=Order::findOrFail($id);
+        $delivies = DB::table('deliveries')->get();
+
+        return view('Admin.CRUDS.Orders.deliveryConvertedOrders.parts.status',compact('order','delivies'));
+
+    }
+
+    public function changeStatusForOrder_store(Request $request,$id){
+          $order=Order::findOrFail($id);
+           $data = $request->validate([
+            'partial_value' => 'required_if:status,partial_delivery_to_customer',
+            'status' => 'required',
+            'refused_reason'=>'nullable',
+            
+           
+
+        ]);
+        $data['converted_date']= Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+        $data['converted_date_s']= strtotime($data['converted_date']);
+        
+       $data['delivery_id']= $request->delivery_id ;
+        //================
+        
+        $arr= array('converted_to_delivery'=>'محول الي مندوب',
+        
+                     'total_delivery_to_customer'=>'التسليم',
+                     'partial_delivery_to_customer'=>'تسليم جزئي',
+                     'not_delivery'=>'عدم استلام',
+                     'total_delivery_to_customer'=>'تم التسليم ',
+                     'collection'=>'تحصيل',
+                     'delaying'=>'مؤجل',
+                     'cancel'=>'ملغي',
+                     'under_implementation'=> 'تحت  التنفيذ',
+                     'new'=> 'جديد',
+                     'paid'=>'تم الدفع'
+                   );
+        
+        $history['order_id'] = $id ;
+        $history['previous_status'] = $order->status ;
+        $history['next_status'] = $request->status ;
+        $history['reason'] =  'change_status';
+        $history['from_mandoub'] = $order->delivery_id ;
+        $history['to_mandoub'] = $order->delivery_id ;
+        $history['publisher'] = auth()->id() ;
+        $history['date'] = strtotime(date('Y-m-d'));
+        $history['time'] = date('h:i a');
+        $history['before_edit']= $arr[$order->status]  ;
+        $history['after_edit']=  $arr[$request->status]  ;   
+        $history['notes']= "تغيير في الحاله" ;
+        save_history($history);
+        //========================================================
+        
+         $before_edit = DB::table('deliveries')->where('id',$order->delivery_id)->first() ;
+        $after_edit= DB::table('deliveries')->where('id',$request->delivery_id)->first() ;
+        
+         $history2['order_id'] = $request->id ;
+         $history2['previous_status'] = $order->status ;
+        $history2['next_status'] = $request->status ;
+        $history2['reason'] = '';
+        $history2['from_mandoub'] = $order->delivery_id ;
+        $history2['to_mandoub'] = $request->delivery_id ;
+        $history2['publisher'] = auth()->id() ;
+        $history2['date'] = strtotime(date('Y-m-d'));
+        $history2['time'] = date('h:i a');
+        $history2['before_edit']= $order->delivery_id .'->'. !empty($before_edit) ? $before_edit->name : '' ;
+        $history2['after_edit']=  $request->delivery_id .'->'. !empty($after_edit) ? $after_edit->name : '' ;   
+        $history2['notes']= "تغيير في المندوب" ;
+        if($order->delivery_id  != $request->delivery_id ){
+             save_history($history2); 
+        }
+         
+        //========================================
+          
+       // DB::table('order_history')->insert($history);
+        //===================
+         $order->update($data);
+      
+        return response()->json(
+            [
+                'code' => 200,
+                'message' => 'تمت العملية بنجاح!',
+            ]);
+
+
+    }
+    
+    
+     public function convert_order(Request $request)
+     {
+       $orders_ids = $request->orders_ids;
+       if(isset($orders_ids)&& !empty($orders_ids))
+       {
+        for($x= 0 ; $x< Count($orders_ids) ;  $x++)
+        {
+         $data['converted_date']= Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+         $data['converted_date_s']= strtotime($data['converted_date']);
+         $data['delivery_id']= $request->delivery_id ;
+         $order = Order::findOrFail($orders_ids[$x]);
+           $before_edit = DB::table('deliveries')->where('id',$order->delivery_id)->first() ;
+          $after_edit= DB::table('deliveries')->where('id',$request->delivery_id)->first() ;
+        
+         $history2['order_id'] = $orders_ids[$x] ;
+         $history2['previous_status'] = $order->status ;
+        $history2['next_status'] = $order->status ;
+        $history2['reason'] = '';
+        $history2['from_mandoub'] = $order->delivery_id ;
+        $history2['to_mandoub'] = $request->delivery_id ;
+        $history2['publisher'] = auth()->id() ;
+        $history2['date'] = strtotime(date('Y-m-d'));
+        $history2['time'] = date('h:i a');
+        $history2['before_edit']= $order->delivery_id .'->'. !empty($before_edit) ? $before_edit->name : '' ;
+        $history2['after_edit']=  $request->delivery_id .'->'. !empty($after_edit) ? $after_edit->name : '' ;   
+        $history2['notes']= "تغيير في المندوب" ;
+        if($order->delivery_id  != $request->delivery_id ){
+             save_history($history2); 
+        }
+       $order->update($data);  
+        }
+         return response()->json(
+            [
+                'code' => 200,
+                'message' => 'تمت العملية بنجاح!',
+            ]);
+
+       }
+      
+     }
+
+   }

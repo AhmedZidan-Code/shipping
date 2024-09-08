@@ -1,0 +1,157 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Enums\SettingType;
+use App\Http\Controllers\Controller;
+use App\Http\Traits\LogActivityTrait;
+use App\Models\AdministrativeSetting;
+use App\Models\Expenses;
+use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+
+class ExpenseController extends Controller
+{
+    use LogActivityTrait;
+
+    public function __construct()
+    {
+       // $this->middleware('permission:عرض المصروفات', ['only' => ['index']]);
+      //  $this->middleware('permission:الاضافة في المصروفات', ['only' => ['create', 'store']]);
+       // $this->middleware('permission:التعديل في المصروفات', ['only' => ['edit', 'update']]);
+        //$this->middleware('permission:الحذف في المصروفات', ['only' => ['destroy']]);
+    }
+
+    public function index(Request $request)
+    {
+
+        if ($request->ajax()) {
+            $rows = Expenses::query()->with(['setting', 'admin']);
+            return DataTables::of($rows)
+
+                ->addColumn('action', function ($row) {
+
+                    $edit = '';
+                    $delete = '';
+
+                    if (!auth()->user()->can('التعديل في المصروفات')) {
+                        $edit = 'hidden';
+                    }
+
+                    if (!auth()->user()->can('الحذف في المصروفات')) {
+                        $delete = 'hidden';
+                    }
+
+                    return '
+                            <button ' . $edit . '  class="editBtn btn rounded-pill btn-primary waves-effect waves-light"
+                                    data-id="' . $row->id . '"
+                            <span class="svg-icon svg-icon-3">
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="fa fa-edit"></i>
+                                </span>
+                            </span>
+                            </button>
+                            <button ' . $delete . '  class="btn rounded-pill btn-danger waves-effect waves-light delete"
+                                    data-id="' . $row->id . '">
+                            <span class="svg-icon svg-icon-3">
+                                <span class="svg-icon svg-icon-3">
+                                    <i class="fa fa-trash"></i>
+                                </span>
+                            </span>
+                            </button>
+                       ';
+
+                })
+                ->addColumn('name', function ($row) {
+                    return $row->admin->name;
+                })
+                ->addColumn('expense_category', function ($row) {
+                    return $row->setting->title;
+                })
+                ->escapeColumns([])
+                ->make(true);
+
+        } else {
+            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  المصروفات");
+
+        }
+        return view('Admin.CRUDS.administrative-setting.expenses.index');
+    }
+
+    public function create()
+    {
+
+        return view('Admin.CRUDS.administrative-setting.expenses.parts.create', ['settings' => AdministrativeSetting::where('type', SettingType::EXPENSES)->get()]);
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'value' => 'required|numeric',
+            'setting_id' => 'required|exists:administrative_settings,id',
+            'date' => 'required|date_format:Y-m-d',
+
+        ]);
+
+        $data['expense_by'] = $request->user()->id;
+
+        $expense = Expenses::create($data);
+
+        $this->add_log_activity($expense, auth('admin')->user(), " تم اضافة المصروفات ");
+
+        return response()->json(
+            [
+                'code' => 200,
+                'message' => 'تمت العملية بنجاح!',
+            ]);
+    }
+
+    public function edit($id)
+    {
+
+        $row = Expenses::findOrFail($id);
+
+        return view('Admin.CRUDS.administrative-setting.expenses.parts.edit', ['row' => $row, 'settings' => AdministrativeSetting::where('type', SettingType::EXPENSES)->get()]);
+
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'value' => 'required|numeric',
+            'setting_id' => 'required|exists:administrative_settings,id',
+            'date' => 'required|date_format:Y-m-d',
+        ]);
+
+        $row = Expenses::findOrFail($id);
+
+        $old = $row;
+        $data['expense_by'] = $request->user()->id;
+
+        $row->update($data);
+
+        $this->add_log_activity($old, auth('admin')->user(), "تم  تعديل بيانات المصروفات ");
+
+        return response()->json(
+            [
+                'code' => 200,
+                'message' => 'تمت العملية بنجاح!',
+            ]);
+    }
+
+    public function destroy($id)
+    {
+        $row = Expenses::findOrFail($id);
+        $old = $row;
+        $this->add_log_activity($old, auth('admin')->user(), "تم  حذف بيانات المصروفات ");
+
+        $row->delete();
+
+        return response()->json(
+            [
+                'code' => 200,
+                'message' => 'تمت العملية بنجاح!',
+            ]);
+    } //end fun
+
+}
