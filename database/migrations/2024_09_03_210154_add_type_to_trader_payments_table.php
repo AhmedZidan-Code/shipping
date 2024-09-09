@@ -26,7 +26,7 @@ class AddTypeToTraderPaymentsTable extends Migration
     public function down()
     {
         Schema::table('trader_payments', function (Blueprint $table) {
-            $table->dropColumn('type')
+            $table->dropColumn('type');
         });
     }
 }
