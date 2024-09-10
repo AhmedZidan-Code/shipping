@@ -21,7 +21,7 @@
                   @foreach ($paymentOrders as $k=>$payment)
                       @if ($payment['type'] == App\Enums\TransactionType::HADBACK)
                           <tr>
-                              <th>{{$k}}</th>
+                              <th>{{++$k}}</th>
                               <th>دفع كمرتجع</th>
                               <th>{{ $payment['orders_count'] }}</th>
                               <th>{{ $payment['amount'] }}</th>
@@ -46,8 +46,8 @@
                       @endif
                   @endforeach
                   <tr>
-                      <th colspan="2">المتبقي</th>
-                      <th colspan="2">{{ $total }}</th>
+                      <th colspan="3" style="text-align: center; vertical-align: middle;">المتبقي</th>
+                      <th colspan="2" style="text-align: center; vertical-align: middle;">{{ $total }}</th>
                   </tr>
               </tbody>
           </table>
