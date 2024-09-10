@@ -16,9 +16,6 @@
                 <option selected value="0">- ابحث عن التاجر</option>
             </select>
         </div>
-        <div class="col-md-2">
-            <button class="btn btn-primary my-4">بحث</button>
-        </div>
         </div>
 
     </form>
