@@ -24,7 +24,7 @@ class TraderAccountController extends Controller
     public function show($trader_id)
     {
         $trader = Trader::findOrFail($trader_id);
-        $orders = $trader->orders()->has('payment');
+        $orders = $trader->orders();
         $count = $orders->count();
         $total = $orders->sum('shipment_value');
 
