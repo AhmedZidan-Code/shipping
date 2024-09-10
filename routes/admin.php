@@ -130,7 +130,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
    
   Route::get('get_hadback', [\App\Http\Controllers\Admin\Order\HadbackController::class,'get_hadback'])->name('admin.get_hadback');//
    Route::get('get_tahseel', [\App\Http\Controllers\Admin\Order\TahseelController::class,'get_tahseel'])->name('admin.get_tahseel');//
-   Route::get('trader-accounts', [TraderAccountController::class , 'index']);//
+   Route::get('trader-accounts', [TraderAccountController::class , 'index'])->name('trader-accounts.index');//
    Route::get('trader-accounts/{trader_id}', [TraderAccountController::class , 'show'])->name('admin.trader_accounts');//
    
    // Route::post('add_hadback',[\App\Http\Controllers\Admin\Order\HadbackController::class,'add_hadback'])->name('admin.add_hadback');
