@@ -258,6 +258,43 @@
                     </ul>
                 </li>
 
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-buffer"></i>
+                        <span>  تسديدات التجار </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('trader-payments.index') }}"><i class="mdi mdi-album"></i> <span>  تسديدات التجار
+                                </span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-buffer"></i>
+                        <span>  تسديدات التجار </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('trader-payments.index') }}"><i class="mdi mdi-album"></i> <span>  تسديدات التجار
+                                </span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-buffer"></i>
+                        <span>  تقارير أرصدة التجار </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('trader-accounts.index') }}"><i class="mdi mdi-album"></i> <span>  تقارير أرصدة التجار
+                                </span></a>
+                        </li>
+                    </ul>
+                </li>
+
                 <!--</div>-->
             </ul>
         </div>
