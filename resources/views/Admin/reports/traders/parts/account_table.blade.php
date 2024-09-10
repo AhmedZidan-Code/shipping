@@ -17,7 +17,6 @@
                       <th>{{ $total }}</th>
                   </tr>
                   @php
-                      $total = 0;
                   @endphp
                   @foreach ($paymentOrders as $k=>$payment)
                       @if ($payment['type'] == App\Enums\TransactionType::HADBACK)
