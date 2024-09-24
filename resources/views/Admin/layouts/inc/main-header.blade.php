@@ -222,7 +222,7 @@ $locale=app()->getLocale();
             <div class="dropdown d-inline-block" id="page-header-user-dropdown">
                 <button type="button" class="btn header-item waves-effect"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="{{get_file(admin()->user()?->image)}}"
+                    <img class="rounded-circle header-profile-user" src="{{get_file(admin()->user()->image)}}"
                         alt="Header Avatar">
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
