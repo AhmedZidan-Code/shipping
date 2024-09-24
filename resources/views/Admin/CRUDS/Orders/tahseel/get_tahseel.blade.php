@@ -48,11 +48,9 @@
                 <select id="order_status" class="form-control showBonds" name="status">
                     <option selected disabled>اختر</option>
                        <option @isset($request['status']) @if($request['status']=='partial_delivery_to_customer') selected @endif   @endisset value="partial_delivery_to_customer">مسلم جزئيا</option>
-                    <option @isset($request['status']) @if($request['status']=='not_delivery') selected @endif   @endisset value="not_delivery">لم يسلم</option>
+                    <option @isset($request['status']) @if($request['status']=='total_delivery_to_customer') selected @endif   @endisset value="not_delivery"> مسلم كليا </option>
                 
-                    <option @isset($request['status']) @if($request['status']=='cancel') selected @endif   @endisset value="cancel">لاغي </optiيذon>
-
-
+                   
                 </select>
 
 

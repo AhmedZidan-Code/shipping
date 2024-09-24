@@ -5,6 +5,44 @@
 @section('css')
 @endsection
 @section('content')
+
+ <form action="{{route('deliveryConvertedOrders.index')}}">
+
+        <div class="row mb-3">
+        
+        <div class="col-md-4">
+                <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1">     المندوب    </span>
+                </label>
+              <select id="delivery_id" class="form-control showBonds" name="delivery_id">
+                <option value="">اختر</option>
+                  @if(!empty($delivieries))  
+                  @foreach($delivieries as $delivery)
+                  <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
+                 @endforeach
+                @endif
+               </select>
+            </div>  
+          <div class="d-flex flex-column mb-7 fv-row col-sm-3">
+                                    <!--begin::Label-->
+                                    <label for="province_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                        <span class="required mr-1">   المدينه</span>
+                                    </label>
+                                    <select id='province_id'  class="province_id1" name="province_id[]"  style='width: 200px;'>
+                                        <option selected disabled>- ابحث عن مدينة</option>
+                                    </select>
+                                </div>
+
+                                           
+
+           
+          
+            <div class="col-md-2">
+                <button class="btn btn-primary my-4">بحث</button>
+            </div>
+        </div>
+
+    </form>
     <div class="card">
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1">   الطلبات المحولة الي المناديب</h5>
@@ -18,6 +56,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>رقم الاوردر</th>
                     <th>اسم العميل</th>
                     <th>الحالة</th>
                     <th>المدينة</th>
@@ -33,6 +72,27 @@
                     <th>العمليات</th>
                 </tr>                </thead>
             </table>
+            
+                 <div class="row mb-3">
+        
+        <div class="col-md-4">
+                <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1">     المندوب المحول اليه    </span>
+                </label>
+              <select id="" class="form-control showBonds delivery_id" name="">
+                <option value="">اختر</option>
+                  @if(!empty($delivieries))  
+                  @foreach($delivieries as $delivery)
+                  <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
+                 @endforeach
+                @endif
+               </select>
+            </div>  
+          
+            <div class="col-md-2">
+                <button type="button" onclick="convert();" class="btn btn-primary my-4"> تحويل</button>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -79,6 +139,8 @@
 @section('js')
     <script>
         var columns = [
+        
+            {data: 'convert_order', name: 'convert_order'},
             {data: 'id', name: 'id'},
             {data: 'customer_name', name: 'customer_name'},
             {data: 'status', name: 'status'},
@@ -164,8 +226,105 @@
            }
         })
     </script>
+     <link href="{{url('assets/dashboard/css/select2.css')}}" rel="stylesheet"/>
+    <script src="{{url('assets/dashboard/js/select2.js')}}"></script>
+
+         <script>
+
+        (function () {
+
+            $("#province_id").select2({
+                placeholder: 'Channel...',
+                // width: '350px',
+                allowClear: true,
+                ajax: {
+                    url: '{{route('admin.getGovernorates')}}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            term: params.term || '',
+                            page: params.page || 1
+                        }
+                    },
+                    cache: true
+                }
+            });
+        })();
+
+    </script>
     
+     <script>
+      function convert()
+      {
+        var orders_ids = [];
+        var old_deliveries = [] ;
+        $('.orders_ids:checked').each(function() {
+          orders_ids.push($(this).val());
+          old_deliveries.push($(this).attr('data-delivery'));
+      });
+       var delivery_id = $('.delivery_id').val();
+       
+       if (orders_ids.length === 0) {
+        alert("من فضلك قم بادخال الاوردرات");
+        return;
+    }
+
+     if (delivery_id  === '') {
+        alert("من فضلك قم باختيار المندوب");
+        return;
+      }
+          $.ajax({
+        url: '{{ route('admin.convert_order') }}',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            delivery_id: delivery_id,
+            orders_ids: orders_ids,
+            old_deliveries:old_deliveries
+        },
+        beforeSend: function () {
+            // Optional: Add loading spinner or disable submit button
+        },
+        complete: function () {
+            // Optional: Remove loading spinner or enable submit button
+        },
+        success: function (data) {
+         
+             if (data.code === 200) {
+                toastr.success(data.message);
+                setTimeout(reloading, 1000);
+            } else {
+                toastr.error(data.message);
+                $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
+            }
+        },
+        error: function (data) {
+         
+            $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
+
+            if (data.status === 500) {
+               toastr.error(data.responseJSON.message);
+               console.log(data.message);
+            } else if (data.status === 422) {
+                var errors = $.parseJSON(data.responseText);
+                $.each(errors, function (key, value) {
+                    if ($.isPlainObject(value)) {
+                        $.each(value, function (key, value) {
+                            toastr.error(value);
+                        });
+                    }
+                });
+            } else if (data.status === 421) {
+                toastr.error(data.message);
+            }
+        },
+       
+    });
+      }
      
+     </script>
+
      
     
 @endsection

@@ -28,7 +28,7 @@ class DeliveryConvertedOrderController extends Controller
      
        
              if ($request->ajax()) {
-            $rows = Order::query()->latest()->with(['province', 'trader', 'delivery'])
+            $rows = Order::query()->with(['province', 'trader', 'delivery'])
             
             ->where('status', 'converted_to_delivery')->orderBy('converted_date', 'desc');
                
@@ -244,15 +244,17 @@ class DeliveryConvertedOrderController extends Controller
     }
 
     public function changeStatusForOrder_store(Request $request,$id){
+        
+        
+       
+        
           $order=Order::findOrFail($id);
            $data = $request->validate([
             'partial_value' => 'required_if:status,partial_delivery_to_customer',
+            'delivery_value' => 'required_if:status,not_delivery',
             'status' => 'required',
             'refused_reason'=>'nullable',
-            
-           
-
-        ]);
+            ]);
         $data['converted_date']= Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
         $data['converted_date_s']= strtotime($data['converted_date']);
         
@@ -270,7 +272,8 @@ class DeliveryConvertedOrderController extends Controller
                      'cancel'=>'ملغي',
                      'under_implementation'=> 'تحت  التنفيذ',
                      'new'=> 'جديد',
-                     'paid'=>'تم الدفع'
+                     'paid'=>'تم الدفع',
+                     'shipping_on_messanger'=>'الشحن علي الراسل'
                    );
         
         $history['order_id'] = $id ;
@@ -311,6 +314,7 @@ class DeliveryConvertedOrderController extends Controller
           
        // DB::table('order_history')->insert($history);
         //===================
+        //if()
          $order->update($data);
       
         return response()->json(
