@@ -143,7 +143,7 @@
                                 <li><a href="{{ route('paid_orders.index') }}"><i class="mdi mdi-album"></i> <span>طلبات تم الدفع </span></a>
                                 </li>
                                 -->
-                        <li class="mm-active"><a href="{{ route('shipping_on_messanger.index') }}" class="active"><i
+                        <li class="mm-active"><a href="{{ route('shipping_on_messanger.index') }}"><i
                                     class="mdi mdi-album"></i>
                                 <span> الشحن علي الراسل </span></a></li>
                             <li><a href="{{ route('under_implementation_orders.index') }}"><i class="mdi mdi-album"></i>

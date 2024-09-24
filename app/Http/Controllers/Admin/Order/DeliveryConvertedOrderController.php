@@ -23,10 +23,6 @@ class DeliveryConvertedOrderController extends Controller
 
     public function index(Request $request)
     {
- 
-    
-     
-       
              if ($request->ajax()) {
             $rows = Order::query()->with(['province', 'trader', 'delivery'])
             
@@ -130,33 +126,7 @@ class DeliveryConvertedOrderController extends Controller
 
 </button>";
 
-
-
-//                    $option1 = '';
-//                    $option2 = '';
-//                    $option3 = '';
-//                    $option4 = '';
-//                    if ($row->status == 'converted_to_delivery')
-//                        $option1 = 'selected';
-//                    elseif ($row->status == 'total_delivery_to_customer')
-//                        $option2 = 'selected';
-//                    elseif ($row->status == 'partial_delivery_to_customer')
-//                        $option3 = 'selected';
-//                    elseif ($row->status == 'not_delivery') {
-//                        $option4 = 'selected';
-//                    } else {
-//
-//                    }
-//                    $status = "<select name='status' data-id='$row->id' class='form-control changeStatus'>
-//                       <option selected disabled> اختر  الحالة</option>
-//                       <option $option1 value='converted_to_delivery'>تم التحويل التاجر  </option>
-//                       <option $option2 value='total_delivery_to_customer'>تم التسليم الكلي للعميل </option>
-//                       <option $option3 value='partial_delivery_to_customer'>  تم التسليم الجزئي للعميل  </option>
-//                       <option $option4 value='not_delivery'>  لم يتم التسليم </option>
-//
-//                     </select>";
-//
-//                    return $status;
+   return $status;
 
                 })
 
