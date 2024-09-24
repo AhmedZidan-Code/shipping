@@ -284,6 +284,8 @@ class NewOrderController extends Controller
 
 
         ]);
+        
+        
          
          $history['order_id'] = $order->id ;
          $history['previous_status'] = $order->status ;
@@ -304,6 +306,13 @@ class NewOrderController extends Controller
         {
           $history['before_edit']= $order->delivery_id .'->'. DB::table('deliveries')->where('id',$order->delivery_id)->first()->name ;
           $history['after_edit']=  $data['delivery_id'] .'->'.  DB::table('deliveries')->where('id',$data['delivery_id'])->first()->name ; 
+          
+          //===========================================
+          $data['converted_date'] = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+           $data['converted_date_s'] = strtotime(Carbon::now()->addHours(1)->format('Y-m-d H:i:s'));
+          
+          //=====================================================
+        
           $history['notes']= "تغيير في المندوب" ;
            save_history($history);   
         }

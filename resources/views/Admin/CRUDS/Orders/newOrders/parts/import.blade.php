@@ -51,7 +51,8 @@
 
                                 <div class="d-flex flex-column mb-7 fv-row col-sm-3">
                                     <!--begin::Label-->
-                                    <label for="delivery_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                    <label for="delivery_id"
+                                        class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                                         <span class="required mr-1"> المندوب</span>
                                     </label>
                                     <select id='delivery_excel' name="delivery_id" style='width: 200px;'>
@@ -128,15 +129,19 @@
 
                 complete: function() {},
                 success: function(data) {
+
+
                     window.setTimeout(function() {
-                        $('#submit-excel').html('{{ trans('admin.submit') }}').attr('disabled',
-                            false);
+
                         // $('#product-model').modal('hide')
                         if (data.code == 200) {
                             toastr.success(data.message)
                             setTimeout(reloading, 1000);
                         } else {
                             toastr.error(data.message)
+                            $('#submit-excel').html('{{ trans('admin.submit') }}').attr(
+                                'disabled',
+                                false);
 
                         }
                     }, 1000);
@@ -158,9 +163,9 @@
                         console.log(errors);
 
                         $.each(errors, function(key, value) {
-                            $.each(value, function(key, value) {
-                                toastr.error(value)
-                            });
+                                $.each(value, function(key, value) {
+                                    toastr.error(value)
+                                });
                         });
                     }
                     if (data.status == 421) {

@@ -12,9 +12,6 @@
                 <div>
                     <a href="{{route('orders.create')}}"  class="btn btn-primary">اضافة طلب</a>
                 </div>
-                <div>
-                    <a href="{{route('import.excel')}}"  class="btn btn-primary">استيراد اكسيل</a>
-                </div>
 
         </div>
         <div class="card-body">

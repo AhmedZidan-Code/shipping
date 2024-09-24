@@ -21,6 +21,7 @@
                 <option value="delaying" @if($order->status=='delaying')  selected @endif  > مؤجل </option>
                 <option value="cancel"  @if($order->status=='cancel')  selected @endif > لاغي </option>
                 <option value="under_implementation" @if($order->status=='under_implementation')  selected @endif  > تحت التنفيذ </option>
+                 <option value="shipping_on_messanger" @if($order->status=='shipping_on_messanger')  selected @endif  > الشحن علي الراسل</option>
 
             </select>
         </div>
@@ -49,6 +50,15 @@
             </label>
             <input type="number" value="{{$order->partial_value}}" name="partial_value" class="form-control" id="partial_value" />
             </div>
+            
+            <div class=" col-sm-6 delivery_value" @if($order->status != 'not_delivery') style="display: block;" @endif >
+            <!--begin::Label-->
+            <label for="status-convert" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1"> قيمه التوصيل</span>
+                
+            </label>
+            <input type="number" value="{{$order->delivery_value}}" name="delivery_value" class="form-control" id="delivery_value" />
+            </div>
 
         <div class="d-flex flex-column mb-7 fv-row col-sm-12">
             <!--begin::Label-->
@@ -76,6 +86,18 @@
             $('.partial_value').hide();
             $('#partial_value').hide();
             $('#partial_value').val( '');
+        }
+        
+        if(status == 'not_delivery')
+        {
+            $('.delivery_value').show();
+            $('#delivery_value').show();
+          
+        }else{
+            
+            $('.delivery_value').hide();
+            $('#delivery_value').hide();
+           // $('#delivery_value').val( '');
         }
       }
      
