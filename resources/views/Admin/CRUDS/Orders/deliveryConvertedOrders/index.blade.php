@@ -275,7 +275,7 @@
         return;
       }
           $.ajax({
-        url: '{{ route('admin.convert_order') }}',
+        url: '{{ route('deliveryConvertedOrders.index') }}',
         type: 'POST',
         data: {
             _token: '{{ csrf_token() }}',
