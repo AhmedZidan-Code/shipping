@@ -1,4 +1,18 @@
-          <h2>{{ $trader->name }}</h2>
+@extends('Trader.layouts.inc.app')
+@section('title')
+    تقارير التجار
+@endsection
+@section('css')
+@endsection
+@section('content')
+
+    <div class="card">
+        <div class="card-header d-flex align-items-center">
+            <h5 class="card-title mb-0 flex-grow-1">   كشف حساب</h5>
+        </div>
+
+        <div class="card-body" id="table_content">
+                      <h2>{{ $trader->name }}</h2>
           <table class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
               <thead>
                   <tr>
@@ -56,3 +70,8 @@
                   </tr>
               </tbody>
           </table>
+
+        </div>
+    </div>
+@endsection
+
