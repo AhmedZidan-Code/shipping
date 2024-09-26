@@ -136,6 +136,8 @@
                                 </span></a>
                         <li><a href="{{ route('trader.get_hadback') }}"><i class="mdi mdi-album"></i> <span> مرتجعات
                                 </span></a>
+                        <li><a href="{{ route('trader.trader_account') }}"><i class="mdi mdi-album"></i> <span> كشف حساب
+                                </span></a>
                     </ul>
                 </li>
 
