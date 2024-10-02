@@ -14,10 +14,12 @@ class DeliveryConvertedOrderController extends Controller
     use LogActivityTrait;
 
 
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:عرض الطلبات', ['only' => ['index']]);
-        $this->middleware('permission:العمليات علي الطلبات', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض الطلبات المحولة للمناديب')->only(['index']);
+        $this->middleware('permission:تعديل الطلبات المحولة للمناديب')->only(['edit', 'update', 'changeStatusForOrder', 'convert_order', 'changeStatusForOrder_store']);
+        $this->middleware('permission:إنشاء الطلبات المحولة للمناديب')->only(['create', 'store']);
+        $this->middleware('permission:حذف الطلبات المحولة للمناديب')->only('destroy');
     }
 
 

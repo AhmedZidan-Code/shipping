@@ -19,7 +19,7 @@ class HadbackController extends Controller
 
     public function __construct()
     {
-        //  $this->middleware('permission:عرض التقارير', ['only' => ['index']]);
+        $this->middleware('permission:عرض  المرتجعات')->only(['index']);
     }
 
     public function index(Request $request)

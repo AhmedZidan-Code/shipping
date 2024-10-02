@@ -13,12 +13,12 @@ class ProvinceController extends Controller
 {
     use LogActivityTrait;
 
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:عرض اعدادات المناطق', ['only' => ['index']]);
-        $this->middleware('permission:الاضافة في اعدادات مناطق', ['only' => ['create', 'store']]);
-        $this->middleware('permission:التعديل في اعدادات مناطق', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:الحذف في اعدادات المناطق', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض المدن')->only(['index']);
+        $this->middleware('permission:تعديل المدن')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء المدن')->only(['create', 'store']);
+        $this->middleware('permission:حذف المدن')->only('destroy');
     }
 
     public function index(Request $request)
@@ -34,9 +34,9 @@ class ProvinceController extends Controller
                     $delete = '';
 
 
-                    if (!auth()->user()->can('التعديل في اعدادات مناطق'))
+                    if (!auth()->user()->can('تعديل المدن'))
                         $edit = 'hidden';
-                    if (!auth()->user()->can('الحذف في اعدادات المناطق'))
+                    if (!auth()->user()->can('حذف المدن'))
                         $delete = 'hidden';
 
 

@@ -16,11 +16,12 @@ class ExpenseController extends Controller
 
     public function __construct()
     {
-       // $this->middleware('permission:عرض المصروفات', ['only' => ['index']]);
-      //  $this->middleware('permission:الاضافة في المصروفات', ['only' => ['create', 'store']]);
-       // $this->middleware('permission:التعديل في المصروفات', ['only' => ['edit', 'update']]);
-        //$this->middleware('permission:الحذف في المصروفات', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض المصروفات')->only(['index']);
+        $this->middleware('permission:تعديل المصروفات')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء المصروفات')->only(['create', 'store']);
+        $this->middleware('permission:حذف المصروفات')->only('destroy');
     }
+
 
     public function index(Request $request)
     {
@@ -34,11 +35,11 @@ class ExpenseController extends Controller
                     $edit = '';
                     $delete = '';
 
-                    if (!auth()->user()->can('التعديل في المصروفات')) {
+                    if (!auth()->user()->can('تعديل المصروفات')) {
                         $edit = 'hidden';
                     }
 
-                    if (!auth()->user()->can('الحذف في المصروفات')) {
+                    if (!auth()->user()->can('حذف المصروفات')) {
                         $delete = 'hidden';
                     }
 

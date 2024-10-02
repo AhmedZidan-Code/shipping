@@ -13,12 +13,12 @@ class CategoryController extends Controller
 {
     use Upload_Files,LogActivityTrait;
 
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:عرض تصنيفات التجار', ['only' => ['index']]);
-        $this->middleware('permission:اضافة تصنيف تجار', ['only' => ['create','store']]);
-        $this->middleware('permission:تعديل تصنيف تجار', ['only' => ['edit','update']]);
-        $this->middleware('permission:حذف تصنيفات التجار', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض تصنيفات التجار')->only(['index']);
+        $this->middleware('permission:تعديل تصنيفات التجار')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء تصنيفات التجار')->only(['create', 'store']);
+        $this->middleware('permission:حذف تصنيفات التجار')->only('destroy');
     }
 
 
@@ -33,7 +33,7 @@ class CategoryController extends Controller
                     $edit='';
                     $delete='';
 
-                    if(!auth()->user()->can('تعديل تصنيف تجار'))
+                    if(!auth()->user()->can('تعديل تصنيفات التجار'))
                         $edit='hidden';
                     if(!auth()->user()->can('حذف تصنيفات التجار'))
                         $delete='hidden';

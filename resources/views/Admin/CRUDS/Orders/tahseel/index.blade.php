@@ -80,7 +80,7 @@
                 style="width:100%">
                 <thead>
                     <tr>
-                        <th> اختر</th>
+                        <th> <input type="checkbox" id="checkAll"></th>
                         <th>#</th>
                         <th>الحالة</th>
 
@@ -172,7 +172,8 @@
 
             {
                 data: 'checkbox',
-                name: 'checkbox'
+                name: 'checkbox',
+                orderable: false
             },
             {
                 data: 'id',
@@ -240,6 +241,46 @@
     @endif
 
     <script>
+        $(document).ready(function() {
+            let totalValue = 0;
+
+            // Function to update total value
+            function updateTotalValue() {
+                totalValue = 0;
+                $('.myCheckboxClass:checked').each(function() {
+                    totalValue += parseFloat($(this).attr('data_base')) || 0;
+                });
+                $('#total_value').val(totalValue.toFixed(2));
+                console.log('Total Value:', totalValue);
+            }
+
+            // Individual checkbox change event
+            $(document).on('change', '.myCheckboxClass', function() {
+                updateTotalValue();
+                updateCheckAllState();
+            });
+
+            // Check All checkbox
+            $('#checkAll').on('change', function() {
+                let isChecked = $(this).prop('checked');
+                $('.myCheckboxClass').prop('checked', isChecked);
+                updateTotalValue();
+            });
+
+            // Function to update Check All state
+            function updateCheckAllState() {
+                let totalCheckboxes = $('.myCheckboxClass').length;
+                let checkedCheckboxes = $('.myCheckboxClass:checked').length;
+                $('#checkAll').prop('checked', totalCheckboxes === checkedCheckboxes);
+            }
+
+            // Initial setup
+            updateTotalValue();
+            if (checkedCheckboxes) {
+                updateCheckAllState();
+            }
+        });
+
         $(document).on('change', '.showBonds', function() {
             var fromDate = $('#fromDate').val();
             var toDate = $('#toDate').val();
@@ -265,20 +306,20 @@
     </script>
 
     <script>
-        let totalValue = 0;
+        // let totalValue = 0;
 
-        $(document).on('change', '.myCheckboxClass', function() {
-            let dataBaseValue = parseFloat($(this).attr('data_base')) || 0;
+        // $(document).on('change', '.myCheckboxClass', function() {
+        //     let dataBaseValue = parseFloat($(this).attr('data_base')) || 0;
 
-            if ($(this).is(':checked')) {
-                totalValue += dataBaseValue;
-            } else {
-                totalValue -= dataBaseValue;
-            }
-            $('#total_value').val(totalValue);
-            console.log(totalValue);
+        //     if ($(this).is(':checked')) {
+        //         totalValue += dataBaseValue;
+        //     } else {
+        //         totalValue -= dataBaseValue;
+        //     }
+        //     $('#total_value').val(totalValue);
+        //     console.log(totalValue);
 
-        });
+        // });
 
 
         function change_status() {

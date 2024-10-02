@@ -12,11 +12,13 @@ class SettingController extends Controller
 {
     use Upload_Files,LogActivityTrait;
 
-    function __construct()
+    public function __construct()
     {
-       $this->middleware('permission:عرض الاعدادات العامة', ['only' => ['index']]);
+        $this->middleware('permission:عرض الإعدادت العامة')->only(['index']);
+        $this->middleware('permission:تعديل الإعدادت العامة')->only(['Store']);
 
     }
+
 
 
 

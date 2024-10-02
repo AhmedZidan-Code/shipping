@@ -14,10 +14,10 @@ class ActivityController extends Controller
 
     use LogActivityTrait;
 
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:عرض سجل العمليات', ['only' => ['index']]);
-        $this->middleware('permission:العمليات علي سجل العمليات', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض سجل عمليات النظام')->only('index');
+        $this->middleware('permission:حذف سجل عمليات النظام')->only('destroy');
     }
 
 
@@ -41,10 +41,10 @@ class ActivityController extends Controller
 
                     $delete = '';
 
-                    if(!auth()->user()->can('العمليات علي سجل العمليات'))
+                    if(!auth()->user()->can('عرض سجل عمليات النظام')){
                         $edit='hidden';
-                    if(!auth()->user()->can('العمليات علي سجل العمليات'))
                         $delete='hidden';
+                    }
 
 
                     return '
