@@ -20,13 +20,14 @@ class AdminController extends Controller
     use Upload_Files,LogActivityTrait;
 
 
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:عرض المستخدمين', ['only' => ['index']]);
-        $this->middleware('permission:اضافة مستخدمين', ['only' => ['create','store']]);
-        $this->middleware('permission:تعديل مستخدمين', ['only' => ['edit','update']]);
-       $this->middleware('permission:حذف مستخدمين', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض المستخدمين')->only(['index', 'show']);
+        $this->middleware('permission:تعديل المستخدمين')->only(['edit', 'update', 'activate']);
+        $this->middleware('permission:إنشاء المستخدمين')->only(['create', 'store']);
+        $this->middleware('permission:حذف المستخدمين')->only('destroy');
     }
+
 
 
     public function index(Request $request)

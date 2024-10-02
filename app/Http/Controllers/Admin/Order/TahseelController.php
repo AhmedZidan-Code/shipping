@@ -20,8 +20,9 @@ class TahseelController extends Controller
 
     public function __construct()
     {
-        //  $this->middleware('permission:عرض التقارير', ['only' => ['index']]);
-
+        $this->middleware('permission:عرض طلبات قيد التحصيل')->only(['index']);
+        $this->middleware('permission:تعديل طلبات قيد التحصيل')->only(['edit', 'update']);
+        $this->middleware('permission:حذف طلبات قيد التحصيل')->only('destroy');
     }
 
     public function index(Request $request)
@@ -83,7 +84,7 @@ class TahseelController extends Controller
                         $data = $row->shipment_value;
                     }
 
-                    return '<input  type="checkbox" class="myCheckboxClass" data_base="' . $data . '" value="' . $row->id . '";  name="check" ' . $change_status . '/>';
+                    return '<input  type="checkbox" class="myCheckboxClass orders_ids" data_base="' . $data . '" value="' . $row->id . '";  name="check" ' . $change_status . '/>';
                 })
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';

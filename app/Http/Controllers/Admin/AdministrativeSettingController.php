@@ -15,11 +15,13 @@ class AdministrativeSettingController extends Controller
 
     public function __construct()
     {
-     //   $this->middleware('permission:عرض الاعدادات الادارية', ['only' => ['index']]);
-     //   $this->middleware('permission:الاضافة في الاعدادات الادارية', ['only' => ['create', 'store']]);
-     //   $this->middleware('permission:التعديل في الاعدادات الادارية', ['only' => ['edit', 'update']]);
-     //   $this->middleware('permission:الحذف في الاعدادات الادارية', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض الاعدادات الإدارية')->only(['index']);
+        $this->middleware('permission:تعديل الاعدادات الإدارية')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء الاعدادات الإدارية')->only(['create', 'store']);
+        $this->middleware('permission:حذف الاعدادات الإدارية')->only('destroy');
     }
+
+
 
     public function index(Request $request)
     {

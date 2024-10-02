@@ -12,8 +12,13 @@ class CancelOrderController extends Controller
 {
     //
     use LogActivityTrait;
-
-
+    public function __construct()
+    {
+        $this->middleware('permission:عرض الطلبات الملغاه')->only(['index']);
+        $this->middleware('permission:تعديل الطلبات الملغاه')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء الطلبات الملغاه')->only(['create', 'store']);
+        $this->middleware('permission:حذف الطلبات الملغاه')->only('destroy');
+    }
 
     public function index(Request $request)
     {
@@ -72,8 +77,8 @@ class CancelOrderController extends Controller
                              ->editColumn('status', function ($row) {
 
                     $status='';
-                    if(!auth()->user()->can('العمليات علي الطلبات'))
-                        $status='hidden';
+                    // if(!auth()->user()->can('العمليات علي الطلبات'))
+                    //     $status='hidden';
 
                     $data='';
 

@@ -13,8 +13,13 @@ class CollectionOrderController extends Controller
     //
     use LogActivityTrait;
 
-
-
+    public function __construct()
+    {
+        $this->middleware('permission:عرض طلبات قيد التحصيل')->only(['index']);
+        $this->middleware('permission:تعديل طلبات قيد التحصيل')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء طلبات قيد التحصيل')->only(['create', 'store']);
+        $this->middleware('permission:حذف طلبات قيد التحصيل')->only('destroy');
+    }
     public function index(Request $request)
     {
 
@@ -26,10 +31,8 @@ class CollectionOrderController extends Controller
                     $edit = '';
                     $delete = '';
 
-                    $url=route('admin.orderDetails',$row->id);
-                    $route=route('orders.edit',$row->id);
-
-
+                    $url = route('admin.orderDetails', $row->id);
+                    $route = route('orders.edit', $row->id);
 
                     return '
 
@@ -42,55 +45,63 @@ class CollectionOrderController extends Controller
                             </span>
                             </button>
 
-                                                        <a href='.$url.' class="btn rounded-pill btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                          <a href='.$route.' class="btn rounded-pill btn-outline-dark"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                                        <a href=' . $url . ' class="btn rounded-pill btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                          <a href=' . $route . ' class="btn rounded-pill btn-outline-dark"><i class="fa fa-edit" aria-hidden="true"></i></a>
 
                        ';
 
-
                 })
                 ->addColumn('orderDetails', function ($row) {
-                    $url=route('admin.orderDetails',$row->id);
+                    $url = route('admin.orderDetails', $row->id);
                     return "<a href='$url' class='btn btn-outline-dark'><i class='fa fa-eye' aria-hidden='true'></i></a>";
                 })
 
                 ->editColumn('status', function ($row) {
 
-                    $status='';
-                    if(!auth()->user()->can('العمليات علي الطلبات'))
-                        $status='hidden';
+                    $status = '';
+                    // if (!auth()->user()->can('العمليات علي الطلبات')) {
+                    //     $status = 'hidden';
+                    // }
 
-                    $data='';
+                    $data = '';
 
-                    if($row->status=='converted_to_delivery')
-                        $data='محول الي مندوب';
+                    if ($row->status == 'converted_to_delivery') {
+                        $data = 'محول الي مندوب';
+                    }
 
-                    if($row->status=='total_delivery_to_customer')
-                        $data='التسليم';
-                    if($row->status=='partial_delivery_to_customer')
-                        $data='تسليم جزئي';
+                    if ($row->status == 'total_delivery_to_customer') {
+                        $data = 'التسليم';
+                    }
 
-                    if($row->status=='not_delivery')
-                        $data='عدم استلام';
+                    if ($row->status == 'partial_delivery_to_customer') {
+                        $data = 'تسليم جزئي';
+                    }
 
-                    if($row->status=='total_delivery_to_customer')
-                        $data='تم الدفع';
+                    if ($row->status == 'not_delivery') {
+                        $data = 'عدم استلام';
+                    }
 
-                    if($row->status=='collection')
-                        $data='تحصيل';
-                    if($row->status=='delaying')
-                        $data='ماجل';
+                    if ($row->status == 'total_delivery_to_customer') {
+                        $data = 'تم الدفع';
+                    }
 
-                    if($row->status=='cancel')
-                        $data='لاغي';
-                    if($row->status=='under_implementation')
-                        $data='تحت التنفيذ';
+                    if ($row->status == 'collection') {
+                        $data = 'تحصيل';
+                    }
 
+                    if ($row->status == 'delaying') {
+                        $data = 'ماجل';
+                    }
 
+                    if ($row->status == 'cancel') {
+                        $data = 'لاغي';
+                    }
+
+                    if ($row->status == 'under_implementation') {
+                        $data = 'تحت التنفيذ';
+                    }
 
                     return "";
-
-
 
 //                    $option1 = '';
 //                    $option2 = '';
@@ -120,10 +131,6 @@ class CollectionOrderController extends Controller
 
                 })
 
-
-
-
-
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';
                 })
@@ -132,8 +139,8 @@ class CollectionOrderController extends Controller
                     return $row->trader->name ?? '';
                 })
                 ->editColumn('address', function ($data) {
-                    $link = "https://www.google.com/maps/search/?api=1&query=".$data->latitude.",".$data->longitude;
-                    return '<a target="_blank" class="btn btn-pill btn-info" href="'.$link.'"> عرض <i class="fa fa-map-marker-alt text-white"></i>  </a>';
+                    $link = "https://www.google.com/maps/search/?api=1&query=" . $data->latitude . "," . $data->longitude;
+                    return '<a target="_blank" class="btn btn-pill btn-info" href="' . $link . '"> عرض <i class="fa fa-map-marker-alt text-white"></i>  </a>';
                 })
                 ->editColumn('created_at', function ($admin) {
                     return date('Y/m/d', strtotime($admin->created_at));
@@ -141,31 +148,29 @@ class CollectionOrderController extends Controller
                 ->escapeColumns([])
                 ->make(true);
 
-
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الطلبات التحصيل ");
 
         }
-        $total_value=Order::where('status', 'collection')->sum('total_value');
+        $total_value = Order::where('status', 'collection')->sum('total_value');
 
-        return view('Admin.CRUDS.Orders.collectionOrders.index',compact('total_value'));
+        return view('Admin.CRUDS.Orders.collectionOrders.index', compact('total_value'));
     }
 
-    public function destroy($id )
+    public function destroy($id)
     {
-        $order=Order::findOrFail($id);
+        $order = Order::findOrFail($id);
 
-        $old=$order;
+        $old = $order;
         $order->delete();
 
-        $this->add_log_activity($old,auth('admin')->user()," تم   حذف بيانات الطلب    $old->id ");
-
+        $this->add_log_activity($old, auth('admin')->user(), " تم   حذف بيانات الطلب    $old->id ");
 
         return response()->json(
             [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح!'
+                'message' => 'تمت العملية بنجاح!',
             ]);
-    }//end fun
+    } //end fun
 
 }

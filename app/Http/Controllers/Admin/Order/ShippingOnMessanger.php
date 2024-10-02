@@ -13,7 +13,12 @@ class ShippingOnMessanger extends Controller
     //
     use LogActivityTrait;
 
-
+    public function __construct()
+    {
+        $this->middleware('permission:عرض الشحن عالراسل')->only(['index']);
+        $this->middleware('permission:تعديل الشحن عالراسل')->only(['edit', 'update']);
+        $this->middleware('permission:حذف الشحن عالراسل')->only('destroy');
+    }
 
     public function index(Request $request)
     {

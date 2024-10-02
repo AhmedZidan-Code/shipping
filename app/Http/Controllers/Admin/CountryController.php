@@ -12,17 +12,17 @@ class CountryController extends Controller
 {
     use LogActivityTrait;
 
-    function __construct()
+    public function __construct()
     {
-         $this->middleware('permission:عرض اعدادات المناطق', ['only' => ['index']]);
-        $this->middleware('permission:الاضافة في اعدادات مناطق', ['only' => ['create','store']]);
-        $this->middleware('permission:التعديل في اعدادات مناطق', ['only' => ['edit','update']]);
-        $this->middleware('permission:الحذف في اعدادات المناطق', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض المحافظات')->only(['index']);
+        $this->middleware('permission:تعديل المحافظات')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء المحافظات')->only(['create', 'store']);
+        $this->middleware('permission:حذف المحافظات')->only('destroy');
     }
+
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $rows = Area::query()->latest()->where('from_id',null);
             return DataTables::of($rows)
@@ -31,9 +31,9 @@ class CountryController extends Controller
                     $edit='';
                     $delete='';
 
-                    if(!auth()->user()->can('التعديل في اعدادات مناطق'))
+                    if(!auth()->user()->can('تعديل المحافظات'))
                         $edit='hidden';
-                    if(!auth()->user()->can('الحذف في اعدادات المناطق'))
+                    if(!auth()->user()->can('حذف المحافظات'))
                         $delete='hidden';
 
 

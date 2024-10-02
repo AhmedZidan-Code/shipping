@@ -13,7 +13,13 @@ class DelayOrderController extends Controller
     //
     use LogActivityTrait;
 
-
+    public function __construct()
+    {
+        $this->middleware('permission:عرض الطلبات المؤجلة')->only(['index']);
+        $this->middleware('permission:تعديل الطلبات المؤجلة')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء الطلبات المؤجلة')->only(['create', 'store']);
+        $this->middleware('permission:حذف الطلبات المؤجلة')->only('destroy');
+    }
 
     public function index(Request $request)
     {
@@ -72,8 +78,8 @@ class DelayOrderController extends Controller
                              ->editColumn('status', function ($row) {
 
                     $status='';
-                    if(!auth()->user()->can('العمليات علي الطلبات'))
-                        $status='hidden';
+                    // if(!auth()->user()->can('العمليات علي الطلبات'))
+                    //     $status='hidden';
 
                     $data='';
 

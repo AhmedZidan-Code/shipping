@@ -1,5 +1,5 @@
-<script src="{{URL::asset('assets_new/datatable/feather.min.js')}}"></script>
-<script src="{{URL::asset('assets_new/datatable/datatables.min.js')}}"></script>
+<script src="{{ URL::asset('assets_new/datatable/feather.min.js') }}"></script>
+<script src="{{ URL::asset('assets_new/datatable/datatables.min.js') }}"></script>
 
 {{-- <style>
     .dataTables_length
@@ -10,7 +10,7 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="{{URL::asset('assets_new/js/sweet_alert.js')}}"></script>
+<script src="{{ URL::asset('assets_new/js/sweet_alert.js') }}"></script>
 
 
 <script>
@@ -18,9 +18,8 @@
                             <div class="inter-crop"></div>
                             <div class="inter-right--top"></div>
                             <div class="inter-right--bottom"></div>
-                        </div>
-        `;
-    var newUrl=location.href;
+                        </div>`;
+    var newUrl = location.href;
 
 
     $('#table thead tr')
@@ -28,21 +27,19 @@
         .addClass('filters')
         .appendTo('#example thead');
 
-    if(!window.hasOwnProperty( "order" ))
-    {
+    if (!window.hasOwnProperty("order")) {
         // order = [
         //     [0, "DESC"]
         // ];
 
     }
-    $(function () {
-    
+    $(function() {
+
         $("#table").DataTable({
             processing: true,
             // pageLength: 50,
             paging: true,
             dom: 'Bfrltip',
-
             bLengthChange: true,
             serverSide: true,
             ajax: newUrl,
@@ -50,16 +47,16 @@
             // order: [
             //     [0, "asc"]
             // ],
-            "language":<?php echo json_encode(datatable_lang());?>,
-            
+            "language": <?php echo json_encode(datatable_lang()); ?>,
+
             "drawCallback": function(settings) {
-  // console.log(settings.json.total2);
- 
-   $('#ahmed').html(settings.json.total2);
-   
-   //do whatever  
-},
-            
+                // console.log(settings.json.total2);
+
+                $('#ahmed').html(settings.json.total2);
+
+                //do whatever  
+            },
+
             // "language": {
             //     paginate: {
             //         previous: "<i class='simple-icon-arrow-left'></i>",
@@ -95,18 +92,31 @@
 
     });
 
-    $(document).on('click', '#addBtn', function () {
+    $(document).on('click', '#addBtn', function() {
         $('#form-load').html(loader_form)
-        $('#operationType').text('{{trans('admin.add')}}');
-
-        $('#Modal').modal('show')
-
-        setTimeout(function (){
-            $('#form-load').load("{{route("$url.create")}}")
-        },1000)
+        $('#operationType').text('{{ trans('admin.add') }}');
+        // Use AJAX to handle loading and error checking
+        $.ajax({
+            url: "{{ route("$url.create") }}",
+            type: 'GET',
+            success: function(data) {
+                $('#Modal').modal('show')
+                $('#form-load').html(data); // Load form if request is successful
+            },
+            error: function(xhr) {
+                if (xhr.status === 403) {
+                    toastr.error('You are not authorized to perform this action.',
+                        'Unauthorized');
+                } else {
+                    toastr.error(
+                        'An error occurred while loading the form. Please try again.',
+                        'Error');
+                }
+            }
+        });
     });
 
-    $(document).on('submit',"#form-load > #form",function (e) {
+    $(document).on('submit', "#form-load > #form", function(e) {
         e.preventDefault();
 
         var formData = new FormData(this);
@@ -116,28 +126,29 @@
             url: url,
             type: 'POST',
             data: formData,
-            beforeSend: function () {
-                
-             
+            beforeSend: function() {
+
+
                 $('#submit').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                    ' ></span> <span style="margin-left: 4px;">{{trans('admin.working')}}</span>').attr('disabled', true);
+                    ' ></span> <span style="margin-left: 4px;">{{ trans('admin.working') }}</span>'
+                ).attr('disabled', true);
                 $('#form-load').append(loader_form)
                 $('#form-load > form').hide()
             },
-            complete: function () {
-            },
-            success: function (data) {
-                
-               
-                window.setTimeout(function () {
-                    $('#submit').html('{{trans('admin.submit')}}').attr('disabled', false);
+            complete: function() {},
+            success: function(data) {
+
+
+                window.setTimeout(function() {
+                    $('#submit').html('{{ trans('admin.submit') }}').attr('disabled',
+                        false);
 
                     if (data.code == 200) {
                         toastr.success(data.message)
                         $('#Modal').modal('hide')
                         $('#form-load > form').remove()
                         $('#table').DataTable().ajax.reload(null, false);
-                    }else {
+                    } else {
                         $('#form-load > .linear-background').hide(loader_form)
                         $('#form-load > form').show()
                         toastr.error(data.message)
@@ -147,21 +158,21 @@
 
 
             },
-            error: function (data) {
-                
-               
+            error: function(data) {
+
+
                 $('#form-load > .linear-background').hide(loader_form)
-                $('#submit').html('{{trans('admin.submit')}}').attr('disabled', false);
+                $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
                 $('#form-load > form').show()
                 if (data.status === 500) {
-                    toastr.error('{{trans('admin.error')}}')
+                    toastr.error('{{ trans('admin.error') }}')
                 }
                 if (data.status === 422) {
                     var errors = $.parseJSON(data.responseText);
 
-                    $.each(errors, function (key, value) {
+                    $.each(errors, function(key, value) {
                         if ($.isPlainObject(value)) {
-                            $.each(value, function (key, value) {
+                            $.each(value, function(key, value) {
                                 toastr.error(value)
                             });
 
@@ -170,70 +181,69 @@
                         }
                     });
                 }
-                if (data.status == 421){
-                    toastr.error(data.message)
-                }
+                toastr.error(data.message)
 
-            },//end error method
+            }, //end error method
 
             cache: false,
             contentType: false,
             processData: false
         });
     });
-    $(document).on('click', '.delete', function () {
+    $(document).on('click', '.delete', function() {
 
         var id = $(this).data('id');
         swal.fire({
-            title: "{{trans('admin.submit delete')}}",
-            text: "{{trans('admin.delete text')}}",
+            title: "{{ trans('admin.submit delete') }}",
+            text: "{{ trans('admin.delete text') }}",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "{{trans('admin.submit')}}",
-            cancelButtonText: "{{trans('admin.cancel')}}",
-            okButtonText: "{{trans('admin.submit')}}",
+            confirmButtonText: "{{ trans('admin.submit') }}",
+            cancelButtonText: "{{ trans('admin.cancel') }}",
+            okButtonText: "{{ trans('admin.submit') }}",
             closeOnConfirm: false
         }).then((result) => {
-            if (!result.isConfirmed){
+            if (!result.isConfirmed) {
                 return true;
             }
 
 
-            var url = '{{ route("$url.destroy",":id") }}';
-            url = url.replace(':id',id)
+            var url = '{{ route("$url.destroy", ':id') }}';
+            url = url.replace(':id', id)
             $.ajax({
                 url: url,
                 type: 'DELETE',
-                beforeSend: function(){
+                beforeSend: function() {
                     $('.loader-ajax').show()
 
                 },
-                success: function (data) {
+                success: function(data) {
 
                     window.setTimeout(function() {
                         $('.loader-ajax').hide()
-                        if (data.code == 200){
+                        if (data.code == 200) {
                             toastr.success(data.message)
                             $('#table').DataTable().ajax.reload(null, false);
-                        }else {
-                            toastr.error('{{trans('admin.error')}}')
+                        } else {
+                            toastr.error('{{ trans('admin.error') }}')
                         }
 
                     }, 1000);
-                }, error: function (data) {
-
+                },
+                error: function(data) {
+                    $('.loader-ajax').hide()
                     if (data.status === 500) {
-                        toastr.error('{{trans('admin.error')}}')
+                        toastr.error('{{ trans('admin.error') }}')
                     }
 
 
                     if (data.status === 422) {
                         var errors = $.parseJSON(data.responseText);
 
-                        $.each(errors, function (key, value) {
+                        $.each(errors, function(key, value) {
                             if ($.isPlainObject(value)) {
-                                $.each(value, function (key, value) {
+                                $.each(value, function(key, value) {
                                     toastr.error(value)
                                 });
 
@@ -242,24 +252,42 @@
                             }
                         });
                     }
+                    if (data.status === 403) {
+                        toastr.error('You are not authorized to perform this action.',
+                            'Unauthorized');
+                    }
                 }
 
             });
         });
     });
 
-    $(document).on('click', '.editBtn', function () {
-        var  id = $(this).data('id');
+    $(document).on('click', '.editBtn', function() {
+        var id = $(this).data('id');
         $('#operationType').text('تعديل ');
         $('#form-load').html(loader_form)
-        $('#Modal').modal('show')
 
-        var url = "{{route("$url.edit",':id')}}";
-        url = url.replace(':id',id)
+        var url = "{{ route("$url.edit", ':id') }}";
+        url = url.replace(':id', id)
 
-        setTimeout(function (){
-            $('#form-load').load(url)
-        },1000)
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(data) {
+                $('#Modal').modal('show')
+                $('#form-load').html(data); // Load form if request is successful
+            },
+            error: function(xhr) {
+                if (xhr.status === 403) {
+                    toastr.error('You are not authorized to perform this action.',
+                        'Unauthorized');
+                } else {
+                    toastr.error(
+                        'An error occurred while loading the form. Please try again.',
+                        'Error');
+                }
+            }
+        });
 
 
     });

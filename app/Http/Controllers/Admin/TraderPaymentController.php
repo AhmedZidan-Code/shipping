@@ -14,13 +14,14 @@ class TraderPaymentController extends Controller
 {
     use LogActivityTrait;
 
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:عرض تسديدات التجار', ['only' => ['index']]);
-    //     $this->middleware('permission:الاضافة في تسديدات التجار', ['only' => ['create', 'store']]);
-    //     $this->middleware('permission:التعديل في تسديدات التجار', ['only' => ['edit', 'update']]);
-    //     $this->middleware('permission:الحذف في تسديدات التجار', ['only' => ['destroy']]);
-    // }
+    public function __construct()
+    {
+        $this->middleware('permission:عرض تسديدات التجار')->only('index');
+        $this->middleware('permission:تعديل تسديدات التجار')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء تسديدات التجار')->only(['create', 'store']);
+        $this->middleware('permission:حذف تسديدات التجار')->only('destroy');
+    }
+
 
     public function index(Request $request)
     {

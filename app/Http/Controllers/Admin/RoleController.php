@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
-use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -16,29 +15,26 @@ class RoleController extends Controller
 
     use LogActivityTrait;
 
-    function __construct()
+    public function __construct()
     {
-        // $this->middleware('permission:عرض الادوار', ['only' => ['index']]);
-       // $this->middleware('permission:اضافة الدور', ['only' => ['create','store']]);
-   // $this->middleware('permission:تعديل دور', ['only' => ['edit','update']]);
-     //  $this->middleware('permission:حذف دور', ['only' => ['destroy']]);
-    } 
+        $this->middleware('permission:عرض الأدوار')->only('index');
+        $this->middleware('permission:تعديل الأدوار')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء الأدوار')->only(['create', 'store']);
+        $this->middleware('permission:حذف الأدوار')->only('destroy');
+    }
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $rows = Role::query();
-            return DataTables::of($rows) 
+            return DataTables::of($rows)
                 ->addColumn('action', function ($row) {
 
-                    $edit='';
-                    $delete='';
-
-                    
+                    $edit = '';
+                    $delete = '';
 
                     return '
-                            <button  ' .$edit. '   class="editBtn btn rounded-pill btn-primary waves-effect waves-light"
+                            <button  ' . $edit . '   class="editBtn btn rounded-pill btn-primary waves-effect waves-light"
                                     data-id="' . $row->id . '"
                             <span class="svg-icon svg-icon-3">
                                 <span class="svg-icon svg-icon-3">
@@ -46,7 +42,7 @@ class RoleController extends Controller
                                 </span>
                             </span>
                             </button>
-                            <button  ' .$delete. '  class="btn rounded-pill btn-danger waves-effect waves-light delete"
+                            <button  ' . $delete . '  class="btn rounded-pill btn-danger waves-effect waves-light delete"
                                     data-id="' . $row->id . '">
                             <span class="svg-icon svg-icon-3">
                                 <span class="svg-icon svg-icon-3">
@@ -64,23 +60,19 @@ class RoleController extends Controller
                 ->escapeColumns([])
                 ->make(true);
 
-
-        }
-        else {
+        } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الادوار");
 
         }
         return view('Admin.CRUDS.roles.index');
     }
 
-
     public function create()
     {
-        $permission = Permission::get();
+        $permission = Permission::get()->groupBy('group');
 
-        return view('Admin.CRUDS.roles.parts.create',compact('permission'));
+        return view('Admin.CRUDS.roles.parts.create', compact('permission'));
     }
-
 
     public function store(Request $request)
     {
@@ -88,37 +80,36 @@ class RoleController extends Controller
             'name' => 'required|unique:roles,name',
             'permission' => 'nullable',
         ]);
-        $role = Role::create(['name' => $request->input('name'),'guard_name'=>'admin']);
+        $role = Role::create(['name' => $request->input('name'), 'guard_name' => 'admin']);
 
         $role->syncPermissions($request->input('permission'));
 
-        $this->add_log_activity($role,auth('admin')->user()," تم اضافة دور  باسم $role->name ");
-
+        $this->add_log_activity($role, auth('admin')->user(), " تم اضافة دور  باسم $role->name ");
 
         return response()->json(
             [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح'
+                'message' => 'تمت العملية بنجاح',
             ]);
     }
-
 
     public function show($id)
     {
         //
     }
 
-    public function edit( Role $role)
+    public function edit(Role $role)
     {
-        $permission = Permission::where('guard_name','admin')->get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$role->id)
-            ->get();
-        return view('Admin.CRUDS.roles.parts.edit', compact('permission','role','rolePermissions'));
+        $permission = Permission::where('guard_name', 'admin')->get()->groupBy('group');
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
+            ->pluck('permission_id')
+            ->toArray();
+
+        return view('Admin.CRUDS.roles.parts.edit', compact('permission', 'role', 'rolePermissions'));
 
     }
 
-
-    public function update(Request $request,  $id)
+    public function update(Request $request, $id)
     {
 
         $this->validate($request, [
@@ -126,33 +117,31 @@ class RoleController extends Controller
             'permission' => 'nullable',
         ]);
         $role = Role::find($id);
-        $old=$role;
+        $old = $role;
         $role->name = $request->input('name');
 
         $role->save();
         $role->syncPermissions($request->input('permission'));
-        $this->add_log_activity($old,auth('admin')->user()," تم تعديل دور  باسم $role->name ");
+        $this->add_log_activity($old, auth('admin')->user(), " تم تعديل دور  باسم $role->name ");
 
         return response()->json(
             [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح'
+                'message' => 'تمت العملية بنجاح',
             ]);
     }
 
-
     public function destroy(Role $role)
     {
-        $old=$role;
+        $old = $role;
         $role->delete();
 
-        $this->add_log_activity($old,auth('admin')->user()," تم حذف دور  باسم $old->name ");
-
+        $this->add_log_activity($old, auth('admin')->user(), " تم حذف دور  باسم $old->name ");
 
         return response()->json(
             [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح'
+                'message' => 'تمت العملية بنجاح',
             ]);
     }
 

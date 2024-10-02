@@ -22,12 +22,12 @@ class NewOrderController extends Controller
     use LogActivityTrait;
 
 
-    function __construct()
+    public function __construct()
     {
-        $this->middleware('permission:عرض الطلبات', ['only' => ['index']]);
-        $this->middleware('permission:العمليات علي الطلبات', ['only' => ['create','store']]);
-        $this->middleware('permission:العمليات علي الطلبات', ['only' => ['edit','update']]);
-        $this->middleware('permission:العمليات علي الطلبات', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض طلبات بوصلة')->only(['index', 'getOrderDetails', 'getDeliveryForOrder', 'orderDetails', 'get_delivery_value', 'exportExcel', 'exportForm']);
+        $this->middleware('permission:تعديل طلبات بوصلة')->only(['edit', 'update', 'changeDelivery', 'changeStatus', 'changeStatus', 'insertingDeliveryForOrder', 'importOrders']);
+        $this->middleware('permission:إنشاء طلبات بوصلة')->only(['create', 'store']);
+        $this->middleware('permission:حذف طلبات بوصلة')->only('destroy');
     }
 
 
@@ -41,7 +41,6 @@ class NewOrderController extends Controller
 
                     $edit='';
                     $delete='';
-
 
                     if(!auth()->user()->can('العمليات علي الطلبات'))
                         $edit='hidden';
@@ -256,7 +255,7 @@ class NewOrderController extends Controller
         $traders=Trader::get();
         $provinces=Area::where('from_id','!=',null)->get();
         $delivers=Delivery::get();
-
+        $order->load(['province', 'trader']);
 
         return view('Admin.CRUDS.Orders.newOrders.parts.edit',compact('traders','provinces','delivers','order'));
 
@@ -517,6 +516,7 @@ class NewOrderController extends Controller
         
         $govern_id=Area::where('id',$city_id)->first()->from_id;
         $row = DB::table('prices')->where('trader_id',$trader_id)->where('govern_id',$govern_id)->first();
+
         if(isset($row)&& !empty($row))
         {
             echo $row->value ;

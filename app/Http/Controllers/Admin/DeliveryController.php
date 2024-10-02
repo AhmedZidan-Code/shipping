@@ -13,12 +13,13 @@ use Yajra\DataTables\DataTables;
 class DeliveryController extends Controller
 {
     use Upload_Files,LogActivityTrait;
-    function __construct()
+
+    public function __construct()
     {
-        $this->middleware('permission:عرض المناديب', ['only' => ['index']]);
-        $this->middleware('permission:اضافة مندوب', ['only' => ['create','store']]);
-        $this->middleware('permission:تعديل مندوب', ['only' => ['edit','update']]);
-        $this->middleware('permission:حذف المناديب', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض بيانات المناديب')->only(['index', 'getDeliveries']);
+        $this->middleware('permission:تعديل بيانات المناديب')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء بيانات المناديب')->only(['create', 'store']);
+        $this->middleware('permission:حذف بيانات المناديب')->only('destroy');
     }
 
 
@@ -33,9 +34,9 @@ class DeliveryController extends Controller
                     $edit='';
                     $delete='';
 
-                    if(!auth()->user()->can('تعديل مندوب'))
+                    if(!auth()->user()->can('تعديل بيانات المناديب'))
                         $edit='hidden';
-                    if(!auth()->user()->can('حذف المناديب'))
+                    if(!auth()->user()->can('حذف بيانات المناديب'))
                         $delete='hidden';
 
 
@@ -149,12 +150,9 @@ class DeliveryController extends Controller
 
     public function edit( $id)
     {
-
-
-   $row=Delivery::findOrFail($id);
+         $row=Delivery::findOrFail($id);
 
         return view('Admin.CRUDS.delivers.parts.edit', compact('row'));
-
     }
 
     public function update(Request $request,  $id)

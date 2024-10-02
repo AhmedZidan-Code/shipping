@@ -18,12 +18,13 @@ class TraderController extends Controller
 {
     use Upload_Files, LogActivityTrait;
 
-    function __construct()
+
+    public function __construct()
     {
-        $this->middleware('permission:عرض التجار', ['only' => ['index']]);
-        $this->middleware('permission:اضافة تجار', ['only' => ['create', 'store']]);
-        $this->middleware('permission:تعديل التجار', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:حذف التجار', ['only' => ['destroy']]);
+        $this->middleware('permission:عرض بيانات التجار')->only('index', 'getTraders');
+        $this->middleware('permission:تعديل بيانات التجار')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء بيانات التجار')->only(['create', 'store', 'addOrderToTrader']);
+        $this->middleware('permission:حذف بيانات التجار')->only('destroy');
     }
 
     public function index(Request $request)
@@ -37,9 +38,9 @@ class TraderController extends Controller
                     $edit = '';
                     $delete = '';
 
-                    if (!auth()->user()->can('تعديل التجار'))
+                    if (!auth()->user()->can('تعديل بيانات التجار'))
                         $edit = 'hidden';
-                    if (!auth()->user()->can('حذف التجار'))
+                    if (!auth()->user()->can('حذف بيانات التجار'))
                         $delete = 'hidden';
 
 

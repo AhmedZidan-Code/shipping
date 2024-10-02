@@ -6,37 +6,37 @@
 @endsection
 @section('content')
 
- <form action="{{route('deliveryConvertedOrders.index')}}">
+    <form action="{{ route('deliveryConvertedOrders.index') }}">
 
         <div class="row mb-3">
-        
-        <div class="col-md-4">
+
+            <div class="col-md-4">
                 <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                    <span class="required mr-1">     المندوب    </span>
+                    <span class="required mr-1"> المندوب </span>
                 </label>
-              <select id="delivery_id" class="form-control showBonds" name="delivery_id">
-                <option value="">اختر</option>
-                  @if(!empty($delivieries))  
-                  @foreach($delivieries as $delivery)
-                  <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
-                 @endforeach
-                @endif
-               </select>
-            </div>  
-          <div class="d-flex flex-column mb-7 fv-row col-sm-3">
-                                    <!--begin::Label-->
-                                    <label for="province_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                                        <span class="required mr-1">   المدينه</span>
-                                    </label>
-                                    <select id='province_id'  class="province_id1" name="province_id[]"  style='width: 200px;'>
-                                        <option selected disabled>- ابحث عن مدينة</option>
-                                    </select>
-                                </div>
+                <select id="delivery_id" class="form-control showBonds" name="delivery_id">
+                    <option value="">اختر</option>
+                    @if (!empty($delivieries))
+                        @foreach ($delivieries as $delivery)
+                            <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
+                        @endforeach
+                    @endif
+                </select>
+            </div>
+            <div class="d-flex flex-column mb-7 fv-row col-sm-3">
+                <!--begin::Label-->
+                <label for="province_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> المدينه</span>
+                </label>
+                <select id='province_id' class="province_id1" name="province_id[]" style='width: 200px;'>
+                    <option selected disabled>- ابحث عن مدينة</option>
+                </select>
+            </div>
 
-                                           
 
-           
-          
+
+
+
             <div class="col-md-2">
                 <button class="btn btn-primary my-4">بحث</button>
             </div>
@@ -45,54 +45,55 @@
     </form>
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1">   الطلبات المحولة الي المناديب</h5>
+            <h5 class="card-title mb-0 flex-grow-1"> الطلبات المحولة الي المناديب</h5>
 
 
 
         </div>
         <div class="card-body">
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                   style="width:100%">
+                style="width:100%">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>رقم الاوردر</th>
-                    <th>اسم العميل</th>
-                    <th>الحالة</th>
-                    <th>المدينة</th>
-                    <th> رقم التليفون</th>
-                    <th> العنوان </th>
-                    <th>التاجر</th>
-                    <th>اجمالي الاوردر</th>
-                    <th> المندوب</th>
-                    <th>قيمة المندوب</th>
-                    <th>الملاحظات</th>
-                    <th>المتبقي</th>
-                    <th> تاريخ التحويل</th>
-                    <th>العمليات</th>
-                </tr>                </thead>
+                    <tr>
+                        <th><input type="checkbox" id="checkAll"> </th>
+                        <th>رقم الاوردر</th>
+                        <th>اسم العميل</th>
+                        <th>الحالة</th>
+                        <th>المدينة</th>
+                        <th> رقم التليفون</th>
+                        <th> العنوان </th>
+                        <th>التاجر</th>
+                        <th>اجمالي الاوردر</th>
+                        <th> المندوب</th>
+                        <th>قيمة المندوب</th>
+                        <th>الملاحظات</th>
+                        <th>المتبقي</th>
+                        <th> تاريخ التحويل</th>
+                        <th>العمليات</th>
+                    </tr>
+                </thead>
             </table>
-            
-                 <div class="row mb-3">
-        
-        <div class="col-md-4">
-                <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                    <span class="required mr-1">     المندوب المحول اليه    </span>
-                </label>
-              <select id="" class="form-control showBonds delivery_id" name="">
-                <option value="">اختر</option>
-                  @if(!empty($delivieries))  
-                  @foreach($delivieries as $delivery)
-                  <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
-                 @endforeach
-                @endif
-               </select>
-            </div>  
-          
-            <div class="col-md-2">
-                <button type="button" onclick="convert();" class="btn btn-primary my-4"> تحويل</button>
+
+            <div class="row mb-3">
+
+                <div class="col-md-4">
+                    <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                        <span class="required mr-1"> المندوب المحول اليه </span>
+                    </label>
+                    <select id="" class="form-control showBonds delivery_id" name="">
+                        <option value="">اختر</option>
+                        @if (!empty($delivieries))
+                            @foreach ($delivieries as $delivery)
+                                <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="button" onclick="convert();" class="btn btn-primary my-4"> تحويل</button>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 
@@ -105,10 +106,11 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2><span ></span> تغير حالة الطلب  </h2>
+                    <h2><span></span> تغير حالة الطلب </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
-                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
+                        aria-label="Close">
                         <i class="fa fa-times"></i>
                     </button>
                     <!--end::Close-->
@@ -139,33 +141,108 @@
 @section('js')
     <script>
         var columns = [
-        
-            {data: 'convert_order', name: 'convert_order'},
-            {data: 'id', name: 'id'},
-            {data: 'customer_name', name: 'customer_name'},
-            {data: 'status', name: 'status'},
-            {data: 'province_id', name: 'province_id'},
-            {data: 'customer_phone', name: 'customer_phone'},
-             {data: 'customer_address', name: 'customer_address'},            
-            
-            
-                                                
-            {data: 'trader.name', name: 'trader.name'},
-            {data: 'total_value', name: 'total_value'},
-            {data: 'delivery.name', name: 'delivery.name'},
-            {data: 'delivery_ratio', name: 'delivery_ratio'},
-            {data: 'notes', name: 'notes'},
-            {data: 'residual', name: 'residual'},
-            {data: 'converted_date', name: 'converted_date'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+
+            {
+                data: 'convert_order',
+                name: 'convert_order',
+                orderable: false
+            },
+            {
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'customer_name',
+                name: 'customer_name'
+            },
+            {
+                data: 'status',
+                name: 'status'
+            },
+            {
+                data: 'province_id',
+                name: 'province_id'
+            },
+            {
+                data: 'customer_phone',
+                name: 'customer_phone'
+            },
+            {
+                data: 'customer_address',
+                name: 'customer_address'
+            },
+
+
+
+            {
+                data: 'trader.name',
+                name: 'trader.name'
+            },
+            {
+                data: 'total_value',
+                name: 'total_value'
+            },
+            {
+                data: 'delivery.name',
+                name: 'delivery.name'
+            },
+            {
+                data: 'delivery_ratio',
+                name: 'delivery_ratio'
+            },
+            {
+                data: 'notes',
+                name: 'notes'
+            },
+            {
+                data: 'residual',
+                name: 'residual'
+            },
+            {
+                data: 'converted_date',
+                name: 'converted_date'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
         ];
     </script>
-    @include('Admin.layouts.inc.ajax',['url'=>'deliveryConvertedOrders'])
+    @include('Admin.layouts.inc.ajax', ['url' => 'deliveryConvertedOrders'])
 
     <script>
-        $(document).on('click','.changeStatusData',function (){
+        $(document).ready(function() {
+            // Assume the main checkbox has an id of 'checkAll'
+            $('#checkAll').on('click', function() {
+                var isChecked = $(this).prop('checked');
+                $('.orders_ids').prop('checked', isChecked);
+                updateCheckAllState();
+            });
 
-            var id=$(this).attr('data-id');
+            // Use event delegation for .orders_ids checkboxes
+            $(document).on('click', '.orders_ids', function() {
+                updateCheckAllState();
+            });
+
+            function updateCheckAllState() {
+                var totalCheckboxes = $('.orders_ids').length;
+                var checkedCheckboxes = $('.orders_ids:checked').length;
+
+                var allChecked = (totalCheckboxes === checkedCheckboxes);
+                $('#checkAll').prop('checked', allChecked);
+            }
+            if (checkedCheckboxes > 0) {
+
+                // Initial state setup
+                updateCheckAllState();
+            }
+        });
+
+        $(document).on('click', '.changeStatusData', function() {
+
+            var id = $(this).attr('data-id');
 
 
 
@@ -174,74 +251,71 @@
 
             $('#Modal').modal('show')
 
-            var url="{{route('admin.changeStatusForOrder',':id')}}";
-            url=url.replace(':id',id);
-            setTimeout(function (){
+            var url = "{{ route('admin.changeStatusForOrder', ':id') }}";
+            url = url.replace(':id', id);
+            setTimeout(function() {
                 $('#form-load').load(url)
-            },1000)
+            }, 1000)
 
 
         })
     </script>
 
     <script>
-        $(document).on('change','.changeStatus',function (){
-            var id=$(this).attr('data-id');
-            var status=$(this).val();
+        $(document).on('change', '.changeStatus', function() {
+            var id = $(this).attr('data-id');
+            var status = $(this).val();
 
-           if(status=='not_delivery' || status=='partial_delivery_to_customer')
-           {
-               $('#form-load').html(loader_form)
+            if (status == 'not_delivery' || status == 'partial_delivery_to_customer') {
+                $('#form-load').html(loader_form)
 
-               $('#Modal').modal('show')
+                $('#Modal').modal('show')
 
-               var url="{{route('deliveryConvertedOrders.create')}}?id="+id+"&&status="+status;
-               setTimeout(function (){
-                   $('#form-load').load(url)
-               },1000)
-           }
-           else {
-               $.ajax({
-                   type: 'GET',
-                   url: "{{route('admin.changeStatus')}}",
-                   data: {
-                       id: id,
-                       status: status,
-                   },
+                var url = "{{ route('deliveryConvertedOrders.create') }}?id=" + id + "&&status=" + status;
+                setTimeout(function() {
+                    $('#form-load').load(url)
+                }, 1000)
+            } else {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('admin.changeStatus') }}",
+                    data: {
+                        id: id,
+                        status: status,
+                    },
 
-                   success: function (res) {
+                    success: function(res) {
 
-                       toastr.success('تمت العملية بنجاح');
+                        toastr.success('تمت العملية بنجاح');
 
 
-                       $('#table').DataTable().ajax.reload(null, false);
+                        $('#table').DataTable().ajax.reload(null, false);
 
 
-                   },
-                   error: function (data) {
-                       // location.reload();
-                   }
-               });
+                    },
+                    error: function(data) {
+                        // location.reload();
+                    }
+                });
 
-           }
+            }
         })
     </script>
-     <link href="{{url('assets/dashboard/css/select2.css')}}" rel="stylesheet"/>
-    <script src="{{url('assets/dashboard/js/select2.js')}}"></script>
+    <link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
+    <script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
 
-         <script>
-
-        (function () {
+    <script>
+        (function() {
 
             $("#province_id").select2({
                 placeholder: 'Channel...',
                 // width: '350px',
                 allowClear: true,
                 ajax: {
-                    url: '{{route('admin.getGovernorates')}}',
+                    url: '{{ route('admin.getGovernorates') }}',
                     dataType: 'json',
                     delay: 250,
-                    data: function (params) {
+                    data: function(params) {
                         return {
                             term: params.term || '',
                             page: params.page || 1
@@ -251,80 +325,74 @@
                 }
             });
         })();
-
     </script>
-    
-     <script>
-      function convert()
-      {
-        var orders_ids = [];
-        var old_deliveries = [] ;
-        $('.orders_ids:checked').each(function() {
-          orders_ids.push($(this).val());
-          old_deliveries.push($(this).attr('data-delivery'));
-      });
-       var delivery_id = $('.delivery_id').val();
-       
-       if (orders_ids.length === 0) {
-        alert("من فضلك قم بادخال الاوردرات");
-        return;
-    }
 
-     if (delivery_id  === '') {
-        alert("من فضلك قم باختيار المندوب");
-        return;
-      }
-          $.ajax({
-        url: '{{ route('deliveryConvertedOrders.index') }}',
-        type: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}',
-            delivery_id: delivery_id,
-            orders_ids: orders_ids,
-            old_deliveries:old_deliveries
-        },
-        beforeSend: function () {
-            // Optional: Add loading spinner or disable submit button
-        },
-        complete: function () {
-            // Optional: Remove loading spinner or enable submit button
-        },
-        success: function (data) {
-         
-             if (data.code === 200) {
-                toastr.success(data.message);
-                setTimeout(reloading, 1000);
-            } else {
-                toastr.error(data.message);
-                $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
+    <script>
+        function convert() {
+            var orders_ids = [];
+            var old_deliveries = [];
+            $('.orders_ids:checked').each(function() {
+                orders_ids.push($(this).val());
+                old_deliveries.push($(this).attr('data-delivery'));
+            });
+            var delivery_id = $('.delivery_id').val();
+
+            if (orders_ids.length === 0) {
+                alert("من فضلك قم بادخال الاوردرات");
+                return;
             }
-        },
-        error: function (data) {
-         
-            $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
 
-            if (data.status === 500) {
-               toastr.error(data.responseJSON.message);
-               console.log(data.message);
-            } else if (data.status === 422) {
-                var errors = $.parseJSON(data.responseText);
-                $.each(errors, function (key, value) {
-                    if ($.isPlainObject(value)) {
-                        $.each(value, function (key, value) {
-                            toastr.error(value);
-                        });
+            if (delivery_id === '') {
+                alert("من فضلك قم باختيار المندوب");
+                return;
+            }
+            $.ajax({
+                url: '{{ route('deliveryConvertedOrders.index') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    delivery_id: delivery_id,
+                    orders_ids: orders_ids,
+                    old_deliveries: old_deliveries
+                },
+                beforeSend: function() {
+                    // Optional: Add loading spinner or disable submit button
+                },
+                complete: function() {
+                    // Optional: Remove loading spinner or enable submit button
+                },
+                success: function(data) {
+
+                    if (data.code === 200) {
+                        toastr.success(data.message);
+                        setTimeout(reloading, 1000);
+                    } else {
+                        toastr.error(data.message);
+                        $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
                     }
-                });
-            } else if (data.status === 421) {
-                toastr.error(data.message);
-            }
-        },
-       
-    });
-      }
-     
-     </script>
+                },
+                error: function(data) {
 
-     
-    
+                    $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
+
+                    if (data.status === 500) {
+                        toastr.error(data.responseJSON.message);
+                        console.log(data.message);
+                    } else if (data.status === 422) {
+                        var errors = $.parseJSON(data.responseText);
+                        $.each(errors, function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    toastr.error(value);
+                                });
+                            }
+                        });
+                    } else if (data.status === 421) {
+                        toastr.error(data.message);
+                    }
+                },
+
+            });
+        }
+    </script>
 @endsection
