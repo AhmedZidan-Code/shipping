@@ -15,13 +15,13 @@ class RoleController extends Controller
 
     use LogActivityTrait;
 
-    public function __construct()
-    {
-        $this->middleware('permission:عرض الأدوار')->only('index');
-        $this->middleware('permission:تعديل الأدوار')->only(['edit', 'update']);
-        $this->middleware('permission:إنشاء الأدوار')->only(['create', 'store']);
-        $this->middleware('permission:حذف الأدوار')->only('destroy');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('permission:عرض الأدوار')->only('index');
+    //     $this->middleware('permission:تعديل الأدوار')->only(['edit', 'update']);
+    //     $this->middleware('permission:إنشاء الأدوار')->only(['create', 'store']);
+    //     $this->middleware('permission:حذف الأدوار')->only('destroy');
+    // }
 
     public function index(Request $request)
     {
