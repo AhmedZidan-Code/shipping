@@ -269,7 +269,7 @@ class HadbackController extends Controller
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض تقارير التجار");
 
-            return view('Admin.CRUDS.Orders.hadback.get_hadback', compact('request'));
+            return view('Trader.Orders.hadback.get_hadback', compact('request'));
         }
     }
 }

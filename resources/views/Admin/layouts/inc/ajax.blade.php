@@ -50,7 +50,12 @@
             "language": <?php echo json_encode(datatable_lang()); ?>,
 
             "drawCallback": function(settings) {
-                // console.log(settings.json.total2);
+
+            if (settings.json && settings.json.total_sum) {
+                console.log(settings.json.total_sum);
+                
+                    $('#total_sum').html(settings.json.total_sum);  // Update total sum
+                }
 
                 $('#ahmed').html(settings.json.total2);
 

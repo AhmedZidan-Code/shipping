@@ -151,14 +151,14 @@
                 </li>
                 @endcan
 
-                {{-- @can('عرض الأدوار') --}}
+                @can('عرض الأدوار')
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('roles.index') }}">
                         <i class="fa fa-tasks"></i>
                         <span>الادوار</span>
                     </a>
                 </li>
-                {{-- @endcan --}}
+                @endcan
 
                 @can('عرض الإعدادت العامة')
                 <li class="nav-item">
