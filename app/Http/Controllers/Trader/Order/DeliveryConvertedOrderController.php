@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Trader\Order;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
 use App\Models\Order;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
@@ -19,9 +18,10 @@ class DeliveryConvertedOrderController extends Controller
         $trader = auth('trader')->user();
 
         if ($request->ajax()) {
-            $rows = Order::query()->where('trader_id', $trader->id)->with(['province', 'trader', 'delivery'])
 
+            $rows = Order::query()->where('trader_id', $trader->id)->with(['province', 'trader', 'delivery'])
                 ->where('status', 'converted_to_delivery')->orderBy('converted_date', 'desc');
+           
 
             if ($request->delivery_id) {
                 $rows->where('delivery_id', $request->delivery_id);
@@ -31,7 +31,7 @@ class DeliveryConvertedOrderController extends Controller
             }
 
             return DataTables::of($rows)
-
+              
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';
                 })
@@ -87,13 +87,17 @@ class DeliveryConvertedOrderController extends Controller
 
                     return "<button $status  data-id='$row->id' class='btn btn-success '>  $data
 
-</button>";
+                </button>";
 
                 })
                 ->editColumn('created_at', function ($admin) {
                     return date('Y/m/d', strtotime($admin->created_at));
                 })
+                ->with('total_sum', function() use ($rows) {
+                    return $rows->sum('total_value');
+                })  
                 ->escapeColumns([])
+
                 ->make(true);
 
         } else {
@@ -104,6 +108,5 @@ class DeliveryConvertedOrderController extends Controller
 
         return view('Trader.Orders.deliveryConvertedOrders.index', compact('delivieries'));
     }
-
 
 }

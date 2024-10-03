@@ -24,14 +24,20 @@
                         <th>المدينة</th>
                         <th> رقم التليفون</th>
                         <th> العنوان </th>
+                        <th>قيمة التوصيل</th>
+                        <th>قيمة الاوردر</th>
                         <th>اجمالي الاوردر</th>
-                        <th> المندوب</th>
-                        <th>قيمة المندوب</th>
                         <th>الملاحظات</th>
-                        <th>المتبقي</th>
                         <th> تاريخ التحويل</th>
+                        <th> تاريخ الانشاء</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="8">الاجمالي</td>
+                        <td colspan="4"  id="total_sum"></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -66,28 +72,28 @@
                 name: 'customer_address'
             },
             {
+                data: 'delivery_value',
+                name: 'delivery_value'
+            },
+            {
+                data: 'shipment_value',
+                name: 'shipment_value'
+            },
+            {
                 data: 'total_value',
                 name: 'total_value'
-            },
-            {
-                data: 'delivery.name',
-                name: 'delivery.name'
-            },
-            {
-                data: 'delivery_ratio',
-                name: 'delivery_ratio'
             },
             {
                 data: 'notes',
                 name: 'notes'
             },
             {
-                data: 'residual',
-                name: 'residual'
-            },
-            {
                 data: 'converted_date',
                 name: 'converted_date'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
             },
         ];
     </script>

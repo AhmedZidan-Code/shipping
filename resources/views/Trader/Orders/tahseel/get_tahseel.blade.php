@@ -20,7 +20,6 @@
 
                         <th>#</th>
                         <th>الحالة</th>
-                        <th>المندوب</th>
                         <th>اسم العميل</th>
                         <th>المحافظة</th>
 
@@ -28,6 +27,7 @@
                         <th>وقت التسليم</th>
                         <th>عدد القطع داخل الشحنة</th>
                         <th>قيمة الشحنة</th>
+                        <th>قيمة الاوردر</th>
                         <th> الملاحظات </th>
                         <th>قيمة التوصيل</th>
 
@@ -39,24 +39,8 @@
 
                 <tfoot>
                     <tr style="background: whitesmoke;">
-                        <td> </td>
-
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> المجموع </td>
-                        <td id="ahmed"> </td>
-                        <td> </td>
-                        <td> </td>
-
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-
-
+                        <td colspan="7"> المجموع </td>
+                        <td id="ahmed" colspan="7"> </td>
                     </tr>
 
 
@@ -83,10 +67,6 @@
                 name: 'status'
             },
             {
-                data: 'delivery_id',
-                name: 'delivery_id'
-            },
-            {
                 data: 'customer_name',
                 name: 'customer_name'
             },
@@ -110,6 +90,10 @@
             {
                 data: 'shipment_value',
                 name: 'shipment_value'
+            },
+            {
+                data: 'total_value',
+                name: 'total_value'
             },
             {
                 data: 'notes',

@@ -13,12 +13,15 @@ class HomeController extends Controller
     use LogActivityTrait;
     public function index()
     {
+        $deliveredTotalyAndPartiay= Order::whereIn('status',['cancel', 'not_delivery', 'partial_delivery_to_customer', 'shipping_on_messanger'])->where('trader_id',trader()->user()->id)->count();
+        $hadback= Order::whereIn('status',['cancel', 'not_delivery'])->where('trader_id',trader()->user()->id)->count();
+        $totalOrders=Order::where('trader_id',trader()->user()->id)->count();
         $converted=Order::where('status','converted_to_delivery')->where('trader_id',trader()->user()->id)->count();
         $total=Order::where('status','total_delivery_to_customer')->where('trader_id',trader()->user()->id)->count();
         $partial=Order::where('status','partial_delivery_to_customer')->where('trader_id',trader()->user()->id)->count();
         $notDelivery=Order::where('status','not_delivery')->where('trader_id',trader()->user()->id)->count();
 
-        return view('Trader.home.index',compact('converted','total','partial','notDelivery'));
+        return view('Trader.home.index',compact('converted','total','partial','notDelivery', 'totalOrders', 'deliveredTotalyAndPartiay', 'hadback'));
     }//end fun
 
 

@@ -22,7 +22,6 @@ class TahseelController extends Controller
     public function index(Request $request)
     {
         $trader = auth('trader')->user();
-
         $shipment_pieces_number = 0;
 
         if ($request->ajax()) {
