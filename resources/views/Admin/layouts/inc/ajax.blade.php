@@ -102,7 +102,7 @@
         $('#operationType').text('{{ trans('admin.add') }}');
         // Use AJAX to handle loading and error checking
         $.ajax({
-            url: "{{ route("$url.create") }}",
+            url: "{{ Route::has("$url.create") ? route("$url.create"):'' }}",
             type: 'GET',
             success: function(data) {
                 $('#Modal').modal('show')
@@ -214,7 +214,7 @@
             }
 
 
-            var url = '{{ route("$url.destroy", ':id') }}';
+            var url = '{{ Route::has("$url.destroy", ':id') ? route("$url.destroy", ':id'):'' }}';
             url = url.replace(':id', id)
             $.ajax({
                 url: url,
@@ -272,7 +272,7 @@
         $('#operationType').text('تعديل ');
         $('#form-load').html(loader_form)
 
-        var url = "{{ route("$url.edit", ':id') }}";
+        var url = "{{ Route::has("$url.edit", ':id') ? route("$url.edit", ':id') :'' }}";
         url = url.replace(':id', id)
 
         $.ajax({

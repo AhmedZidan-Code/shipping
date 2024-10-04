@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Trader\AuthController;
 use App\Http\Controllers\Trader\HomeController;
+use App\Http\Controllers\Trader\Order\TraderOrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Trader\Reports\TraderAccountController;
 
@@ -57,6 +58,7 @@ Route::group(['prefix' => 'trader', 'middleware' => 'trader'], function () {
         Route::get('get_hadback', [\App\Http\Controllers\Trader\Order\HadbackController::class, 'get_hadback'])->name('get_hadback'); //
         Route::get('get_tahseel', [\App\Http\Controllers\Trader\Order\TahseelController::class, 'get_tahseel'])->name('get_tahseel'); //
        Route::get('trader-accounts', [TraderAccountController::class, 'index'])->name('trader_account'); //
+       Route::resource('trader-orders', TraderOrderController::class)->only('index'); //
 
     });
 });

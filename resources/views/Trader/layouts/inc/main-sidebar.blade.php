@@ -73,6 +73,8 @@
                         <span> الطلبات </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('trader.trader-orders.index') }}"><i class="mdi mdi-album"></i>
+                                <span> طلبات التاجر</span></a></li>
                         <li><a href="{{ route('trader.orders.index') }}"><i class="mdi mdi-album"></i>
                                 <span> طلبات بوصله</span></a></li>
                         <li><a href="{{ route('trader.deliveryConvertedOrders.index') }}"><i class="mdi mdi-album"></i>
