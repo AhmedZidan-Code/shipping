@@ -74,7 +74,7 @@ class UnderImplementationOrderController extends Controller
                 })->editColumn('status', function ($row) {
 
                     $status='';
-                    if(!auth()->user()->can('العمليات علي الطلبات'))
+                    if(!auth()->user()->can('تعديل طلبات تحت التنفيذ'))
                         $status='hidden';
 
                     $data='';

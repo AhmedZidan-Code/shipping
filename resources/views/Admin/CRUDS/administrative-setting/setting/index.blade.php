@@ -9,7 +9,7 @@
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1">  الاعدادات الادارية</h5>
 
-               @can('الاضافة في الاعدادات الادارية')
+               @can('إنشاء الاعدادات الإدارية')
                 <div>
                     <button id="addBtn" class="btn btn-primary">اضافة اعدادات</button>
                 </div>

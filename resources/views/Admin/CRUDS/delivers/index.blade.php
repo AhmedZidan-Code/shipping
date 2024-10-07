@@ -9,7 +9,7 @@
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1">  المناديب</h5>
 
-            @can('اضافة مندوب')
+            @can('إنشاء بيانات المناديب')
                 <div>
                     <button id="addBtn" class="btn btn-primary">اضافة مندوب</button>
                 </div>

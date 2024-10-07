@@ -79,7 +79,7 @@ class ShippingOnMessanger extends Controller
                 })->editColumn('status', function ($row) {
 
                     $status='';
-                    if(!auth()->user()->can('العمليات علي الطلبات'))
+                    if(!auth()->user()->can('تعديل الشحن عالراسل'))
                         $status='hidden';
 
                     $data='';
