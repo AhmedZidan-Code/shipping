@@ -214,7 +214,7 @@
             }
 
 
-            var url = '{{ Route::has("$url.destroy", ':id') ? route("$url.destroy", ':id'):'' }}';
+            var url = '{{ route("$url.destroy", ':id') }}';
             url = url.replace(':id', id)
             $.ajax({
                 url: url,
