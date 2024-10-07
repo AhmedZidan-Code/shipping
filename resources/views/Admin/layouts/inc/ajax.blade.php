@@ -272,7 +272,7 @@
         $('#operationType').text('تعديل ');
         $('#form-load').html(loader_form)
 
-        var url = "{{ Route::has("$url.edit", ':id') ? route("$url.edit", ':id') :'' }}";
+        var url = "{{route("$url.edit", ':id') }}";
         url = url.replace(':id', id)
 
         $.ajax({
