@@ -44,9 +44,9 @@ class DeliveryConvertedOrderController extends Controller
                     $edit = '';
                     $delete = '';
 
-                    if(!auth()->user()->can('العمليات علي الطلبات'))
+                    if(!auth()->user()->can('تعديل الطلبات المحولة للمناديب'))
                         $edit='hidden';
-                    if(!auth()->user()->can('العمليات علي الطلبات'))
+                    if(!auth()->user()->can('حذف الطلبات المحولة للمناديب'))
                         $delete='hidden';
 
                     $url=route('admin.orderDetails',$row->id);
@@ -93,7 +93,7 @@ class DeliveryConvertedOrderController extends Controller
                 ->editColumn('status', function ($row) {
 
                     $status='';
-                    if(!auth()->user()->can('العمليات علي الطلبات'))
+                    if(!auth()->user()->can('تعديل الطلبات المحولة للمناديب'))
                         $status='hidden';
 
                     $data='';

@@ -9,7 +9,7 @@
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1">  المحافظات</h5>
 
-               @can('الاضافة في اعدادات مناطق')
+               @can('إنشاء المحافظات')
                 <div>
                     <button id="addBtn" class="btn btn-primary">اضافة محافظة</button>
                 </div>

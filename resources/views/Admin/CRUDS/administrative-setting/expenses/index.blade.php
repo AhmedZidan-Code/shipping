@@ -9,7 +9,7 @@
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1">  المصروفات</h5>
 
-               @can('الاضافة في المصروفات')
+               @can('إنشاء المصروفات')
                 <div>
                     <button id="addBtn" class="btn btn-primary">اضافة المصروفات</button>
                 </div>

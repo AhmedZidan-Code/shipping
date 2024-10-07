@@ -15,9 +15,8 @@ class TodayOrdersReportsController extends Controller
 
     function __construct()
     {
-      //  $this->middleware('permission:عرض التقارير', ['only' => ['index']]);//
+        $this->middleware('permission:عرض يومية الطلبات')->only(['index']);
     }
-
 
     public function index(Request $request)
     {

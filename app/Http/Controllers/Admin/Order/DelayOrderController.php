@@ -78,8 +78,8 @@ class DelayOrderController extends Controller
                              ->editColumn('status', function ($row) {
 
                     $status='';
-                    // if(!auth()->user()->can('العمليات علي الطلبات'))
-                    //     $status='hidden';
+                    if(!auth()->user()->can('تعديل الطلبات المؤجلة'))
+                        $status='hidden';
 
                     $data='';
 
