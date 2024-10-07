@@ -7,7 +7,6 @@ use App\Http\Traits\LogActivityTrait;
 use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\Trader;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -16,8 +15,6 @@ class TahseelController extends Controller
     use LogActivityTrait;
 
     public $statusArray = array('total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger');
-
-
 
     public function index(Request $request)
     {
@@ -28,6 +25,18 @@ class TahseelController extends Controller
 
             $rows = Order::query()->where('trader_id', $trader->id)->with(['province', 'trader', 'delivery'])->whereIn('status', $this->statusArray)->where('paid_as_money', 0)->orderBy('converted_date', 'desc');
             $condition = [];
+
+            if ($request->fromDate) {
+                $rows->where('converted_date', '>=', $request->fromDate . ' ' . '00:00:00');
+
+                $condition['converted_date >='] = $request->fromDate . ' ' . '00:00:00';
+            }
+            if ($request->toDate) {
+                $rows->where('converted_date', '<=', $request->toDate . ' ' . '23:59:59');
+
+                $condition['converted_date <='] = $request->toDate . ' ' . '23:59:59';
+
+            }
 
             $totalShipmentValue1 = $rows->get()->sum(function ($row) {
                 if ($row->status == 'partial_delivery_to_customer') {
@@ -202,7 +211,7 @@ class TahseelController extends Controller
                 ->editColumn('delivery_id', function ($row) {
                     return $row->delivery->name ?? '';
                 })
-                                ->editColumn('status', function ($row) {
+                ->editColumn('status', function ($row) {
                     $status = '';
                     $class = '';
 
@@ -291,8 +300,8 @@ class TahseelController extends Controller
                 ->make(true);
 
             return $dataTable;
-        } 
-            return view('Trader.Orders.tahseel.get_tahseel', compact('request'));
+        }
+        return view('Trader.Orders.tahseel.get_tahseel', compact('request'));
     }
 
 }

@@ -5,6 +5,37 @@
 @section('css')
 @endsection
 @section('content')
+    <form action="{{ route('trader.Tahseel.index') }}">
+        <div class="row mb-3">
+            <div class="col-md-4 ">
+                <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> تاريخ البداية </span>
+
+                </label>
+                <input type="date" id="fromDate"
+                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}"
+                       @endisset
+                    name="fromDate" class="showBonds form-control">
+
+            </div>
+            <div class="col-md-4">
+                <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> تاريخ النهاية </span>
+
+                </label>
+                <input type="date" id="toDate"
+                    @isset($request['toDate']) value="{{ $request['toDate'] }}"
+                       @endisset
+                    name="toDate" class="showBonds form-control">
+            </div>
+
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary my-4">بحث</button>
+        </div>
+        </div>
+
+    </form>
     <div class="card">
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1"> تقارير التجار</h5>
@@ -13,6 +44,7 @@
         </div>
 
         <div class="card-body">
+
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                 style="width:100%">
                 <thead>
@@ -38,8 +70,6 @@
                 <tfoot>
                     <tr style="background: whitesmoke;">
                         <td> </td>
-
-
                         <td> </td>
                         <td> </td>
                         <td> </td>
@@ -62,8 +92,7 @@
 @endsection
 @section('js')
     <script>
-        var columns = [
-            {
+        var columns = [{
                 data: 'id',
                 name: 'id'
             },
@@ -117,6 +146,4 @@
     @include('Admin.layouts.inc.ajax', ['url' => 'Tahseel'])
     <link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
     <script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
-
-
 @endsection
