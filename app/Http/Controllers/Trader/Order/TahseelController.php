@@ -291,10 +291,8 @@ class TahseelController extends Controller
                 ->make(true);
 
             return $dataTable;
-        } else {
-
+        } 
             return view('Trader.Orders.tahseel.get_tahseel', compact('request'));
-        }
     }
 
 }

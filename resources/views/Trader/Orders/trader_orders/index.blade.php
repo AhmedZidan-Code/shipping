@@ -47,6 +47,8 @@
     </div>
 @endsection
 @section('js')
+<script src="{{ URL::asset('assets_new/datatable/feather.min.js') }}"></script>
+<script src="{{ URL::asset('assets_new/datatable/datatables.min.js') }}"></script>
     <script>
         var columns = [
 
@@ -106,8 +108,71 @@
                 name: 'created_at'
             },
         ];
+            $(function() {
+
+        $("#table").DataTable({
+            processing: true,
+            // pageLength: 50,
+            paging: true,
+            dom: 'Bfrltip',
+            bLengthChange: true,
+            serverSide: true,
+            ajax: '{{route('trader.trader-orders.index')}}',
+            columns: columns,
+            // order: [
+            //     [0, "asc"]
+            // ],
+            "language": <?php echo json_encode(datatable_lang()); ?>,
+
+            "drawCallback": function(settings) {
+
+            if (settings.json && settings.json.total_sum) {
+                console.log(settings.json.total_sum);
+                
+                    $('#total_sum').html(settings.json.total_sum);  // Update total sum
+                }
+
+                $('#ahmed').html(settings.json.total2);
+
+                //do whatever  
+            },
+
+            // "language": {
+            //     paginate: {
+            //         previous: "<i class='simple-icon-arrow-left'></i>",
+            //         next: "<i class='simple-icon-arrow-right'></i>"
+            //     },
+            //     "sProcessing": "جاري التحميل ..",
+            //     "sLengthMenu": "اظهار _MENU_ سجل",
+            //     "sZeroRecords": "لا يوجد نتائج",
+            //     "sInfo": "اظهار _START_ الى  _END_ من _TOTAL_ سجل",
+            //     "sInfoEmpty": "لا نتائج",
+            //     "sInfoFiltered": "للبحث",
+            //     "sSearch": "بحث :    ",
+            //     "oPaginate": {
+            //         "sPrevious": "السابق",
+            //         "sNext": "التالي",
+            //     }
+            // },
+            // buttons: [
+            //     'colvis',
+            //     'excel',
+            //     'print',
+            //     'copy',
+            //     'csv',
+            //     // 'pdf'
+            // ],
+
+            searching: true,
+            destroy: true,
+            info: false,
+
+
+        });
+
+    });
     </script>
-    @include('Admin.layouts.inc.ajax', ['url' => 'trader-orders'])
+    {{-- @include('Admin.layouts.inc.ajax', ['url' => 'trader-orders']) --}}
 
     <script>
         $(document).on('change', '.showBonds', function() {

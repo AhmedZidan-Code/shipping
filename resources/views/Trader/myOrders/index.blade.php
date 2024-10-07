@@ -18,7 +18,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>المندوب</th>
+                    <th>الحالة</th>
                     <th>اسم العميل</th>
                     <th>المحافظة</th>
                     <th>عنوان العميل</th>
@@ -42,7 +42,7 @@
     <script>
         var columns = [
             {data: 'id', name: 'id'},
-            {data: 'delivery_id', name: 'delivery_id'},
+            {data: 'status', name: 'status'},
             {data: 'customer_name', name: 'customer_name'},
             {data: 'province.title', name: 'province.title'},
             {data: 'customer_address', name: 'customer_address'},

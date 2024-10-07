@@ -14,11 +14,11 @@
 
 
 <script>
-    var loader_form = ` <div class="linear-background">
+    var loader_form = '<div class="linear-background">
                             <div class="inter-crop"></div>
                             <div class="inter-right--top"></div>
                             <div class="inter-right--bottom"></div>
-                        </div>`;
+                        </div> ';
     var newUrl = location.href;
 
 
