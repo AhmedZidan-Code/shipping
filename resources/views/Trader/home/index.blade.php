@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-xl-3 col-sm-6">
-            <a href="{{route('myOrders.index')}}?status=converted_to_delivery">
+            <a href="{{route('trader.trader-orders.index')}}">
             <div class="card mini-stat bg-primary">
                 <div class="card-body mini-stat-img">
                     <div class="mini-stat-icon">
@@ -26,15 +26,15 @@
             </a>
         </div>
         <div class="col-xl-3 col-sm-6">
-            <a href="{{route('myOrders.index')}}?status=converted_to_delivery">
+            <a href="{{route('trader.get_tahseel')}}">
             <div class="card mini-stat bg-primary">
                 <div class="card-body mini-stat-img">
                     <div class="mini-stat-icon">
                         <i class="mdi mdi-cube-outline float-end"></i>
                     </div>
                     <div class="text-white">
-                        <h6 class="text-uppercase mb-3 font-size-16 text-white"> الطلبات المسلمة كلياً وجزئياً</h6>
-                        <h2 class="mb-4 text-white">{{$deliveredTotalyAndPartiay}}</h2>
+                        <h6 class="text-uppercase mb-3 font-size-16 text-white"> الطلبات المحصلة</h6>
+                        <h2 class="mb-4 text-white">{{$mohsala}}</h2>
                         {{--                        <span class="badge bg-info"> +11% </span> <span class="ms-2">From previous period</span>--}}
                     </div>
                 </div>
@@ -42,7 +42,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-sm-6">
-            <a href="{{route('myOrders.index')}}?status=converted_to_delivery">
+            <a href="{{route('trader.get_hadback')}}">
             <div class="card mini-stat bg-primary">
                 <div class="card-body mini-stat-img">
                     <div class="mini-stat-icon">
@@ -65,8 +65,8 @@
                         <i class="mdi mdi-cube-outline float-end"></i>
                     </div>
                     <div class="text-white">
-                        <h6 class="text-uppercase mb-3 font-size-16 text-white">نسبة المرتجعات</h6>
-                        <h2 class="mb-4 text-white">{{($hadback/$totalOrders) * 100}} %</h2>
+                        <h6 class="text-uppercase mb-3 font-size-16 text-white">نسبة التسليمات</h6>
+                        <h2 class="mb-4 text-white">{{number_format(($mohsala/$totalOrders) * 100 , 1)}} %</h2>
                         {{--                        <span class="badge bg-info"> +11% </span> <span class="ms-2">From previous period</span>--}}
                     </div>
                 </div>
@@ -122,7 +122,7 @@
             </a>
         </div>
         <div class="col-xl-3 col-sm-6">
-            <a href="{{route('myOrders.index')}}?status=not_delivery">
+            <a href="{{route('trader.hadback.index')}}">
                 <div class="card mini-stat bg-primary">
                     <div class="card-body mini-stat-img">
                         <div class="mini-stat-icon">
