@@ -14,11 +14,11 @@
 
 
 <script>
-    var loader_form = '<div class="linear-background">
+    var loader_form = `<div class="linear-background">
                             <div class="inter-crop"></div>
                             <div class="inter-right--top"></div>
                             <div class="inter-right--bottom"></div>
-                        </div> ';
+                        </div>`;
     var newUrl = location.href;
 
 
@@ -35,7 +35,7 @@
     }
     $(function() {
 
-        $("#table").DataTable({
+        var test = $("#table").DataTable({
             processing: true,
             // pageLength: 50,
             paging: true,
@@ -94,6 +94,7 @@
 
 
         });
+        
 
     });
 

@@ -24,6 +24,18 @@ class HadbackController extends Controller
             $rows = Order::query()->where('trader_id', $trader->id)->with(['province', 'trader', 'delivery'])->whereIn('status', $statusArray)->where('paid_as_mortag3', 0)->orderBy('converted_date', 'desc');
             $condition = [];
 
+            if ($request->fromDate) {
+                $rows->where('converted_date', '>=', $request->fromDate . ' ' . '00:00:00');
+
+                $condition['converted_date >='] = $request->fromDate . ' ' . '00:00:00';
+            }
+            if ($request->toDate) {
+                $rows->where('converted_date', '<=', $request->toDate . ' ' . '23:59:59');
+
+                $condition['converted_date <='] = $request->toDate . ' ' . '23:59:59';
+
+            }
+
             $totalShipmentValue1 = $rows->get()->sum(function ($row) {
                 if ($row->status == 'partial_delivery_to_customer') {
                     return ($row->total_value - $row->partial_value);
