@@ -77,7 +77,6 @@
                  
                     <th>#</th>
                     <th>الحالة</th>
-                    <th>المندوب</th>
                     <th>اسم العميل</th>
                     <th>المحافظة</th>
                 
@@ -86,6 +85,8 @@
                     <th>التاجر</th>
                     <th>عدد القطع داخل الشحنة</th>
                     <th>قيمة الشحنة</th>
+                    {{-- <th>قيمة الاوردر</th> --}}
+                    <th>قيمة التوصيل</th>
                       <th> الملاحظات </th>
                     <th>قيمة التوصيل</th>
                   
@@ -102,16 +103,17 @@
                  
                    <td> </td>
                     <td> </td>
-                     <td> </td>
-                      <td> </td>
+                     {{-- <td> </td> --}}
+                       <td> </td>
                        <td> </td>
                        <td> </td>
                  <td> </td>
                   <td> المجموع </td>
                   <td id="ahmed"> </td>
                   <td> </td>
-                   <td> </td>
                   
+                    <td> </td>
+                    <td> </td>
                     <td> </td>
                      <td> </td>
                       <td> </td>
@@ -142,7 +144,6 @@
            
             {data: 'id', name: 'id'},
             {data: 'status', name: 'status'},
-            {data: 'delivery_id', name: 'delivery_id'},
             {data: 'customer_name', name: 'customer_name'},
             {data: 'province.title', name: 'province.title'},
            
@@ -151,6 +152,7 @@
             {data: 'trader.name', name: 'trader.name'},
             {data: 'shipment_pieces_number', name: 'shipment_pieces_number'},
             {data: 'shipment_value', name: 'shipment_value'},
+            {data: 'delivery_value', name: 'delivery_value'},
             {data: 'notes', name: 'notes'},
            
             {data: 'delivery_ratio', name: 'delivery_ratio'},

@@ -298,9 +298,6 @@ class TahseelController extends Controller
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';
                 })
-                ->editColumn('delivery_id', function ($row) {
-                    return $row->delivery->name ?? '';
-                })
                 ->addColumn('orderDetails', function ($row) {
                     $url = route('admin.orderDetails', $row->id);
                     $route = route('orders.edit', $row->id);

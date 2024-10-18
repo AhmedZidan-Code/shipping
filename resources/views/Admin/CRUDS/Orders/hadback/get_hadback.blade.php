@@ -86,7 +86,6 @@
 
                         <th>#</th>
                         <th>الحالة</th>
-                        <th>المندوب</th>
                         <th>اسم العميل</th>
                         <th>المحافظة</th>
 
@@ -95,6 +94,7 @@
                         <th>التاجر</th>
                         <th>عدد القطع داخل الشحنة</th>
                         <th>قيمة الشحنة</th>
+                        <th>قيمة التوصيل</th>
 
                         <th> الملاحظات </th>
                         <th>قيمة التوصيل</th>
@@ -116,11 +116,11 @@
                         <td> </td>
                         <td> </td>
                         <td> </td>
-                        <td> </td>
                         <td> المجموع </td>
                         <td id="ahmed"> </td>
 
 
+                        <td> </td>
                         <td> </td>
                         <td> </td>
 
@@ -155,10 +155,6 @@
                 name: 'status'
             },
             {
-                data: 'delivery_id',
-                name: 'delivery_id'
-            },
-            {
                 data: 'customer_name',
                 name: 'customer_name'
             },
@@ -186,6 +182,10 @@
             {
                 data: 'shipment_value',
                 name: 'shipment_value'
+            },
+            {
+                data: 'delivery_value',
+                name: 'delivery_value'
             },
 
             {

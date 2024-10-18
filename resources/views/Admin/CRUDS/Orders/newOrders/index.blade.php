@@ -1,38 +1,59 @@
 @extends('Admin.layouts.inc.app')
 @section('title')
-     الطلبات
+    الطلبات
 @endsection
 @section('css')
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1">  الطلبات</h5>
+            <h5 class="card-title mb-0 flex-grow-1"> الطلبات</h5>
 
-                <div>
-                    <a href="{{route('orders.create')}}"  class="btn btn-primary">اضافة طلب</a>
-                </div>
+            <div>
+                <a href="{{ route('orders.create') }}" class="btn btn-primary">اضافة طلب</a>
+            </div>
 
         </div>
         <div class="card-body">
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                   style="width:100%">
+                style="width:100%">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>اسم العميل</th>
-                    <th>المندوب</th>
-                    <th>المدينة</th>
-                    <th> رقم التليفون</th>
-                     <th> العنوان </th>
-                    <th>التاجر</th>
-                    <th>قيمه الاوردر</th>
-                    <th>الملاحظات</th>
-                    <th> تاريخ الانشاء</th>
-                    <th>العمليات</th>
-                </tr>
+                    <tr>
+                        <th><input type="checkbox" id="checkAll"> </th>
+                        <th>#</th>
+                        <th>اسم العميل</th>
+                        <th>المندوب</th>
+                        <th>المدينة</th>
+                        <th> رقم التليفون</th>
+                        <th> العنوان </th>
+                        <th>التاجر</th>
+                        <th>قيمه الاوردر</th>
+                        <th>الملاحظات</th>
+                        <th> تاريخ الانشاء</th>
+                        <th>العمليات</th>
+                    </tr>
                 </thead>
             </table>
+            <div class="row mb-3">
+
+                <div class="col-md-4">
+                    <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                        <span class="required mr-1"> التسليم الي المندوب</span>
+                    </label>
+                    <select id="delivery_id" class="form-control showBonds delivery_id select2" name="">
+                        <option value="">اختر</option>
+                        @if (!empty($delivieries))
+                            @foreach ($delivieries as $delivery)
+                                <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-primary my-4 delivered"> تسليم</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -47,7 +68,8 @@
                     <h2><span id="operationType"></span> طلب </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
-                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
+                        aria-label="Close">
                         <i class="fa fa-times"></i>
                     </button>
                     <!--end::Close-->
@@ -86,7 +108,8 @@
                     <h2> التسليم الي المندوب </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
-                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
+                        aria-label="Close">
                         <i class="fa fa-times"></i>
                     </button>
                     <!--end::Close-->
@@ -114,38 +137,84 @@
     </div>
 @endsection
 @section('js')
+    <link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
+    <script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
     <script>
-        var columns = [
-            {data: 'id', name: 'id'},
-            {data: 'customer_name', name: 'customer_name'},
-            {data: 'delivery_id', name: 'delivery_id'},
-            {data: 'province_id', name: 'province_id'},
-            {data: 'customer_phone', name: 'customer_phone'},
-            {data: 'customer_address', name: 'customer_address'},
-            {data: 'trader.name', name: 'trader.name'},
-            {data: 'shipment_value', name: 'shipment_value'},
-            {data: 'notes', name: 'notes'},
-            {data: 'created_at', name: 'created_at'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+        $(document).ready(function() {
+            $(".select2").select2({});
+        });
+    </script>
+    <script>
+        var columns = [{
+                data: 'checkbox',
+                name: 'checkbox',
+                orderable: false
+            },
+            {
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'customer_name',
+                name: 'customer_name'
+            },
+            {
+                data: 'delivery_id',
+                name: 'delivery_id'
+            },
+            {
+                data: 'province_id',
+                name: 'province_id'
+            },
+            {
+                data: 'customer_phone',
+                name: 'customer_phone'
+            },
+            {
+                data: 'customer_address',
+                name: 'customer_address'
+            },
+            {
+                data: 'trader.name',
+                name: 'trader.name'
+            },
+            {
+                data: 'shipment_value',
+                name: 'shipment_value'
+            },
+            {
+                data: 'notes',
+                name: 'notes'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
         ];
     </script>
-    @include('Admin.layouts.inc.ajax',['url'=>'orders'])
+    @include('Admin.layouts.inc.ajax', ['url' => 'orders'])
 
     <script>
-        $(document).on('click','#addDetails',function (e){
+        $(document).on('click', '#addDetails', function(e) {
 
             e.preventDefault();
 
             $.ajax({
                 type: 'GET',
-                url: "{{route('admin.getOrderDetails')}}",
+                url: "{{ route('admin.getOrderDetails') }}",
 
-                success: function (res) {
+                success: function(res) {
 
                     $('#details-container').append(res.html);
 
                 },
-                error: function (data) {
+                error: function(data) {
                     // location.reload();
                 }
             });
@@ -155,8 +224,8 @@
         })
 
 
-        $(document).on('click','.deleteRow',function (){
-            var id=$(this).attr('data-id');
+        $(document).on('click', '.deleteRow', function() {
+            var id = $(this).attr('data-id');
 
             $(`#${id}`).remove();
 
@@ -165,19 +234,45 @@
     </script>
 
     <script>
-        $(document).on('change','.changeDelivery',function (){
-            var id=$(this).attr('data-id');
-            var delivery_id=$(this).val();
+        $(document).ready(function() {
+            // Assume the main checkbox has an id of 'checkAll'
+            $('#checkAll').on('click', function() {
+                var isChecked = $(this).prop('checked');
+                $('.orders_ids').prop('checked', isChecked);
+                updateCheckAllState();
+            });
+
+            // Use event delegation for .orders_ids checkboxes
+            $(document).on('click', '.orders_ids', function() {
+                updateCheckAllState();
+            });
+
+            function updateCheckAllState() {
+                var totalCheckboxes = $('.orders_ids').length;
+                var checkedCheckboxes = $('.orders_ids:checked').length;
+
+                var allChecked = (totalCheckboxes === checkedCheckboxes);
+                $('#checkAll').prop('checked', allChecked);
+            }
+            if (checkedCheckboxes > 0) {
+
+                // Initial state setup
+                updateCheckAllState();
+            }
+        });
+        $(document).on('change', '.changeDelivery', function() {
+            var id = $(this).attr('data-id');
+            var delivery_id = $(this).val();
 
             $.ajax({
                 type: 'GET',
-                url: "{{route('admin.changeDelivery')}}",
-                data:{
-                    id:id,
-                    delivery_id:delivery_id,
+                url: "{{ route('admin.changeDelivery') }}",
+                data: {
+                    id: id,
+                    delivery_id: delivery_id,
                 },
 
-                success: function (res) {
+                success: function(res) {
 
                     toastr.success('تمت العملية بنجاح');
 
@@ -186,7 +281,7 @@
 
 
                 },
-                error: function (data) {
+                error: function(data) {
                     // location.reload();
                 }
             });
@@ -195,59 +290,60 @@
     </script>
 
     <script>
-        $(document).on('click','.insertDelivery',function (){
-            var id=$(this).attr('data-id');
+        $(document).on('click', '.insertDelivery', function() {
+            var id = $(this).attr('data-id');
 
-            var route="{{route('admin.getDeliveryForOrder',':id')}}";
+            var route = "{{ route('admin.getDeliveryForOrder', ':id') }}";
 
-            route=route.replace(':id',id);
+            route = route.replace(':id', id);
 
             $('#form-load-delivery').html(loader_form)
 
             $('#Modal-delivery').modal('show')
 
-            setTimeout(function (){
+            setTimeout(function() {
                 $('#form-load-delivery').load(route)
-            },1000)
+            }, 1000)
         })
     </script>
     <script>
-        $(document).on('submit',"#form-delivery",function (e) {
+        $(document).on('submit', "#form-delivery", function(e) {
             e.preventDefault();
 
-            var id=$('#order_id_delivery').val();
+            var id = $('#order_id_delivery').val();
 
-            var route="{{route('admin.insertingDeliveryForOrder',':id')}}";
-            route=route.replace(':id',id);
+            var route = "{{ route('admin.insertingDeliveryForOrder', ':id') }}";
+            route = route.replace(':id', id);
 
             var formData = new FormData(this);
 
             var url = $('#form-delivery > form').attr('action');
-           $.ajax({
+            $.ajax({
                 url: route,
                 type: 'POST',
                 data: formData,
-                beforeSend: function () {
+                beforeSend: function() {
 
 
                     $('#submit-delivery').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                        ' ></span> <span style="margin-left: 4px;">{{trans('admin.working')}}</span>').attr('disabled', true);
+                        ' ></span> <span style="margin-left: 4px;">{{ trans('admin.working') }}</span>'
+                    ).attr('disabled', true);
                     $('#form-load-delivery').append(loader_form)
                     $('#form-load-delivery > form').hide()
                 },
-                complete: function () {
-                },
-                success: function (data) {
+                complete: function() {},
+                success: function(data) {
 
-                    window.setTimeout(function () {
-                        $('#submit-delivery').html('{{trans('admin.submit')}}').attr('disabled', false);
+                    window.setTimeout(function() {
+                        $('#submit-delivery').html('{{ trans('admin.submit') }}').attr(
+                            'disabled', false);
 
                         if (data.code == 200) {
                             toastr.success(data.message)
                             $('#Modal-delivery').modal('hide')
                             $('#form-load-delivery > form').remove()
                             $('#table').DataTable().ajax.reload(null, false);
-                        }else {
+                        } else {
                             $('#form-load-delivery > .linear-background').hide(loader_form)
                             $('#form-load-delivery > form').show()
                             toastr.error(data.message)
@@ -257,19 +353,19 @@
 
 
                 },
-                error: function (data) {
+                error: function(data) {
                     $('#form-load-delivery > .linear-background').hide(loader_form)
-                    $('#submit-delivery').html('{{trans('admin.submit')}}').attr('disabled', false);
+                    $('#submit-delivery').html('{{ trans('admin.submit') }}').attr('disabled', false);
                     $('#form-load-delivery > form').show()
                     if (data.status === 500) {
-                        toastr.error('{{trans('admin.error')}}')
+                        toastr.error('{{ trans('admin.error') }}')
                     }
                     if (data.status === 422) {
                         var errors = $.parseJSON(data.responseText);
 
-                        $.each(errors, function (key, value) {
+                        $.each(errors, function(key, value) {
                             if ($.isPlainObject(value)) {
-                                $.each(value, function (key, value) {
+                                $.each(value, function(key, value) {
                                     toastr.error(value)
                                 });
 
@@ -278,18 +374,94 @@
                             }
                         });
                     }
-                    if (data.status == 421){
+                    if (data.status == 421) {
                         toastr.error(data.message)
                     }
 
-                },//end error method
+                }, //end error method
 
                 cache: false,
                 contentType: false,
                 processData: false
             });
         });
-
     </script>
 
+
+    <script>
+        $(document).on('click', ".delivered", function(e) {
+            e.preventDefault();
+            var orders_ids = [];
+            $('.orders_ids:checked').each(function() {
+                orders_ids.push($(this).val());
+            });
+            var delivery_id = $('.delivery_id').val();
+
+            if (orders_ids.length === 0) {
+                alert("من فضلك قم بادخال الاوردرات");
+                return;
+            }
+
+            if (delivery_id === '') {
+                alert("من فضلك قم باختيار المندوب");
+                return;
+            }
+
+            let url = "{{ route('admin.insertBulkOrdersForDelivery') }}";
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: JSON.stringify({
+                    _token: '{{ csrf_token() }}',
+                    delivery_id: delivery_id,
+                    orders_ids: orders_ids,
+                }),
+                contentType: 'application/json',
+                beforeSend: function() {
+                    $('.delivered').html(
+                            '<span class="spinner-border spinner-border-sm mr-2"></span><span style="margin-left: 4px;">{{ trans('admin.working') }}</span>'
+                        )
+                        .attr('disabled', true);
+                    $('.delivered').append(loader_form);
+                    $('.delivered > form').hide();
+                },
+                success: function(data) {
+                    window.setTimeout(function() {
+                        $('.delivered').html('تسليم')
+                            .attr('disabled', false);
+
+                        if (data.code == 200) {
+                            toastr.success(data.message);
+                            $('#Modal-delivery').modal('hide');
+                            $('.delivered > form').remove();
+                            $('#table').DataTable().ajax.reload(null, false);
+                        } else {
+                            $('.delivered > .linear-background').hide();
+                            $('.delivered > form').show();
+                            toastr.error(data.message);
+                        }
+                    }, 1000);
+                },
+                error: function(xhr, status, error) {
+                    $('.delivered').html('تسليم')
+                        .attr('disabled', false);
+
+
+                    if (xhr.status === 500) {
+                        toastr.error('{{ trans('admin.error') }}');
+                    } else if (xhr.status === 422) {
+                        var errors = JSON.parse(xhr.responseText);
+                        $.each(errors.errors, function(key, value) {
+                            toastr.error(value[0]);
+                        });
+                    } else if (xhr.status == 421) {
+                        toastr.error(xhr.responseJSON.message);
+                    } else {
+                        toastr.error('An unexpected error occurred');
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

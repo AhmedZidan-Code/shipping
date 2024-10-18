@@ -51,6 +51,23 @@
 
         </div>
         <div class="card-body">
+            @if (request()->delivery_id)
+                <div class="row">
+                    <div class="col-3">
+                        <p>عدد الاوردرات</p>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" id="rows-count" disabled>
+                    </div>
+                    <div class="col-3">
+                        <p>الاجمالي</p>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" id="total" disabled>
+                    </div>
+                </div>
+            @endif
+
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                 style="width:100%">
                 <thead>
@@ -183,8 +200,8 @@
                 name: 'total_value'
             },
             {
-                data: 'delivery.name',
-                name: 'delivery.name'
+                data: 'delivery_name',
+                name: 'delivery_name'
             },
             {
                 data: 'delivery_ratio',
@@ -327,72 +344,74 @@
         })();
     </script>
 
-    <script>
-        function convert() {
-            var orders_ids = [];
-            var old_deliveries = [];
-            $('.orders_ids:checked').each(function() {
-                orders_ids.push($(this).val());
-                old_deliveries.push($(this).attr('data-delivery'));
-            });
-            var delivery_id = $('.delivery_id').val();
+ <script>
+      function convert()
+      {
+        var orders_ids = [];
+        var old_deliveries = [] ;
+        $('.orders_ids:checked').each(function() {
+          orders_ids.push($(this).val());
+          old_deliveries.push($(this).attr('data-delivery'));
+      });
+       var delivery_id = $('.delivery_id').val();
+       
+       if (orders_ids.length === 0) {
+        alert("من فضلك قم بادخال الاوردرات");
+        return;
+    }
 
-            if (orders_ids.length === 0) {
-                alert("من فضلك قم بادخال الاوردرات");
-                return;
+     if (delivery_id  === '') {
+        alert("من فضلك قم باختيار المندوب");
+        return;
+      }
+          $.ajax({
+        url: '{{ route('admin.convert_order') }}',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            delivery_id: delivery_id,
+            orders_ids: orders_ids,
+            old_deliveries:old_deliveries
+        },
+        beforeSend: function () {
+            // Optional: Add loading spinner or disable submit button
+        },
+        complete: function () {
+            // Optional: Remove loading spinner or enable submit button
+        },
+        success: function (data) {
+         
+             if (data.code === 200) {
+                toastr.success(data.message);
+                setTimeout(reloading, 1000);
+            } else {
+                toastr.error(data.message);
+                $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
             }
+        },
+        error: function (data) {
+         
+            $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
 
-            if (delivery_id === '') {
-                alert("من فضلك قم باختيار المندوب");
-                return;
-            }
-            $.ajax({
-                url: '{{ route('deliveryConvertedOrders.index') }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    delivery_id: delivery_id,
-                    orders_ids: orders_ids,
-                    old_deliveries: old_deliveries
-                },
-                beforeSend: function() {
-                    // Optional: Add loading spinner or disable submit button
-                },
-                complete: function() {
-                    // Optional: Remove loading spinner or enable submit button
-                },
-                success: function(data) {
-
-                    if (data.code === 200) {
-                        toastr.success(data.message);
-                        setTimeout(reloading, 1000);
-                    } else {
-                        toastr.error(data.message);
-                        $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
-                    }
-                },
-                error: function(data) {
-
-                    $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
-
-                    if (data.status === 500) {
-                        toastr.error(data.responseJSON.message);
-                        console.log(data.message);
-                    } else if (data.status === 422) {
-                        var errors = $.parseJSON(data.responseText);
-                        $.each(errors, function(key, value) {
-                            if ($.isPlainObject(value)) {
-                                $.each(value, function(key, value) {
-                                    toastr.error(value);
-                                });
-                            }
+            if (data.status === 500) {
+               toastr.error(data.responseJSON.message);
+               console.log(data.message);
+            } else if (data.status === 422) {
+                var errors = $.parseJSON(data.responseText);
+                $.each(errors, function (key, value) {
+                    if ($.isPlainObject(value)) {
+                        $.each(value, function (key, value) {
+                            toastr.error(value);
                         });
-                    } else if (data.status === 421) {
-                        toastr.error(data.message);
                     }
-                },
-
-            });
-        }
-    </script>
+                });
+            } else if (data.status === 421) {
+                toastr.error(data.message);
+            }
+        },
+       
+    });
+      }
+     
+     </script>
 @endsection
