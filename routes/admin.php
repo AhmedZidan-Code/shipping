@@ -61,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('changeStatus', [\App\Http\Controllers\Admin\Order\NewOrderController::class, 'changeStatus'])->name('admin.changeStatus');
     Route::get('getDeliveryForOrder/{id}', [\App\Http\Controllers\Admin\Order\NewOrderController::class, 'getDeliveryForOrder'])->name('admin.getDeliveryForOrder');
     Route::post('insertingDeliveryForOrder/{id}', [\App\Http\Controllers\Admin\Order\NewOrderController::class, 'insertingDeliveryForOrder'])->name('admin.insertingDeliveryForOrder');
+    Route::post('insertBulkOrdersForDelivery', [\App\Http\Controllers\Admin\Order\NewOrderController::class, 'insertBulkOrdersForDelivery'])->name('admin.insertBulkOrdersForDelivery');
     Route::get('orderDetails/{id}', [\App\Http\Controllers\Admin\Order\NewOrderController::class, 'orderDetails'])->name('admin.orderDetails');
 
     Route::resource('trader-payments', \App\Http\Controllers\Admin\TraderPaymentController::class);
@@ -68,6 +69,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('deliveryConvertedOrders', \App\Http\Controllers\Admin\Order\DeliveryConvertedOrderController::class); //setting
     Route::get('changeStatusForOrder/{id}', [\App\Http\Controllers\Admin\Order\DeliveryConvertedOrderController::class, 'changeStatusForOrder'])->name('admin.changeStatusForOrder');
     Route::post('changeStatusForOrder_store/{id}', [\App\Http\Controllers\Admin\Order\DeliveryConvertedOrderController::class, 'changeStatusForOrder_store'])->name('admin.changeStatusForOrder_store');
+    Route::post('convert_order', [\App\Http\Controllers\Admin\Order\DeliveryConvertedOrderController::class, 'convert_order'])->name('admin.convert_order');
 
     Route::resource('totalDeliveryOrders', \App\Http\Controllers\Admin\Order\TotalDeliveryOrderController::class); //setting
 

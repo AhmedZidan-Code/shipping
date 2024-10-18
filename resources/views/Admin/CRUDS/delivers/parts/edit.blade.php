@@ -101,10 +101,26 @@
             <option value=""> اختر</option>
             @foreach($type_paid as $key=>$value)
             
-            <option value="{{ $key }}" <?php if($key == $row->user_name) echo 'selected' ;?>  > {{ $value }} </option>
+            <option value="{{ $key }}" <?php if($key == $row->type_paid) echo 'selected' ;?>  > {{ $value }} </option>
             @endforeach
             </select>
            
+        </div>
+        
+        <div class="d-flex flex-column mb-7 fv-row col-sm-6">
+             <label for="password" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1"> المرتب </span>
+            </label>
+            <input id="salary" type="text" class="form-control form-control-solid" placeholder="" name="salary"  value="{{$row->salary}}"/>
+                  
+        </div>
+        
+        <div class="d-flex flex-column mb-7 fv-row col-sm-6">
+             <label for="password" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1"> العموله </span>
+            </label>
+            <input id="commission" type="text" class="form-control form-control-solid" placeholder="" name="commission"  value="{{$row->commission}}"/>
+                  
         </div>
 
 

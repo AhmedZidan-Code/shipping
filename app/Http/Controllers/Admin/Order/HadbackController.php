@@ -19,7 +19,9 @@ class HadbackController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:عرض  المرتجعات')->only(['index']);
+        $this->middleware('permission:عرض طلبات قيد المرتجعات')->only(['index']);
+        $this->middleware('permission:تعديل طلبات قيد المرتجعات')->only(['edit', 'update']);
+        $this->middleware('permission:حذف طلبات قيد المرتجعات')->only('destroy');
     }
 
     public function index(Request $request)
@@ -408,9 +410,6 @@ class HadbackController extends Controller
             $dataTable = DataTables::of($rows)
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';
-                })
-                ->editColumn('delivery_id', function ($row) {
-                    return $row->delivery->name ?? '';
                 })
                 ->addColumn('orderDetails', function ($row) {
                     $url = route('admin.orderDetails', $row->id);

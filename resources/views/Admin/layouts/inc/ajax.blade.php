@@ -50,15 +50,21 @@
             "language": <?php echo json_encode(datatable_lang()); ?>,
 
             "drawCallback": function(settings) {
+                console.log(settings.json.rowsCount);
+                console.log(settings.json.total);
+                if(settings.json && settings.json.rowsCount){
+                    $('#rows-count').val(settings.json.rowsCount); 
+                    $('#total').val(settings.json.total); 
 
-            if (settings.json && settings.json.total_sum) {
-                console.log(settings.json.total_sum);
+                }
                 
-                    $('#total_sum').html(settings.json.total_sum);  // Update total sum
+                if (settings.json && settings.json.total_sum) {
+                    console.log(settings.json.total_sum);
+
+                    $('#total_sum').html(settings.json.total_sum); // Update total sum
                 }
 
-                $('#ahmed').html(settings.json.total2);
-
+                $('#ahmed').html(settings.json.total2);                
                 //do whatever  
             },
 
@@ -94,7 +100,7 @@
 
 
         });
-        
+
 
     });
 
@@ -103,7 +109,7 @@
         $('#operationType').text('{{ trans('admin.add') }}');
         // Use AJAX to handle loading and error checking
         $.ajax({
-            url: "{{ Route::has("$url.create") ? route("$url.create"):'' }}",
+            url: "{{ Route::has("$url.create") ? route("$url.create") : '' }}",
             type: 'GET',
             success: function(data) {
                 $('#Modal').modal('show')
@@ -273,7 +279,7 @@
         $('#operationType').text('تعديل ');
         $('#form-load').html(loader_form)
 
-        var url = "{{route("$url.edit", ':id') }}";
+        var url = "{{ route("$url.edit", ':id') }}";
         url = url.replace(':id', id)
 
         $.ajax({

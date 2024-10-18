@@ -99,8 +99,28 @@
             <option value="{{ $key }}"> {{ $value }} </option>
             @endforeach
             </select>
-           
+       </div>
+       
+       
+       <div class="d-flex flex-column mb-7 fv-row col-sm-6">
+             <label for="password" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1"> المرتب </span>
+            </label>
+            <input id="salary" type="text" class="form-control form-control-solid" placeholder="" name="salary"  value="0"/>
+                  
         </div>
+        
+        <div class="d-flex flex-column mb-7 fv-row col-sm-6">
+             <label for="password" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1"> العموله </span>
+            </label>
+            <input id="commission" type="text" class="form-control form-control-solid" placeholder="" name="commission"  value="0"/>
+                  
+        </div>
+        
+       
+       
+       
 
 
     </div>
