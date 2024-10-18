@@ -6,7 +6,29 @@
 @endsection
 @section('content')
 
+    <form action="{{ route('todayOrdersReports.index') }}">
 
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+                <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> المندوب </span>
+                </label>
+                <select id="delivery_id" class="form-control showBonds" name="delivery_id">
+                    <option value="">اختر</option>
+                    @if (!empty($delivieries))
+                        @foreach ($delivieries as $delivery)
+                            <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
+                        @endforeach
+                    @endif
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary my-4">بحث</button>
+            </div>
+        </div>
+
+    </form>
     <div class="card">
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1">   تقارير يومية الطلبات</h5>
