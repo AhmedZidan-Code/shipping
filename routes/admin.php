@@ -118,6 +118,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('trader-accounts', [TraderAccountController::class, 'index'])->name('trader-accounts.index'); //
     Route::get('trader-accounts/{trader_id}', [TraderAccountController::class, 'show'])->name('admin.trader_accounts'); //
 
+    Route::get('mandoub_orders', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'mandoub_orders'])->name('admin.mandoub_orders');
+    Route::post('change_button', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'change_button'])->name('admin.change_button');
+
     // Route::post('add_hadback',[\App\Http\Controllers\Admin\Order\HadbackController::class,'add_hadback'])->name('admin.add_hadback');
 
 });
