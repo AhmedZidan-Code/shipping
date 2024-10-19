@@ -51,12 +51,28 @@
                 'cancel'=>'ملغي',
                 'under_implementation'=> 'تحت  التنفيذ',
                 'new'=> 'جديد',
-                'paid'=>'تم الدفع'
+                'paid'=>'تم الدفع',
+                'shipping_on_messanger'=>'الشحن علي الراسل'
             );
             @endphp
 
             @foreach($records as $row)
+            @php
+          $count=  DB::table('delivery_orders_details')->where('order_id',$row->id)->count();
+          @endphp
+           @if ($count > 0)
+        @continue
+        @endif
+            
             @php $x++ @endphp
+            
+             @if($row->status =='shipping_on_messanger')
+            @php
+            
+            $num_for_mandoub = $num_for_mandoub+1;
+           
+            @endphp
+            @endif
             @if($row->status =='total_delivery_to_customer' || $row->status == 'paid')
             @php
             $all_total= $all_total + $row->total_value;
@@ -81,12 +97,12 @@
             @endphp
             @endif
             <tr>
-                <td> <input type="checkbox" data-status="{{ $row->status }}" class="myCheckboxClass" value="{{ $row->id }}" /> </td>
+                <td> <input checked="" type="checkbox" data-status="{{ $row->status }}" class="myCheckboxClass" value="{{ $row->id }}" /> </td>
                 <td>{{ $row->id }}</td>
                 @if($row->status=='new')
-                <td> <button class="btn btn-info insertDelivery" data-id= '{{$row->id}}'>{{ $arr[$row->status] }}</button> </td>
+                <td id="td{{$row->id}}"> <button class="btn btn-info insertDelivery" data-id= '{{$row->id}}'>{{ $arr[$row->status] }}</button> </td>
                 @elseif($row->status=='converted_to_delivery')
-                <td> <button class="btn btn-primary changeStatusData" data-id= '{{$row->id}}'>{{ $arr[$row->status] }}</button> </td>
+                <td id="td{{$row->id}}"> <button class="btn btn-primary changeStatusData" data-id= '{{$row->id}}'>{{ $arr[$row->status] }}</button> </td>
                 @elseif($row->status=='total_delivery_to_customer')
                 <td> <button class="btn btn-success StatusTotalDelivery" data-id= '{{$row->id}}'>{{ $arr[$row->status] }}</button> </td>
                 @elseif($row->status=='not_delivery')
@@ -132,9 +148,11 @@
                  </td>
                
                 <td colspan=""> الاجمالي </td>
-                <td style="color: red;" colspan="2"> <input type="text" style="width: 30px;" id="total_orders" readonly="" value="{{$all_total }}" /> </td>
+                <td style="color: red;" colspan="2"> <input type="text" style="width: 90px;" id="total_orders" readonly="" value="{{$all_total }}" /> </td>
                
                  <td style="color: red;"> المصروف :<input type="number" value="0" id="fees" name="fees" />  </td>
+                 
+                   <td style="color: red;"> بدل بنزين :<input type="number" style="width: 90px;"  value="0" id="solar" name="solar" />  </td>
                <td style="color: red; width: 2%;"> <input type="date" name="day_date" value="<?= date('Y-m-d')?>" /> </td>
                 <td colspan="2"> <select class="form-control" id="month" name="month">
                         <option value=""> اختر الشهر </option>
@@ -178,6 +196,7 @@
                 <div class="modal-body py-4" id="form-load-delivery">
 
                 </div>
+              
                 <!--end::Modal body-->
                 <div class="modal-footer">
                     <div class="text-center">
@@ -219,14 +238,15 @@
                 <div class="modal-body py-4" id="form-load">
 
                 </div>
+                  <input type="hidden" name="row_id" id="row_id"/>
                 <!--end::Modal body-->
                 <div class="modal-footer">
                     <div class="text-center">
                         <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-2">
                             الغاء
                         </button>
-                        <button form="form" type="submit" id="submit" class="btn btn-primary">
-                            <span class="indicator-label">اتمام</span>
+                        <button form="form" type="submit" id="submit" class="btn btn-primary active2">
+                            <span class="indicator-label"> اتمام</span>
                         </button>
                     </div>
                 </div>
@@ -360,7 +380,7 @@
 
             var id=$(this).attr('data-id');
 
-
+            $('#row_id').val(id);
 
 
             $('#form-load').html(loader_form)
@@ -378,6 +398,46 @@
         
         
         
+    </script>
+    
+    
+  
+    <script>
+        $(document).on('click','.active2',function (){
+                
+                var status = $('#status-convert').val();
+              
+                var row_id = $('#row_id').val();
+                    $.ajax({
+                        url: '{{route('admin.change_button')}}',
+                        type: 'POST',
+                        data: {row_id: row_id,status:status},
+                        beforeSend: function () {
+
+                        },
+                       complete: function () {
+                       },
+                       success: function (data) {
+                       // alert(data);
+                          console.log(data);
+                      $('#td'+row_id).html(data);
+
+                        //$('.delivery_value'+valu).val(data);
+                       // get_order_value(valu);
+                       },
+
+                       error: function (data) {
+                 
+
+                       },//end error method
+
+
+                     });
+
+
+        })
+        
+    
     </script>
     
     
@@ -404,6 +464,10 @@
 
         })
     </script>
+    
+    
+    
+    
     
     
     
@@ -550,7 +614,8 @@ function save_result() {
     var total_shipping = $('#total_shipping').val();
     var total_orders = $('#total_orders').val();
     var month = $('#month').val();
-
+    var fees = $('#fees').val();
+    var solar = $('#solar').val();
     var selectedValues = [];
     var status = [];
     $('.myCheckboxClass:checked').each(function() {
@@ -580,7 +645,9 @@ function save_result() {
             total_orders: total_orders,
             selectedValues: selectedValues,
             status: status,
-            month :month
+            month :month,
+            fees:fees,
+            solar:solar
         },
         beforeSend: function () {
             // Optional: Add loading spinner or disable submit button
@@ -589,7 +656,7 @@ function save_result() {
             // Optional: Remove loading spinner or enable submit button
         },
         success: function (data) {
-            if (data.code === 200) {
+             if (data.code === 200) {
                 toastr.success(data.message);
                 setTimeout(reloading, 1000);
             } else {
@@ -598,10 +665,12 @@ function save_result() {
             }
         },
         error: function (data) {
+         
             $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
 
             if (data.status === 500) {
-                toastr.error('هناك خطأ ما');
+               toastr.error(data.responseJSON.message);
+               console.log(data.message);
             } else if (data.status === 422) {
                 var errors = $.parseJSON(data.responseText);
                 $.each(errors, function (key, value) {
