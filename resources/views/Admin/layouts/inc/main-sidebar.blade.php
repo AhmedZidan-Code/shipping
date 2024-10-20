@@ -210,6 +210,10 @@
                                 <li><a href="{{ route('admin.mandoub_orders') }}"><i class="mdi mdi-album"></i>
                                         <span>تقرير تنفيذات المندوب</span></a></li>
                             @endcan
+                            @can('عرض الخزينة')
+                                <li><a href="{{ route('treasury.index') }}"><i class="mdi mdi-album"></i>
+                                        <span>الخزينة</span></a></li>
+                            @endcan
                         </ul>
                     </li>
                 @endcanany
