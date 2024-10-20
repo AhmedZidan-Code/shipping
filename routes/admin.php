@@ -1,9 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\Reports\TraderAccountController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('admin/login', [AuthController::class, 'loginView'])->name('admin.login');
 Route::post('admin/login', [AuthController::class, 'postLogin'])->name('admin.postLogin');
@@ -103,7 +104,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('delayedOrders', \App\Http\Controllers\Admin\Order\DelayOrderController::class); //setting
     Route::post('get_delivery_orders', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'get_delivery_orders'])->name('admin.get_delivery_orders');
     Route::post('add_delivery_orders', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'add_delivery_orders'])->name('admin.add_delivery_orders');
-    Route::get('mandoub_orders', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'mandoub_orders'])->name('admin.mandoub_orders');
 
     Route::get('get_order_mandoub_details/{id}', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'get_order_mandoub_details'])->name('admin.get_order_mandoub_details');
 
@@ -122,6 +122,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('change_button', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'change_button'])->name('admin.change_button');
 
     // Route::post('add_hadback',[\App\Http\Controllers\Admin\Order\HadbackController::class,'add_hadback'])->name('admin.add_hadback');
-
+    Route::get('treasury', [TreasuryController::class, 'index'])->name('treasury.index');
 });
 //
