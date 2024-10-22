@@ -20,7 +20,7 @@ class CreateAgentPaymentsTable extends Migration
             $table->date('date');
             $table->double('cash')->default(0);
             $table->double('cheque')->default(0);
-            $table->double('amount')->default(0);
+            $table->double('total')->default(0);
             $table->mediumText('notes')->nullable();
             $table->timestamps();
         });
