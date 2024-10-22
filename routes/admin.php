@@ -1,10 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Agent\AgentController;
+use App\Http\Controllers\Admin\Agent\AgentOrderController;
+use App\Http\Controllers\Admin\Agent\AgentPaymentController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\Reports\TraderAccountController;
+use App\Http\Controllers\Admin\Reports\TreasuryController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('admin/login', [AuthController::class, 'loginView'])->name('admin.login');
 Route::post('admin/login', [AuthController::class, 'postLogin'])->name('admin.postLogin');
@@ -123,5 +126,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     // Route::post('add_hadback',[\App\Http\Controllers\Admin\Order\HadbackController::class,'add_hadback'])->name('admin.add_hadback');
     Route::get('treasury', [TreasuryController::class, 'index'])->name('treasury.index');
+
+    ### Agents
+    Route::resource('agents', AgentController::class)->except('show'); //setting
+    Route::get('getAgents', [AgentController::class, 'getAgents'])->name('admin.getAgents'); //setting
+    Route::get('agents/import-form', [AgentOrderController::class, 'exportExcel'])->name('agent.import.excel'); //setting
+    Route::get('agents/excel-orders-form', [AgentOrderController::class, 'exportForm'])->name('agent.orders.export'); //setting
+    Route::post('agent/sorders-excel', [AgentOrderController::class, 'importOrders'])->name('agent.orders.import'); //setting
+    Route::resource('agent-payments', AgentPaymentController::class);
+
 });
 //

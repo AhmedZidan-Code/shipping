@@ -63,6 +63,7 @@
                         <th>إجمالي الاوردرات </th>
                         <th>المصروفات</th>
                         <th> تسديدات التجار</th>
+                        <th> تسديدات الوكلاء</th>
                         <th>بدل البنزين</th>
                         <th>قيد التحصيل</th>
                         <th>المجموع</th>
@@ -125,6 +126,10 @@
                     name: 'amount'
                 },
                 {
+                    data: 'total',
+                    name: 'total'
+                },
+                {
                     data: 'solar',
                     name: 'solar'
                 },
@@ -133,8 +138,8 @@
                     name: 'shipment_value'
                 },
                 {
-                    data: 'total',
-                    name: 'total'
+                    data: 'total_value',
+                    name: 'total_value'
                 },
             ];
 

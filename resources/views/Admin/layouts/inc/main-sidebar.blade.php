@@ -217,7 +217,22 @@
                         </ul>
                     </li>
                 @endcanany
-
+                @canany(['عرض تسديدات الوكلاء'])
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-buffer"></i>
+                            <span> الوكلاء </span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="{{ route('agents.index') }}"><i class="mdi mdi-album"></i>
+                                    <span> الوكلاء</span></a></li>
+                            <li><a href="{{ route('agent.import.excel') }}"><i class="mdi mdi-album"></i>
+                                    <span>رفع طلبات الوكلاء اكسيل</span></a></li>
+                            <li><a href="{{ route('agent-payments.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>تسديدات الوكلاء</span></a></li>
+                        </ul>
+                    </li>
+                @endcan
                 @canany(['عرض الاعدادات الإدارية', 'عرض المصروفات'])
                     <li>
                         <a href="javascript: void(0);" class="has-arrow waves-effect">

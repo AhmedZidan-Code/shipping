@@ -20,7 +20,7 @@ class TreasuryController extends Controller
                 $query = $this->getUnionQuery($startDate, $endDate);
 
                 return DataTables::of($query)
-                    ->addColumn('total', function ($row) {
+                    ->addColumn('total_value', function ($row) {
                         return $row->total_orders - ($row->value + $row->amount + $row->solar + $row->shipment_value);
                     })
                     ->make(true);
@@ -82,6 +82,7 @@ class TreasuryController extends Controller
                     'total_orders',
                     DB::raw('0 as value'),
                     DB::raw('0 as amount'),
+                    DB::raw('0 as total'),
                     'solar',
                     DB::raw('0 as shipment_value'),
                     DB::raw('DATE(date) as date'),
@@ -91,6 +92,18 @@ class TreasuryController extends Controller
                             DB::raw('0 as total_orders'),
                             'value',
                             DB::raw('0 as amount'),
+                            DB::raw('0 as total'),
+                            DB::raw('0 as solar'),
+                            DB::raw('0 as shipment_value'),
+                            DB::raw('DATE(date) as date'),
+                        ])
+                )
+                ->unionAll(DB::table('agent_payments')
+                        ->select([
+                            DB::raw('0 as total_orders'),
+                            DB::raw('0 as value'),
+                            DB::raw('0 as amount'),
+                            'total',
                             DB::raw('0 as solar'),
                             DB::raw('0 as shipment_value'),
                             DB::raw('DATE(date) as date'),
@@ -101,6 +114,7 @@ class TreasuryController extends Controller
                             DB::raw('0 as total_orders'),
                             DB::raw('0 as value'),
                             'amount',
+                            DB::raw('0 as total'),
                             DB::raw('0 as solar'),
                             DB::raw('0 as shipment_value'),
                             DB::raw('DATE(date) as date'),
@@ -111,6 +125,7 @@ class TreasuryController extends Controller
                             DB::raw('0 as total_orders'),
                             DB::raw('0 as value'),
                             DB::raw('0 as amount'),
+                            DB::raw('0 as total'),
                             DB::raw('0 as solar'),
                             'shipment_value',
                             DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"),
@@ -129,6 +144,7 @@ class TreasuryController extends Controller
                 DB::raw('SUM(total_orders) as total_orders'),
                 DB::raw('SUM(value) as value'),
                 DB::raw('SUM(amount) as amount'),
+                DB::raw('SUM(total) as total'),
                 DB::raw('SUM(solar) as solar'),
                 DB::raw('SUM(shipment_value) as shipment_value'),
                 'date',

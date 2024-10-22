@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Agent;
 
-use App\Http\Controllers\Controller;
-use App\Http\Traits\LogActivityTrait;
-use App\Http\Traits\Upload_Files;
 use App\Models\Delivery;
 use Illuminate\Http\Request;
+use App\Http\Traits\Upload_Files;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\DataTables;
+use App\Http\Controllers\Controller;
+use App\Http\Traits\LogActivityTrait;
+use Yajra\DataTables\Facades\DataTables;
 
-class DeliveryController extends Controller
+class AgentController extends Controller
 {
     use Upload_Files, LogActivityTrait;
 
@@ -21,12 +21,11 @@ class DeliveryController extends Controller
         $this->middleware('permission:إنشاء بيانات المناديب')->only(['create', 'store']);
         $this->middleware('permission:حذف بيانات المناديب')->only('destroy');
     }
-
     public function index(Request $request)
     {
 
         if ($request->ajax()) {
-            $rows = Delivery::query()->latest();
+            $rows = Delivery::query()->where('type', 'agent')->latest();
             return DataTables::of($rows)
                 ->addColumn('action', function ($row) {
 
@@ -90,16 +89,16 @@ class DeliveryController extends Controller
                 ->make(true);
 
         } else {
-            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  المناديب");
+            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الوكلاء");
 
         }
-        return view('Admin.CRUDS.delivers.index');
+        return view('Admin.CRUDS.agents.index');
     }
 
     public function create()
     {
 
-        return view('Admin.CRUDS.delivers.parts.create');
+        return view('Admin.CRUDS.agents.parts.create');
     }
 
     public function store(Request $request)
@@ -126,9 +125,9 @@ class DeliveryController extends Controller
             $data["image"] = $this->uploadFiles('delivers', $request->file('image'), null);
         }
 
-        $delivery = Delivery::create($data);
+        $delivery = Delivery::create($data + ['type' => 'agent']);
 
-        $this->add_log_activity($delivery, auth('admin')->user(), " تم اضافة مندوب  باسم $delivery->name ");
+        $this->add_log_activity($delivery, auth('admin')->user(), " تم اضافة الوكيل  باسم $delivery->name ");
 
         return response()->json(
             [
@@ -141,7 +140,7 @@ class DeliveryController extends Controller
     {
         $row = Delivery::findOrFail($id);
 
-        return view('Admin.CRUDS.delivers.parts.edit', compact('row'));
+        return view('Admin.CRUDS.agents.parts.edit', compact('row'));
     }
 
     public function update(Request $request, $id)
@@ -176,7 +175,7 @@ class DeliveryController extends Controller
 
         $row->update($data);
 
-        $this->add_log_activity($old, auth('admin')->user(), " تم تعديل مندوب  باسم $row->name ");
+        $this->add_log_activity($old, auth('admin')->user(), " تم تعديل الوكيل  باسم $row->name ");
 
         return response()->json(
             [
@@ -193,7 +192,7 @@ class DeliveryController extends Controller
 
         $row->delete();
 
-        $this->add_log_activity($old, auth('admin')->user(), " تم حذف مندوب  باسم $old->name ");
+        $this->add_log_activity($old, auth('admin')->user(), " تم حذف الوكيل  باسم $old->name ");
 
         return response()->json(
             [
@@ -202,7 +201,7 @@ class DeliveryController extends Controller
             ]);
     } //end fun
 
-    public function getDeliveries(Request $request)
+    public function getAgents(Request $request)
     {
 
         if ($request->ajax()) {
@@ -210,6 +209,7 @@ class DeliveryController extends Controller
             $term = trim($request->term);
             $posts = DB::table('deliveries')->select('id', 'name as text')
                 ->where('name', 'LIKE', '%' . $term . '%')
+                ->where('type', 'agent')
                 ->orderBy('name', 'asc')->simplePaginate(3);
 
             $morePages = true;
