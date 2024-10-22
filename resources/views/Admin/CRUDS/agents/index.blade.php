@@ -11,7 +11,7 @@
 
             @can('إنشاء بيانات المناديب')
                 <div>
-                    <button id="addBtn" class="btn btn-primary">اضافة مندوب</button>
+                    <button id="addBtn" class="btn btn-primary">اضافة وكيل</button>
                 </div>
             @endcan
 
