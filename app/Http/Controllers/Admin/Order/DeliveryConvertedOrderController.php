@@ -281,7 +281,7 @@ class DeliveryConvertedOrderController extends Controller
         $history2['publisher'] = auth()->id();
         $history2['date'] = strtotime(date('Y-m-d'));
         $history2['time'] = date('h:i a');
-        $history2['before_edit'] = $order->delivery_id . '->' . !empty($before_edit) ? $before_edit->name : '';
+        $history2['before_edit'] = $order->delivery_id . '->' . !empty($before_edit) ? $before_edit->name ?? '' : '';
         $history2['after_edit'] = $request->delivery_id . '->' . !empty($after_edit) ? $after_edit->name : '';
         $history2['notes'] = "تغيير في المندوب";
         if ($order->delivery_id != $request->delivery_id) {

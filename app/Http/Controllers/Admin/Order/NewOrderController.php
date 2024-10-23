@@ -256,6 +256,7 @@ class NewOrderController extends Controller
             'customer_phone' => 'required',
             'delivery_ratio' => 'nullable',
             'delivery_value' => 'required',
+            'province_id' => 'required',
             'shipment_pieces_number' => 'nullable',
             'shipment_value' => 'required',
             'notes' => 'nullable',

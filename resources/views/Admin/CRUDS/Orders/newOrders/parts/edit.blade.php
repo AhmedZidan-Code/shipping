@@ -60,7 +60,7 @@
                                     <span class="required mr-1"> المدن</span>
                                 </label>
                                 <select id='province_id' onchange="get_delivery_value(1)" class="province_id1"
-                                    name="province_id[]" style='width: 200px;'>
+                                    name="province_id" style='width: 200px;'>
                                     <option selected value="{{ $order->province->id ?? null }}">
                                         {{ $order->province->title ?? '' }}</option>
                                 </select>
