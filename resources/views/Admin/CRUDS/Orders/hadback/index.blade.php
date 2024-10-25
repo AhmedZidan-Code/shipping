@@ -136,14 +136,15 @@
                 </tfoot>
 
             </table>
-            <div class="row">
-                <div class="col-md-3 ">
-                    <label for="number" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                        <span class="required mr-1"> المبلغ </span>
-                    </label>
-                    <input type="number" name="total" id="total_value" class="showBonds form-control" disabled>
-                </div>
-                {{-- <div class="col-md-2 ">
+            @if (request('trader_id'))
+                <div class="row">
+                    <div class="col-md-3 ">
+                        <label for="number" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                            <span class="required mr-1"> المبلغ </span>
+                        </label>
+                        <input type="number" name="total" id="total_value" class="showBonds form-control" disabled>
+                    </div>
+                    {{-- <div class="col-md-2 ">
                     <label for="cash" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                         <span class="required mr-1"> نقدي </span>
                     </label>
@@ -155,26 +156,27 @@
                     </label>
                     <input type="number" id="cheque" name="cheque" class="showBonds form-control">
                 </div> --}}
-                <div class="col-md-3 ">
-                    <label for="date" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                        <span class="required mr-1"> التاريخ </span>
-                    </label>
-                    <input type="date" id="date" name="date" class="showBonds form-control">
-                </div>
-                <div class="col-md-3 ">
-                    <label for="notes" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                        <span class="required mr-1"> الملاحظات </span>
-                    </label>
-                    <textarea id="notes" name="notes" class="showBonds form-control"></textarea>
-                </div>
-                <div class=" d-flex justify-content-center ">
+                    <div class="col-md-3 ">
+                        <label for="date" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                            <span class="required mr-1"> التاريخ </span>
+                        </label>
+                        <input type="date" id="date" name="date" class="showBonds form-control">
+                    </div>
+                    <div class="col-md-3 ">
+                        <label for="notes" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                            <span class="required mr-1"> الملاحظات </span>
+                        </label>
+                        <textarea id="notes" name="notes" class="showBonds form-control"></textarea>
+                    </div>
+                    <div class=" d-flex justify-content-center ">
 
-                    <button class="btn btn-success" onclick="change_status();" style="margin-right: 80%; width: 200px;">
-                        تم
-                        الدفع</button>
-                </div>
+                        <button class="btn btn-success" onclick="change_status();" style="margin-right: 80%; width: 200px;">
+                            تم
+                            الدفع</button>
+                    </div>
 
-            </div>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
@@ -246,9 +248,7 @@
             },
         ];
     </script>
-    @if (request('trader_id'))
-        @include('Admin.layouts.inc.ajax', ['url' => 'hadback'])
-    @endif
+    @include('Admin.layouts.inc.ajax', ['url' => 'hadback'])
     <script>
         $(document).ready(function() {
             let totalValue = 0;
