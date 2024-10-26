@@ -66,7 +66,7 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation, Skips
                 'shipment_pieces_number' => $row[$this->mapData('shipment_pieces_number')],
                 'shipment_value' => $row[$this->mapData('shipment_value')],
                 'trader_collection' => $row[$this->mapData('shipment_value')],
-                'total' => $row[$this->mapData('delivery_value')] + $row[$this->mapData('shipment_value')],
+                'total_value' => $row[$this->mapData('delivery_value')] + $row[$this->mapData('shipment_value')],
                 'notes' => $row[$this->mapData('notes')] ?? '',
             ]);
         }
