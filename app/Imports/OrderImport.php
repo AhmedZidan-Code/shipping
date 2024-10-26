@@ -51,7 +51,7 @@ class OrderImport implements ToCollection, WithHeadingRow, WithValidation, Skips
      */
     public function collection(Collection $rows)
     {
-        if ($rows->count() == 0) {
+        if (empty($rows) && $rows->count() == 0) {
             throw new \Exception("The file must contain at least 1 row.");
         }
         foreach ($rows as $row) {

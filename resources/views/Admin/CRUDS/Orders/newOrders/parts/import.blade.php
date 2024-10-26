@@ -51,8 +51,7 @@
 
                                 <div class="d-flex flex-column mb-7 fv-row col-sm-3">
                                     <!--begin::Label-->
-                                    <label for="delivery_id"
-                                        class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                    <label for="delivery_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                                         <span class="required mr-1"> المندوب</span>
                                     </label>
                                     <select id='delivery_excel' name="delivery_id" style='width: 200px;'>
@@ -145,7 +144,9 @@
 
                         }
                     }, 1000);
-
+                    $('#submit-excel').html('{{ trans('admin.submit') }}').attr(
+                        'disabled',
+                        false);
 
                 },
                 error: function(data) {
@@ -163,9 +164,9 @@
                         console.log(errors);
 
                         $.each(errors, function(key, value) {
-                                $.each(value, function(key, value) {
-                                    toastr.error(value)
-                                });
+                            $.each(value, function(key, value) {
+                                toastr.error(value)
+                            });
                         });
                     }
                     if (data.status == 421) {
