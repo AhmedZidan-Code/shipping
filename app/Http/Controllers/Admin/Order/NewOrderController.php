@@ -539,7 +539,7 @@ class NewOrderController extends Controller
             $data['status'] = 'converted_to_delivery';
             $data['converted_date'] = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
             $data['converted_date_s'] = strtotime($data['converted_date']);
-            $data['delivery_id'] = $row->delivery_id;
+            $data['delivery_id'] = $validation['delivery_id'];
 
 //=====================
 
