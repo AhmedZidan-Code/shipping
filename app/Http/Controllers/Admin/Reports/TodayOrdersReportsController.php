@@ -31,36 +31,20 @@ class TodayOrdersReportsController extends Controller
 
                 $q->where('status', 'converted_to_delivery');
 
-                if ($request->fromDate) {
-                    $q->where('created_at', '<=', $request->fromDate . ' ' . '00:00:00');
-
-                }
-                if ($request->toDate) {
-                    $q->where('created_at', '>=', $request->toDate . ' ' . '23:59:59');
-
-                }
-
-                if (!$request->toDate && !$request->fromDate) {
-                    $q->where('created_at', '>=', $start)->where('created_at', '<=', $end);
-                }
-
-            })->withCount(['orders as filtered_orders_count' => function ($query) use ($request, $start, $end) {
+            })->withCount(['orders as total_orders_count' => function ($query) use ($request, $start, $end) {
                 $query->where('status', 'converted_to_delivery');
-
                 if ($request->fromDate) {
-                    $query->whereDate('created_at', '>=', $request->fromDate);
+                    $query->whereDate('created_at', '<=', $request->fromDate);
                 }
 
                 if ($request->toDate) {
-                    $query->whereDate('created_at', '<=', $request->toDate);
+                    $query->whereDate('created_at', '>=', $request->toDate);
                 }
 
                 if (!$request->toDate && !$request->fromDate) {
                     $query->whereBetween('created_at', [$start, $end]);
                 }
-            }])
-                ->withCount('orders as total_orders_count');
-
+            }]);
             if ($request->delivery_id) {
                 $rows->where('id', $request->delivery_id) /*->whereDate(DB::raw('DATE(converted_date)'), today())*/;
             }
@@ -70,8 +54,8 @@ class TodayOrdersReportsController extends Controller
                 ->editColumn('name', function ($row) {
                     return $row->name ?? '';
                 })
-                ->addColumn('orderDetails', function ($row) {
-                    $url = route('todayOrdersReports.details', ['delivery_id' => $row->id]);
+                ->addColumn('orderDetails', function ($row) use ($request) {
+                    $url = route('todayOrdersReports.details', ['delivery_id' => $row->id, 'fromDate' => $request->fromDate ?? date('Y-m-d'), 'toDate' => $request->toDate ?? date('Y-m-d')]);
                     return "<a href='$url' class='btn btn-outline-dark'> التفاصيل</a>";
                 })
 
@@ -99,17 +83,17 @@ class TodayOrdersReportsController extends Controller
             $start = date('Y-m-d') . ' ' . '00:00:00';
             $end = date('Y-m-d') . ' ' . '23:59:59';
 
-            $rows = Order::query()->latest()->with(['province', 'trader', 'delivery']);
+            $rows = Order::query()->where('status', 'converted_to_delivery')->latest()->with(['province', 'trader', 'delivery']);
             if ($request->delivery_id) {
                 $rows->where('delivery_id', $request->delivery_id);
             }
             if ($request->fromDate) {
                 $rows->where('created_at', '<=', $request->fromDate . ' ' . '00:00:00');
-
+                
             }
             if ($request->toDate) {
                 $rows->where('created_at', '>=', $request->toDate . ' ' . '23:59:59');
-
+                
             }
 
             if (!$request->toDate && !$request->fromDate) {

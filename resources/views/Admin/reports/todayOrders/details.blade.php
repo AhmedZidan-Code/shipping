@@ -13,21 +13,16 @@
                     <span class="required mr-1"> تاريخ البداية </span>
 
                 </label>
-                <input type="date" id="fromDate"
-                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}"
-                       @endisset
-                    name="fromDate" class="showBonds form-control">
-
+                <input type="date" id="fromDate" value="{{ request('fromDate') }}" name="fromDate"
+                    class="showBonds form-control">
             </div>
             <div class="col-md-4">
                 <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> تاريخ النهاية </span>
 
                 </label>
-                <input type="date" id="toDate"
-                    @isset($request['toDate']) value="{{ $request['toDate'] }}"
-                       @endisset
-                    name="toDate" class="showBonds form-control">
+                <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
+                    class="showBonds form-control">
             </div>
             <input type="hidden" value="{{ request('delivery_id') }}" name="delivery_id" id="delivery_id">
             {{-- <div class="col-md-4">
@@ -150,7 +145,7 @@
         ];
         var newUrl = "{{ route('todayOrdersReports.details') }}";
         let fromDate = $('#fromDate').val();
-        let endDate = $('#endDate').val();
+        let toDate = $('#toDate').val();
         let delivery_id = "{{ request('delivery_id') }}";
         $(document).ready(function() {
 
@@ -165,7 +160,7 @@
                     url: newUrl,
                     data: {
                         fromDate: fromDate,
-                        endDate: endDate,
+                        toDate: toDate,
                         delivery_id: delivery_id
                     }
                 },
