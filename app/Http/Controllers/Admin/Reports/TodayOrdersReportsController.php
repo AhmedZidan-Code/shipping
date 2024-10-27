@@ -44,7 +44,22 @@ class TodayOrdersReportsController extends Controller
                     $q->where('created_at', '>=', $start)->where('created_at', '<=', $end);
                 }
 
-            })->withCount('orders');
+            })->withCount(['orders as filtered_orders_count' => function ($query) use ($request, $start, $end) {
+                $query->where('status', 'converted_to_delivery');
+
+                if ($request->fromDate) {
+                    $query->whereDate('created_at', '>=', $request->fromDate);
+                }
+
+                if ($request->toDate) {
+                    $query->whereDate('created_at', '<=', $request->toDate);
+                }
+
+                if (!$request->toDate && !$request->fromDate) {
+                    $query->whereBetween('created_at', [$start, $end]);
+                }
+            }])
+                ->withCount('orders as total_orders_count');
 
             if ($request->delivery_id) {
                 $rows->where('id', $request->delivery_id) /*->whereDate(DB::raw('DATE(converted_date)'), today())*/;
