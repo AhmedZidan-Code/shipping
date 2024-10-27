@@ -10,4 +10,9 @@ class Delivery extends Authenticatable
 {
     use HasFactory;
     protected $guarded=[];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class,'delivery_id');
+    }
 }
