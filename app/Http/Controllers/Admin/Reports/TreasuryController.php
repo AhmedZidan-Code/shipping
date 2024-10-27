@@ -50,6 +50,12 @@ class TreasuryController extends Controller
             })
             ->sum('amount');
 
+        $agentPayments = DB::table('agent_payments')
+            ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
+                return $query->whereBetween('date', [$fromDate, $toDate]);
+            })
+            ->sum('total');
+
         $solar = DB::table('delivery_orders')
             ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
                 return $query->whereBetween('date', [$fromDate, $toDate]);
@@ -69,6 +75,7 @@ class TreasuryController extends Controller
             'allOrdersValues' => $allOrdersValues,
             'expenses' => $expenses,
             'traderPayments' => $traderPayments,
+            'agentPayments' => $agentPayments,
             'solar' => $solar,
             'tahseel' => $tahseel,
         ]);

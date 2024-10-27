@@ -76,6 +76,7 @@
                             <td>{{ $allOrdersValues }}</td>
                             <td>{{ $expenses }}</td>
                             <td>{{ $traderPayments }}</td>
+                            <td>{{ $agentPayments }}</td>
                             <td>{{ $solar }}</td>
                             <td>{{ $tahseel }}</td>
                             <td>{{ $allOrdersValues - ($expenses + $traderPayments + $solar + $tahseel) }}</td>
