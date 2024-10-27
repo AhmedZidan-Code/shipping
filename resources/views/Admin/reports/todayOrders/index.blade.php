@@ -84,8 +84,8 @@
                 name: 'name'
             },
             {
-                data: 'orders_count',
-                name: 'orders_count'
+                data: 'total_orders_count',
+                name: 'total_orders_count'
             },
             {
                 data: 'orderDetails',
