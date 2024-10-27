@@ -32,8 +32,8 @@
                 </label>
                 <select id="type" class="form-control showBonds" name="type">
                     <option selected disabled>اختر</option>
-                    <option value="1" {{ request('type') == "1" ? 'selected' : '' }}>تفصيلي</option>
-                    <option value="2" {{ request('type') == "2" ? 'selected' : '' }}>إجمالي</option>
+                    <option value="1" {{ request('type') == '1' ? 'selected' : '' }}>تفصيلي</option>
+                    <option value="2" {{ request('type') == '2' ? 'selected' : '' }}>إجمالي</option>
                 </select>
 
 
@@ -146,7 +146,10 @@
 
             var newUrl = '{{ route('treasury.index') }}';
             var newUrl = location.href;
-            $(function() {
+            let fromDate = $('#fromDate').val();
+            let toDate = $('#toDate').val();
+            $(document).ready(function() {
+
                 $("#table").DataTable({
                     processing: true,
                     // pageLength: 50,
@@ -155,7 +158,13 @@
 
                     bLengthChange: true,
                     serverSide: true,
-                    ajax: newUrl,
+                    ajax: {
+                        url: newUrl,
+                        data: {
+                            fromDate: fromDate,
+                            toDate: toDate
+                        }
+                    },
                     columns: columns,
                     "order": [],
                     "language": <?php echo json_encode(datatable_lang()); ?>,
@@ -208,11 +217,12 @@
                     searching: true,
                     destroy: true,
                     info: false,
-
-
                 });
-
             });
+            $(document).ready(function() {
+                console.log('omar pero');
+
+            })
         </script>
     @endif
 @endsection

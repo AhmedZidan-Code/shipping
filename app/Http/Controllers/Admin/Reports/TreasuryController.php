@@ -19,16 +19,18 @@ class TreasuryController extends Controller
             if ($request->ajax()) {
                 $query = $this->getUnionQuery($startDate, $endDate);
 
+                if ($startDate && $endDate) {
+                    $query->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()]);
+                }
+
                 return DataTables::of($query)
                     ->addColumn('total_value', function ($row) {
-                        return $row->total_orders - ($row->value + $row->amount + $row->solar + $row->shipment_value);
+                        return $row->total_orders - ($row->value + $row->amount + $row->total + $row->solar + $row->shipment_value);
                     })
                     ->make(true);
             }
-
             return view('Admin.reports.treasury.index', ['type' => '1']);
         }
-
         $fromDate = request()->input('fromDate');
         $toDate = request()->input('toDate');
 
@@ -141,9 +143,6 @@ class TreasuryController extends Controller
                         ->where('paid_as_money', 0)
                 );
 
-            if ($startDate && $endDate) {
-                $query->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()]);
-            }
         }, 'union_subquery');
 
         return $subQuery
