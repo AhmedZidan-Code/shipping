@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin\Reports;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
+use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\Trader;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class TodayOrdersReportsController extends Controller
@@ -21,18 +21,84 @@ class TodayOrdersReportsController extends Controller
 
     public function index(Request $request)
     {
-
-        $traders = Trader::get();
-
         $shipment_pieces_number = 0;
 
         if ($request->ajax()) {
             $start = date('Y-m-d') . ' ' . '00:00:00';
             $end = date('Y-m-d') . ' ' . '23:59:59';
 
-            $rows = Order::query()->latest()->where('created_at', '>=', $start)->where('created_at', '<=', $end)->with(['province', 'trader', 'delivery']);
+            $rows = Delivery::query()->latest()->whereHas('orders', function ($q) use ($request, $start, $end) {
+
+                $q->where('status', 'converted_to_delivery');
+
+                if ($request->fromDate) {
+                    $q->where('created_at', '<=', $request->fromDate . ' ' . '00:00:00');
+
+                }
+                if ($request->toDate) {
+                    $q->where('created_at', '>=', $request->toDate . ' ' . '23:59:59');
+
+                }
+
+                if (!$request->toDate && !$request->fromDate) {
+                    $q->where('created_at', '>=', $start)->where('created_at', '<=', $end);
+                }
+
+            })->withCount('orders');
+
             if ($request->delivery_id) {
-                $rows->where('delivery_id', $request->delivery_id)->whereDate(DB::raw('DATE(converted_date)'), today());
+                $rows->where('id', $request->delivery_id) /*->whereDate(DB::raw('DATE(converted_date)'), today())*/;
+            }
+
+            $dataTable = DataTables::of($rows)
+
+                ->editColumn('name', function ($row) {
+                    return $row->name ?? '';
+                })
+                ->addColumn('orderDetails', function ($row) {
+                    $url = route('todayOrdersReports.details', ['delivery_id' => $row->id]);
+                    return "<a href='$url' class='btn btn-outline-dark'> التفاصيل</a>";
+                })
+
+                ->escapeColumns([])
+                ->make(true);
+
+            return $dataTable;
+
+        } else {
+            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  تقارير يومية الطلبات  ");
+
+        }
+        $delivieries = Delivery::whereHas('orders', function ($q) {$q->where('status', 'converted_to_delivery');})->get();
+
+        return view('Admin.reports.todayOrders.index', compact('request', 'delivieries'));
+
+    }
+
+    public function details(Request $request)
+    {
+        $traders = Trader::get();
+
+        $shipment_pieces_number = 0;
+        if ($request->ajax()) {
+            $start = date('Y-m-d') . ' ' . '00:00:00';
+            $end = date('Y-m-d') . ' ' . '23:59:59';
+
+            $rows = Order::query()->latest()->with(['province', 'trader', 'delivery']);
+            if ($request->delivery_id) {
+                $rows->where('delivery_id', $request->delivery_id);
+            }
+            if ($request->fromDate) {
+                $rows->where('created_at', '<=', $request->fromDate . ' ' . '00:00:00');
+
+            }
+            if ($request->toDate) {
+                $rows->where('created_at', '>=', $request->toDate . ' ' . '23:59:59');
+
+            }
+
+            if (!$request->toDate && !$request->fromDate) {
+                $rows->where('created_at', '>=', $start)->where('created_at', '<=', $end);
             }
 
             $dataTable = DataTables::of($rows)
@@ -90,9 +156,9 @@ class TodayOrdersReportsController extends Controller
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  تقارير يومية الطلبات  ");
 
         }
-        $delivieries = DB::table('deliveries')->get();
+        // $delivieries = Delivery::whereHas('orders', function ($q) {$q->where('status', 'converted_to_delivery');})->get();
 
-        return view('Admin.reports.todayOrders.index', compact('request', 'traders', 'shipment_pieces_number', 'delivieries'));
+        return view('Admin.reports.todayOrders.details', compact('request', 'traders', 'shipment_pieces_number'));
 
     }
 

@@ -103,6 +103,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('tradersReports', \App\Http\Controllers\Admin\Reports\TraderReportsController::class); //setting
 
     Route::resource('todayOrdersReports', \App\Http\Controllers\Admin\Reports\TodayOrdersReportsController::class); //setting
+    Route::get('todayOrdersReports-details', [\App\Http\Controllers\Admin\Reports\TodayOrdersReportsController::class, 'details'])->name('todayOrdersReports.details'); //setting
 
     Route::resource('delayedOrders', \App\Http\Controllers\Admin\Order\DelayOrderController::class); //setting
     Route::post('get_delivery_orders', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'get_delivery_orders'])->name('admin.get_delivery_orders');
