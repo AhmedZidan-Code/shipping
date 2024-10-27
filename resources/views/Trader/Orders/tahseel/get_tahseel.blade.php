@@ -54,7 +54,7 @@
     </div>
 @endsection
 @section('js')
-    < script src = "{{ URL::asset('assets_new/datatable/feather.min.js') }}">
+    <script src="{{ URL::asset('assets_new/datatable/feather.min.js') }}">
         </script>
         <script src="{{ URL::asset('assets_new/datatable/datatables.min.js') }}"></script>
         <script>
