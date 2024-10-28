@@ -62,6 +62,12 @@
                         <th>الطلبات</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">الاجمالي</td>
+                        <td colspan="2"  id="total"></td>
+                    </tr>
+                </tfoot>
 
             </table>
         </div>
