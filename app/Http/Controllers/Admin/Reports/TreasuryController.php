@@ -19,13 +19,19 @@ class TreasuryController extends Controller
             if ($request->ajax()) {
                 $query = $this->getUnionQuery($startDate, $endDate);
 
-                if ($startDate && $endDate) {
-                    $query->whereBetween('date', [$startDate->toDateString(), $endDate->toDateString()]);
+                if ($startDate) {
+                    $query->where('date', '>=', $startDate->toDateString());
+                }
+                if ($endDate) {
+                    $query->where('date', '<=', $endDate->toDateString());
                 }
 
                 return DataTables::of($query)
                     ->addColumn('total_value', function ($row) {
                         return $row->total_orders - ($row->value + $row->amount + $row->total + $row->solar + $row->shipment_value);
+                    })
+                    ->editColumn('value', function ($row) {
+                        return $row->fees;
                     })
                     ->make(true);
             }
@@ -35,47 +41,74 @@ class TreasuryController extends Controller
         $toDate = request()->input('toDate');
 
         $allOrdersValues = DB::table('delivery_orders')
-            ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
-                return $query->whereBetween('date', [$fromDate, $toDate]);
+            ->when($fromDate, function ($query) use ($fromDate) {
+                return $query->whereDate('date_time', '>=', $fromDate);
+            })
+            ->when($toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date_time', '<=', $toDate);
             })
             ->sum('total_orders');
 
         $expenses = DB::table('expenses')
-            ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
-                return $query->whereBetween('date', [$fromDate, $toDate]);
+            ->when($fromDate, function ($query) use ($fromDate) {
+                return $query->whereDate('date', '>=', $fromDate);
+            })
+            ->when($toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date', '<=', $toDate);
             })
             ->sum('value');
 
         $traderPayments = DB::table('trader_payments')
-            ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
-                return $query->whereBetween('date', [$fromDate, $toDate]);
+            ->when($fromDate, function ($query) use ($fromDate) {
+                return $query->whereDate('date', '>=', $fromDate);
+            })
+            ->when($toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date', '<=', $toDate);
             })
             ->sum('amount');
 
         $agentPayments = DB::table('agent_payments')
-            ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
-                return $query->whereBetween('date', [$fromDate, $toDate]);
+            ->when($fromDate, function ($query) use ($fromDate) {
+                return $query->whereDate('date', '>=', $fromDate);
+            })
+            ->when($toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date', '<=', $toDate);
             })
             ->sum('total');
 
         $solar = DB::table('delivery_orders')
-            ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
-                return $query->whereBetween('date', [$fromDate, $toDate]);
+            ->when($fromDate, function ($query) use ($fromDate) {
+                return $query->whereDate('date_time', '>=', $fromDate);
+            })
+            ->when($toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date_time', '<=', $toDate);
             })
             ->sum('solar');
+            
+        $fees = DB::table('delivery_orders')
+            ->when($fromDate, function ($query) use ($fromDate) {
+                return $query->whereDate('date_time', '>=', $fromDate);
+            })
+            ->when($toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date_time', '<=', $toDate);
+            })
+            ->sum('fees');
 
         $tahseel = DB::table('orders')
             ->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'])
             ->where('paid_as_money', 0)
-            ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
-                return $query->whereBetween('created_at', [$fromDate, $toDate]);
+            ->when($fromDate, function ($query) use ($fromDate) {
+                return $query->whereDate('converted_date', '>=', $fromDate);
+            })
+            ->when($toDate, function ($query) use ($toDate) {
+                return $query->whereDate('converted_date', '<=', $toDate);
             })
             ->sum('shipment_value');
 
         return view('Admin.reports.treasury.index', [
             'type' => '2',
             'allOrdersValues' => $allOrdersValues,
-            'expenses' => $expenses,
+            'expenses' => $expenses + $fees,
             'traderPayments' => $traderPayments,
             'agentPayments' => $agentPayments,
             'solar' => $solar,
@@ -93,8 +126,9 @@ class TreasuryController extends Controller
                     DB::raw('0 as amount'),
                     DB::raw('0 as total'),
                     'solar',
+                    'fees',
                     DB::raw('0 as shipment_value'),
-                    DB::raw('DATE(date) as date'),
+                    DB::raw("DATE_FORMAT(date_time, '%Y-%m-%d') as date"),
                 ])
                 ->unionAll(DB::table('expenses')
                         ->select([
@@ -103,6 +137,7 @@ class TreasuryController extends Controller
                             DB::raw('0 as amount'),
                             DB::raw('0 as total'),
                             DB::raw('0 as solar'),
+                            DB::raw('0 as fees'),
                             DB::raw('0 as shipment_value'),
                             DB::raw('DATE(date) as date'),
                         ])
@@ -114,6 +149,7 @@ class TreasuryController extends Controller
                             DB::raw('0 as amount'),
                             'total',
                             DB::raw('0 as solar'),
+                            DB::raw('0 as fees'),
                             DB::raw('0 as shipment_value'),
                             DB::raw('DATE(date) as date'),
                         ])
@@ -125,6 +161,7 @@ class TreasuryController extends Controller
                             'amount',
                             DB::raw('0 as total'),
                             DB::raw('0 as solar'),
+                            DB::raw('0 as fees'),
                             DB::raw('0 as shipment_value'),
                             DB::raw('DATE(date) as date'),
                         ])
@@ -136,8 +173,9 @@ class TreasuryController extends Controller
                             DB::raw('0 as amount'),
                             DB::raw('0 as total'),
                             DB::raw('0 as solar'),
+                            DB::raw('0 as fees'),
                             'shipment_value',
-                            DB::raw("DATE_FORMAT(created_at, '%Y-%m-%d') as date"),
+                            DB::raw("DATE_FORMAT(converted_date, '%Y-%m-%d') as date"),
                         ])
                         ->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'])
                         ->where('paid_as_money', 0)
@@ -149,6 +187,7 @@ class TreasuryController extends Controller
             ->select([
                 DB::raw('SUM(total_orders) as total_orders'),
                 DB::raw('SUM(value) as value'),
+                DB::raw('SUM(fees) as fees'),
                 DB::raw('SUM(amount) as amount'),
                 DB::raw('SUM(total) as total'),
                 DB::raw('SUM(solar) as solar'),
