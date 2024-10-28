@@ -29,10 +29,10 @@ class TreasuryController extends Controller
 
                 return DataTables::of($query)
                     ->addColumn('total_value', function ($row) {
-                        return $this->total += $row->total_orders - ($row->value + $row->amount + $row->total + $row->solar + $row->shipment_value);
+                        return $this->total += $row->total_orders - ($row->value + $row->fees + $row->amount + $row->total + $row->solar + $row->shipment_value);
                     })
                     ->editColumn('value', function ($row) {
-                        return $row->fees;
+                        return $row->fees + $row->value;
                     })
                     ->make(true);
             }
@@ -85,7 +85,7 @@ class TreasuryController extends Controller
                 return $query->whereDate('date_time', '<=', $toDate);
             })
             ->sum('solar');
-            
+
         $fees = DB::table('delivery_orders')
             ->when($fromDate, function ($query) use ($fromDate) {
                 return $query->whereDate('date_time', '>=', $fromDate);
