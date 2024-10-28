@@ -63,6 +63,10 @@
 
                     $('#total_sum').html(settings.json.total_sum); // Update total sum
                 }
+                if (settings.json && settings.json.total) {
+
+                    $('#total').html(settings.json.total); // Update total sum
+                }
 
                 $('#ahmed').html(settings.json.total2);                
                 //do whatever  

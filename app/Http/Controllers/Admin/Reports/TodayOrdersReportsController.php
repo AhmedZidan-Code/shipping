@@ -13,7 +13,7 @@ use Yajra\DataTables\DataTables;
 class TodayOrdersReportsController extends Controller
 {
     use LogActivityTrait;
-
+    protected $total;
     public function __construct()
     {
         $this->middleware('permission:عرض يومية الطلبات')->only(['index']);
@@ -54,7 +54,11 @@ class TodayOrdersReportsController extends Controller
                     $url = route('todayOrdersReports.details', ['delivery_id' => $row->id, 'fromDate' => $request->fromDate, 'toDate' => $request->toDate]);
                     return "<a href='$url' class='btn btn-outline-dark'> التفاصيل</a>";
                 })
-
+                ->with([
+                    'total' => function () use ($rows) {
+                        return $rows->get()->sum('total_orders_count');
+                    },
+                ])
                 ->escapeColumns([])
                 ->make(true);
 
@@ -85,13 +89,13 @@ class TodayOrdersReportsController extends Controller
             }
             if ($request->fromDate) {
                 $rows->where('created_at', '<=', $request->fromDate . ' ' . '00:00:00');
-                
+
             }
             if ($request->toDate) {
                 $rows->where('created_at', '>=', $request->toDate . ' ' . '23:59:59');
-                
+
             }
-            
+
             $dataTable = DataTables::of($rows)
 
                 ->editColumn('province_id', function ($row) {
