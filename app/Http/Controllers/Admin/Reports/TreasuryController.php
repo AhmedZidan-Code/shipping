@@ -94,7 +94,6 @@ class TreasuryController extends Controller
                 return $query->whereDate('date_time', '<=', $toDate);
             })
             ->sum('fees');
-
         $tahseel = DB::table('orders')
             ->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'])
             ->where('paid_as_money', 0)
