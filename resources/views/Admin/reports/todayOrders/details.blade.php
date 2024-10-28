@@ -13,7 +13,7 @@
                     <span class="required mr-1"> تاريخ البداية </span>
 
                 </label>
-                <input type="date" id="fromDate" value="" name="fromDate"
+                <input type="date" id="fromDate" value="{{ request('fromDate') }}" name="fromDate"
                     class="showBonds form-control">
             </div>
             <div class="col-md-4">
@@ -21,7 +21,7 @@
                     <span class="required mr-1"> تاريخ النهاية </span>
 
                 </label>
-                <input type="date" id="toDate" value="" name="toDate"
+                <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
                     class="showBonds form-control">
             </div>
             <input type="hidden" value="{{ request('delivery_id') }}" name="delivery_id" id="delivery_id">
