@@ -51,7 +51,7 @@ class TodayOrdersReportsController extends Controller
                     return $row->name ?? '';
                 })
                 ->addColumn('orderDetails', function ($row) use ($request) {
-                    $url = route('todayOrdersReports.details', ['delivery_id' => $row->id, 'fromDate' => $request->fromDate ?? date('Y-m-d'), 'toDate' => $request->toDate ?? date('Y-m-d')]);
+                    $url = route('todayOrdersReports.details', ['delivery_id' => $row->id, 'fromDate' => $request->fromDate, 'toDate' => $request->toDate]);
                     return "<a href='$url' class='btn btn-outline-dark'> التفاصيل</a>";
                 })
 
