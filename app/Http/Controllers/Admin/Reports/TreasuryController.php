@@ -10,6 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TreasuryController extends Controller
 {
+    protected $total;
     public function index(Request $request)
     {
         if ($request->type && $request->type == '1') {
@@ -28,7 +29,7 @@ class TreasuryController extends Controller
 
                 return DataTables::of($query)
                     ->addColumn('total_value', function ($row) {
-                        return $row->total_orders - ($row->value + $row->amount + $row->total + $row->solar + $row->shipment_value);
+                        return $this->total += $row->total_orders - ($row->value + $row->amount + $row->total + $row->solar + $row->shipment_value);
                     })
                     ->editColumn('value', function ($row) {
                         return $row->fees;
