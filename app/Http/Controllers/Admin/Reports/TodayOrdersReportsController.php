@@ -40,10 +40,6 @@ class TodayOrdersReportsController extends Controller
                 if ($request->toDate) {
                     $query->whereDate('created_at', '>=', $request->toDate);
                 }
-
-                if (!$request->toDate && !$request->fromDate) {
-                    $query->whereBetween('created_at', [$start, $end]);
-                }
             }]);
             if ($request->delivery_id) {
                 $rows->where('id', $request->delivery_id) /*->whereDate(DB::raw('DATE(converted_date)'), today())*/;
@@ -95,11 +91,7 @@ class TodayOrdersReportsController extends Controller
                 $rows->where('created_at', '>=', $request->toDate . ' ' . '23:59:59');
                 
             }
-
-            if (!$request->toDate && !$request->fromDate) {
-                $rows->where('created_at', '>=', $start)->where('created_at', '<=', $end);
-            }
-
+            
             $dataTable = DataTables::of($rows)
 
                 ->editColumn('province_id', function ($row) {
