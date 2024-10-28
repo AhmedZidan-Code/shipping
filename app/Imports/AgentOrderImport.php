@@ -27,6 +27,7 @@ class AgentOrderImport implements ToCollection, WithHeadingRow, WithValidation, 
             $this->mapData('shipment_pieces_number') => 'nullable|integer',
             $this->mapData('shipment_value') => 'nullable|numeric',
             $this->mapData('notes') => 'nullable',
+            $this->mapData('total') => 'required|numeric',
         ];
     }
 /**
@@ -45,6 +46,7 @@ class AgentOrderImport implements ToCollection, WithHeadingRow, WithValidation, 
             $this->mapData('shipment_pieces_number') => 'عدد القطع داخل الشحن',
             $this->mapData('shipment_value') => 'قيمة الاوردر',
             $this->mapData('notes') => 'ملاحظات',
+            $this->mapData('total') => 'الاجمالي',
         ];
     }
     /**
@@ -68,6 +70,7 @@ class AgentOrderImport implements ToCollection, WithHeadingRow, WithValidation, 
                 'shipment_value' => $row[$this->mapData('shipment_value')],
                 'status' => $row[$this->mapData('status')],
                 'notes' => $row[$this->mapData('notes')] ?? '',
+                'total' => $row[$this->mapData('total')] ?? '',
             ]);
         }
     }

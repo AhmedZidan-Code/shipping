@@ -24,6 +24,7 @@ class AgentOrderFormExport implements WithHeadings, WithEvents, WithStrictNullCo
             'عدد القطع داخل الشحن',
             'قيمة الاوردر',
             'ملاحظات',
+            'الاجمالي',
         ];
 
     }
