@@ -226,8 +226,10 @@
                         <ul class="sub-menu" aria-expanded="false">
                             <li><a href="{{ route('agents.index') }}"><i class="mdi mdi-album"></i>
                                     <span> الوكلاء</span></a></li>
+                            <li><a href="{{ route('agent-price.index') }}"><i class="mdi mdi-album"></i>
+                                    <span> أسعار شحن الوكلاء</span></a></li>
                             <li><a href="{{ route('agent.import.excel') }}"><i class="mdi mdi-album"></i>
-                                    <span>رفع طلبات الوكلاء اكسيل</span></a></li>
+                                    <span>مقارنة الوكلاء</span></a></li>
                             <li><a href="{{ route('agent-payments.index') }}"><i class="mdi mdi-album"></i>
                                     <span>تسديدات الوكلاء</span></a></li>
                         </ul>

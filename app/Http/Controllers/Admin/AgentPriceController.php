@@ -2,46 +2,45 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Traits\LogActivityTrait;
-use App\Models\Price;
 use App\Models\Area;
 use App\Models\Trader;
+use App\Models\AgentPrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\DataTables;
+use App\Http\Controllers\Controller;
+use App\Http\Traits\LogActivityTrait;
+use Yajra\DataTables\Facades\DataTables;
 
-class PriceController extends Controller
+class AgentPriceController extends Controller
 {
     use LogActivityTrait;
 
     public function __construct()
     {
-        $this->middleware('permission:عرض أسعار الشحن')->only(['index']);
-        $this->middleware('permission:تعديل أسعار الشحن')->only(['edit', 'update']);
-        $this->middleware('permission:إنشاء أسعار الشحن')->only(['create', 'store']);
-        $this->middleware('permission:حذف أسعار الشحن')->only('destroy');
+        $this->middleware('permission:عرض أسعار شحن الوكلاء')->only(['index']);
+        $this->middleware('permission:تعديل أسعار شحن الوكلاء')->only(['edit', 'update']);
+        $this->middleware('permission:إنشاء أسعار شحن الوكلاء')->only(['create', 'store']);
+        $this->middleware('permission:حذف أسعار شحن الوكلاء')->only('destroy');
     }
-
 
     public function index(Request $request)
     {
-         
-        
+
         if ($request->ajax()) {
-            $rows = Price::query()->with(['trader', 'govern'])->latest();
-             return DataTables::of($rows)
+            $rows = AgentPrice::query()->with(['trader', 'govern'])->latest();
+            return DataTables::of($rows)
                 ->addColumn('action', function ($row) {
 
                     $edit = '';
                     $delete = '';
 
-
-                    if (!auth()->user()->can('تعديل أسعار الشحن'))
+                    if (!auth()->user()->can('تعديل أسعار شحن الوكلاء')) {
                         $edit = 'hidden';
-                    if (!auth()->user()->can('حذف أسعار الشحن'))
-                        $delete = 'hidden';
+                    }
 
+                    if (!auth()->user()->can('حذف أسعار شحن الوكلاء')) {
+                        $delete = 'hidden';
+                    }
 
                     return '
                             <button ' . $edit . '  class="editBtn btn rounded-pill btn-primary waves-effect waves-light"
@@ -62,13 +61,12 @@ class PriceController extends Controller
                             </button>
                        ';
 
-
                 })
                 ->editColumn('trader', function ($row) {
                     return $row->trader->name ?? '';
                 })
-                
-                  ->editColumn('govern', function ($row) {
+
+                ->editColumn('govern', function ($row) {
                     return $row->govern->title ?? '';
                 })
                 ->editColumn('value', function ($row) {
@@ -77,21 +75,19 @@ class PriceController extends Controller
                 ->escapeColumns([])
                 ->make(true);
 
-
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  المحافظات");
 
         }
-        return view('Admin.CRUDS.prices.index');
+        return view('Admin.CRUDS.agent_prices.index');
     }
-
 
     public function create()
     {
-        $countries = Area::where('from_id','=',null)->get();
+        $countries = Area::where('from_id', '=', null)->get();
         $traders = Trader::get();
 
-        return view('Admin.CRUDS.prices.parts.create', compact('countries','traders'));
+        return view('Admin.CRUDS.agent_prices.parts.create', compact('countries', 'traders'));
     }
 
     public function store(Request $request)
@@ -100,65 +96,21 @@ class PriceController extends Controller
             'trader_id' => 'required|exists:traders,id',
             'govern_id' => 'required|exists:areas,id|array',
             'value' => 'required|array',
-            'value.*' => 'required'
+            'value.*' => 'required',
 
         ]);
+        $count = count($request->govern_id);
 
-         $count = count($request->govern_id);
-         for($x=0 ; $x < $count ; $x++)
-         {
-            if($request->value [$x] > 0){
-            $price['trader_id'] =  $request->trader_id ;
-            $price['govern_id'] =  $request->govern_id [$x] ;
-            $price['value'] =  $request->value [$x] ;
-            $row=Price::create($price);
-         $this->add_log_activity($row, auth('admin')->user(), " تمت اضافه سعر توصيل جديد ");
-         }
-         }
+        for ($x = 0; $x < $count; $x++) {
+            if ($request->value[$x] > 0) {
+                $price['trader_id'] = $request->trader_id;
+                $price['govern_id'] = $request->govern_id[$x];
+                $price['value'] = $request->value[$x];
+                $row = AgentPrice::create($price);
+                $this->add_log_activity($row, auth('admin')->user(), " تمت اضافه سعر توصيل جديد ");
+            }
+        }
         //$row = Price::create($data);
-
-       
-
-
-        return response()->json(
-            [
-                'code' => 200,
-                'message' => 'تمت العملية بنجاح!'
-            ]);
-    }
-
-
-    public function edit($id)
-    {
-
-        $row = Price::findOrFail($id);
-
-         $countries = Area::where('from_id','=',null)->get();
-          $traders = Trader::get();
-
-
-        return view('Admin.CRUDS.prices.parts.edit', compact('row', 'countries','traders'));
-
-    }
-
-    public function update(Request $request, $id)
-    {
-        $data = $request->validate([
-            'trader_id' => 'required|exists:traders,id',
-            'govern_id' => 'required|exists:areas,id',
-            'value'=>'required'
-
-        ]);
-
-        $row = Price::findOrFail($id);
-
-        $old = $row;
-
-        $row->update($data);
-
-         $this->add_log_activity($row, auth('admin')->user(), " تم تعديل سعر جديد ");
-
-
 
         return response()->json(
             [
@@ -167,25 +119,58 @@ class PriceController extends Controller
             ]);
     }
 
+    public function edit($id)
+    {
+
+        $row = AgentPrice::findOrFail($id);
+
+        $countries = Area::where('from_id', '=', null)->get();
+        $traders = Trader::get();
+
+        return view('Admin.CRUDS.agent_prices.parts.edit', compact('row', 'countries', 'traders'));
+
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'trader_id' => 'required|exists:traders,id',
+            'govern_id' => 'required|exists:areas,id',
+            'value' => 'required',
+
+        ]);
+
+        $row = AgentPrice::findOrFail($id);
+
+        $old = $row;
+
+        $row->update($data);
+
+        $this->add_log_activity($row, auth('admin')->user(), " تم تعديل سعر جديد ");
+
+        return response()->json(
+            [
+                'code' => 200,
+                'message' => 'تمت العملية بنجاح!',
+            ]);
+    }
 
     public function destroy($id)
     {
 
-        $row = Price::findOrFail($id);
+        $row = AgentPrice::findOrFail($id);
 
         $old = $row;
 
         $row->delete();
         $this->add_log_activity($old, auth('admin')->user(), "تم حذف سعر توصيل جديد");
 
-
         return response()->json(
             [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح!'
+                'message' => 'تمت العملية بنجاح!',
             ]);
-    }//end fun
-
+    } //end fun
 
     public function getGovernorates(Request $request)
     {
@@ -205,14 +190,13 @@ class PriceController extends Controller
             $results = array(
                 "results" => $posts->items(),
                 "pagination" => array(
-                    "more" => $morePages
-                )
+                    "more" => $morePages,
+                ),
             );
 
             return \Response::json($results);
 
         }
-
 
     }
 }

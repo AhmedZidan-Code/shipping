@@ -37,18 +37,6 @@
 
                         <div class="card-body">
                             <div class="row  g-4">
-
-                                <div class="d-flex flex-column mb-7 fv-row col-sm-3">
-                                    <!--begin::Label-->
-                                    <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                                        <span class="required mr-1"> التاجر</span>
-                                    </label>
-                                    <select id='trader_excel' name="trader_id" onchange="get_delivery_value(1)"
-                                        class="formv1 trader_id1" style='width: 200px;'>
-
-                                    </select>
-                                </div>
-
                                 <div class="d-flex flex-column mb-7 fv-row col-sm-3">
                                     <!--begin::Label-->
                                     <label for="agent_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
@@ -76,13 +64,16 @@
 
 
                             </div>
+                            <div id="tables-data">
+
+                            </div>
                         </div>
                     </div>
 
                 </div>
 
                 <div class="my-4">
-                    <button type="submit" id="submit-excel" class="btn btn-success"> حفظ</button>
+                    <button type="submit" id="submit-excel" class="btn btn-success"> سحب البيانات</button>
                 </div>
             </form>
 
@@ -109,6 +100,7 @@
     <script>
         $(document).on('submit', "form#form-excel", function(e) {
             e.preventDefault();
+            $("#tables-data").empty();
 
             var formData = new FormData(this);
 
@@ -129,6 +121,7 @@
                 complete: function() {},
                 success: function(data) {
 
+                    $("#tables-data").append(data.view);
 
                     window.setTimeout(function() {
 
@@ -140,16 +133,15 @@
                         } else {
                             toastr.error(data.message)
                         }
-                        $('#submit-excel').html('{{ trans('admin.submit') }}').attr(
-                            'disabled',
-                            false);
                     }, 1000);
-
+                    $('#submit-excel').html(' سحب البيانات' ).attr(
+                        'disabled',
+                        false);
 
                 },
                 error: function(data) {
 
-                    $('#submit-excel').html('{{ trans('admin.submit') }}').attr('disabled', false);
+                    $('#submit-excel').html('سحب البيانات').attr('disabled', false);
 
                     if (data.status === 500) {
                         toastr.error('there is an error')
@@ -236,29 +228,6 @@
         })();
     </script>
 
-
-    <script>
-        (function() {
-
-            $("#trader_excel").select2({
-                placeholder: 'Channel...',
-                // width: '350px',
-                allowClear: true,
-                ajax: {
-                    url: '{{ route('admin.getTraders') }}',
-                    dataType: 'json',
-                    delay: 250,
-                    data: function(params) {
-                        return {
-                            term: params.term || '',
-                            page: params.page || 1
-                        }
-                    },
-                    cache: true
-                }
-            });
-        })();
-    </script>
 
 
     <script>

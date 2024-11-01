@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Agent\AgentOrderController;
 use App\Http\Controllers\Admin\Agent\AgentPaymentController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\OpeningBalanceController;
 use App\Http\Controllers\Admin\Reports\TraderAccountController;
 use App\Http\Controllers\Admin\Reports\TreasuryController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     Route::resource('admins', \App\Http\Controllers\Admin\AdminController::class);
     Route::resource('price', \App\Http\Controllers\Admin\PriceController::class);
+    Route::resource('agent-price', \App\Http\Controllers\Admin\AgentPriceController::class);
     Route::get('activateAdmin', [App\Http\Controllers\Admin\AdminController::class, 'activate'])->name('admin.active.admin');
 
     ### roles
@@ -134,7 +136,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('agents/import-form', [AgentOrderController::class, 'exportExcel'])->name('agent.import.excel'); //setting
     Route::get('agents/excel-orders-form', [AgentOrderController::class, 'exportForm'])->name('agent.orders.export'); //setting
     Route::post('agent/sorders-excel', [AgentOrderController::class, 'importOrders'])->name('agent.orders.import'); //setting
+    Route::post('orders-total-value/update', [AgentOrderController::class, 'updateOrders'])->name('agent.orders-update-value'); //setting
     Route::resource('agent-payments', AgentPaymentController::class);
+    Route::resource('opening-balance', OpeningBalanceController::class);
 
 });
 //

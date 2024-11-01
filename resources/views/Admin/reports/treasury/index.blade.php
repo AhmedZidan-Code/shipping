@@ -13,7 +13,7 @@
                     <span class="required mr-1"> من تاريخ </span>
 
                 </label>
-                <input type="date" id="fromDate" value="{{ request('fromDate') }}" name="fromDate"
+                <input type="date" id="fromDate" value="{{ request('fromDate') ?? date('Y-m-d') }}" name="fromDate"
                     class="showBonds form-control">
 
             </div>
@@ -22,7 +22,7 @@
                     <span class="required mr-1"> إلي تاريخ </span>
 
                 </label>
-                <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
+                <input type="date" id="toDate" value="{{ request('toDate') ?? date('Y-m-d') }}" name="toDate"
                     class="showBonds form-control">
             </div>
 
@@ -65,7 +65,7 @@
                         <th> تسديدات التجار</th>
                         <th> تسديدات الوكلاء</th>
                         <th>بدل البنزين</th>
-                        <th>قيد التحصيل</th>
+                        {{-- <th>قيد التحصيل</th> --}}
                         <th>المتبقي</th>
                     </tr>
                 </thead>
@@ -78,8 +78,8 @@
                             <td>{{ $traderPayments }}</td>
                             <td>{{ $agentPayments }}</td>
                             <td>{{ $solar }}</td>
-                            <td>{{ $tahseel }}</td>
-                            <td>{{ $allOrdersValues - ($expenses + $traderPayments + $agentPayments + $solar + $tahseel) }}
+                            {{-- <td>{{ $tahseel }}</td> --}}
+                            <td>{{ $allOrdersValues - ($expenses + $traderPayments + $agentPayments + $solar) /*+ $tahseel*/ }}
                             </td>
                         </tr>
                     </tbody>
@@ -135,10 +135,10 @@
                     data: 'solar',
                     name: 'solar'
                 },
-                {
-                    data: 'shipment_value',
-                    name: 'shipment_value'
-                },
+                // {
+                //     data: 'shipment_value',
+                //     name: 'shipment_value'
+                // },
                 {
                     data: 'total_value',
                     name: 'total_value'

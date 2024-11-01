@@ -88,6 +88,7 @@ class AgentOrderImport implements ToCollection, WithHeadingRow, WithValidation, 
             'shipment_pieces_number' => "aadd_alktaa_dakhl_alshhn",
             'shipment_value' => "kym_alaordr",
             'notes' => "mlahthat",
+            'total' => "alagmaly",
         ];
         return $data[$key];
     }
