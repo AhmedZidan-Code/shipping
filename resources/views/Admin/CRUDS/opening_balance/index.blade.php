@@ -1,17 +1,17 @@
 @extends('Admin.layouts.inc.app')
 @section('title')
-     التجار
+     الصيد الافتتاحي للخزنة
 @endsection
 @section('css')
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1">  التجار</h5>
+            <h5 class="card-title mb-0 flex-grow-1">  الرصيد الافتتاحي للخزنة</h5>
 
-            @can('إنشاء بيانات التجار')
+               @can('إنشاء الرصيد الافتتاحي')
                 <div>
-                    <button id="addBtn" class="btn btn-primary">اضافة تاجر</button>
+                    <button id="addBtn" class="btn btn-primary">اضافة الرصيد الافتتاحي للخزنة</button>
                 </div>
             @endcan
 
@@ -22,17 +22,8 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>الصورة</th>
-                    <th>الاسم</th>
-                    <th>الهاتف </th>
-                    <th>المديونية </th>
-                    <th>اسم المحاسب المختص </th>
-                    <th>رقم المحاسب المختص</th>
-                    <th>اسم المستخدم</th>
-                    <th>الفاكس</th>
-                    <th>القسم</th>
-                    <th>اضافة طلب</th>
-                    <th> تاريخ الانشاء</th>
+                    <th>قيمة الرصيد</th>
+                    <th>  التاريخ</th>
                     <th>العمليات</th>
                 </tr>
                 </thead>
@@ -48,7 +39,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2><span id="operationType"></span> تاجر </h2>
+                    <h2><span id="operationType"></span> اعدادات </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal" aria-label="Close">
@@ -83,21 +74,12 @@
     <script>
         var columns = [
             {data: 'id', name: 'id'},
-            {data: 'logo', name: 'logo'},
-            {data: 'name', name: 'name'},
-            {data: 'phone', name: 'phone'},
-            {data: 'debt', name: 'debt'},
-            {data: 'competent_name', name: 'competent_name'},
-            {data: 'competent_phone', name: 'competent_phone'},
-            {data: 'user_name', name: 'user_name'},
-            {data: 'fax', name: 'fax'},
-            {data: 'category_id', name: 'category_id'},
-            {data: 'addOrder', name: 'addOrder'},
-            {data: 'created_at', name: 'created_at'},
+            {data: 'value', name: 'value'},
+            {data: 'date', name: 'date'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ];
     </script>
-    @include('Admin.layouts.inc.ajax',['url'=>'traders'])
+    @include('Admin.layouts.inc.ajax',['url'=>'opening-balance'])
 
 
 @endsection

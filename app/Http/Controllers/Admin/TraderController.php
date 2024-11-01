@@ -8,7 +8,6 @@ use App\Http\Traits\Upload_Files;
 use App\Models\Area;
 use App\Models\Category;
 use App\Models\Delivery;
-use App\Models\Order;
 use App\Models\Trader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +16,6 @@ use Yajra\DataTables\DataTables;
 class TraderController extends Controller
 {
     use Upload_Files, LogActivityTrait;
-
 
     public function __construct()
     {
@@ -38,11 +36,13 @@ class TraderController extends Controller
                     $edit = '';
                     $delete = '';
 
-                    if (!auth()->user()->can('تعديل بيانات التجار'))
+                    if (!auth()->user()->can('تعديل بيانات التجار')) {
                         $edit = 'hidden';
-                    if (!auth()->user()->can('حذف بيانات التجار'))
-                        $delete = 'hidden';
+                    }
 
+                    if (!auth()->user()->can('حذف بيانات التجار')) {
+                        $delete = 'hidden';
+                    }
 
                     return '
                             <button ' . $edit . '  class="editBtn btn rounded-pill btn-primary waves-effect waves-light"
@@ -62,7 +62,6 @@ class TraderController extends Controller
                             </span>
                             </button>
                        ';
-
 
                 })
                 ->editColumn('logo', function ($row) {
@@ -91,14 +90,12 @@ class TraderController extends Controller
                 ->escapeColumns([])
                 ->make(true);
 
-
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  التجار");
 
         }
         return view('Admin.CRUDS.traders.index');
     }
-
 
     public function create()
     {
@@ -113,6 +110,7 @@ class TraderController extends Controller
             'name' => 'required',
             'user_name' => 'required|unique:traders,user_name',
             'password' => 'required',
+            'debt' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'fax' => 'nullable|unique:traders,fax',
             'address' => 'nullable',
@@ -122,32 +120,28 @@ class TraderController extends Controller
             'logo' => 'nullable|mimes:jpeg,jpg,png,gif,svg,webp,avif',
 
         ]);
-        if ($request->logo)
+        if ($request->logo) {
             $data["logo"] = $this->uploadFiles('traders', $request->file('logo'), null);
+        }
 
         $data['password'] = bcrypt($request->password);
-
 
         $trader = Trader::create($data);
 
         $this->add_log_activity($trader, auth('admin')->user(), " تم اضافة تاجر  باسم $trader->name ");
 
-
         return response()->json(
             [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح!'
+                'message' => 'تمت العملية بنجاح!',
             ]);
     }
-
 
     public function edit($id)
     {
 
-
         $row = Trader::findOrFail($id);
         $categories = Category::get();
-
 
         return view('Admin.CRUDS.traders.parts.edit', compact('row', 'categories'));
 
@@ -159,6 +153,7 @@ class TraderController extends Controller
             'name' => 'required',
             'user_name' => 'required|unique:traders,user_name,' . $id,
             'password' => 'nullable',
+            'debt' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'fax' => 'nullable|unique:traders,fax,' . $id,
             'address' => 'nullable',
@@ -170,8 +165,9 @@ class TraderController extends Controller
         ]);
         $row = Trader::findOrFail($id);
 
-        if ($request->logo)
+        if ($request->logo) {
             $data["logo"] = $this->uploadFiles('traders', $request->file('logo'), null);
+        }
 
         if ($request->password) {
             $data['password'] = bcrypt($request->password);
@@ -179,13 +175,11 @@ class TraderController extends Controller
             $data['password'] = $row->password;
         }
 
-
         $old = $row;
 
         $row->update($data);
 
         $this->add_log_activity($old, auth('admin')->user(), " تم تعديل بيانات   التاجر $row->name ");
-
 
         return response()->json(
             [
@@ -193,7 +187,6 @@ class TraderController extends Controller
                 'message' => 'تمت العملية بنجاح!',
             ]);
     }
-
 
     public function destroy($id)
     {
@@ -205,13 +198,12 @@ class TraderController extends Controller
 
         $this->add_log_activity($old, auth('admin')->user(), " تم حذف تاجر  باسم $old->name ");
 
-
         return response()->json(
             [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح!'
+                'message' => 'تمت العملية بنجاح!',
             ]);
-    }//end fun
+    } //end fun
 
     public function addOrderToTrader($id)
     {
@@ -248,29 +240,27 @@ class TraderController extends Controller
             'shipment_pieces_number.*' => 'nullable',
             'shipment_value' => 'nullable|array',
             'shipment_value.*' => 'nullable',
-            'notes'=>'required',
-            'trader_collection'=>'required',
+            'notes' => 'required',
+            'trader_collection' => 'required',
         ]);
         $sql = [];
-        if ($request->customer_name)
+        if ($request->customer_name) {
             for ($i = 0; $i < count($request->customer_name); $i++) {
                 $status = 'new';
 
                 $total_value = 0;
 
-                $delivery_id=null;
+                $delivery_id = null;
 
-                $total_value = $total_value + (int)$request->delivery_value[$i] + (int)$request->shipment_value[$i];
+                $total_value = $total_value + (int) $request->delivery_value[$i] + (int) $request->shipment_value[$i];
 
+                if ($request->delivery_id[$i] != null) {
+                    if ($request->delivery_id[$i] != 0) {
+                        $status = 'converted_to_delivery';
+                        $delivery_id = $request->delivery_id[$i];
 
-              if ($request->delivery_id[$i]!=null){
-                  if ($request->delivery_id[$i]!=0)
-                  {
-                      $status='converted_to_delivery';
-                      $delivery_id=$request->delivery_id[$i];
-
-                  }
-              }
+                    }
+                }
 
                 $row = [];
 
@@ -286,20 +276,20 @@ class TraderController extends Controller
                     'customer_phone' => $request->customer_phone[$i],
                     'customer_name' => $request->customer_name[$i],
                     'customer_address' => $request->customer_address[$i],
-                    'delivery_id' =>$delivery_id,
-                    'notes'=>$request->notes[$i],
-                    'trader_collection'=>$request->trader_collection[$i],
+                    'delivery_id' => $delivery_id,
+                    'notes' => $request->notes[$i],
+                    'trader_collection' => $request->trader_collection[$i],
 
                     'total_value' => $total_value,
-                    'created_at'=>date('Y-m-d H:i:s'),
-                    'updated_at'=>date('Y-m-d H:i:s'),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
 
                 ];
-
 
                 array_push($sql, $row);
 
             }
+        }
 
         DB::table('orders')->insert($sql);
 
@@ -308,7 +298,7 @@ class TraderController extends Controller
         return response()->json(
             [
                 'code' => 200,
-                'message' => 'تمت العملية بنجاح!'
+                'message' => 'تمت العملية بنجاح!',
             ]);
     }
 
@@ -330,8 +320,8 @@ class TraderController extends Controller
             $results = array(
                 "results" => $posts->items(),
                 "pagination" => array(
-                    "more" => $morePages
-                )
+                    "more" => $morePages,
+                ),
             );
 
             return \Response::json($results);

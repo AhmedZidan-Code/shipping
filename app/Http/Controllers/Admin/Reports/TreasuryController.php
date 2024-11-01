@@ -18,6 +18,7 @@ class TreasuryController extends Controller
             $endDate = $request->input('toDate') ? Carbon::parse($request->input('toDate'))->endOfDay() : null;
 
             if ($request->ajax()) {
+
                 $query = $this->getUnionQuery($startDate, $endDate);
 
                 if ($startDate) {
@@ -26,10 +27,13 @@ class TreasuryController extends Controller
                 if ($endDate) {
                     $query->where('date', '<=', $endDate->toDateString());
                 }
+                if (!$startDate && !$endDate) {
+                    $query->where('date', '=', date('Y-m-d'));
+                }
 
                 return DataTables::of($query)
                     ->addColumn('total_value', function ($row) {
-                        return $this->total += $row->total_orders - ($row->value + $row->fees + $row->amount + $row->total + $row->solar + $row->shipment_value);
+                        return $this->total += $row->total_orders - ($row->value + $row->fees + $row->amount + $row->total + $row->solar/*+ $row->shipment_value*/);
                     })
                     ->editColumn('value', function ($row) {
                         return $row->fees + $row->value;
@@ -48,6 +52,9 @@ class TreasuryController extends Controller
             ->when($toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date_time', '<=', $toDate);
             })
+            ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date_time', '=', date('Y-m-d'));
+            })
             ->sum('total_orders');
 
         $expenses = DB::table('expenses')
@@ -56,6 +63,9 @@ class TreasuryController extends Controller
             })
             ->when($toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date', '<=', $toDate);
+            })
+            ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date', '=', date('Y-m-d'));
             })
             ->sum('value');
 
@@ -66,6 +76,9 @@ class TreasuryController extends Controller
             ->when($toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date', '<=', $toDate);
             })
+            ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date', '=', date('Y-m-d'));
+            })
             ->sum('amount');
 
         $agentPayments = DB::table('agent_payments')
@@ -74,6 +87,9 @@ class TreasuryController extends Controller
             })
             ->when($toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date', '<=', $toDate);
+            })
+            ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date', '=', date('Y-m-d'));
             })
             ->sum('total');
 
@@ -84,6 +100,9 @@ class TreasuryController extends Controller
             ->when($toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date_time', '<=', $toDate);
             })
+            ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date_time', '=', date('Y-m-d'));
+            })
             ->sum('solar');
 
         $fees = DB::table('delivery_orders')
@@ -93,17 +112,20 @@ class TreasuryController extends Controller
             ->when($toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date_time', '<=', $toDate);
             })
+            ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date_time', '=', date('Y-m-d'));
+            })
             ->sum('fees');
-        $tahseel = DB::table('orders')
-            ->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'])
-            ->where('paid_as_money', 0)
-            ->when($fromDate, function ($query) use ($fromDate) {
-                return $query->whereDate('converted_date', '>=', $fromDate);
-            })
-            ->when($toDate, function ($query) use ($toDate) {
-                return $query->whereDate('converted_date', '<=', $toDate);
-            })
-            ->sum('shipment_value');
+        // $tahseel = DB::table('orders')
+        //     ->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'])
+        //     ->where('paid_as_money', 0)
+        //     ->when($fromDate, function ($query) use ($fromDate) {
+        //         return $query->whereDate('converted_date', '>=', $fromDate);
+        //     })
+        //     ->when($toDate, function ($query) use ($toDate) {
+        //         return $query->whereDate('converted_date', '<=', $toDate);
+        //     })
+        //     ->sum('shipment_value');
 
         return view('Admin.reports.treasury.index', [
             'type' => '2',
@@ -112,7 +134,7 @@ class TreasuryController extends Controller
             'traderPayments' => $traderPayments,
             'agentPayments' => $agentPayments,
             'solar' => $solar,
-            'tahseel' => $tahseel,
+            // 'tahseel' => $tahseel,
         ]);
     }
 
@@ -127,7 +149,7 @@ class TreasuryController extends Controller
                     DB::raw('0 as total'),
                     'solar',
                     'fees',
-                    DB::raw('0 as shipment_value'),
+                    // DB::raw('0 as shipment_value'),
                     DB::raw("DATE_FORMAT(date_time, '%Y-%m-%d') as date"),
                 ])
                 ->unionAll(DB::table('expenses')
@@ -138,7 +160,7 @@ class TreasuryController extends Controller
                             DB::raw('0 as total'),
                             DB::raw('0 as solar'),
                             DB::raw('0 as fees'),
-                            DB::raw('0 as shipment_value'),
+                            // DB::raw('0 as shipment_value'),
                             DB::raw('DATE(date) as date'),
                         ])
                 )
@@ -150,7 +172,7 @@ class TreasuryController extends Controller
                             'total',
                             DB::raw('0 as solar'),
                             DB::raw('0 as fees'),
-                            DB::raw('0 as shipment_value'),
+                            // DB::raw('0 as shipment_value'),
                             DB::raw('DATE(date) as date'),
                         ])
                 )
@@ -162,24 +184,24 @@ class TreasuryController extends Controller
                             DB::raw('0 as total'),
                             DB::raw('0 as solar'),
                             DB::raw('0 as fees'),
-                            DB::raw('0 as shipment_value'),
+                            // DB::raw('0 as shipment_value'),
                             DB::raw('DATE(date) as date'),
                         ])
-                )
-                ->unionAll(DB::table('orders')
-                        ->select([
-                            DB::raw('0 as total_orders'),
-                            DB::raw('0 as value'),
-                            DB::raw('0 as amount'),
-                            DB::raw('0 as total'),
-                            DB::raw('0 as solar'),
-                            DB::raw('0 as fees'),
-                            'shipment_value',
-                            DB::raw("DATE_FORMAT(converted_date, '%Y-%m-%d') as date"),
-                        ])
-                        ->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'])
-                        ->where('paid_as_money', 0)
                 );
+            // ->unionAll(DB::table('orders')
+            //         ->select([
+            //             DB::raw('0 as total_orders'),
+            //             DB::raw('0 as value'),
+            //             DB::raw('0 as amount'),
+            //             DB::raw('0 as total'),
+            //             DB::raw('0 as solar'),
+            //             DB::raw('0 as fees'),
+            //             // 'shipment_value',
+            //             DB::raw("DATE_FORMAT(converted_date, '%Y-%m-%d') as date"),
+            //         ])
+            //         ->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'])
+            //         ->where('paid_as_money', 0)
+            // );
 
         }, 'union_subquery');
 
@@ -191,7 +213,7 @@ class TreasuryController extends Controller
                 DB::raw('SUM(amount) as amount'),
                 DB::raw('SUM(total) as total'),
                 DB::raw('SUM(solar) as solar'),
-                DB::raw('SUM(shipment_value) as shipment_value'),
+                // DB::raw('SUM(shipment_value) as shipment_value'),
                 'date',
             ])
             ->groupBy('date')
