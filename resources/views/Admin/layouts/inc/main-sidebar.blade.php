@@ -250,6 +250,12 @@
                                 <li><a href="{{ route('expenses.index') }}"><i class="mdi mdi-album"></i>
                                         <span>المصروفات</span></a></li>
                             @endcan
+                            
+                            @can('عرض الرصيد الافتتاحي')
+                                <li><a href="{{ route('opening-balance.index') }}"><i class="mdi mdi-album"></i>
+                                        <span>الرصيد الافتتاحي</span></a></li>
+                            @endcan
+
                         </ul>
                     </li>
                 @endcanany
