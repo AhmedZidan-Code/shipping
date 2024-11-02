@@ -57,7 +57,7 @@
                         <th>التاريخ</th>
                         <th>عدد الاوردرات</th>
                         <th>الاجمالي</th>
-                        {{-- <th>المديونية السابقة</th> --}}
+                        <th>المديونية السابقة</th>
                         <th>العملية</th>
                         <th>المدفوع</th>
                         <th>المتبقي</th>
@@ -86,10 +86,10 @@
                     data: 'total_shipment_value',
                     name: 'total_shipment_value'
                 },
-                // {
-                //     data: 'debt',
-                //     name: 'debt'
-                // },
+                {
+                    data: 'debt',
+                    name: 'debt'
+                },
                 {
                     data: 'type',
                     name: 'type'
