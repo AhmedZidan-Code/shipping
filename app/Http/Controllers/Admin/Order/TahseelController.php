@@ -61,6 +61,8 @@ class TahseelController extends Controller
             $totalShipmentValue1 = $rows->get()->sum(function ($row) {
                 if ($row->status == 'partial_delivery_to_customer') {
                     return ($row->partial_value - $row->delivery_value);
+                } else if ($row->status == 'shipping_on_messanger') {
+                    return 0;
                 } else {
                     return $row->shipment_value;
                 }
@@ -281,6 +283,8 @@ class TahseelController extends Controller
             $totalShipmentValue1 = $rows->get()->sum(function ($row) {
                 if ($row->status == 'partial_delivery_to_customer') {
                     return ($row->partial_value - $row->delivery_value);
+                } else if ($row->status == 'shipping_on_messanger') {
+                    return 0;
                 } else {
                     return $row->shipment_value;
                 }

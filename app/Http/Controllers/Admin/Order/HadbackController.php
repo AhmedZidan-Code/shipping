@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Order;
 
-use Carbon\Carbon;
-use App\Models\Order;
-use App\Models\Trader;
-use App\Models\Delivery;
-use Illuminate\Http\Request;
 use App\Enums\TransactionType;
-use App\Models\TraderPayments;
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
+use App\Models\Delivery;
+use App\Models\Order;
+use App\Models\Trader;
+use App\Models\TraderPayments;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class HadbackController extends Controller
 {
@@ -60,6 +60,8 @@ class HadbackController extends Controller
             $totalShipmentValue1 = $rows->get()->sum(function ($row) {
                 if ($row->status == 'partial_delivery_to_customer') {
                     return ($row->total_value - $row->partial_value);
+                } else if ($row->status == 'shipping_on_messanger') {
+                    return 0;
                 } else {
                     return $row->shipment_value;
                 }
@@ -394,6 +396,8 @@ class HadbackController extends Controller
             $totalShipmentValue1 = $rows->get()->sum(function ($row) {
                 if ($row->status == 'partial_delivery_to_customer') {
                     return ($row->total_value - $row->partial_value);
+                } else if ($row->status == 'shipping_on_messanger') {
+                    return 0;
                 } else {
                     return $row->shipment_value;
                 }
