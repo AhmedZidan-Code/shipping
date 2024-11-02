@@ -21,4 +21,8 @@ class Trader extends Authenticatable
     {
         return $this->hasMany(Order::class, 'trader_id', 'id');
     }
+    public function payments()
+    {
+        return $this->hasMany(TraderPayments::class, 'trader_id', 'id');
+    }
 }

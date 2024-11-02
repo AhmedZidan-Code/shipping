@@ -325,9 +325,10 @@
         function change_status() {
             var selectedValues = [];
             var totalValue = 0
-            let amount = $('#total_value').val();
+            let tota_balance = $('#total_value').val();
             let date = $('#date').val();
             let cash = $('#cash').val();
+            let cheque = $('#cheque').val();
             let notes = $('#notes').val();
             let trader_id = '{{ request('trader_id') }}';
             $('.myCheckboxClass:checked').each(function() {
@@ -342,9 +343,10 @@
                 type: 'POST',
                 data: {
                     trader_id: trader_id,
-                    amount: amount,
+                    tota_balance: tota_balance,
                     date: date,
                     cash: cash,
+                    cheque: cheque,
                     notes: notes,
                     selectedValues: selectedValues,
                     _token: '{{ csrf_token() }}' // Add CSRF token if needed
@@ -407,20 +409,27 @@
             $('#cheque').on('keyup', function() {
                 var totalValue = parseFloat($('#total_value').val()) || 0;
                 var chequeValue = parseFloat($(this).val()) || 0;
-
-                var cashValue = totalValue - chequeValue;
-
-                $('#cash').val(cashValue.toFixed(2)); // Update the cash input with the calculated value
+                var cashValue = parseFloat($(this).val()) || 0;
+                console.log('test');
+                
+                if (chequeValue + cashValue > totalValue) {
+                    alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
+                }    
+               
             });
         });
         $(document).ready(function() {
             $('#cash').on('keyup', function() {
                 var totalValue = parseFloat($('#total_value').val()) || 0;
                 var cashValue = parseFloat($(this).val()) || 0;
+                var chequeValue = parseFloat($(this).val()) || 0;
+                console.log('test');
 
-                var chequeValue = totalValue - cashValue;
-
-                $('#cheque').val(chequeValue.toFixed(2)); // Update the cash input with the calculated value
+                
+                if (chequeValue + cashValue > totalValue) {
+                    alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
+                }
+                
             });
         });
     </script>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OpeningBalanceController;
 use App\Http\Controllers\Admin\Reports\TraderAccountController;
 use App\Http\Controllers\Admin\Reports\TreasuryController;
+use App\Http\Controllers\Admin\TraderDebtController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('admin/login', [AuthController::class, 'loginView'])->name('admin.login');
@@ -122,7 +123,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('get_hadback', [\App\Http\Controllers\Admin\Order\HadbackController::class, 'get_hadback'])->name('admin.get_hadback'); //
     Route::get('get_tahseel', [\App\Http\Controllers\Admin\Order\TahseelController::class, 'get_tahseel'])->name('admin.get_tahseel'); //
     Route::get('trader-accounts', [TraderAccountController::class, 'index'])->name('trader-accounts.index'); //
-    Route::get('trader-accounts/{trader_id}', [TraderAccountController::class, 'show'])->name('admin.trader_accounts'); //
 
     Route::get('mandoub_orders', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'mandoub_orders'])->name('admin.mandoub_orders');
     Route::post('change_button', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'change_button'])->name('admin.change_button');
@@ -139,6 +139,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('orders-total-value/update', [AgentOrderController::class, 'updateOrders'])->name('agent.orders-update-value'); //setting
     Route::resource('agent-payments', AgentPaymentController::class);
     Route::resource('opening-balance', OpeningBalanceController::class);
+    Route::resource('traders-debt', TraderDebtController::class);
 
 });
 //

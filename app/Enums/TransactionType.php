@@ -45,9 +45,9 @@ class TransactionType
                 throw new InvalidArgumentException("Invalid transaction type");
         }
     }
-    public function nameInAr(): string
+    public static function nameInAr($type): string
     {
-        switch ($this->type) {
+        switch ($type) {
             case self::DEPOSIT:
                 return 'مرتجع';
             case self::TAHSEEL:
@@ -55,8 +55,8 @@ class TransactionType
             case self::HADBACK:
                 return 'مقدم';
             default:
-                throw new InvalidArgumentException("نوع غير موجود");
-        }
+                return '---';
+            }
     }
 
     public function __toString(): string
