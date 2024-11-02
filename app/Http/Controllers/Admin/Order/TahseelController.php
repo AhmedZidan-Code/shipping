@@ -82,6 +82,8 @@ class TahseelController extends Controller
                     $change_status = '';
                     if ($row->status == 'partial_delivery_to_customer') {
                         $data = $row->partial_value - $row->delivery_value;
+                    } elseif ($row->status == 'shipping_on_messanger') {
+                        $data = -$row->delivery_value;
                     } else {
                         $data = $row->shipment_value;
                     }
