@@ -87,6 +87,7 @@ class TraderPaymentController extends Controller
     {
         $data = $request->validated();
         $data['amount'] = $data['cash'] + $data['cheque'];
+        $data['total_balance'] = $data['amount'];
         $data['type'] = TransactionType::DEPOSIT;
         $row = TraderPayments::create($data);
         $row->load('trader');
@@ -116,6 +117,7 @@ class TraderPaymentController extends Controller
         $old = $row;
         $data = $request->validated();
         $data['amount'] = $data['cash'] + $data['cheque'];
+        $data['total_balance'] = $data['amount'];
         $data['type'] = TransactionType::DEPOSIT;
         $row->update($data);
 

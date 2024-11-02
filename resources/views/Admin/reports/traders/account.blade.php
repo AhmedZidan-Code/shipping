@@ -5,34 +5,216 @@
 @section('css')
 @endsection
 @section('content')
-    <form action="{{ route('tradersReports.index') }}">
+    <form action="{{ route('trader-accounts.index', ['trader_id' => request('trader_id')]) }}" method="GET">
+        @csrf
+        <div class="row mb-3">
+            <div class="d-flex flex-column mb-7 fv-row col-sm-4">
+                <!--begin::Label-->
+                <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> التاجر</span>
+                </label>
+                <select id='trader_id' name="trader_id" style='width: 200px;'>
+                    <option selected value="0">- ابحث عن التاجر</option>
+                </select>
+            </div>
+            <div class="col-md-4 ">
+                <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> تاريخ البداية </span>
 
-        <div class="d-flex flex-column mb-7 fv-row col-sm-4">
-            <!--begin::Label-->
-            <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                <span class="required mr-1"> التاجر</span>
-            </label>
-            <select id='trader_id' name="trader_id" style='width: 200px;'>
-                <option selected value="0">- ابحث عن التاجر</option>
-            </select>
-        </div>
+                </label>
+                <input type="date" id="fromDate" value="" name="fromDate" class="showBonds form-control">
+
+            </div>
+            <div class="col-md-4">
+                <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> تاريخ النهاية </span>
+
+                </label>
+                <input type="date" id="toDate" value="" name="toDate" class="showBonds form-control">
+            </div>
+
+
+            <div class="col-md-2">
+                <button class="btn btn-primary my-4">بحث</button>
+            </div>
         </div>
 
     </form>
 
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1"> تقارير أرصدة التجار</h5>
+            <h5 class="card-title mb-0 flex-grow-1"> تقارير التجار</h5>
 
 
         </div>
 
-        <div class="card-body" id="table_content">
-            <h5 class="card-title mb-0 flex-grow-1" id="table_place">من فضلك اختر تاجر</h5>
+        <div class="card-body">
+            <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                style="width:100%">
+                <thead>
+                    <tr>
+                        {{-- <th>#</th> --}}
+                        <th>التاريخ</th>
+                        <th>عدد الاوردرات</th>
+                        <th>الاجمالي</th>
+                        {{-- <th>المديونية السابقة</th> --}}
+                        <th>العملية</th>
+                        <th>المدفوع</th>
+                        <th>المتبقي</th>
+                    </tr>
+                </thead>
+
+            </table>
         </div>
     </div>
 @endsection
 @section('js')
+    <script src="{{ URL::asset('assets_new/datatable/feather.min.js') }}"></script>
+    <script src="{{ URL::asset('assets_new/datatable/datatables.min.js') }}"></script>
+
+    @if (request('trader_id'))
+        <script>
+            var columns = [{
+                    data: 'date',
+                    name: 'date'
+                },
+                {
+                    data: 'order_count',
+                    name: 'order_count'
+                },
+                {
+                    data: 'total_shipment_value',
+                    name: 'total_shipment_value'
+                },
+                // {
+                //     data: 'debt',
+                //     name: 'debt'
+                // },
+                {
+                    data: 'type',
+                    name: 'type'
+                },
+                {
+                    data: 'amount',
+                    name: 'amount'
+                },
+                {
+                    data: 'remainder',
+                    name: 'remainder'
+                },
+            ];
+            var newUrl = "{{ route('trader-accounts.index', ['trader_id' => request('trader_id')]) }}";
+            $(function() {
+
+                var test = $("#table").DataTable({
+                    processing: true,
+                    // pageLength: 50,
+                    paging: true,
+                    dom: 'Bfrltip',
+                    bLengthChange: true,
+                    serverSide: true,
+                    ajax: {
+                        url: newUrl,
+                        data: {
+                            fromDate:"{{request('fromDate')}}",
+                            toDate:"{{request('toDate')}}",
+                            trader_id:"{{request('trader_id')}}",
+                        }
+                    },
+                    columns: columns,
+                    // order: [
+                    //     [0, "asc"]
+                    // ],
+                    "language": <?php echo json_encode(datatable_lang()); ?>,
+
+                    "drawCallback": function(settings) {
+                        console.log(settings.json.rowsCount);
+                        console.log(settings.json.total);
+                        if (settings.json && settings.json.rowsCount) {
+                            $('#rows-count').val(settings.json.rowsCount);
+                            $('#total').val(settings.json.total);
+
+                        }
+
+                        if (settings.json && settings.json.total_sum) {
+                            console.log(settings.json.total_sum);
+
+                            $('#total_sum').html(settings.json.total_sum); // Update total sum
+                        }
+                        if (settings.json && settings.json.total) {
+
+                            $('#total').html(settings.json.total); // Update total sum
+                        }
+
+                        $('#ahmed').html(settings.json.total2);
+                        //do whatever  
+                    },
+
+                    // "language": {
+                    //     paginate: {
+                    //         previous: "<i class='simple-icon-arrow-left'></i>",
+                    //         next: "<i class='simple-icon-arrow-right'></i>"
+                    //     },
+                    //     "sProcessing": "جاري التحميل ..",
+                    //     "sLengthMenu": "اظهار _MENU_ سجل",
+                    //     "sZeroRecords": "لا يوجد نتائج",
+                    //     "sInfo": "اظهار _START_ الى  _END_ من _TOTAL_ سجل",
+                    //     "sInfoEmpty": "لا نتائج",
+                    //     "sInfoFiltered": "للبحث",
+                    //     "sSearch": "بحث :    ",
+                    //     "oPaginate": {
+                    //         "sPrevious": "السابق",
+                    //         "sNext": "التالي",
+                    //     }
+                    // },
+                    // buttons: [
+                    //     'colvis',
+                    //     'excel',
+                    //     'print',
+                    //     'copy',
+                    //     'csv',
+                    //     // 'pdf'
+                    // ],
+
+                    searching: true,
+                    destroy: true,
+                    info: false,
+
+
+                });
+
+
+            });
+        </script>
+    @endif
+
+
+    <script>
+        $(document).on('change', '.showBonds', function() {
+            var fromDate = $('#fromDate').val();
+            var toDate = $('#toDate').val();
+            var trader_id = $('#trader_id').val();
+            var status = $('#order_status').val();
+
+            var url = "{{ route('tradersReports.index') }}";
+            url = url + "?-=-";
+            if (fromDate != null) {
+                url = url + "&&fromDate=" + fromDate;
+            }
+            if (toDate != null) {
+                url = url + "&&toDate=" + toDate;
+            }
+            if (trader_id != null) {
+                url = url + "&&trader_id=" + trader_id;
+            }
+            if (status != null) {
+                url = url + "&&status=" + status;
+            }
+            // window.location.href = url;
+        })
+    </script>
+
+
     <link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
     <script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
 
@@ -57,26 +239,5 @@
                 }
             });
         })();
-
-        $('#trader_id').on('change', function() {
-
-            var traderId = $(this).val();
-            let url = '{{ route('admin.trader_accounts', ['trader_id' => ':trader_id']) }}';
-            url = url.replace(':trader_id', traderId);
-            console.log(url);
-
-            if (traderId) {
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    success: function(data) {
-                        $('#table_content').html(data.view); // Replace the content of the div with the new data
-                    },
-                    error: function(err) {
-                        console.error('Error:', err);
-                    }
-                });
-            }
-        });
     </script>
 @endsection

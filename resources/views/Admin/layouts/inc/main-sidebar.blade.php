@@ -250,7 +250,7 @@
                                 <li><a href="{{ route('expenses.index') }}"><i class="mdi mdi-album"></i>
                                         <span>المصروفات</span></a></li>
                             @endcan
-                            
+
                             @can('عرض الرصيد الافتتاحي')
                                 <li><a href="{{ route('opening-balance.index') }}"><i class="mdi mdi-album"></i>
                                         <span>الرصيد الافتتاحي</span></a></li>
@@ -259,6 +259,22 @@
                         </ul>
                     </li>
                 @endcanany
+                @can('عرض تقارير أرصدة التجار')
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-buffer"></i>
+                            <span> تقارير أرصدة التجار </span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="{{ route('trader-accounts.index') }}"><i class="mdi mdi-album"></i>
+                                    <span> كشف حساب تاجر</span></a></li>
+                        </ul>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="{{ route('traders-debt.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>مديونية التجار</span></a></li>
+                        </ul>
+                    </li>
+                @endcan
 
                 @can('عرض تسديدات التجار')
                     <li>
@@ -272,20 +288,6 @@
                         </ul>
                     </li>
                 @endcan
-
-                @can('عرض تقارير أرصدة التجار')
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect">
-                            <i class="mdi mdi-buffer"></i>
-                            <span> تقارير أرصدة التجار </span>
-                        </a>
-                        <ul class="sub-menu" aria-expanded="false">
-                            <li><a href="{{ route('trader-accounts.index') }}"><i class="mdi mdi-album"></i>
-                                    <span>تقارير أرصدة التجار</span></a></li>
-                        </ul>
-                    </li>
-                @endcan
-
             </ul>
         </div>
         <!-- Sidebar -->

@@ -223,6 +223,7 @@ class HadbackController extends Controller
             'trader_id' => $data['trader_id'],
             'type' => TransactionType::HADBACK,
             'amount' => $data['amount'],
+            'total_balance' => $data['amount'],
             'date' => $data['date'],
             'cash' => $data['amount'],
             'notes' => $data['notes'],

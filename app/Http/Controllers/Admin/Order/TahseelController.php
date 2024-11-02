@@ -215,20 +215,33 @@ class TahseelController extends Controller
     {
         $data = $request->validate([
             'selectedValues' => 'required',
-            'amount' => 'required',
+            'tota_balance' => 'required',
             'trader_id' => 'required|exists:traders,id',
             'date' => 'required|date',
-            'cash' => 'required|lte:amount',
+            'cash' => 'required|lte:tota_balance',
+            'cheque' => 'required|lte:tota_balance',
             'notes' => 'nullable',
-
         ]);
+
+        $sum = $request->cash + $request->cheque;
+        if ($sum > $request->tota_balance) {
+            return response()->json([
+                'code' => 422,
+                'message' => 'لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ',
+                'errors' => [
+                    'sum' => ['لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ'],
+                ],
+            ], 422);
+        }
+
         $traderPayment = TraderPayments::create([
             'trader_id' => $data['trader_id'],
-            'amount' => $data['amount'],
+            'total_balance' => $data['tota_balance'],
             'date' => $data['date'],
             'cash' => $data['cash'],
             'notes' => $data['notes'],
-            'cheque' => $data['amount'] - $data['cash'],
+            'cheque' => $data['cheque'],
+            'amount' => $data['cheque'] + $data['cash'],
         ]);
         if (isset($request->selectedValues) && !empty($request->selectedValues)) {
             $count = count($request->selectedValues);
