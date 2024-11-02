@@ -33,7 +33,7 @@ class TreasuryController extends Controller
 
                 return DataTables::of($query)
                     ->addColumn('total_value', function ($row) {
-                        return $this->total += $row->total_orders - ($row->value + $row->fees + $row->amount + $row->total + $row->solar/*+ $row->shipment_value*/);
+                        return $this->total += $row->total_orders - ($row->value + $row->fees + $row->amount + $row->total + $row->solar + $row->balance/*+ $row->shipment_value*/);
                     })
                     ->editColumn('value', function ($row) {
                         return $row->fees + $row->value;
@@ -126,6 +126,17 @@ class TreasuryController extends Controller
         //         return $query->whereDate('converted_date', '<=', $toDate);
         //     })
         //     ->sum('shipment_value');
+        $balance = DB::table('opening_balances')
+            ->when($fromDate, function ($query) use ($fromDate) {
+                return $query->whereDate('date', '>=', $fromDate);
+            })
+            ->when($toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date', '<=', $toDate);
+            })
+            ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
+                return $query->whereDate('date', '=', date('Y-m-d'));
+            })
+            ->sum('balance');
 
         return view('Admin.reports.treasury.index', [
             'type' => '2',
@@ -135,6 +146,7 @@ class TreasuryController extends Controller
             'agentPayments' => $agentPayments,
             'solar' => $solar,
             // 'tahseel' => $tahseel,
+            'balance' => $balance,
         ]);
     }
 
@@ -150,6 +162,7 @@ class TreasuryController extends Controller
                     'solar',
                     'fees',
                     // DB::raw('0 as shipment_value'),
+                    DB::raw('0 as balance'),
                     DB::raw("DATE_FORMAT(date_time, '%Y-%m-%d') as date"),
                 ])
                 ->unionAll(DB::table('expenses')
@@ -161,6 +174,7 @@ class TreasuryController extends Controller
                             DB::raw('0 as solar'),
                             DB::raw('0 as fees'),
                             // DB::raw('0 as shipment_value'),
+                            DB::raw('0 as balance'),
                             DB::raw('DATE(date) as date'),
                         ])
                 )
@@ -173,6 +187,7 @@ class TreasuryController extends Controller
                             DB::raw('0 as solar'),
                             DB::raw('0 as fees'),
                             // DB::raw('0 as shipment_value'),
+                            DB::raw('0 as balance'),
                             DB::raw('DATE(date) as date'),
                         ])
                 )
@@ -185,6 +200,19 @@ class TreasuryController extends Controller
                             DB::raw('0 as solar'),
                             DB::raw('0 as fees'),
                             // DB::raw('0 as shipment_value'),
+                            DB::raw('0 as balance'),
+                            DB::raw('DATE(date) as date'),
+                        ])
+                )
+                ->unionAll(DB::table('opening_balances')
+                        ->select([
+                            DB::raw('0 as total_orders'),
+                            DB::raw('0 as value'),
+                            DB::raw('0 as amount'),
+                            DB::raw('0 as total'),
+                            DB::raw('0 as solar'),
+                            DB::raw('0 as fees'),
+                            DB::raw('balance'),
                             DB::raw('DATE(date) as date'),
                         ])
                 );
@@ -214,6 +242,7 @@ class TreasuryController extends Controller
                 DB::raw('SUM(total) as total'),
                 DB::raw('SUM(solar) as solar'),
                 // DB::raw('SUM(shipment_value) as shipment_value'),
+                DB::raw('SUM(balance) as balance'),
                 'date',
             ])
             ->groupBy('date')

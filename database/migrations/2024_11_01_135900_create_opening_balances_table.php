@@ -15,7 +15,7 @@ class CreateOpeningBalancesTable extends Migration
     {
         Schema::create('opening_balances', function (Blueprint $table) {
             $table->id();
-            $table->double('value')->default(0);
+            $table->double('balance')->default(0);
             $table->date('date');
             $table->timestamps();
         });

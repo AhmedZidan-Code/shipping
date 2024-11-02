@@ -79,7 +79,7 @@ class OpeningBalanceController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'value' => 'required|numeric',
+            'balance' => 'required|numeric',
             'date' => 'required|date_format:Y-m-d',
 
         ]);
@@ -107,7 +107,7 @@ class OpeningBalanceController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'value' => 'required|numeric',
+            'balance' => 'required|numeric',
             'date' => 'required|date_format:Y-m-d',
         ]);
 

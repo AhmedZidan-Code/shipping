@@ -66,6 +66,7 @@
                         <th> تسديدات الوكلاء</th>
                         <th>بدل البنزين</th>
                         {{-- <th>قيد التحصيل</th> --}}
+                        <th>الرصيد الافتتاحي</th>
                         <th>المتبقي</th>
                     </tr>
                 </thead>
@@ -79,7 +80,8 @@
                             <td>{{ $agentPayments }}</td>
                             <td>{{ $solar }}</td>
                             {{-- <td>{{ $tahseel }}</td> --}}
-                            <td>{{ $allOrdersValues - ($expenses + $traderPayments + $agentPayments + $solar) /*+ $tahseel*/ }}
+                            <td>{{ $balance }}</td>
+                            <td>{{ $allOrdersValues - ($expenses + $traderPayments + $agentPayments + $solar + $balance) /*+ $tahseel*/ }}
                             </td>
                         </tr>
                     </tbody>
@@ -139,6 +141,10 @@
                 //     data: 'shipment_value',
                 //     name: 'shipment_value'
                 // },
+                {
+                    data: 'balance',
+                    name: 'balance'
+                },
                 {
                     data: 'total_value',
                     name: 'total_value'
