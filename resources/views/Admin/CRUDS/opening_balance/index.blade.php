@@ -74,7 +74,7 @@
     <script>
         var columns = [
             {data: 'id', name: 'id'},
-            {data: 'value', name: 'value'},
+            {data: 'balance', name: 'balance'},
             {data: 'date', name: 'date'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ];
