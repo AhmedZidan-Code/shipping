@@ -48,12 +48,16 @@ class TransactionType
     public static function nameInAr($type): string
     {
         switch ($type) {
+            case 0:
+                return 'أوردرات';
             case self::DEPOSIT:
                 return 'مرتجع';
             case self::TAHSEEL:
                 return 'تحصيل';
             case self::HADBACK:
                 return 'مقدم';
+            case 4:
+                return 'مديونية سابقة';
             default:
                 return '---';
             }

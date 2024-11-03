@@ -109,7 +109,7 @@
                 var test = $("#table").DataTable({
                     processing: true,
                     // pageLength: 50,
-                    paging: true,
+                    paging: false,
                     dom: 'Bfrltip',
                     bLengthChange: true,
                     serverSide: true,
