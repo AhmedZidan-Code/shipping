@@ -409,8 +409,7 @@
             $('#cheque').on('keyup', function() {
                 var totalValue = parseFloat($('#total_value').val()) || 0;
                 var chequeValue = parseFloat($(this).val()) || 0;
-                var cashValue = parseFloat($(this).val()) || 0;
-                console.log('test');
+                var cashValue = parseFloat($('#cash').val()) || 0;
                 
                 if (chequeValue + cashValue > totalValue) {
                     alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
@@ -422,11 +421,9 @@
             $('#cash').on('keyup', function() {
                 var totalValue = parseFloat($('#total_value').val()) || 0;
                 var cashValue = parseFloat($(this).val()) || 0;
-                var chequeValue = parseFloat($(this).val()) || 0;
-                console.log('test');
-
-                
-                if (chequeValue + cashValue > totalValue) {
+                var chequeValue = parseFloat($('#cheque').val()) || 0;
+            
+                if (chequeValue + cashValue > totalValue) {                    
                     alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
                 }
                 

@@ -79,11 +79,12 @@ class OpeningBalanceController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'balance' => 'required|numeric',
+            'cash' => 'required|numeric',
+            'cheque' => 'required|numeric',
             'date' => 'required|date_format:Y-m-d',
 
         ]);
-
+        $data['balance'] = $data['cash'] + $data['cheque'];
         $balance = OpeningBalance::create($data);
 
         $this->add_log_activity($balance, auth('admin')->user(), " تم اضافة الرصيد الافتتاحي ");
@@ -107,12 +108,14 @@ class OpeningBalanceController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'balance' => 'required|numeric',
+            'cash' => 'required|numeric',
+            'cheque' => 'required|numeric',
             'date' => 'required|date_format:Y-m-d',
         ]);
 
         $row = OpeningBalance::findOrFail($id);
 
+        $data['balance'] = $data['cash'] + $data['cheque'];
         $row->update($data);
 
         $this->add_log_activity($row, auth('admin')->user(), " تم تعديل الرصيد الافتتاحي ");
