@@ -71,7 +71,7 @@ class TraderAccountController extends Controller
                                 DB::raw('0 AS total_shipment_value'),
                                 DB::raw('0 AS order_count'),
                                 DB::raw('0 as amount'),
-                                DB::raw('0 as type'),
+                                DB::raw('4 as type'),
                                 'debt',
                                 DB::raw('DATE(created_at) as date'),
                             ])
@@ -94,7 +94,7 @@ class TraderAccountController extends Controller
                     'amount',
                     'debt',
                 ])
-                ->orderBy('date', 'desc')
+                ->orderBy('date', 'asc')
                 ->orderBy('type');
            
             return DataTables::of($results)

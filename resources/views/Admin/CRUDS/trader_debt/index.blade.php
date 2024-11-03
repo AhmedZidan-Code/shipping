@@ -37,12 +37,12 @@
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'phone', name: 'phone'},
-            {data: 'debt', name: 'debt'},
-            {data: 'total_shipment_value', name: 'total_shipment_value'},
-            {data: 'deposit_sum', name: 'deposit_sum'},
-            {data: 'hadback_sum', name: 'hadback_sum'},
-            {data: 'tahseel_sum', name: 'tahseel_sum'},
-            {data: 'remainder', name: 'remainder'},
+            {data: 'debt', name: 'debt', searchable:false},
+            {data: 'total_shipment_value', name: 'total_shipment_value', searchable:false},
+            {data: 'deposit_sum', name: 'deposit_sum', searchable:false},
+            {data: 'hadback_sum', name: 'hadback_sum', searchable:false},
+            {data: 'tahseel_sum', name: 'tahseel_sum', searchable:false},
+            {data: 'remainder', name: 'remainder', searchable:false},
         ];
     </script>
     @include('Admin.layouts.inc.ajax',['url'=>'traders-debt'])
