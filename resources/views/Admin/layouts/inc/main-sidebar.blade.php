@@ -268,8 +268,6 @@
                         <ul class="sub-menu" aria-expanded="false">
                             <li><a href="{{ route('trader-accounts.index') }}"><i class="mdi mdi-album"></i>
                                     <span> كشف حساب تاجر</span></a></li>
-                        </ul>
-                        <ul class="sub-menu" aria-expanded="false">
                             <li><a href="{{ route('traders-debt.index') }}"><i class="mdi mdi-album"></i>
                                     <span>مديونية التجار</span></a></li>
                         </ul>
