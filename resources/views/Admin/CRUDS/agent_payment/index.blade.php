@@ -124,7 +124,7 @@
             {data: 'id', name: 'id'},
             {data: 'agent.name', name: 'agent.name'},
             {data: 'date', name: 'date'},
-            {data: 'amount', name: 'amount'},
+            {data: 'total', name: 'total'},
             {data: 'cash', name: 'cash'},
             {data: 'cheque', name: 'cheque'},
             {data: 'notes', name: 'notes'},

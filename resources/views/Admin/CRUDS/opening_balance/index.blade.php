@@ -23,6 +23,8 @@
                 <tr>
                     <th>#</th>
                     <th>قيمة الرصيد</th>
+                    <th>نقدي</th>
+                    <th>غير نقدي</th>
                     <th>  التاريخ</th>
                     <th>العمليات</th>
                 </tr>
@@ -75,6 +77,8 @@
         var columns = [
             {data: 'id', name: 'id'},
             {data: 'balance', name: 'balance'},
+            {data: 'cash', name: 'cash'},
+            {data: 'cheque', name: 'cheque'},
             {data: 'date', name: 'date'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ];

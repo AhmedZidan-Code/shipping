@@ -14,12 +14,22 @@
 
         <div class="d-flex flex-column mb-7 fv-row col-sm-12">
             <!--begin::Label-->
-            <label for="balance" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                <span class="required mr-1">قيمة الرصيد</span>
+            <label for="cash" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1">نقدي</span>
             </label>
             <!--end::Label-->
-            <input id="value" required type="number" class="form-control form-control-solid" placeholder=""
-                name="balance" value="" />
+            <input id="cash" required type="number" class="form-control form-control-solid" placeholder=""
+                name="cash" value="" />
+        </div>
+
+        <div class="d-flex flex-column mb-7 fv-row col-sm-12">
+            <!--begin::Label-->
+            <label for="cheque" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1">غير نقدي </span>
+            </label>
+            <!--end::Label-->
+            <input id="cheque" required type="number" class="form-control form-control-solid" placeholder=""
+                name="cheque" value="" />
         </div>
 
 

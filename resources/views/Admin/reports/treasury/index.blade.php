@@ -60,29 +60,71 @@
                                 #
                             @endif
                         </th>
-                        <th>إجمالي الاوردرات </th>
-                        <th>المصروفات</th>
-                        <th> تسديدات التجار</th>
-                        <th> تسديدات الوكلاء</th>
-                        <th>بدل البنزين</th>
-                        {{-- <th>قيد التحصيل</th> --}}
-                        <th>الرصيد الافتتاحي</th>
-                        <th>المتبقي</th>
+                        <th colspan="2">إجمالي الاوردرات </th>
+                        <th colspan="2">المصروفات</th>
+                        <th colspan="2"> تسديدات التجار</th>
+                        <th colspan="2"> تسديدات الوكلاء</th>
+                        <th colspan="2">بدل البنزين</th>
+                        {{-- <th colspan="2">قيد التحصيل</th> --}}
+                        <th colspan="2">الرصيد الافتتاحي</th>
+                        <th colspan="2">المتبقي</th>
                     </tr>
                 </thead>
                 @if ($type == '2')
                     <tbody>
-                        <tr>
+                        <tr class="text-center">
                             <td>1</td>
-                            <td>{{ $allOrdersValues }}</td>
-                            <td>{{ $expenses }}</td>
-                            <td>{{ $traderPayments }}</td>
-                            <td>{{ $agentPayments }}</td>
-                            <td>{{ $solar }}</td>
-                            {{-- <td>{{ $tahseel }}</td> --}}
-                            <td>{{ $balance }}</td>
-                            <td>{{ $allOrdersValues - ($expenses + $traderPayments + $agentPayments + $solar + $balance) /*+ $tahseel*/ }}
+                            <td colspan="2">{{ $allOrdersValues }}</td>
+                            <td colspan="2">{{ $expenses }}</td>
+                            <td colspan="2">{{ $traderPayments }}</td>
+                            <td colspan="2">{{ $agentPayments }}</td>
+                            <td colspan="2">{{ $solar }}</td>
+                            {{-- <td colspan="2">{{ $tahseel }}</td> --}}
+                            <td colspan="2">{{ $balance }}</td>
+                            <td colspan="2">
+                                {{ $totalValue = $allOrdersValues - ($expenses + $traderPayments + $agentPayments + $solar + $balance) }}
                             </td>
+                        </tr>
+                        <tr class="text-center">
+                            <td></td>
+                            <td>نقدي</td>
+                            <td>فودافون كاش</td>
+                            <td>نقدي</td>
+                            <td>فودافون كاش</td>
+                            <td>نقدي</td>
+                            <td>فودافون كاش</td>
+                            <td>نقدي</td>
+                            <td>فودافون كاش</td>
+                            <td>نقدي</td>
+                            <td>فودافون كاش</td>
+                            <td>نقدي</td>
+                            <td>فودافون كاش</td>
+                            <td>نقدي</td>
+                            <td>فودافون كاش</td>
+                        </tr>
+                        <tr class="text-center">
+                            <td></td>
+                            <td>{{ $allOrdersValues }}</td>
+                            <td>0</td>
+                            <td>{{ $expenses }}</td>
+                            <td>0</td>
+                            <td>{{ $traderPaymentsCash }}</td>
+                            <td>{{ $traderPaymentsCheque }}</td>
+                            <td>{{ $agentPaymentsCash }}</td>
+                            <td>{{ $agentPaymentsCheque }}</td>
+                            <td>{{ $solar }}</td>
+                            <td>0</td>
+                            <td>{{ $balanceCash }}</td>
+                            <td>{{ $balanceCheque }}</td>
+                            <?php
+                            $totalValueCash = $allOrdersValues - ($expenses + $traderPaymentsCash + $agentPaymentsCash + $solar + $balanceCash);
+                            $totalValueCheque = $totalValueCash - $totalValue;
+                            
+                            ?>
+
+                            <td>{{ $totalValue - $totalValueCheque }}
+                            </td>
+                            <td>{{ $totalValueCheque }}</td>
                         </tr>
                     </tbody>
                 @endif

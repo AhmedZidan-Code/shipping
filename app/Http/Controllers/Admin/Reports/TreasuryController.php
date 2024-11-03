@@ -69,7 +69,7 @@ class TreasuryController extends Controller
             })
             ->sum('value');
 
-        $traderPayments = DB::table('trader_payments')
+        $traderPaymentsQuery = DB::table('trader_payments')
             ->when($fromDate, function ($query) use ($fromDate) {
                 return $query->whereDate('date', '>=', $fromDate);
             })
@@ -78,10 +78,13 @@ class TreasuryController extends Controller
             })
             ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date', '=', date('Y-m-d'));
-            })
-            ->sum('amount');
+            });
 
-        $agentPayments = DB::table('agent_payments')
+        $traderPayments = $traderPaymentsQuery->sum('amount');
+        $traderPaymentsCash = $traderPaymentsQuery->sum('cash');
+        $traderPaymentsCheque = $traderPaymentsQuery->sum('cheque');
+
+        $agentPaymentsQuery = DB::table('agent_payments')
             ->when($fromDate, function ($query) use ($fromDate) {
                 return $query->whereDate('date', '>=', $fromDate);
             })
@@ -90,8 +93,10 @@ class TreasuryController extends Controller
             })
             ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date', '=', date('Y-m-d'));
-            })
-            ->sum('total');
+            });
+        $agentPayments = $agentPaymentsQuery->sum('total');
+        $agentPaymentsCash = $agentPaymentsQuery->sum('cash');
+        $agentPaymentsCheque = $agentPaymentsQuery->sum('cheque');
 
         $solar = DB::table('delivery_orders')
             ->when($fromDate, function ($query) use ($fromDate) {
@@ -126,7 +131,7 @@ class TreasuryController extends Controller
         //         return $query->whereDate('converted_date', '<=', $toDate);
         //     })
         //     ->sum('shipment_value');
-        $balance = DB::table('opening_balances')
+        $balanceQuery = DB::table('opening_balances')
             ->when($fromDate, function ($query) use ($fromDate) {
                 return $query->whereDate('date', '>=', $fromDate);
             })
@@ -135,18 +140,26 @@ class TreasuryController extends Controller
             })
             ->when(!$fromDate && !$toDate, function ($query) use ($toDate) {
                 return $query->whereDate('date', '=', date('Y-m-d'));
-            })
-            ->sum('balance');
+            });
+            $balance = $balanceQuery->sum('balance');
+            $balanceCash = $balanceQuery->sum('cash');
+            $balanceCheque = $balanceQuery->sum('cheque');
 
         return view('Admin.reports.treasury.index', [
             'type' => '2',
             'allOrdersValues' => $allOrdersValues,
             'expenses' => $expenses + $fees,
             'traderPayments' => $traderPayments,
+            'traderPaymentsCash' => $traderPaymentsCash,
+            'traderPaymentsCheque' => $traderPaymentsCheque,
             'agentPayments' => $agentPayments,
+            'agentPaymentsCash' => $agentPaymentsCash,
+            'agentPaymentsCheque' => $agentPaymentsCheque,
             'solar' => $solar,
             // 'tahseel' => $tahseel,
             'balance' => $balance,
+            'balanceCash' => $balanceCash,
+            'balanceCheque' => $balanceCheque,
         ]);
     }
 

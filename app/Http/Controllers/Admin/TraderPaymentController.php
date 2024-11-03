@@ -26,7 +26,7 @@ class TraderPaymentController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $rows = TraderPayments::query()->with('trader');
+            $rows = TraderPayments::query()->with('trader')->orderBy('date', 'DESC');
             if ($request->fromDate) {
                 $rows->where('date', '>=', $request->fromDate);
 
