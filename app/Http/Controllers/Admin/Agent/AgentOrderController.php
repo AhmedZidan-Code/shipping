@@ -32,10 +32,10 @@ class AgentOrderController extends Controller
             $ordersAfterTransform = $this->transformArrayKeys($orders[0]);
 
             $this->addDataToTemporary($ordersAfterTransform);
-
             $convertedOrders = Temporary::with(['order'])
-                ->with(['order.province', 'order.trader', 'order.delivery'])
-                ->get();
+            ->with(['order.province', 'order.trader', 'order.delivery'])
+            ->get();
+            dd($orders, $ordersAfterTransform, $convertedOrders );
             $view = view('Admin.CRUDS.Orders.newOrders.parts.agent.table', ['convertedOrders' => $convertedOrders])->render();
 
             return response()->json(
@@ -107,10 +107,10 @@ class AgentOrderController extends Controller
         Temporary::truncate();
 
         foreach ($ordersAfterTransform as $key => $row) {
-            abort_if(!$row['customer_phone'],   421, ' لايوجد بيانات هاتف عميل للصف رقم' . $key + 1);
+            abort_if(!$row['customer_phone'], 421, ' لايوجد بيانات هاتف عميل للصف رقم' . $key + 1);
             $customer = Order::where('customer_phone', 'like', '%' . $row['customer_phone'] . '%')
             // ->where('customer_name', 'like', '%' . $row['customer_name'] . '%')
-                ->where('status', 'converted_to_delivery')
+                // ->where('status', 'converted_to_delivery')
                 ->latest()->first();
 
             if (!$customer) {
