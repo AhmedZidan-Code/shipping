@@ -54,25 +54,6 @@ class AgentOrderImport implements ToCollection, WithHeadingRow, WithValidation, 
      */
     public function collection(Collection $rows)
     {
-        if ($rows->count() == 0) {
-            throw new \Exception("The file must contain at least 1 row.");
-        }
-        foreach ($rows as $row) {
-            Order::create([
-                'trader_id' => request('trader_id'),
-                'province_id' => $row[$this->mapData('province_id')],
-                'customer_name' => $row[$this->mapData('customer_name')],
-                'customer_address' => $row[$this->mapData('customer_address')],
-                'customer_phone' => $row[$this->mapData('customer_phone')],
-                'delivery_ratio' => $row[$this->mapData('delivery_ratio')],
-                'delivery_value' => $row[$this->mapData('delivery_value')],
-                'shipment_pieces_number' => $row[$this->mapData('shipment_pieces_number')],
-                'shipment_value' => $row[$this->mapData('shipment_value')],
-                'status' => $row[$this->mapData('status')],
-                'notes' => $row[$this->mapData('notes')] ?? '',
-                'total' => $row[$this->mapData('total')] ?? '',
-            ]);
-        }
     }
 
     public function mapData($key)
