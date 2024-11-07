@@ -7,6 +7,7 @@
                     <th>#</th>
                     <th>رقم الطلب</th>
                     <th> اسم العميل في الاكسيل</th>
+                    <th> رقم العميل في الاكسيل</th>
                     <th>اسم الوكيل</th>
                     <th>المندوب</th>
                     <th>المدينة</th>
@@ -29,6 +30,7 @@
                             {{ $convertedOrder->order?->id }}
                         </td>
                         <td>{{ $convertedOrder->customer_name }}</td>
+                        <td>{{ $convertedOrder->customer_phone }}</td>
                         <td>{{ $convertedOrder->order?->customer_name }}</td>
                         <td>{{ $convertedOrder->order?->delivery->name }}</td>
                         <td>{{ $convertedOrder->order?->province->title }}</td>
