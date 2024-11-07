@@ -26,7 +26,7 @@ class AgentOrderController extends Controller
             'file' => 'required|file|mimes:xlsx',
             'agent_id' => 'required',
         ]);
-        try {
+        // try {
             $orders = Excel::toArray(new AgentOrderImport, $request->file('file'));
             $ordersAfterTransform = $this->transformArrayKeys($orders[0]);
 
@@ -42,14 +42,14 @@ class AgentOrderController extends Controller
                     'code' => 200,
                     'message' => 'تم سحب البيانات بنجاح!',
                 ]);
-        } catch (\Exception $e) {
-            return response()->json(
-                [
-                    'code' => 400,
-                    'message' => $e->getMessage(),
-                    'error' => $e,
-                ]);
-        }
+        // } catch (\Exception $e) {
+        //     return response()->json(
+        //         [
+        //             'code' => 400,
+        //             'message' => $e->getMessage(),
+        //             'error' => $e,
+        //         ]);
+        // }
 
     }
 
