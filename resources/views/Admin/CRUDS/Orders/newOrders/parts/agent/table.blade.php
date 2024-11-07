@@ -21,8 +21,7 @@
             </thead>
             <tbody>
                 @foreach ($convertedOrders as $k => $convertedOrder)
-                {{dd($convertedOrders)}}
-                    <tr @if (!$convertedOrder->order || ($convertedOrder->order?->total_value != $convertedOrder->total)) style="background-color:#f8d7da;" @endif>
+                    <tr style="background-color:#f8d7da;"> {{--@if (!$convertedOrder->order || ($convertedOrder->order?->total_value != $convertedOrder->total))  --}} 
                         <td>{{ $convertedOrder->id }}</td>
                         <td>
                             <input type="hidden" name="ids[]"
