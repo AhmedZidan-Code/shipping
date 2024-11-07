@@ -8,7 +8,6 @@ use App\Imports\AgentOrderImport;
 use App\Models\Order;
 use App\Models\Temporary;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AgentOrderController extends Controller
@@ -28,34 +27,15 @@ class AgentOrderController extends Controller
             'agent_id' => 'required',
         ]);
         try {
-
             $orders = Excel::toArray(new AgentOrderImport, $request->file('file'));
+
             $ordersAfterTransform = $this->transformArrayKeys($orders[0]);
 
-            Temporary::truncate();
-            foreach ($ordersAfterTransform as $key => $row) {
-                abort_if(!$row['customer_phone'], 421, ' لايوجد بيانات هاتف عميل للصف رقم' . $key + 1);
-                Temporary::create([
-                    'customer_name' => $row['customer_name'],
-                    'customer_phone' => $row['customer_phone'],
-                    'total' => $row['total'],
-                ]);
-            }
+            $this->addDataToTemporary($ordersAfterTransform);
 
-            $convertedOrders = Order::select('orders.*', 'temporaries.customer_name as excel_name', 'temporaries.customer_phone as excel_phone', 'temporaries.total as excel_total')
-                ->join('temporaries', 'orders.customer_phone', '=', 'temporaries.customer_phone')
-                ->where('orders.status', 'converted_to_delivery')
-                ->where('orders.delivery_id', $request->agent_id)
-                ->whereIn('orders.id', function ($query) {
-                    $query->select(DB::raw('MAX(id)'))
-                        ->from('orders')
-                        ->where('status', 'converted_to_delivery')
-                        ->groupBy('customer_phone');
-                })
-                ->with(['province', 'trader', 'delivery'])
-                ->orderBy('orders.created_at', 'desc')
+            $convertedOrders = Temporary::with(['order'])
+                ->with(['order.province', 'order.trader', 'order.delivery'])
                 ->get();
-
             $view = view('Admin.CRUDS.Orders.newOrders.parts.agent.table', ['convertedOrders' => $convertedOrders])->render();
 
             return response()->json(
@@ -120,5 +100,32 @@ class AgentOrderController extends Controller
             'message' => 'تم تحديث القيم بنجاح',
         ]);
 
+    }
+
+    public function addDataToTemporary(array $ordersAfterTransform)
+    {
+        Temporary::truncate();
+
+        foreach ($ordersAfterTransform as $key => $row) {
+            abort_if(!$row['customer_phone'],   421, ' لايوجد بيانات هاتف عميل للصف رقم' . $key + 1);
+            $customer = Order::where('customer_phone', 'like', '%' . $row['customer_phone'] . '%')
+            // ->where('customer_name', 'like', '%' . $row['customer_name'] . '%')
+                ->where('status', 'converted_to_delivery')
+                ->latest()->first();
+
+            if (!$customer) {
+                Temporary::create([
+                    'customer_name' => $row['customer_name'],
+                    'customer_phone' => $row['customer_phone'],
+                    'total' => $row['total'],
+                ]);
+            } else {
+                Temporary::create([
+                    'customer_name' => $customer->customer_name,
+                    'customer_phone' => $customer->customer_phone,
+                    'total' => $row['total'],
+                ]);
+            }
+        }
     }
 }
