@@ -21,8 +21,7 @@
             </thead>
             <tbody>
                 @foreach ($convertedOrders as $k => $convertedOrder)
-                {{dd($convertedOrder)}}
-                    <tr @if ($convertedOrder->order?->total_value != $convertedOrder->total) style="background-color:#f8d7da;" @endif>
+                    <tr @if (!$convertedOrder->order || ($convertedOrder->order?->total_value != $convertedOrder->total)) style="background-color:#f8d7da;" @endif>
                         <td>{{ $convertedOrder->id }}</td>
                         <td>
                             <input type="hidden" name="ids[]"
@@ -31,11 +30,11 @@
                         </td>
                         <td>{{ $convertedOrder->customer_name }}</td>
                         <td>{{ $convertedOrder->order?->customer_name }}</td>
-                        <td>{{ $convertedOrder->order?->delivery->name }}</td>
-                        <td>{{ $convertedOrder->order?->province->title }}</td>
+                        <td>{{ $convertedOrder->order?->delivery?->name }}</td>
+                        <td>{{ $convertedOrder->order?->province?->title }}</td>
                         <td>{{ $convertedOrder->order?->customer_phone }}</td>
                         <td>{{ $convertedOrder->order?->customer_address }}</td>
-                        <td>{{ $convertedOrder->order?->trader->name }}</td>
+                        <td>{{ $convertedOrder->order?->trader?->name }}</td>
                         <td>{{ $convertedOrder->total }}</td>
                         <td>
                             @if ($convertedOrder->order)
