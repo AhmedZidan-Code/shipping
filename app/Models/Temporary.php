@@ -16,6 +16,6 @@ class Temporary extends Model
 
     public function order()
     {
-        return $this->hasOne(Order::class, 'customer_phone', 'customer_phone')->where('status', 'converted_to_delivery')->latest();
+        return $this->belongsTo(Order::class, 'customer_phone', 'customer_phone')->where('status', 'converted_to_delivery')->latest();
     }
 }
