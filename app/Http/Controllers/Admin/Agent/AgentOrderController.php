@@ -103,8 +103,8 @@ class AgentOrderController extends Controller
     public function addDataToTemporary(array $ordersAfterTransform)
     {
         Temporary::truncate();
-
         foreach ($ordersAfterTransform as $key => $row) {
+            dd($row);
             abort_if(!$row['customer_phone'], 421, ' لايوجد بيانات هاتف عميل للصف رقم' . $key + 1);
             $customer = Order::where('customer_phone', 'like', '%' . $row['customer_phone'] . '%')
             // ->where('customer_name', 'like', '%' . $row['customer_name'] . '%')
@@ -112,19 +112,18 @@ class AgentOrderController extends Controller
                 ->latest()->first();
 
             if (!$customer) {
-                $temp = Temporary::create([
+                Temporary::create([
                     'customer_name' => $row['customer_name'],
                     'customer_phone' => $row['customer_phone'],
                     'total' => $row['total'],
                 ]);
             } else {
-               $temp = Temporary::create([
+                Temporary::create([
                     'customer_name' => $customer->customer_name,
                     'customer_phone' => $customer->customer_phone,
                     'total' => $row['total'],
                 ]);
             }
-            dd($temp);
         }
     }
 }
