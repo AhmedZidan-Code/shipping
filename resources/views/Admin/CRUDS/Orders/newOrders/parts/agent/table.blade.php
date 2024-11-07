@@ -25,7 +25,7 @@
                         <td>{{ $convertedOrder->id }}</td>
                         <td>
                             <input type="hidden" name="ids[]"
-                                value="@if ($convertedOrder->order) {{ $convertedOrder->order?->id }} @endif">
+                                value="{{ $convertedOrder->order?->id }}">
                             {{ $convertedOrder->order?->id }}
                         </td>
                         <td>{{ $convertedOrder->customer_name }}</td>
@@ -37,10 +37,10 @@
                         <td>{{ $convertedOrder->order?->trader?->name }}</td>
                         <td>{{ $convertedOrder->total }}</td>
                         <td>
-                            @if ($convertedOrder->order)
+                            {{-- @if ($convertedOrder->order) --}}
                                 <input type="number" name="total_value[]"
                                     value="{{ $convertedOrder->order?->total_value }}">
-                            @endif
+                            {{-- @endif` --}}
                         </td>
                         <td>{{ $convertedOrder->order?->created_at }}</td>
                         <td>{{ $convertedOrder->order?->notes }}</td>
