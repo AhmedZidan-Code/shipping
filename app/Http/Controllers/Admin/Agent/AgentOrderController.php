@@ -34,6 +34,7 @@ class AgentOrderController extends Controller
             $convertedOrders = Temporary::with(['order'])
             ->with(['order.province', 'order.trader', 'order.delivery'])
             ->get();
+            dd( $convertedOrders);
             $view = view('Admin.CRUDS.Orders.newOrders.parts.agent.table', ['convertedOrders' => $convertedOrders])->render();
 
             return response()->json(

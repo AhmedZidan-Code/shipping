@@ -21,26 +21,26 @@
             </thead>
             <tbody>
                 @foreach ($convertedOrders as $k => $convertedOrder)
-                    <tr style="background-color:#f8d7da;"> {{--@if (!$convertedOrder->order || ($convertedOrder->order?->total_value != $convertedOrder->total))  --}} 
+                    <tr @if ($convertedOrder->order?->total_value != $convertedOrder->total) style="background-color:#f8d7da;" @endif>
                         <td>{{ $convertedOrder->id }}</td>
                         <td>
                             <input type="hidden" name="ids[]"
-                                value="{{ $convertedOrder->order?->id }}">
+                                value="@if ($convertedOrder->order) {{ $convertedOrder->order?->id }} @endif">
                             {{ $convertedOrder->order?->id }}
                         </td>
                         <td>{{ $convertedOrder->customer_name }}</td>
                         <td>{{ $convertedOrder->order?->customer_name }}</td>
-                        <td>{{ $convertedOrder->order?->delivery?->name }}</td>
-                        <td>{{ $convertedOrder->order?->province?->title }}</td>
+                        <td>{{ $convertedOrder->order?->delivery->name }}</td>
+                        <td>{{ $convertedOrder->order?->province->title }}</td>
                         <td>{{ $convertedOrder->order?->customer_phone }}</td>
                         <td>{{ $convertedOrder->order?->customer_address }}</td>
-                        <td>{{ $convertedOrder->order?->trader?->name }}</td>
+                        <td>{{ $convertedOrder->order?->trader->name }}</td>
                         <td>{{ $convertedOrder->total }}</td>
                         <td>
-                            {{-- @if ($convertedOrder->order) --}}
+                            @if ($convertedOrder->order)
                                 <input type="number" name="total_value[]"
                                     value="{{ $convertedOrder->order?->total_value }}">
-                            {{-- @endif` --}}
+                            @endif
                         </td>
                         <td>{{ $convertedOrder->order?->created_at }}</td>
                         <td>{{ $convertedOrder->order?->notes }}</td>
