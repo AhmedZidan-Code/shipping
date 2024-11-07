@@ -47,6 +47,7 @@ class AgentOrderController extends Controller
                 [
                     'code' => 400,
                     'message' => $e->getMessage(),
+                    'error' => $e,
                 ]);
         }
 
