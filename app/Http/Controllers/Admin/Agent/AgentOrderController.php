@@ -104,12 +104,12 @@ class AgentOrderController extends Controller
     {
         Temporary::truncate();
         foreach ($ordersAfterTransform as $key => $row) {
-            dd($row);
-            abort_if(!$row['customer_phone'], 421, ' لايوجد بيانات هاتف عميل للصف رقم' . $key + 1);
+            ++$key;
+            abort_if(!$row['customer_phone'], 421, ' لايوجد بيانات هاتف عميل للصف رقم' . $key);
             $customer = Order::where('customer_phone', 'like', '%' . $row['customer_phone'] . '%')
             // ->where('customer_name', 'like', '%' . $row['customer_name'] . '%')
-                // ->where('status', 'converted_to_delivery')
-                ->latest()->first();
+            // ->where('status', 'converted_to_delivery')
+            ->latest()->first();
 
             if (!$customer) {
                 Temporary::create([
