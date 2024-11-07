@@ -29,7 +29,6 @@ class AgentOrderController extends Controller
         try {
             $orders = Excel::toArray(new AgentOrderImport, $request->file('file'));
             $ordersAfterTransform = $this->transformArrayKeys($orders[0]);
-            dd( $ordersAfterTransform);
 
             $this->addDataToTemporary($ordersAfterTransform);
             $convertedOrders = Temporary::with(['order'])
@@ -113,18 +112,19 @@ class AgentOrderController extends Controller
                 ->latest()->first();
 
             if (!$customer) {
-                Temporary::create([
+                $temp = Temporary::create([
                     'customer_name' => $row['customer_name'],
                     'customer_phone' => $row['customer_phone'],
                     'total' => $row['total'],
                 ]);
             } else {
-                Temporary::create([
+               $temp = Temporary::create([
                     'customer_name' => $customer->customer_name,
                     'customer_phone' => $customer->customer_phone,
                     'total' => $row['total'],
                 ]);
             }
+            dd($temp);
         }
     }
 }
