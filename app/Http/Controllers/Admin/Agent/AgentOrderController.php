@@ -29,7 +29,7 @@ class AgentOrderController extends Controller
         try {
             $orders = Excel::toArray(new AgentOrderImport, $request->file('file'));
             $ordersAfterTransform = $this->transformArrayKeys($orders[0]);
-            dd($orders);
+            dd( $ordersAfterTransform);
 
             $this->addDataToTemporary($ordersAfterTransform);
             $convertedOrders = Temporary::with(['order'])
