@@ -22,9 +22,10 @@
             </thead>
             <tbody>
                 @foreach ($convertedOrders as $k => $convertedOrder)
-                    <tr @if ($convertedOrder->order?->total_value != $convertedOrder->total) style="background-color:#f8d7da;" @endif>
-                        <td>{{ $convertedOrder->id }}</td>
-                        <td>
+                {{dd($convertedOrder)}}
+                    {{-- <tr @if ($convertedOrder->order?->total_value != $convertedOrder->total) style="background-color:#f8d7da;" @endif> --}}
+                        {{-- <td>{{ $convertedOrder->id }}</td> --}}
+                        {{-- <td>
                             <input type="hidden" name="ids[]"
                                 value="@if ($convertedOrder->order) {{ $convertedOrder->order?->id }} @endif">
                             {{ $convertedOrder->order?->id }}
@@ -45,7 +46,7 @@
                             @endif
                         </td>
                         <td>{{ $convertedOrder->order?->created_at }}</td>
-                        <td>{{ $convertedOrder->order?->notes }}</td>
+                        <td>{{ $convertedOrder->order?->notes }}</td> --}}
                     </tr>
                 @endforeach
             </tbody>
