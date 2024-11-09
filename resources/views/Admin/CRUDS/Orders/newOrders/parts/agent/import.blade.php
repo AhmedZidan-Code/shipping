@@ -134,7 +134,7 @@
                             toastr.error(data.message)
                         }
                     }, 1000);
-                    $('#submit-excel').html(' سحب البيانات' ).attr(
+                    $('#submit-excel').html(' سحب البيانات').attr(
                         'disabled',
                         false);
 
