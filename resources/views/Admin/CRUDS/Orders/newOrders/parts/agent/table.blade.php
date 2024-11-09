@@ -22,7 +22,7 @@
             </thead>
             <tbody>
                 @foreach ($convertedOrders as $k => $convertedOrder)
-                {{dd($convertedOrder->order?->total_value)}}
+                {{dd($convertedOrder->order)}}
                     {{-- <tr @if ($convertedOrder->order?->total_value != $convertedOrder->total) style="background-color:#f8d7da;" @endif> --}}
                         {{-- <td>{{ $convertedOrder->id }}</td> --}}
                         {{-- <td>
