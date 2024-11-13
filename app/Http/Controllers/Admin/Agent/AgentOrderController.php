@@ -105,7 +105,7 @@ class AgentOrderController extends Controller
             ]);
         }
 
-        // try {
+        try {
             DB::beginTransaction();
 
             $row = DB::table('deliveries')->where('id', $request->agent_id)->first();
@@ -181,14 +181,14 @@ class AgentOrderController extends Controller
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
             ]);
-        // } catch (\Exception $e) {
-        //     DB::rollBack();
+        } catch (\Exception $e) {
+            DB::rollBack();
 
-        //     return response()->json([
-        //         'code' => 500,
-        //         'message' => 'حدث خطأ ما: ' . $e->getMessage(),
-        //     ], 500);
-        // }
+            return response()->json([
+                'code' => 500,
+                'message' => 'حدث خطأ ما: ' . $e->getMessage(),
+            ], 500);
+        }
 
     }
 
