@@ -87,22 +87,38 @@ class AgentOrderController extends Controller
             'agent_id' => 'required',
             'all_orders' => 'required',
             'mandoub_orders' => 'required',
-            'total_shipping' => 'required',
+            'total_shipping' => 'required|numeric',
+            'agent_value' => 'required|numeric',
             'total_orders' => 'required|numeric',
-            'cash' => 'required|numeric',
-            'cheque' => 'required|numeric',
+            'total_from_agent' => 'required|numeric',
+            'commission' => 'required|numeric',
+            'cash' => 'required|numeric|lte:total_from_agent',
+            'cheque' => 'required|numeric|lte:total_from_agent',
             'month' => 'required',
             'ids' => 'required|array',
             'ids.*' => 'required|exists:orders,id',
-            // 'total_value' => 'required|array',
             // 'total_value.*' => 'required|numeric',
         ]);
 
+        $sum = $request->cash + $request->cheque;
+        if ($sum > $request->total_from_agent) {
+            return response()->json([
+                'code' => 422,
+                'message' => 'لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ',
+                'errors' => [
+                    'sum' => ['لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ'],
+                ],
+            ], 422);
+        }
+
+        $status = [];
         foreach ($validateData['ids'] as $index => $id) {
             Order::where('id', $id)->update([
                 // 'total_value' => $validateData['total_value'][$index],
                 'status' => 'total_delivery_to_customer',
             ]);
+
+            $status[] = "total_delivery_to_customer";
         }
 
         try {
@@ -110,46 +126,26 @@ class AgentOrderController extends Controller
 
             $row = DB::table('deliveries')->where('id', $request->agent_id)->first();
             $setting_mandoub_commission = $row->commission;
-            $commission = 0;
-
-            if ($row->type_paid > 0) {
-                $type_paid = $row->type_paid;
-                if ($type_paid == 1) {
-                    $setting_mandoub_commission = 0;
-                    $commission = 0;
-                } elseif ($type_paid == 2) {
-                    $setting_mandoub_commission = $row->commission;
-                    $commission = $row->commission * $request->mandoub_orders;
-                } elseif ($type_paid == 3) {
-                    $setting_mandoub_commission = $row->commission;
-                    $commission = $row->commission * $request->mandoub_orders;
-                }
-            } else {
-                return response()->json([
-                    'code' => 500,
-                    'message' => "قم بادخال اعدادات الراتب للمندوب",
-                ], 500);
-
-            }
 
             // Insert into delivery_orders and get the last inserted ID
             $lastInsertedId = DB::table('delivery_orders')->insertGetId([
                 'delivery_id' => $request->agent_id,
+                'delivery_type' => 'agent',
                 'num_all_orders' => $request->all_orders,
                 'num_mandoub_orders' => $request->mandoub_orders,
                 'total_shipping' => $request->total_shipping,
                 'setting_mandoub_commission' => $setting_mandoub_commission,
-                'type_paid' => $type_paid,
-                'mandoub_commission' => $commission,
-                'company_commission' => $request->total_shipping - $commission,
-                'commission_after_fees' => $commission - $request->fees,
-                'fees' => 0,
+                'type_paid' => 3,
+                'mandoub_commission' => $request->agent_value,
+                'company_commission' => $request->commission,
+                'commission_after_fees' => $request->commission,
+                'fees' => $request->agent_value,
                 'solar' => 0,
                 'total_orders' => $request->total_orders,
                 'cash' => $request->cash,
                 'cheque' => $request->cheque,
                 'orders_id' => json_encode($request->ids),
-                // 'status_id' => json_encode($request->status),
+                'status_id' => json_encode($status),
                 'year' => date('Y'),
                 'month' => $request->month,
                 'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
@@ -162,7 +158,7 @@ class AgentOrderController extends Controller
                     $row = [
                         'main_table_id' => $lastInsertedId,
                         'delivery_id' => $request->agent_id,
-                        // 'status' => $request->status[$i],
+                        'status' => "total_delivery_to_customer",
                         'order_id' => $request->ids[$i],
                         'month' => $request->month,
                         'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),

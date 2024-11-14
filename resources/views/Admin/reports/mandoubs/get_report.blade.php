@@ -147,8 +147,15 @@
                 
                  </td>
                
-                <td colspan=""> الاجمالي </td>
-                <td style="color: red;" colspan="2"> <input type="text" style="width: 90px;" id="total_orders" readonly="" value="{{$all_total }}" /> </td>
+                <td style="color: red;" colspan="3"> 
+                    الاجمالي :
+                    <input type="text" style="width: 50px;" id="total_orders" readonly="" value="{{$all_total }}" /> 
+                    نقدي :
+                    <input type="text" style="width: 50px;" id="cash"  value="" /> 
+                    غير نقدي :
+                    <input type="text" style="width: 50px;" id="cheque"  value="" /> 
+                
+                </td>
                
                  <td style="color: red;"> المصروف :<input type="number" value="0" id="fees" name="fees" />  </td>
                  
@@ -613,6 +620,8 @@ function save_result() {
     var mandoub_orders = $('#mandoub_orders').val();
     var total_shipping = $('#total_shipping').val();
     var total_orders = $('#total_orders').val();
+    var cash = $('#cash').val();
+    var cheque = $('#cheque').val();
     var month = $('#month').val();
     var fees = $('#fees').val();
     var solar = $('#solar').val();
@@ -643,6 +652,8 @@ function save_result() {
             mandoub_orders: mandoub_orders,
             total_shipping: total_shipping,
             total_orders: total_orders,
+            cash: cash,
+            cheque: cheque,
             selectedValues: selectedValues,
             status: status,
             month :month,
@@ -688,6 +699,32 @@ function save_result() {
     });
 }
 </script>
+<script>
+        $(document).ready(function() {
+        $('#cheque').on('keyup', function() {
+            var totalValue = parseFloat($('#total_orders').val()) || 0;
+            var chequeValue = parseFloat($(this).val()) || 0;
+            var cashValue = parseFloat($('#cash').val()) || 0;
 
+            if (chequeValue + cashValue > totalValue) {
+                alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
+            }
+
+        });
+    });
+    $(document).ready(function() {
+        $('#cash').on('keyup', function() {
+            var totalValue = parseFloat($('#total_orders').val()) || 0;
+            var cashValue = parseFloat($(this).val()) || 0;
+            var chequeValue = parseFloat($('#cheque').val()) || 0;
+
+            if (chequeValue + cashValue > totalValue) {
+                alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
+            }
+
+        });
+    });
+
+</script>
     
     

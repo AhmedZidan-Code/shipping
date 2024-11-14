@@ -31,7 +31,7 @@
                 ?>
                 @foreach ($convertedOrders as $k => $convertedOrder)
                     <tr
-                        @if (!$convertedOrder->order) style="background-color:#f8d7da;" @elseif ($convertedOrder->order && $convertedOrder->order['total_value'] != $convertedOrder->total) style="background-color:#FFFFC2;"@endif>
+                        @if (!$convertedOrder->order) style="background-color:#f8d7da;" @elseif ($convertedOrder->order && $convertedOrder->order['total_value'] != $convertedOrder->total) style="background-color:#FFFFC2;" @endif>
                         <td class="text-nowrap">{{ $convertedOrder->id }}</td>
                         <td class="text-nowrap">
                             @if ($convertedOrder->order)
@@ -75,33 +75,36 @@
             </tbody>
             <tfoot>
                 <tr style="background-color: whitesmoke;">
-                    <td style="color: red;" colspan="12">
+                    <td style="color: red;" colspan="13">
                         عدد الاوردرات :
 
                         <input type="text" style="width: 60px;" id="orders_count" readonly=""
                             value="{{ $orders_count }}" />
-                        اجمالي قيمه الوكيل :
+                        اجمالي الوكيل :
 
                         <input type="text" style="width: 60px;" id="total_shipping" readonly=""
                             value="{{ $total_agent_value }}" />
 
-                        اجمالي قيمة التوصيل :
+                        اجمالي التوصيل :
                         <input type="text" style="width: 90px;" id="total_delivery_value" readonly=""
                             value="{{ $total_delivery_value }}" />
                         العمولة :
-                        <input type="text" style="width: 90px;" id="commission" readonly=""
+                        <input type="text" style="width: 40px;" id="commission" readonly=""
                             value="{{ $total_delivery_value - $total_agent_value }}" />
                         الاجمالي :
                         <input type="text" style="width: 90px;" id="total_orders" readonly=""
                             value="{{ $total }}" />
+                        المستلم من الوكيل :
+                        <input type="text" style="width: 90px;" id="total_from_agent" readonly=""
+                            value="{{ $total - $total_agent_value }}" />
                         نقدي :
-                        <input type="number" style="width: 90px;" id="cash" value="" />
+                        <input type="number" style="width: 70px;" id="cash" value="" />
                         غير نقدي :
-                        <input type="number" style="width: 90px;" id="cheque" value="" />
+                        <input type="number" style="width: 70px;" id="cheque" value="" />
 
                     </td>
 
-                    <td style="color: red;" colspan="2"> <input type="date" name="day_date"
+                    <td style="color: red;" colspan="1"> <input type="date" name="day_date"
                             value="<?= date('Y-m-d') ?>" /> </td>
                     <td colspan="1"> <select class="form-control" id="month" name="month">
                             <option value=""> اختر الشهر </option>
@@ -210,131 +213,123 @@
 </script>
 <script>
     $(document).ready(function() {
-        const totalOrders = document.getElementById('total_orders');
-        const cashInput = document.getElementById('cash');
-        const chequeInput = document.getElementById('cheque');
+        $('#cheque').on('keyup', function() {
+            var totalValue = parseFloat($('#total_from_agent').val()) || 0;
+            var chequeValue = parseFloat($(this).val()) || 0;
+            var cashValue = parseFloat($('#cash').val()) || 0;
 
-        function updateCheque() {
-            console.log('omar pero1');
-            let cash = parseFloat(cashInput.value) || 0;
-            let total = parseFloat(totalOrders.value) || 0;
-
-            // Prevent negative values
-            if (cash > total) {
-                cash = total;
-                cashInput.value = cash;
+            if (chequeValue + cashValue > totalValue) {
+                alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
             }
 
-            chequeInput.value = (total - cash).toFixed(2);
-        }
+        });
+    });
+    $(document).ready(function() {
+        $('#cash').on('keyup', function() {
+            var totalValue = parseFloat($('#total_from_agent').val()) || 0;
+            var cashValue = parseFloat($(this).val()) || 0;
+            var chequeValue = parseFloat($('#cheque').val()) || 0;
 
-        function updateCash() {
-            console.log('omar pero2');
-            let cheque = parseFloat(chequeInput.value) || 0;
-            let total = parseFloat(totalOrders.value) || 0;
-
-            // Prevent negative values
-            if (cheque > total) {
-                cheque = total;
-                chequeInput.value = cheque;
+            if (chequeValue + cashValue > totalValue) {
+                alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
             }
 
-            cashInput.value = (total - cheque).toFixed(2);
-        }
-
-        cashInput.addEventListener('keyup', updateCheque);
-        chequeInput.addEventListener('keyup', updateCash);
+        });
     });
 
     function save_result() {
-    var delivery_id = $('#agent_id').val();
-    var all_orders = $('#orders_count').val();
-    var mandoub_orders = $('#orders_count').val();
-    var total_shipping = $('#total_shipping').val();
-    var commission = $('#commission').val();
-    var total_orders = $('#total_orders').val();
-    var month = $('#month').val();
-    var month = $('#month').val();
-    var cheque = $('#cheque').val();
-    var cash = $('#cash').val();
-    var idInput = document.querySelectorAll('input[name="ids[]"]');
-    var ids = [];
-    idInput.forEach(input => ids.push(input.value));
-    
-    // var fees = $('#fees').val();
-    // var solar = $('#solar').val();
-    // var selectedValues = [];
-    // var status = [];
-    // $('.myCheckboxClass:checked').each(function() {
-    //     selectedValues.push($(this).val());
-    //     status.push($(this).attr('data-status'));
-    // });
+        var delivery_id = $('#agent_id').val();
+        var all_orders = $('#orders_count').val();
+        var mandoub_orders = $('#orders_count').val();
+        var total_shipping = $('#total_delivery_value').val();
+        var agent_value = $('#total_shipping').val();
+        var commission = $('#commission').val();
+        var total_orders = $('#total_orders').val();
+        var total_from_agent = $('#total_from_agent').val();
+        var month = $('#month').val();
+        var cheque = $('#cheque').val();
+        var cash = $('#cash').val();
+        var idInput = document.querySelectorAll('input[name="ids[]"]');
+        var ids = [];
+        idInput.forEach(input => ids.push(input.value));
 
-    // if (selectedValues.length === 0) {
-    //     alert("من فضلك قم بادخال الاوردرات");
-    //     return;
-    // }
+        // var fees = $('#fees').val();
+        // var solar = $('#solar').val();
+        // var selectedValues = [];
+        // var status = [];
+        // $('.myCheckboxClass:checked').each(function() {
+        //     selectedValues.push($(this).val());
+        //     status.push($(this).attr('data-status'));
+        // });
 
-    // if (delivery_id === '' || all_orders === '') {
-    //     alert("من فضلك قم باختيار المندوب");
-    //     return;
-    // }
+        // if (selectedValues.length === 0) {
+        //     alert("من فضلك قم بادخال الاوردرات");
+        //     return;
+        // }
 
-    $.ajax({
-        url: '{{ route('admin.add_agent_orders') }}',
-        type: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}',
-            agent_id: delivery_id,
-            all_orders: all_orders,
-            mandoub_orders: mandoub_orders,
-            total_shipping: total_shipping,
-            total_orders: total_orders,
-            month :month,
-            ids :ids,
-            cash :cash,
-            cheque :cheque,
-            // selectedValues: selectedValues,
-            // status: status,
-            // fees:fees,
-            // solar:solar
-        },
-        beforeSend: function () {
-            // Optional: Add loading spinner or disable submit button
-        },
-        complete: function () {
-            // Optional: Remove loading spinner or enable submit button
-        },
-        success: function (data) {
-             if (data.code === 200) {
-                toastr.success(data.message);
-                setTimeout(reloading, 1000);
-            } else {
-                toastr.error(data.message);
+        // if (delivery_id === '' || all_orders === '') {
+        //     alert("من فضلك قم باختيار المندوب");
+        //     return;
+        // }
+
+        $.ajax({
+            url: '{{ route('admin.add_agent_orders') }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                agent_id: delivery_id,
+                all_orders: all_orders,
+                mandoub_orders: mandoub_orders,
+                total_shipping: total_shipping,
+                agent_value: agent_value,
+                total_orders: total_orders,
+                total_from_agent: total_from_agent,
+                month: month,
+                commission: commission,
+                ids: ids,
+                cash: cash,
+                cheque: cheque,
+                // selectedValues: selectedValues,
+                // status: status,
+                // fees:fees,
+                // solar:solar
+            },
+            beforeSend: function() {
+                // Optional: Add loading spinner or disable submit button
+            },
+            complete: function() {
+                // Optional: Remove loading spinner or enable submit button
+            },
+            success: function(data) {
+                if (data.code === 200) {
+                    toastr.success(data.message);
+                    setTimeout(reloading, 1000);
+                } else {
+                    toastr.error(data.message);
+                    $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
+                }
+            },
+            error: function(data) {
+
                 $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
-            }
-        },
-        error: function (data) {
-         
-            $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
 
-            if (data.status === 500) {
-               toastr.error(data.responseJSON.message);
-               console.log(data.message);
-            } else if (data.status === 422) {
-                var errors = $.parseJSON(data.responseText);
-                $.each(errors, function (key, value) {
-                    if ($.isPlainObject(value)) {
-                        $.each(value, function (key, value) {
-                            toastr.error(value);
-                        });
-                    }
-                });
-            } else if (data.status === 421) {
-                toastr.error(data.message);
-            }
-        },
-       
-    });
-}
+                if (data.status === 500) {
+                    toastr.error(data.responseJSON.message);
+                    console.log(data.message);
+                } else if (data.status === 422) {
+                    var errors = $.parseJSON(data.responseText);
+                    $.each(errors, function(key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function(key, value) {
+                                toastr.error(value);
+                            });
+                        }
+                    });
+                } else if (data.status === 421) {
+                    toastr.error(data.message);
+                }
+            },
+
+        });
+    }
 </script>

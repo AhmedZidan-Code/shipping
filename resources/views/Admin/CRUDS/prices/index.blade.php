@@ -77,8 +77,8 @@
     <script>
         var columns = [
             {data: 'id', name: 'id'},
-            {data: 'trader', name: 'trader'},
-            {data: 'govern', name: 'govern'},
+            {data: 'trader', name: 'trader', searchable: true},
+            {data: 'govern', name: 'govern', searchable: true},
             {data: 'value', name: 'value'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ];
