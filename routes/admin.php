@@ -111,6 +111,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('delayedOrders', \App\Http\Controllers\Admin\Order\DelayOrderController::class); //setting
     Route::post('get_delivery_orders', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'get_delivery_orders'])->name('admin.get_delivery_orders');
     Route::post('add_delivery_orders', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'add_delivery_orders'])->name('admin.add_delivery_orders');
+    Route::post('add_agent_orders', [AgentOrderController::class, 'addAgentOrders'])->name('admin.add_agent_orders');
 
     Route::get('get_order_mandoub_details/{id}', [\App\Http\Controllers\Admin\Reports\MandoubReportsController::class, 'get_order_mandoub_details'])->name('admin.get_order_mandoub_details');
 

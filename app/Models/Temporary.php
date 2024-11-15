@@ -11,11 +11,13 @@ class Temporary extends Model
     protected $fillable = [
         'customer_name',
         'customer_phone',
+        'agent_value',
         'total',
     ];
 
     public function order()
     {
-        return $this->belongsTo(Order::class, 'customer_phone', 'customer_phone')->where('status', 'converted_to_delivery')->latest();
+        return $this->belongsTo(Order::class, 'customer_phone', 'customer_phone')->latest();
     }
 }
+// 

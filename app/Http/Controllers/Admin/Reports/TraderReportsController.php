@@ -32,14 +32,14 @@ class TraderReportsController extends Controller
             $condition=[];
 
             if ($request->fromDate){
-                $rows->where('converted_date','>=',$request->fromDate.' '.'00:00:00');
+                $rows->where('created_at','>=',$request->fromDate.' '.'00:00:00');
                 
-                $condition['converted_date >=']= $request->fromDate.' '.'00:00:00';
+                $condition['created_at >=']= $request->fromDate.' '.'00:00:00';
             }
             if ($request->toDate){
-                $rows->where('converted_date','<=',$request->toDate.' '.'23:59:59');
+                $rows->where('created_at','<=',$request->toDate.' '.'23:59:59');
                 
-                $condition['converted_date <=']= $request->toDate.' '.'23:59:59';
+                $condition['created_at <=']= $request->toDate.' '.'23:59:59';
 
             }
             if ($request->trader_id){
@@ -138,6 +138,8 @@ class TraderReportsController extends Controller
                       $status=  '<button class="btn btn-success"> محصل </button>';
                     elseif ($row->status=='paid')
                          $status=  '<button class="btn btn-success"> مدفوع  </button>';
+                    elseif ($row->status=='shipping_on_messanger')
+                         $status=  '<button class="btn btn-success"> الشحن علي الراسل  </button>';
                     else
                         $status='لم يحدد';
 

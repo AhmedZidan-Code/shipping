@@ -62,12 +62,25 @@ class MandoubReportsController extends Controller
                 'mandoub_orders' => 'required',
                 'total_shipping' => 'required',
                 'total_orders' => 'required',
+                'cash' => 'required|numeric|lte:total_orders',
+                'cheque' => 'required|numeric|lte:total_orders',
                 'selectedValues' => 'required|array',
                 'status' => 'required|array',
                 'month' => 'required', // Ensure month is validated
                 'fees' => 'required',
                 'solar' => 'required',
             ]);
+
+            $sum = $request->cash + $request->cheque;
+            if ($sum > $request->total_orders) {
+                return response()->json([
+                    'code' => 422,
+                    'message' => 'لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ',
+                    'errors' => [
+                        'sum' => ['لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ'],
+                    ],
+                ], 422);
+            }
 
             DB::beginTransaction();
 

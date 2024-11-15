@@ -42,7 +42,7 @@
                                     <label for="agent_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                                         <span class="required mr-1">الوكيل</span>
                                     </label>
-                                    <select id='delivery_excel' name="agent_id" style='width: 200px;'>
+                                    <select id='agent_id' name="agent_id" style='width: 200px;'>
                                         <option selected value="0">- ابحث عن وكيل</option>
                                     </select>
                                 </div>
@@ -208,7 +208,7 @@
     <script>
         (function() {
 
-            $("#delivery_excel").select2({
+            $("#agent_id").select2({
                 placeholder: 'Channel...',
                 // width: '350px',
                 allowClear: true,
