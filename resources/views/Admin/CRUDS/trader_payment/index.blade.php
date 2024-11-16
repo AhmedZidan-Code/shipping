@@ -68,6 +68,7 @@
                     <tr>
                         <th>#</th>
                         <th>التاجر</th>
+                        <th>النوع</th>
                         <th> التاريخ</th>
                         <th>المبلغ</th>
                         <th>نقدي</th>
@@ -123,6 +124,7 @@
         var columns = [
             {data: 'id', name: 'id'},
             {data: 'trader.name', name: 'trader.name'},
+            {data: 'type', name: 'type'},
             {data: 'date', name: 'date'},
             {data: 'amount', name: 'amount'},
             {data: 'cash', name: 'cash'},

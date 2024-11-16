@@ -26,6 +26,7 @@ class TraderPaymentRequest extends FormRequest
         return [
             'trader_id' => 'required|exists:traders,id',
             'date' => 'required|date',
+            'type' => 'required|in:1,2,3',
             'cash' => 'required|numeric',
             'cheque' => 'required|numeric',
             'notes' => 'nullable|max:500',

@@ -68,6 +68,9 @@ class TraderPaymentController extends Controller
                     // </span>
                     // </button>
                 })
+                ->editColumn('type', function($row){
+                    return TransactionType::nameInAr($row->type);
+                })
                 ->escapeColumns([])
                 ->make(true);
 
@@ -88,7 +91,6 @@ class TraderPaymentController extends Controller
         $data = $request->validated();
         $data['amount'] = $data['cash'] + $data['cheque'];
         $data['total_balance'] = $data['amount'];
-        $data['type'] = TransactionType::DEPOSIT;
         $row = TraderPayments::create($data);
         $row->load('trader');
         $this->add_log_activity($row, auth('admin')->user(), " تم اضافة تسديد للتاجر  {$row->trader->name}");
@@ -118,7 +120,7 @@ class TraderPaymentController extends Controller
         $data = $request->validated();
         $data['amount'] = $data['cash'] + $data['cheque'];
         $data['total_balance'] = $data['amount'];
-        $data['type'] = TransactionType::DEPOSIT;
+        // $data['type'] = TransactionType::DEPOSIT;
         $row->update($data);
 
         $this->add_log_activity($old, auth('admin')->user(), " تم تعديل  تسديد للتاجر {$row->trader->name}");

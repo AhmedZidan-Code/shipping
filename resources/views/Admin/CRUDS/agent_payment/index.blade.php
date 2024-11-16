@@ -69,6 +69,7 @@
                         <th>#</th>
                         <th>الوكيل</th>
                         <th> التاريخ</th>
+                        <th> النوع</th>
                         <th>المبلغ</th>
                         <th>نقدي</th>
                         <th>غير نقدي</th>
@@ -87,7 +88,7 @@
                     <!--begin::Modal header-->
                     <div class="modal-header">
                         <!--begin::Modal title-->
-                        <h2><span id="operationType"></span> تسديدات التجار </h2>
+                        <h2><span id="operationType"></span> تسديدات الوكلاء </h2>
                         <!--end::Modal title-->
                         <!--begin::Close-->
                         <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
@@ -124,6 +125,7 @@
             {data: 'id', name: 'id'},
             {data: 'agent.name', name: 'agent.name'},
             {data: 'date', name: 'date'},
+            {data: 'type', name: 'type'},
             {data: 'total', name: 'total'},
             {data: 'cash', name: 'cash'},
             {data: 'cheque', name: 'cheque'},

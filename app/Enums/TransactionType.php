@@ -51,20 +51,35 @@ class TransactionType
             case 0:
                 return 'أوردرات';
             case self::DEPOSIT:
-                return 'مرتجع';
+                return 'مقدم';
             case self::TAHSEEL:
                 return 'تحصيل';
             case self::HADBACK:
-                return 'مقدم';
+                return 'مرتجع';
             case 4:
                 return 'مديونية سابقة';
             default:
                 return '---';
-            }
+        }
     }
 
     public function __toString(): string
     {
         return $this->type;
+    }
+
+    /**
+     * Get the name associated with a given value.
+     *
+     * @return array
+     */
+    public static function getNameWithValue(): array
+    {
+        return [
+            self::TAHSEEL => 'تحصيل',
+            self::DEPOSIT => 'مقدم',
+            self::HADBACK => 'مرتجع',
+        ];
+
     }
 }

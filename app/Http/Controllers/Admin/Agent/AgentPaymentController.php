@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Agent;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\AgentPaymentRequest;
-use App\Http\Traits\LogActivityTrait;
 use App\Models\AgentPayment;
 use Illuminate\Http\Request;
+use App\Enums\TransactionType;
+use App\Http\Controllers\Controller;
+use App\Http\Traits\LogActivityTrait;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\Admin\AgentPaymentRequest;
 
 class AgentPaymentController extends Controller
 {
@@ -47,7 +48,7 @@ class AgentPaymentController extends Controller
                     $edit = '';
                     $delete = '';
 
-                // <a href="' . route('agent-payment-details.index', ['paid_id' => $row->id]) . '" class="btn rounded-pill btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    // <a href="' . route('agent-payment-details.index', ['paid_id' => $row->id]) . '" class="btn rounded-pill btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
 
                     return '<button  ' . $edit . '   class="editBtn btn rounded-pill btn-primary waves-effect waves-light"
                                     data-id="' . $row->id . '"
@@ -66,6 +67,9 @@ class AgentPaymentController extends Controller
                     //         </span>
                     //     </span>
                     //     </button>';
+                })
+                ->editColumn('type', function ($row) {
+                    return TransactionType::nameInAr($row->type);
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -86,7 +90,6 @@ class AgentPaymentController extends Controller
     {
         $data = $request->validated();
         $data['total'] = $data['cash'] + $data['cheque'];
-        // $data['type'] = TransactionType::DEPOSIT;
         $row = AgentPayment::create($data);
         $row->load('agent');
         $this->add_log_activity($row, auth('admin')->user(), " تم اضافة تسديد للوكيل  {$row->agent->name}");
