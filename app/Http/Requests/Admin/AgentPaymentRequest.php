@@ -26,6 +26,7 @@ class AgentPaymentRequest extends FormRequest
         return [
             'agent_id' => 'required|exists:deliveries,id',
             'date' => 'required|date',
+            'type' => 'required|in:1,2,3',
             'cash' => 'required|numeric',
             'cheque' => 'required|numeric',
             'notes' => 'nullable|max:500',

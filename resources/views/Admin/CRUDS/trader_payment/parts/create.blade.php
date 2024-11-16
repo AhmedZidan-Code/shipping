@@ -9,22 +9,33 @@
             </label>
             <input type="date" id="date" name="date" class="showBonds form-control">
         </div>
-        <div class="d-flex flex-column mb-7 fv-row col-sm-12">
+        <div class="d-flex flex-column mb-7 fv-row col-sm-6">
             <!--begin::Label-->
             <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                 <span class="required mr-1"> التاجر</span>
             </label>
-            <select id='trader_modal_id' name="trader_id" style='width: 200px;'>
+            <select id='trader_modal_id' name="trader_id" >
                 <option selected value="0" disabled>- ابحث عن التاجر</option>
             </select>
         </div>
-        <div class="col-md-12 ">
+        <div class="col-md-6 ">
+            <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1"> النوع</span>
+            </label>
+            <select class="form-control" name="type" >
+                <option selected disabled>- اختر النوع</option>
+                @foreach (App\Enums\TransactionType::getNameWithValue() as $type => $name)
+                    <option value="{{ $type }}">{{ $name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-6 ">
             <label for="cash" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                 <span class="required mr-1"> نقدي </span>
             </label>
             <input type="number" id="cash" name="cash" class="showBonds form-control">
         </div>
-        <div class="col-md-12 ">
+        <div class="col-md-6 ">
             <label for="cheque" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                 <span class="required mr-1"> غير نقدي</span>
             </label>

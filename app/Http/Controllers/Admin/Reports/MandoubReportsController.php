@@ -22,7 +22,6 @@ class MandoubReportsController extends Controller
 
     public function index(Request $request)
     {
-
         $deliveries = Delivery::get();
         return view('Admin.reports.mandoubs.index', compact('deliveries'));
     }
@@ -54,123 +53,124 @@ class MandoubReportsController extends Controller
 
     public function add_delivery_orders(Request $request)
     {
+        $validated = $request->validate([
+            'delivery_id' => 'required',
+            'all_orders' => 'required',
+            'mandoub_orders' => 'required',
+            'total_shipping' => 'required',
+            'total_orders' => 'required',
+            'cash' => 'required|numeric|lte:total_orders',
+            'cheque' => 'required|numeric|lte:total_orders',
+            'selectedValues' => 'required|array',
+            'status' => 'required|array',
+            'month' => 'required', // Ensure month is validated
+            'fees' => 'required',
+            'solar' => 'required',
+        ]);
 
-        try {
-            $validated = $request->validate([
-                'delivery_id' => 'required',
-                'all_orders' => 'required',
-                'mandoub_orders' => 'required',
-                'total_shipping' => 'required',
-                'total_orders' => 'required',
-                'cash' => 'required|numeric|lte:total_orders',
-                'cheque' => 'required|numeric|lte:total_orders',
-                'selectedValues' => 'required|array',
-                'status' => 'required|array',
-                'month' => 'required', // Ensure month is validated
-                'fees' => 'required',
-                'solar' => 'required',
-            ]);
+        // try {
 
-            $sum = $request->cash + $request->cheque;
-            if ($sum > $request->total_orders) {
-                return response()->json([
-                    'code' => 422,
-                    'message' => 'لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ',
-                    'errors' => [
-                        'sum' => ['لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ'],
-                    ],
-                ], 422);
-            }
-
-            DB::beginTransaction();
-
-            $row = DB::table('deliveries')->where('id', $request->delivery_id)->first();
-            $setting_mandoub_commission = $row->commission;
-            $commission = 0;
-
-            if ($row->type_paid > 0) {
-                $type_paid = $row->type_paid;
-                if ($type_paid == 1) {
-                    $setting_mandoub_commission = 0;
-                    $commission = 0;
-                } elseif ($type_paid == 2) {
-                    $setting_mandoub_commission = $row->commission;
-                    $commission = $row->commission * $request->mandoub_orders;
-                } elseif ($type_paid == 3) {
-                    $setting_mandoub_commission = $row->commission;
-                    $commission = $row->commission * $request->mandoub_orders;
-                }
-            } else {
-                return response()->json([
-                    'code' => 500,
-                    'message' => "قم بادخال اعدادات الراتب للمندوب",
-                ], 500);
-
-            }
-
-            // Insert into delivery_orders and get the last inserted ID
-            $lastInsertedId = DB::table('delivery_orders')->insertGetId([
-                'delivery_id' => $request->delivery_id,
-                'num_all_orders' => $request->all_orders,
-                'num_mandoub_orders' => $request->mandoub_orders,
-                'total_shipping' => $request->total_shipping,
-                'setting_mandoub_commission' => $setting_mandoub_commission,
-                'type_paid' => $type_paid,
-                'mandoub_commission' => $commission,
-                'company_commission' => $request->total_shipping - ($commission + $request->solar),
-                'commission_after_fees' => $commission - $request->fees,
-                'fees' => $request->fees,
-                'solar' => $request->solar,
-                'total_orders' => $request->total_orders,
-                'orders_id' => json_encode($request->selectedValues),
-                'status_id' => json_encode($request->status),
-                'year' => date('Y'),
-                'month' => $request->month,
-                'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
-                'date' => date('Y-m-d'),
-                'publisher' => auth()->id(),
-            ]);
-
-            $sql = [];
-            if ($request->selectedValues) {
-                for ($i = 0; $i < count($request->selectedValues); $i++) {
-                    $row = [
-                        'main_table_id' => $lastInsertedId,
-                        'delivery_id' => $request->delivery_id,
-                        'status' => $request->status[$i],
-                        'order_id' => $request->selectedValues[$i],
-                        'month' => $request->month,
-                        'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
-                        'date' => date('Y-m-d'),
-                        'publisher' => auth()->id(),
-                    ];
-                    array_push($sql, $row);
-                }
-            }
-
-            DB::table('delivery_orders_details')->insert($sql);
-
-            DB::commit();
-
+        $sum = $request->cash + $request->cheque;
+        if ($sum > $request->total_orders) {
             return response()->json([
-                'code' => 200,
-                'message' => 'تمت العملية بنجاح!',
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
+                'code' => 422,
+                'message' => 'لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ',
+                'errors' => [
+                    'sum' => ['لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ'],
+                ],
+            ], 422);
+        }
 
+        DB::beginTransaction();
+
+        $row = DB::table('deliveries')->where('id', $request->delivery_id)->first();
+        $setting_mandoub_commission = $row->commission;
+        $commission = 0;
+
+        if ($row->type_paid > 0) {
+            $type_paid = $row->type_paid;
+            if ($type_paid == 1) {
+                $setting_mandoub_commission = 0;
+                $commission = 0;
+            } elseif ($type_paid == 2) {
+                $setting_mandoub_commission = $row->commission;
+                $commission = $row->commission * $request->mandoub_orders;
+            } elseif ($type_paid == 3) {
+                $setting_mandoub_commission = $row->commission;
+                $commission = $row->commission * $request->mandoub_orders;
+            }
+        } else {
             return response()->json([
                 'code' => 500,
-                'message' => 'حدث خطأ ما: ' . $e->getMessage(),
+                'message' => "قم بادخال اعدادات الراتب للمندوب",
             ], 500);
+
         }
+
+        // Insert into delivery_orders and get the last inserted ID
+        $lastInsertedId = DB::table('delivery_orders')->insertGetId([
+            'delivery_id' => $request->delivery_id,
+            'num_all_orders' => $request->all_orders,
+            'num_mandoub_orders' => $request->mandoub_orders,
+            'total_shipping' => $request->total_shipping,
+            'setting_mandoub_commission' => $setting_mandoub_commission,
+            'type_paid' => $type_paid,
+            'mandoub_commission' => $commission,
+            'company_commission' => $request->total_shipping - ($commission + $request->solar),
+            'commission_after_fees' => $commission - $request->fees,
+            'fees' => $request->fees,
+            'solar' => $request->solar,
+            'total_orders' => $request->total_orders,
+            'cash' => $request->cash,
+            'cheque' => $request->cheque,
+            'orders_id' => json_encode($request->selectedValues),
+            'status_id' => json_encode($request->status),
+            'year' => date('Y'),
+            'month' => $request->month,
+            'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
+            'date' => date('Y-m-d'),
+            'publisher' => auth()->id(),
+        ]);
+
+        $sql = [];
+        if ($request->selectedValues) {
+            for ($i = 0; $i < count($request->selectedValues); $i++) {
+                $row = [
+                    'main_table_id' => $lastInsertedId,
+                    'delivery_id' => $request->delivery_id,
+                    'status' => $request->status[$i],
+                    'order_id' => $request->selectedValues[$i],
+                    'month' => $request->month,
+                    'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
+                    'date' => date('Y-m-d'),
+                    'publisher' => auth()->id(),
+                ];
+                array_push($sql, $row);
+            }
+        }
+
+        DB::table('delivery_orders_details')->insert($sql);
+
+        DB::commit();
+
+        return response()->json([
+            'code' => 200,
+            'message' => 'تمت العملية بنجاح!',
+        ]);
+        // } catch (\Exception $e) {
+        //     DB::rollBack();
+
+        //     return response()->json([
+        //         'code' => 500,
+        //         'message' => 'حدث خطأ ما: ' . $e->getMessage(),
+        //     ], 500);
+        // }
     }
 
     //====================================================================================================================
 
     public function mandoub_orders(Request $request)
     {
-
         $deliveries = DB::table('deliveries')->get();
 
         if ($request->delivery_id) {
@@ -196,13 +196,24 @@ class MandoubReportsController extends Controller
                 return $row->fees;
             });
 
-            $commission = $rows->get()->sum(function ($row) {
+            $mandoub_commission = $rows->get()->sum(function ($row) {
                 return $row->mandoub_commission;
+            });
+            $ordersCount = $rows->get()->sum(function ($row) {
+                return $row->num_mandoub_orders;
+            });
+
+            $solar = $rows->get()->sum(function ($row) {
+                return $row->solar;
             });
 
             $commission_after_fees = $rows->get()->sum(function ($row) {
                 return $row->commission_after_fees;
             });
+            $company_commission = $rows->get()->sum(function ($row) {
+                return $row->company_commission;
+            });
+            $profit = $company_commission - ($solar + $fees + $commission_after_fees + $salary);
 
             $dataTable = DataTables::of($rows)
                 ->editColumn('orderDetails', function ($row) {
@@ -213,8 +224,8 @@ class MandoubReportsController extends Controller
                 ->with('fees', function () use ($fees) {
                     return $fees;
                 })
-                ->with('commission', function () use ($commission) {
-                    return $commission;
+                ->with('mandoub_commission', function () use ($mandoub_commission) {
+                    return $mandoub_commission;
                 })
                 ->with('commission_after_fees', function () use ($commission_after_fees) {
                     return $commission_after_fees;
@@ -223,14 +234,25 @@ class MandoubReportsController extends Controller
                 ->with('salary', function () use ($salary) {
                     return $salary;
                 })
+                ->with('orders_count', function () use ($ordersCount) {
+                    return $ordersCount;
+                })
+                ->with('solar', function () use ($solar) {
+                    return $solar;
+                })
+                ->with('profit', function () use ($profit) {
+                    return $profit;
+                })
+                ->with('solar', function () use ($solar) {
+                    return $solar;
+                })
                 ->escapeColumns([])
                 ->make(true);
 
             return $dataTable;
-        } else {
-
-            return view('Admin.reports.mandoubs.mandoub_orders', compact('request', 'deliveries'));
         }
+
+        return view('Admin.reports.mandoubs.mandoub_orders', compact('request', 'deliveries'));
 
     }
 

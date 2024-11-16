@@ -24,7 +24,6 @@ class MandoubReportsController extends Controller
 
     public function index(Request $request)
     {
-
         $deliveries=Delivery::get();
 
         $shipment_pieces_number=0;
