@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Agent\AgentPaymentController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OpeningBalanceController;
+use App\Http\Controllers\Admin\Reports\MandoubSalaryController;
 use App\Http\Controllers\Admin\Reports\TraderAccountController;
 use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\TraderDebtController;
@@ -104,6 +105,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('mandoubReports', \App\Http\Controllers\Admin\Reports\MandoubReportsController::class); //setting
 
     Route::resource('tradersReports', \App\Http\Controllers\Admin\Reports\TraderReportsController::class); //setting
+    Route::resource('mandoub-salary', MandoubSalaryController::class); 
 
     Route::resource('todayOrdersReports', \App\Http\Controllers\Admin\Reports\TodayOrdersReportsController::class); //setting
     Route::get('todayOrdersReports-details', [\App\Http\Controllers\Admin\Reports\TodayOrdersReportsController::class, 'details'])->name('todayOrdersReports.details'); //setting

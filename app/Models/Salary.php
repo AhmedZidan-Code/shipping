@@ -9,4 +9,9 @@ class Salary extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function delivery()
+    {
+        return $this->belongsTo(Delivery::class, 'delivery_id');
+    }
 }
