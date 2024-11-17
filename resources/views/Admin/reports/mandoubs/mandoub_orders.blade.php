@@ -89,8 +89,6 @@
                         <option value="{{ $row->id }}"> {{ $row->name }}</option>
                     @endforeach
                 </select>
-
-
             </div>
             <div class="col-md-2">
                 <button class="btn btn-primary my-4">بحث</button>
@@ -98,6 +96,8 @@
         </div>
 
     </form>
+    <input type="hidden" name="delivery_id_data" value="{{ request('delivery_id') }}" id="delivery_id_data">
+    <input type="hidden" name="month_data" value="{{ request('month') }}" id="month_data">
     <div class="card">
 
         <div class="card-body">
@@ -121,7 +121,10 @@
                 </thead>
                 <tfoot style="background-color: darkgray;">
                     <tr>
-                        <td> </td>
+                        <td>
+                            <input style="  outline: none; border: none; box-shadow: none;" type="text"
+                                name="orders_count" id="orders_count" readonly>
+                        </td>
                         <td colspan="2"> شحن المندوب:
                             <input style="  outline: none; border: none; box-shadow: none;" type="text"
                                 name="mandoub_commission" id="mandoub_commission" readonly>
@@ -144,10 +147,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td colspan="2">اجمالي تنفيذات المندوب :
-                            <input style="  outline: none; border: none; box-shadow: none;" type="text"
-                                name="orders_count" id="orders_count" readonly>
+                        {{-- <td></td> --}}
+                        <td colspan="3">عمولة الشركة : 
+                            <input style="  outline: none; border: none; box-shadow: none;" type="text" name="company_commission"
+                                id="company_commission" readonly>
                         </td>
                         <td colspan="2"> مصاريف البنزين :
                             <input style="  outline: none; border: none; box-shadow: none;" type="text" name="solar"
@@ -157,7 +160,7 @@
                             <input style="  outline: none; border: none; box-shadow: none;" type="text" name="profit"
                                 id="profit" readonly>
                         </td>
-                        <td colspan="2"><button class="btn btn-success" id="save">حفظ</button></td>
+                        <td colspan="2"><button class="btn btn-success" onclick="save(event)">حفظ</button></td>
                     </tr>
 
                 </tfoot>
@@ -326,6 +329,7 @@
                     $('#orders_count').val(settings.json.orders_count);
                     $('#solar').val(settings.json.solar);
                     $('#profit').val(settings.json.profit);
+                    $('#company_commission').val(settings.json.company_commission);
 
 
                     // parseFloat()
@@ -373,55 +377,56 @@
     </script>
 @endsection
 <script>
-    $(document).on('submit', "form#form", function(e) {
+    function save(e) {
         e.preventDefault();
+        var delivery_shipping = $('#mandoub_commission').val();
+        var delivery_fees = $('#fees').val();
+        var shipping_after_fees = $('#commission_after_fees').val();
+        var base_salary = $('#salary').val();
+        var total_salary = $('#total').val();
+        var orders_count = $('#orders_count').val();
+        var solar = $('#solar').val();
+        var company_profit = $('#profit').val();
+        var delivery_id = $('#delivery_id_data').val();
+        var month = $('#month_data').val();
 
-        let mandoub_commission = $('#mandoub_commission').val();
-        let mandoub_commission = $('#mandoub_commission').val();
-        let fees = $('#fees').val();
-        let commission_after_fees = $('#commission_after_fees').val();
-        let salary = $('#salary').val();
-        let total = $('#total').val();
-        let orders_count = $('#orders_count').val();
-        let solar = $('#solar').val();
-        let profit = $('#profit').val();
-        var url = $('#form').attr('action');
+        var url = "{{ route('mandoub-salary.store') }}";
         $.ajax({
             url: url,
             type: 'POST',
-            data: formData,
+            data: {
+                delivery_shipping: delivery_shipping,
+                delivery_fees: delivery_fees,
+                shipping_after_fees: shipping_after_fees,
+                base_salary: base_salary,
+                total_salary: total_salary,
+                orders_count: orders_count,
+                solar: solar,
+                company_profit: company_profit,
+                delivery_id: delivery_id,
+                month: month,
+                _token: '{{ csrf_token() }}'
+            },
             beforeSend: function() {
 
 
                 $('#submit').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                    ' ></span> <span style="margin-left: 4px;">{{ trans('admin.working') }}</span>'
+                    ' ></span> <span style="margin-left: 4px;">جاري الحفظ</span>'
                 ).attr('disabled', true);
 
             },
-
-            complete: function() {},
             success: function(data) {
 
                 window.setTimeout(function() {
-
-                    $('#submit').html('{{ trans('admin.submit') }}').attr('disabled',
-                        false);
-
-                    // $('#product-model').modal('hide')
-                    if (data.code == 200) {
-                        toastr.success(data.message)
-                    } else {
-                        toastr.error(data.message)
-                        $('#submit').html('{{ trans('admin.submit') }}').attr('disabled',
-                            false);
-
-                    }
+                    location.reload();
                 }, 1000);
-
+                toastr.success(data.message)
+                $('#submit').html('حفظ').attr('disabled',
+                    false);
 
             },
             error: function(data) {
-                $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
+                $('#submit').html('حفظ').attr('disabled', false);
 
                 if (data.status === 500) {
                     toastr.error('there is an error')
@@ -449,10 +454,6 @@
                 }
 
             }, //end error method
-
-            cache: false,
-            contentType: false,
-            processData: false
         });
-    });
+    }
 </script>

@@ -179,18 +179,18 @@ class MandoubReportsController extends Controller
             $salary = 0;
         }
         if ($request->ajax()) {
-            $rows = DB::table('delivery_orders')
-                ->join('deliveries', 'deliveries.id', '=', 'delivery_orders.delivery_id')
-                ->select('delivery_orders.*', 'deliveries.name')
-                ->orderBy('delivery_orders.id', 'desc');
+            $rows = DB::table('delivery_orders');
 
             $condition = [];
             if ($request->delivery_id) {
-                $rows->where('delivery_orders.delivery_id', $request->delivery_id);
+                $rows->where('delivery_id', $request->delivery_id);
             }
             if ($request->month) {
-                $rows->where('delivery_orders.month', $request->month);
+                $rows->where('month', $request->month)->where('delivery_orders.year', date('Y'));
             }
+            $rows->join('deliveries', 'deliveries.id', '=', 'delivery_orders.delivery_id')
+                ->select('delivery_orders.*', 'deliveries.name')
+                ->orderBy('delivery_orders.id', 'desc');
 
             $fees = $rows->get()->sum(function ($row) {
                 return $row->fees;
@@ -213,7 +213,7 @@ class MandoubReportsController extends Controller
             $company_commission = $rows->get()->sum(function ($row) {
                 return $row->company_commission;
             });
-            $profit = $company_commission - ($solar + $fees + $commission_after_fees + $salary);
+            $profit = $company_commission - ($solar+ $salary /*+ $fees + $commission_after_fees */);
 
             $dataTable = DataTables::of($rows)
                 ->editColumn('orderDetails', function ($row) {
@@ -245,6 +245,9 @@ class MandoubReportsController extends Controller
                 })
                 ->with('solar', function () use ($solar) {
                     return $solar;
+                })
+                ->with('company_commission', function () use ($company_commission) {
+                    return $company_commission;
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -308,5 +311,4 @@ class MandoubReportsController extends Controller
         }
 
     }
-
 }
