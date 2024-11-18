@@ -216,10 +216,9 @@ class DeliveryConvertedOrderController extends Controller
 
     public function changeStatusForOrder($id)
     {
-        $order = Order::findOrFail($id);
-        $delivies = DB::table('deliveries')->get();
+        $order = Order::with('delivery')->findOrFail($id);
 
-        return view('Admin.CRUDS.Orders.deliveryConvertedOrders.parts.status', compact('order', 'delivies'));
+        return view('Admin.CRUDS.Orders.deliveryConvertedOrders.parts.status', compact('order'));
 
     }
 

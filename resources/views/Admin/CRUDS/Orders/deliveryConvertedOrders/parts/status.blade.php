@@ -33,12 +33,8 @@
                 <span class="required mr-1">تغيير المندوب</span>
             </label>
             <!--end::Label-->
-            <select class="form-control" name="delivery_id" id="delivery_id" >
-             <option value=""> اختر </option>
-               @foreach($delivies as $row)
-               <option value="{{ $row->id }}" @if($order->delivery_id == $row->id )  selected @endif> {{ $row->name }}</option>
-               @endforeach
-
+            <select name="delivery_id" class="delivery_id" id="delivery_id" style="width:100%;">
+             <option value="{{$order->delivery_id}}" selected> {{$order->delivery->name}} </option>
             </select>
         </div>
 
