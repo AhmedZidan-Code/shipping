@@ -1,5 +1,7 @@
 <script src="{{ URL::asset('assets_new/datatable/feather.min.js') }}"></script>
 <script src="{{ URL::asset('assets_new/datatable/datatables.min.js') }}"></script>
+<link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
+<script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
 
 {{-- <style>
     .dataTables_length

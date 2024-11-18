@@ -319,8 +319,6 @@
 
 <!---------------------------------------------------------------------------------------------------------------------------------------->
 <!----------------------------------------------------------------------------------------------------------------------------------------->
-
-
 <script>
     $(document).ready(function() {
         $('#table2').DataTable({
@@ -330,7 +328,33 @@
     });
 </script>
 @include('Admin.layouts.inc.ajax', ['url' => 'orders'])
+<script>
+    $('#Modal').on('show.bs.modal', function(event) {
+        $(document).ready(function() {
+            
+            setTimeout(function() {                                
+                $(".delivery_id").select2({
+                    placeholder: 'Channel...',
+                    allowClear: true,
+                    dropdownParent: $('#Modal'), // Attach the dropdown to the modal
+                    ajax: {
+                        url: '{{ route('admin.getDeliveries') }}',
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                term: params.term || '',
+                                page: params.page || 1
+                            }
+                        },
+                        cache: true
+                    }
+                });
+            }, 2000); //// 2000 milliseconds = 2 seconds
 
+        });
+    });
+</script>
 <script>
     $(document).on('click', '.insertDelivery', function() {
 
@@ -503,7 +527,7 @@
 
 
 <script>
-    $(document).on('click', 'StatusTotalDelivery', function() {
+    $(document).on('click', '.StatusTotalDelivery', function() {
 
         var id = $(this).attr('data-id');
 
@@ -618,9 +642,6 @@
 
         var id = $(this).attr('data-id');
 
-
-
-
         $('#form-load').html(loader_form)
 
         $('#Modal').modal('show')
@@ -643,9 +664,6 @@
     $(document).on('click', '.StatusPartialDelivery', function() {
 
         var id = $(this).attr('data-id');
-
-
-
 
         $('#form-load').html(loader_form)
 
