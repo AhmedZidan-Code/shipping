@@ -344,74 +344,99 @@
         })();
     </script>
 
- <script>
-      function convert()
-      {
-        var orders_ids = [];
-        var old_deliveries = [] ;
-        $('.orders_ids:checked').each(function() {
-          orders_ids.push($(this).val());
-          old_deliveries.push($(this).attr('data-delivery'));
-      });
-       var delivery_id = $('.delivery_id').val();
-       
-       if (orders_ids.length === 0) {
-        alert("من فضلك قم بادخال الاوردرات");
-        return;
-    }
+    <script>
+        function convert() {
+            var orders_ids = [];
+            var old_deliveries = [];
+            $('.orders_ids:checked').each(function() {
+                orders_ids.push($(this).val());
+                old_deliveries.push($(this).attr('data-delivery'));
+            });
+            var delivery_id = $('.delivery_id').val();
 
-     if (delivery_id  === '') {
-        alert("من فضلك قم باختيار المندوب");
-        return;
-      }
-          $.ajax({
-        url: '{{ route('admin.convert_order') }}',
-        type: 'POST',
-        data: {
-            _token: '{{ csrf_token() }}',
-            delivery_id: delivery_id,
-            orders_ids: orders_ids,
-            old_deliveries:old_deliveries
-        },
-        beforeSend: function () {
-            // Optional: Add loading spinner or disable submit button
-        },
-        complete: function () {
-            // Optional: Remove loading spinner or enable submit button
-        },
-        success: function (data) {
-         
-             if (data.code === 200) {
-                toastr.success(data.message);
-                setTimeout(reloading, 1000);
-            } else {
-                toastr.error(data.message);
-                $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
+            if (orders_ids.length === 0) {
+                alert("من فضلك قم بادخال الاوردرات");
+                return;
             }
-        },
-        error: function (data) {
-         
-            $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
 
-            if (data.status === 500) {
-               toastr.error(data.responseJSON.message);
-               console.log(data.message);
-            } else if (data.status === 422) {
-                var errors = $.parseJSON(data.responseText);
-                $.each(errors, function (key, value) {
-                    if ($.isPlainObject(value)) {
-                        $.each(value, function (key, value) {
-                            toastr.error(value);
-                        });
+            if (delivery_id === '') {
+                alert("من فضلك قم باختيار المندوب");
+                return;
+            }
+            $.ajax({
+                url: '{{ route('admin.convert_order') }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    delivery_id: delivery_id,
+                    orders_ids: orders_ids,
+                    old_deliveries: old_deliveries
+                },
+                beforeSend: function() {
+                    // Optional: Add loading spinner or disable submit button
+                },
+                complete: function() {
+                    // Optional: Remove loading spinner or enable submit button
+                },
+                success: function(data) {
+
+                    if (data.code === 200) {
+                        toastr.success(data.message);
+                        setTimeout(reloading, 1000);
+                    } else {
+                        toastr.error(data.message);
+                        $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
                     }
-                });
-            } else if (data.status === 421) {
-                toastr.error(data.message);
-            }
-        },
-       
-    });
-      }
-     
-     </script>
+                },
+                error: function(data) {
+
+                    $('#submit').html('{{ trans('admin.submit') }}').attr('disabled', false);
+
+                    if (data.status === 500) {
+                        toastr.error(data.responseJSON.message);
+                        console.log(data.message);
+                    } else if (data.status === 422) {
+                        var errors = $.parseJSON(data.responseText);
+                        $.each(errors, function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    toastr.error(value);
+                                });
+                            }
+                        });
+                    } else if (data.status === 421) {
+                        toastr.error(data.message);
+                    }
+                },
+
+            });
+        }
+    </script>
+    <script>
+        $('#Modal').on('show.bs.modal', function(event) {
+            $(document).ready(function() {
+
+                setTimeout(function() {
+                    $(".delivery_id").select2({
+                        placeholder: 'Channel...',
+                        allowClear: true,
+                        dropdownParent: $('#Modal'), // Attach the dropdown to the modal
+                        ajax: {
+                            url: '{{ route('admin.getDeliveries') }}',
+                            dataType: 'json',
+                            delay: 250,
+                            data: function(params) {
+                                return {
+                                    term: params.term || '',
+                                    page: params.page || 1
+                                }
+                            },
+                            cache: true
+                        }
+                    });
+                }, 2000); //// 2000 milliseconds = 2 seconds
+
+            });
+        });
+    </script>
 @endsection

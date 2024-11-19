@@ -147,4 +147,31 @@
 
         })
     </script>
+    <script>
+        $('#Modal').on('show.bs.modal', function(event) {
+            $(document).ready(function() {
+
+                setTimeout(function() {
+                    $(".delivery_id").select2({
+                        placeholder: 'Channel...',
+                        allowClear: true,
+                        dropdownParent: $('#Modal'), // Attach the dropdown to the modal
+                        ajax: {
+                            url: '{{ route('admin.getDeliveries') }}',
+                            dataType: 'json',
+                            delay: 250,
+                            data: function(params) {
+                                return {
+                                    term: params.term || '',
+                                    page: params.page || 1
+                                }
+                            },
+                            cache: true
+                        }
+                    });
+                }, 2000); //// 2000 milliseconds = 2 seconds
+
+            });
+        });
+    </script>
 @endsection
