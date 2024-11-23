@@ -148,8 +148,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('traders-debt', TraderDebtController::class);
 
     //profits
-    Route::resource('delivery-profits', DeliveryProfitController::class);
     Route::resource('company-profits', CompanyProfitController::class);
+    Route::resource('delivery-profits', DeliveryProfitController::class);
     Route::resource('trader-profits', TraderProfitController::class);
 });
 //

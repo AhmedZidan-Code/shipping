@@ -286,6 +286,22 @@
                         </ul>
                     </li>
                 @endcan
+                @can('عرض تسديدات التجار')
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-buffer"></i>
+                            <span>  تقارير الارباح </span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="{{ route('company-profits.index') }}"><i class="mdi mdi-album"></i>
+                                    <span> تقرير الربح العام</span></a></li>
+                            <li><a href="{{ route('delivery-profits.index') }}"><i class="mdi mdi-album"></i>
+                                    <span> تقرير ربح المناديب</span></a></li>
+                            <li><a href="{{ route('trader-profits.index') }}"><i class="mdi mdi-album"></i>
+                                    <span> تقرير ربح التجار</span></a></li>
+                        </ul>
+                    </li>
+                @endcan
             </ul>
         </div>
         <!-- Sidebar -->

@@ -133,7 +133,7 @@
                 "drawCallback": function(response) {
 
                     if (response.json) {
-                        let profit = parseFloat(response.json.total_orders_shipment) - parseFloat(response.json.total_orders_value);                        
+                        let profit = parseFloat(response.json.total_orders_value) - parseFloat(response.json.total_orders_shipment);                        
                         $('#total_orders_count').html(response.json.total_orders_count);
                         $('#total_orders_shipment').html(response.json.total_orders_shipment);
                         $('#total_orders_value').html(response.json.total_orders_value);
