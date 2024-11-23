@@ -98,6 +98,9 @@
         @section('js')
             <link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
             <script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
+
+
+
             <script>
                 (function() {
 
