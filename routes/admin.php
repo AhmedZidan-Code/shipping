@@ -6,8 +6,11 @@ use App\Http\Controllers\Admin\Agent\AgentPaymentController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OpeningBalanceController;
+use App\Http\Controllers\Admin\Reports\CompanyProfitController;
+use App\Http\Controllers\Admin\Reports\DeliveryProfitController;
 use App\Http\Controllers\Admin\Reports\MandoubSalaryController;
 use App\Http\Controllers\Admin\Reports\TraderAccountController;
+use App\Http\Controllers\Admin\Reports\TraderProfitController;
 use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\TraderDebtController;
 use Illuminate\Support\Facades\Route;
@@ -144,5 +147,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('opening-balance', OpeningBalanceController::class);
     Route::resource('traders-debt', TraderDebtController::class);
 
+    //profits
+    Route::resource('delivery-profits', DeliveryProfitController::class);
+    Route::resource('company-profits', CompanyProfitController::class);
+    Route::resource('trader-profits', TraderProfitController::class);
 });
 //

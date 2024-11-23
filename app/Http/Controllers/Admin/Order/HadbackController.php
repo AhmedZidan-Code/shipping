@@ -26,7 +26,6 @@ class HadbackController extends Controller
 
     public function index(Request $request)
     {
-
         $traders = Trader::get();
 
         $shipment_pieces_number = 0;
@@ -79,10 +78,14 @@ class HadbackController extends Controller
 
                 ->addColumn('checkbox', function ($row) {
                     if ($row->status == 'partial_delivery_to_customer') {
-                        $database = ($row->shipment_value - $row->partial_value) + $row->delivery_value;
+                        $database = $row->total_value - $row->partial_value;
+                    } else if ($row->status == 'shipping_on_messanger') {
+                        $database = -$row->delivery_value;
                     } else {
-                        $database = $row->total_value;
+
+                        $database = $row->shipment_value;
                     }
+
                     $change_status = '';
                     return '<input  type="checkbox" class="myCheckboxClass" value="' . $row->id . '"; data_base="' . $database . '"  name="check" ' . $change_status . '/>';
                 })

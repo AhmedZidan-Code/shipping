@@ -150,7 +150,7 @@
         })
     </script>
     <script>
-        $('#Modal').on('show.bs.modal', function(event) {
+        $('#Modal').on('shown.bs.modal', function(event) {
             $(document).ready(function() {
 
                 setTimeout(function() {
@@ -171,7 +171,7 @@
                             cache: true
                         }
                     });
-                }, 2000); //// 2000 milliseconds = 2 seconds
+                }, 1500); //// 2000 milliseconds = 2 seconds
 
             });
         });
