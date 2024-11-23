@@ -121,19 +121,47 @@
     @endsection
     @section('js')
         <script>
-        var columns = [
-            {data: 'id', name: 'id'},
-            {data: 'trader.name', name: 'trader.name'},
-            {data: 'type', name: 'type'},
-            {data: 'date', name: 'date'},
-            {data: 'amount', name: 'amount'},
-            {data: 'cash', name: 'cash'},
-            {data: 'cheque', name: 'cheque'},
-            {data: 'notes', name: 'notes'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ];
-    </script>
-    @include('Admin.layouts.inc.ajax',['url'=>'trader-payments'])
+            var columns = [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'trader.name',
+                    name: 'trader.name'
+                },
+                {
+                    data: 'type',
+                    name: 'type'
+                },
+                {
+                    data: 'date',
+                    name: 'date'
+                },
+                {
+                    data: 'amount',
+                    name: 'amount'
+                },
+                {
+                    data: 'cash',
+                    name: 'cash'
+                },
+                {
+                    data: 'cheque',
+                    name: 'cheque'
+                },
+                {
+                    data: 'notes',
+                    name: 'notes'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ];
+        </script>
+        @include('Admin.layouts.inc.ajax', ['url' => 'trader-payments'])
 
         <script>
             $(document).on('change', '.showBonds', function() {
@@ -181,7 +209,7 @@
                 });
             })();
 
-            $('#Modal').on('show.bs.modal', function(event) {
+            $('#Modal').on('shown.bs.modal', function(event) {
                 $(document).ready(function() {
                     setTimeout(function() {
                         $("#trader_modal_id").select2({
