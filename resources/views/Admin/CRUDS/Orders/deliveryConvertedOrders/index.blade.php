@@ -9,8 +9,16 @@
     <form action="{{ route('deliveryConvertedOrders.index') }}">
 
         <div class="row mb-3">
-
-            <div class="col-md-4">
+            <div class="d-flex flex-column mb-7 fv-row col-sm-3">
+                <!--begin::Label-->
+                <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> التاجر</span>
+                </label>
+                <select id='trader_id' name="trader_id" >
+                    <option selected disabled>- ابحث عن التاجر</option>
+                </select>
+            </div>
+            <div class="col-md-3">
                 <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> المندوب </span>
                 </label>
@@ -51,7 +59,7 @@
 
         </div>
         <div class="card-body">
-            @if (request()->delivery_id)
+            @if (request()->delivery_id || request()->trader_id)
                 <div class="row">
                     <div class="col-3">
                         <p>عدد الاوردرات</p>
@@ -438,5 +446,26 @@
 
             });
         });
+    </script>
+    <script>
+        (function() {
+            $("#trader_id").select2({
+                placeholder: 'Channel...',
+                // width: '350px',
+                allowClear: true,
+                ajax: {
+                    url: '{{ route('admin.getTraders') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term || '',
+                            page: params.page || 1
+                        }
+                    },
+                    cache: true
+                }
+            });
+        })();
     </script>
 @endsection
