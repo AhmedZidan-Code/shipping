@@ -24,7 +24,7 @@ class AuthController extends Controller
     {
 
         $data = $request->validate([
-            'user_name' => 'required|exists:traders',
+            'user_name' => 'required|exists:traders,user_name',
             'password' => 'required|min:6'
         ]);
 

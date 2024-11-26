@@ -32,11 +32,14 @@ class DeliveryConvertedOrderController extends Controller
             if ($request->delivery_id) {
                 $rows->where('delivery_id', $request->delivery_id);
             }
+            if ($request->trader_id) {
+                $rows->where('trader_id', $request->trader_id);
+            }
             if ($request->province_id) {
                 $rows->where('province_id', $request->province_id);
             }
             $rowsCount = $rows->count();
-            $total = $rows->sum('total_value');
+            $total = $rows->sum('shipment_value');
             return DataTables::of($rows)
                 ->addColumn('action', function ($row) {
 

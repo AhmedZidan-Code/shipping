@@ -5,6 +5,35 @@
 @section('css')
 @endsection
 @section('content')
+    <form action="{{ route('orders.index') }}">
+
+        <div class="row mb-3">
+            <div class="d-flex flex-column mb-7 fv-row col-sm-4">
+                <!--begin::Label-->
+                <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> التاجر</span>
+                </label>
+                <select id='trader_id' name="trader_id" style='width: 200px;'>
+                    <option selected disabled>- ابحث عن التاجر</option>
+                </select>
+            </div>
+            <div class="d-flex flex-column mb-7 fv-row col-sm-4">
+                <!--begin::Label-->
+                <label for="delivery_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1">المندوب</span>
+                </label>
+                <select id="delivery_data" name="delivery_id" style='width: 200px;'>
+                    <option selected disabled>- ابحث عن المندوب</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-primary my-4">بحث</button>
+            </div>
+        </div>
+
+    </form>
+
     <div class="card">
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1"> الطلبات</h5>
@@ -15,6 +44,22 @@
 
         </div>
         <div class="card-body">
+            @if (request()->delivery_id || request()->trader_id)
+                <div class="row">
+                    <div class="col-3">
+                        <p>عدد الاوردرات</p>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" id="rows-count" disabled>
+                    </div>
+                    <div class="col-3">
+                        <p>الاجمالي</p>
+                    </div>
+                    <div class="col-3">
+                        <input type="text" id="total" disabled>
+                    </div>
+                </div>
+            @endif
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                 style="width:100%">
                 <thead>
@@ -137,12 +182,49 @@
     </div>
 @endsection
 @section('js')
+    <script src="{{ URL::asset('assets_new/datatable/feather.min.js') }}"></script>
+    <script src="{{ URL::asset('assets_new/datatable/datatables.min.js') }}"></script>
     <link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
     <script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            $(".select2").select2({});
-        });
+        (function() {
+            $("#trader_id").select2({
+                placeholder: 'Channel...',
+                // width: '350px',
+                allowClear: true,
+                ajax: {
+                    url: '{{ route('admin.getTraders') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term || '',
+                            page: params.page || 1
+                        }
+                    },
+                    cache: true
+                }
+            });
+        })();
+        (function() {
+            $("#delivery_data").select2({
+                placeholder: 'Channel...',
+                // width: '350px',
+                allowClear: true,
+                ajax: {
+                    url: '{{ route('admin.getDeliveries') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term || '',
+                            page: params.page || 1
+                        }
+                    },
+                    cache: true
+                }
+            });
+        })();
     </script>
     <script>
         var columns = [{
@@ -197,8 +279,74 @@
                 searchable: false
             },
         ];
+        $(function() {
+            let delivery_id = '{{ request('delivery_id') }}';
+            let trader_id = '{{ request('trader_id') }}';
+            let URL = '{{ route('orders.index') }}';
+
+            $("#table").DataTable({
+                processing: true,
+                // pageLength: 50,
+                paging: true,
+                dom: 'Bfrltip',
+                bLengthChange: true,
+                serverSide: true,
+                ajax: {
+                    url: URL,
+                    data: {
+                        delivery_id: delivery_id,
+                        trader_id: trader_id,
+                    }
+                },
+                columns: columns,
+                // order: [
+                //     [0, "asc"]
+                // ],
+                "language": <?php echo json_encode(datatable_lang()); ?>,
+                "drawCallback": function(settings) {
+
+                    if (settings.json && settings.json.rowsCount) {
+                        $('#rows-count').val(settings.json.rowsCount);
+                        $('#total').val(settings.json.total);
+
+                    }
+                },
+
+                // "language": {
+                //     paginate: {
+                //         previous: "<i class='simple-icon-arrow-left'></i>",
+                //         next: "<i class='simple-icon-arrow-right'></i>"
+                //     },
+                //     "sProcessing": "جاري التحميل ..",
+                //     "sLengthMenu": "اظهار _MENU_ سجل",
+                //     "sZeroRecords": "لا يوجد نتائج",
+                //     "sInfo": "اظهار _START_ الى  _END_ من _TOTAL_ سجل",
+                //     "sInfoEmpty": "لا نتائج",
+                //     "sInfoFiltered": "للبحث",
+                //     "sSearch": "بحث :    ",
+                //     "oPaginate": {
+                //         "sPrevious": "السابق",
+                //         "sNext": "التالي",
+                //     }
+                // },
+                // buttons: [
+                //     'colvis',
+                //     'excel',
+                //     'print',
+                //     'copy',
+                //     'csv',
+                //     // 'pdf'
+                // ],
+
+                searching: true,
+                destroy: true,
+                info: false,
+
+
+            });
+
+        });
     </script>
-    @include('Admin.layouts.inc.ajax', ['url' => 'orders'])
 
     <script>
         $(document).on('click', '#addDetails', function(e) {

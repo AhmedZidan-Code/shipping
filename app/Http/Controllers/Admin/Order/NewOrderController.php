@@ -31,10 +31,22 @@ class NewOrderController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
-            $admins = Order::query()->with(['province', 'trader'])->where('status', 'new')->orderBy('updated_at', 'desc');
-            return DataTables::of($admins)
+            $orders = Order::query();
+            if ($request->delivery_id) {
+                $orders->where('delivery_id', $request->delivery_id);
+            }
+
+            if ($request->trader_id) {
+                $orders->where('trader_id', $request->trader_id);
+            }
+
+            $orders->with(['province', 'trader'])->where('status', 'new')->orderBy('updated_at', 'desc');
+
+            $rowsCount = $orders->count();
+            $total = $orders->sum('shipment_value');
+
+            return DataTables::of($orders)
                 ->addColumn('checkbox', function ($row) {
 
                     return '<input type="checkbox" class="orders_ids"  value="' . $row->id . '" />';
@@ -123,6 +135,7 @@ class NewOrderController extends Controller
                 ->editColumn('created_at', function ($admin) {
                     return date('Y/m/d', strtotime($admin->created_at));
                 })
+                ->with(['rowsCount' => $rowsCount, 'total' => $total])
                 ->escapeColumns([])
                 ->make(true);
 

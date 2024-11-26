@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\Reports\TraderAccountController;
 use App\Http\Controllers\Admin\Reports\TraderProfitController;
 use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\TraderDebtController;
+use App\Http\Controllers\Admin\Web\FeatureController;
+use App\Http\Controllers\Admin\Web\SliderController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('admin/login', [AuthController::class, 'loginView'])->name('admin.login');
@@ -151,5 +153,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('company-profits', CompanyProfitController::class);
     Route::resource('delivery-profits', DeliveryProfitController::class);
     Route::resource('trader-profits', TraderProfitController::class);
+    
+
+    //sliders
+    Route::resource('sliders', SliderController::class);
+
+    //features
+    Route::resource('features', FeatureController::class);
 });
 //
