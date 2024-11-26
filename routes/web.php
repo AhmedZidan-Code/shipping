@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 // Frontend Route
-// Route::redirect('/', 'admin.index')->name('frontend.index');
+Route::redirect('/', '/home');
 
 // Authentication Routes
 Route::get('/login', [RegisterController::class, 'showLoginForm'])->name('web.login');
