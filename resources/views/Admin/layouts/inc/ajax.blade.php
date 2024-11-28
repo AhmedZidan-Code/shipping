@@ -54,12 +54,12 @@
             "drawCallback": function(settings) {
                 console.log(settings.json.rowsCount);
                 console.log(settings.json.total);
-                if(settings.json && settings.json.rowsCount){
-                    $('#rows-count').val(settings.json.rowsCount); 
-                    $('#total').val(settings.json.total); 
+                if (settings.json && settings.json.rowsCount) {
+                    $('#rows-count').val(settings.json.rowsCount);
+                    $('#total').val(settings.json.total);
 
                 }
-                
+
                 if (settings.json && settings.json.total_sum) {
                     console.log(settings.json.total_sum);
 
@@ -70,7 +70,7 @@
                     $('#total').html(settings.json.total); // Update total sum
                 }
 
-                $('#ahmed').html(settings.json.total2);                
+                $('#ahmed').html(settings.json.total2);
                 //do whatever  
             },
 
@@ -198,8 +198,10 @@
 
                         }
                     });
+                } else {
+
+                    toastr.error(data.message)
                 }
-                toastr.error(data.message)
 
             }, //end error method
 
@@ -209,7 +211,6 @@
         });
     });
     $(document).on('click', '.delete', function() {
-
         var id = $(this).data('id');
         swal.fire({
             title: "{{ trans('admin.submit delete') }}",

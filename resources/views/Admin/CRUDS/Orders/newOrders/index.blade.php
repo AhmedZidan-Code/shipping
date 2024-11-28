@@ -8,25 +8,43 @@
     <form action="{{ route('orders.index') }}">
 
         <div class="row mb-3">
-            <div class="d-flex flex-column mb-7 fv-row col-sm-4">
+            <div class="d-flex flex-column mb-7 fv-row col-sm-2">
                 <!--begin::Label-->
                 <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> التاجر</span>
                 </label>
-                <select id='trader_id' name="trader_id" style='width: 200px;'>
+                <select id='trader_id' name="trader_id">
                     <option selected disabled>- ابحث عن التاجر</option>
                 </select>
             </div>
-            <div class="d-flex flex-column mb-7 fv-row col-sm-4">
+            <div class="d-flex flex-column mb-7 fv-row col-sm-2">
                 <!--begin::Label-->
                 <label for="delivery_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1">المندوب</span>
                 </label>
-                <select id="delivery_data" name="delivery_id" style='width: 200px;'>
+                <select id="delivery_data" name="delivery_id">
                     <option selected disabled>- ابحث عن المندوب</option>
                 </select>
             </div>
+            <div class="col-md-2 ">
+                <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> من تاريخ </span>
 
+                </label>
+                <input type="date" id="fromDate"
+                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}" @endisset name="fromDate"
+                    class="showBonds form-control">
+
+            </div>
+            <div class="col-md-2">
+                <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> إلي تاريخ </span>
+
+                </label>
+                <input type="date"
+                    id="toDate"@isset($request['toDate']) value="{{ $request['toDate'] }}" @endisset
+                    name="toDate" class="showBonds form-control">
+            </div>
             <div class="col-md-2">
                 <button class="btn btn-primary my-4">بحث</button>
             </div>
@@ -282,6 +300,8 @@
         $(function() {
             let delivery_id = '{{ request('delivery_id') }}';
             let trader_id = '{{ request('trader_id') }}';
+            let fromDate = '{{ request('fromDate') }}';
+            let toDate = '{{ request('toDate') }}';
             let URL = '{{ route('orders.index') }}';
 
             $("#table").DataTable({
@@ -296,6 +316,8 @@
                     data: {
                         delivery_id: delivery_id,
                         trader_id: trader_id,
+                        fromDate: fromDate,
+                        toDate: toDate,
                     }
                 },
                 columns: columns,

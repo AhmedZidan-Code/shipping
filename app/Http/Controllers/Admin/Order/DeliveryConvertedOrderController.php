@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Order;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
+use App\Models\Delivery;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -38,6 +39,15 @@ class DeliveryConvertedOrderController extends Controller
             if ($request->province_id) {
                 $rows->where('province_id', $request->province_id);
             }
+            if ($request->fromDate) {
+                $rows->where('converted_date', '>=', $request->fromDate . ' ' . '00:00:00');
+
+            }
+            if ($request->toDate) {
+                $rows->where('converted_date', '<=', $request->toDate . ' ' . '23:59:59');
+
+            }
+
             $rowsCount = $rows->count();
             $total = $rows->sum('shipment_value');
             return DataTables::of($rows)
@@ -220,8 +230,8 @@ class DeliveryConvertedOrderController extends Controller
     public function changeStatusForOrder($id)
     {
         $order = Order::with('delivery')->findOrFail($id);
-
-        return view('Admin.CRUDS.Orders.deliveryConvertedOrders.parts.status', compact('order'));
+        $deliveries = Delivery::all();
+        return view('Admin.CRUDS.Orders.deliveryConvertedOrders.parts.status', compact('order', 'deliveries'));
 
     }
 

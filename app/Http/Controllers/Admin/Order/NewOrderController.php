@@ -40,12 +40,19 @@ class NewOrderController extends Controller
             if ($request->trader_id) {
                 $orders->where('trader_id', $request->trader_id);
             }
+            if ($request->fromDate) {
+                $orders->where('created_at', '>=', $request->fromDate . ' ' . '00:00:00');
+
+            }
+            if ($request->toDate) {
+                $orders->where('created_at', '<=', $request->toDate . ' ' . '23:59:59');
+
+            }
 
             $orders->with(['province', 'trader'])->where('status', 'new')->orderBy('updated_at', 'desc');
 
             $rowsCount = $orders->count();
             $total = $orders->sum('shipment_value');
-
             return DataTables::of($orders)
                 ->addColumn('checkbox', function ($row) {
 

@@ -194,7 +194,7 @@
             $(document).ready(function() {
 
                 setTimeout(function() {
-                    $(".delivery_id").select2({
+                    $(".delivery_id").c({
                         placeholder: 'Channel...',
                         allowClear: true,
                         dropdownParent: $('#Modal'), // Attach the dropdown to the modal

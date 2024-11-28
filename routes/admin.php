@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\TraderDebtController;
 use App\Http\Controllers\Admin\Web\FeatureController;
 use App\Http\Controllers\Admin\Web\SliderController;
+use App\Http\Controllers\Admin\Web\StaticPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('admin/login', [AuthController::class, 'loginView'])->name('admin.login');
@@ -160,5 +161,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     //features
     Route::resource('features', FeatureController::class);
+ 
+    //static pages
+    Route::resource('static-pages', StaticPageController::class);
 });
 //
