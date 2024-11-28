@@ -1,17 +1,17 @@
 @extends('Admin.layouts.inc.app')
 @section('title')
-    السمات
+    الصفحات الثابتة
 @endsection
 @section('css')
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1"> السمات</h5>
+            <h5 class="card-title mb-0 flex-grow-1"> الصفحات الثابتة</h5>
 
-            @can('إنشاء السمات')
+            @can('إنشاء الصفحات الثابتة')
                 <div>
-                    <button id="addBtn" class="btn btn-primary">اضافة سمة</button>
+                    <button id="addBtn" class="btn btn-primary">اضافة صفحة</button>
                 </div>
             @endcan
 
@@ -24,6 +24,7 @@
                         <th>#</th>
                         <th> الصورة</th>
                         <th> العنوان</th>
+                        <th> اسم الصفحة</th>
                         <th> التاريخ</th>
                         <th>العمليات</th>
                     </tr>
@@ -94,6 +95,10 @@
                 name: 'title'
             },
             {
+                data: 'page_name',
+                name: 'page_name'
+            },
+            {
                 data: 'date',
                 name: 'date'
             },
@@ -105,5 +110,5 @@
             },
         ];
     </script>
-    @include('Admin.layouts.inc.ajax', ['url' => 'features'])
+    @include('Admin.layouts.inc.ajax', ['url' => 'static-pages'])
 @endsection

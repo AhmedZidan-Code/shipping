@@ -9,7 +9,7 @@
     <form action="{{ route('deliveryConvertedOrders.index') }}">
 
         <div class="row mb-3">
-            <div class="d-flex flex-column mb-7 fv-row col-sm-3">
+            <div class="d-flex flex-column mb-7 fv-row col-sm-2">
                 <!--begin::Label-->
                 <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> التاجر</span>
@@ -18,7 +18,7 @@
                     <option selected disabled>- ابحث عن التاجر</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> المندوب </span>
                 </label>
@@ -31,7 +31,7 @@
                     @endif
                 </select>
             </div>
-            <div class="d-flex flex-column mb-7 fv-row col-sm-3">
+            <div class="d-flex flex-column mb-7 fv-row col-sm-2">
                 <!--begin::Label-->
                 <label for="province_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> المدينه</span>
@@ -41,7 +41,25 @@
                 </select>
             </div>
 
+            <div class="col-md-2 ">
+                <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> من تاريخ </span>
 
+                </label>
+                <input type="date" id="fromDate"
+                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}" @endisset name="fromDate"
+                    class="showBonds form-control">
+
+            </div>
+            <div class="col-md-2">
+                <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> إلي تاريخ </span>
+
+                </label>
+                <input type="date"
+                    id="toDate"@isset($request['toDate']) value="{{ $request['toDate'] }}" @endisset
+                    name="toDate" class="showBonds form-control">
+            </div>
 
 
 
