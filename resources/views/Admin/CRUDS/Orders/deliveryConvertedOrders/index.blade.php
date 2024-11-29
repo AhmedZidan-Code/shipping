@@ -14,7 +14,7 @@
                 <label for="trader_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> التاجر</span>
                 </label>
-                <select id='trader_id' name="trader_id" >
+                <select id='trader_id' name="trader_id">
                     <option selected disabled>- ابحث عن التاجر</option>
                 </select>
             </div>
@@ -77,22 +77,6 @@
 
         </div>
         <div class="card-body">
-            @if (request()->delivery_id || request()->trader_id)
-                <div class="row">
-                    <div class="col-3">
-                        <p>عدد الاوردرات</p>
-                    </div>
-                    <div class="col-3">
-                        <input type="text" id="rows-count" disabled>
-                    </div>
-                    <div class="col-3">
-                        <p>الاجمالي</p>
-                    </div>
-                    <div class="col-3">
-                        <input type="text" id="total" disabled>
-                    </div>
-                </div>
-            @endif
 
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                 style="width:100%">
@@ -115,6 +99,14 @@
                         <th>العمليات</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="5">عدد الاوردرات</td>
+                        <td colspan="3" id="rows-count"></td>
+                        <td colspan="4">الاجمالي</td>
+                        <td colspan="3" id="total"></td>
+                    </tr>
+                </tfoot>
             </table>
 
             <div class="row mb-3">

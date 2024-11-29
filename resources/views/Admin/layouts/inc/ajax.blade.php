@@ -55,8 +55,8 @@
                 console.log(settings.json.rowsCount);
                 console.log(settings.json.total);
                 if (settings.json && settings.json.rowsCount) {
-                    $('#rows-count').val(settings.json.rowsCount);
-                    $('#total').val(settings.json.total);
+                    $('#rows-count').html(settings.json.rowsCount);
+                    $('#total').html(settings.json.total);
 
                 }
 
