@@ -62,22 +62,6 @@
 
         </div>
         <div class="card-body">
-            @if (request()->delivery_id || request()->trader_id)
-                <div class="row">
-                    <div class="col-3">
-                        <p>عدد الاوردرات</p>
-                    </div>
-                    <div class="col-3">
-                        <input type="text" id="rows-count" disabled>
-                    </div>
-                    <div class="col-3">
-                        <p>الاجمالي</p>
-                    </div>
-                    <div class="col-3">
-                        <input type="text" id="total" disabled>
-                    </div>
-                </div>
-            @endif
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                 style="width:100%">
                 <thead>
@@ -96,6 +80,14 @@
                         <th>العمليات</th>
                     </tr>
                 </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">عدد الاوردرات</td>
+                        <td colspan="3" id="rows-count"></td>
+                        <td colspan="3">الاجمالي</td>
+                        <td colspan="3" id="total"></td>
+                    </tr>
+                </tfoot>
             </table>
             <div class="row mb-3">
 
@@ -204,6 +196,9 @@
     <script src="{{ URL::asset('assets_new/datatable/datatables.min.js') }}"></script>
     <link href="{{ url('assets/dashboard/css/select2.css') }}" rel="stylesheet" />
     <script src="{{ url('assets/dashboard/js/select2.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ URL::asset('assets_new/js/sweet_alert.js') }}"></script>
+
     <script>
         (function() {
             $("#trader_id").select2({
@@ -328,8 +323,8 @@
                 "drawCallback": function(settings) {
 
                     if (settings.json && settings.json.rowsCount) {
-                        $('#rows-count').val(settings.json.rowsCount);
-                        $('#total').val(settings.json.total);
+                        $('#rows-count').html(settings.json.rowsCount);
+                        $('#total').html(settings.json.total);
 
                     }
                 },
@@ -371,6 +366,77 @@
     </script>
 
     <script>
+        $(document).on('click', '.delete', function() {
+            var id = $(this).data('id');
+            swal.fire({
+                title: "{{ trans('admin.submit delete') }}",
+                text: "{{ trans('admin.delete text') }}",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "{{ trans('admin.submit') }}",
+                cancelButtonText: "{{ trans('admin.cancel') }}",
+                okButtonText: "{{ trans('admin.submit') }}",
+                closeOnConfirm: false
+            }).then((result) => {
+                if (!result.isConfirmed) {
+                    return true;
+                }
+
+
+                var url = '{{ route('orders.destroy', ':id') }}';
+                url = url.replace(':id', id)
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    beforeSend: function() {
+                        $('.loader-ajax').show()
+
+                    },
+                    success: function(data) {
+
+                        window.setTimeout(function() {
+                            $('.loader-ajax').hide()
+                            if (data.code == 200) {
+                                toastr.success(data.message)
+                                $('#table').DataTable().ajax.reload(null, false);
+                            } else {
+                                toastr.error('{{ trans('admin.error') }}')
+                            }
+
+                        }, 1000);
+                    },
+                    error: function(data) {
+                        $('.loader-ajax').hide()
+                        if (data.status === 500) {
+                            toastr.error('{{ trans('admin.error') }}')
+                        }
+
+
+                        if (data.status === 422) {
+                            var errors = $.parseJSON(data.responseText);
+
+                            $.each(errors, function(key, value) {
+                                if ($.isPlainObject(value)) {
+                                    $.each(value, function(key, value) {
+                                        toastr.error(value)
+                                    });
+
+                                } else {
+
+                                }
+                            });
+                        }
+                        if (data.status === 403) {
+                            toastr.error('You are not authorized to perform this action.',
+                                'Unauthorized');
+                        }
+                    }
+
+                });
+            });
+        });
+
         $(document).on('click', '#addDetails', function(e) {
 
             e.preventDefault();
