@@ -41,3 +41,7 @@ Route::get('migrate-run', function () {
     \Artisan::call('db:seed');
     return "sd";
 });
+Route::get('storage-link', function () {
+    \Artisan::call('storage:link');
+    return "storage linked successfully";
+});
