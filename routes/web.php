@@ -38,5 +38,6 @@ Route::group(['middleware' => 'trader_web'], function () {
 // Artisan Command Route
 Route::get('migrate-run', function () {
     \Artisan::call('migrate');
+    \Artisan::call('db:seed');
     return "sd";
 });
