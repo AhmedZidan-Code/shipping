@@ -32,3 +32,4 @@
     <link rel="stylesheet" href="{{ asset('assets/web') }}/css/nice-select.css" />
     <link rel="stylesheet" href="{{ asset('assets/web') }}/css/animate.css" />
     <link rel="stylesheet" href="{{ asset('assets/web') }}/css/style-rtl.css" />
+

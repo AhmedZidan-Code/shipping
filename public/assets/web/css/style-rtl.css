@@ -57,7 +57,7 @@ body {
   height: 100%;
   font-size: 18px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #5e6f92;
   vertical-align: baseline;
   line-height: 30px;
@@ -90,7 +90,7 @@ h4,
 h5,
 h6 {
   margin-top: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #393d48;
   font-style: normal;
   -webkit-transition: all 0.5s ease-out;
@@ -309,7 +309,7 @@ input.theme-btn {
   padding: 11px 36px 11px 10px;
   text-align: center;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   text-transform: capitalize;
   position: relative;
   z-index: 1;
@@ -2139,6 +2139,7 @@ ul {
 table {
   margin-bottom: 20px;
   width: 100%;
+  margin-bottom: 50px;
 }
 
 table caption {
@@ -2387,7 +2388,7 @@ blockquote {
 }
 
 blockquote p {
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 24px;
   color: #5e6f92;
   line-height: 32px;
@@ -2408,7 +2409,7 @@ blockquote p a {
 }
 
 blockquote footer {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 16px;
   font-weight: 700;
   text-transform: capitalize;
@@ -3231,7 +3232,7 @@ body.admin-bar .header-menu-area.sticky_menu {
   color: #ffffff;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .header-top .header-contact-info span:first-child:before {
@@ -3270,7 +3271,7 @@ body.admin-bar .header-menu-area.sticky_menu {
   color: #ffffff;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 @media only screen and (min-width: 0px) and (max-width: 767px) {
@@ -3283,7 +3284,7 @@ body.admin-bar .header-menu-area.sticky_menu {
   position: relative;
   padding: 12px 46px;
   font-size: 18px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #ffffff;
   margin-bottom: -100px;
   display: inline-block;
@@ -3430,9 +3431,9 @@ body.admin-bar .header-menu-area.sticky_menu {
 .header-menu-area .logo:before {
   position: absolute;
   content: "";
-  width: 350px;
-  height: 238px;
-  right: -40px;
+  width: 334px;
+  height: 215px;
+  right: -61px;
   bottom: -41px;
   background-image: linear-gradient(-65deg, rgb(227, 0, 8) 0%, rgb(250, 174, 0) 100%);
   border-radius: 15px;
@@ -3537,7 +3538,7 @@ body.admin-bar .header-menu-area.sticky_menu {
   transition: all 0.5s ease-out;
   position: relative;
   color: #393d48;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 18px;
   font-weight: 700;
 }
@@ -3633,14 +3634,14 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .header-btn {
-  margin-right: 26px;
+  margin-right: 0px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
 }
 
 @media only screen and (max-width: 1399px) {
@@ -3671,8 +3672,8 @@ body.admin-bar .header-menu-area.sticky_menu {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 41px;
+  height: 40px;
   border-radius: 50px;
   background: rgb(227, 0, 8);
   background: linear-gradient(-45deg, rgb(227, 0, 8) 0%, rgb(250, 174, 0) 100%);
@@ -3694,11 +3695,12 @@ body.admin-bar .header-menu-area.sticky_menu {
   display: inline-block;
   width: 100%;
   color: #5e6f92;
+  font-size: 17px;
 }
 
 .header-btn .content-wrapper .text {
-  font-family: "Poppins", sans-serif;
-  font-size: 18px;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  font-size: 16px;
   font-weight: 700;
   color: #393d48;
   line-height: 22px;
@@ -3988,7 +3990,7 @@ body.admin-bar .header-menu-area.sticky_menu {
   color: #393d48;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   width: 100%;
 }
 
@@ -4007,7 +4009,7 @@ body.admin-bar .header-menu-area.sticky_menu {
   color: #393d48;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .menu-sidebar-area .menu-sidebar-content .menu-sidebar-single-widget .header-contact-info span a:hover {
@@ -4433,7 +4435,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .slider-area .single-slider .slider-content-wrapper .slider-content .slider-short-title {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-weight: 700;
   font-size: 24px;
   color: #ffffff;
@@ -4455,7 +4457,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .slider-area .single-slider .slider-content-wrapper .slider-content .slider-title {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-weight: 700;
   font-size: 90px;
   color: #ffffff;
@@ -6042,7 +6044,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .icon-card .content .title {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-weight: 700;
   font-size: 24px;
   line-height: 36px;
@@ -6051,7 +6053,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .icon-card .content .desc {
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 18px;
   line-height: 30px;
   font-weight: 400;
@@ -6733,7 +6735,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .about-info-card .about-info-content .quote-text .quote-text-meta .name {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 16px;
   font-weight: 700;
   color: #393d48;
@@ -6741,7 +6743,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .about-info-card .about-info-content .quote-text .quote-text-meta .designation {
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 16px;
   font-weight: 400;
 }
@@ -6965,7 +6967,7 @@ body.admin-bar .header-menu-area.sticky_menu {
   font-weight: 700;
   color: #ffffff;
   line-height: 48px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   margin-bottom: 0;
 }
 
@@ -7038,7 +7040,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .promotional-banner-widget .promotional-bananer-content .content .text {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 21px;
   font-weight: 700;
   color: #393d48;
@@ -7065,7 +7067,7 @@ body.admin-bar .header-menu-area.sticky_menu {
   width: 100%;
   color: #1eae98;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .promotional-banner-widget.style-two .promotional-bananer-content .content .text {
@@ -7261,7 +7263,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 }
 
 .counter-card .counter-item .number {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
@@ -7289,7 +7291,7 @@ body.admin-bar .header-menu-area.sticky_menu {
 
 .counter-card .counter-item .title {
   margin: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -8759,7 +8761,7 @@ button.testimonial-arrow-btn:hover i {
 }
 
 .single-post-item.format-quote blockquote cite a {
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 16px;
   font-weight: 600;
   text-transform: capitalize;
@@ -8870,7 +8872,7 @@ button.testimonial-arrow-btn:hover i {
 .single-post-item .social-share .social-share-title {
   font-size: 16px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #393d48;
   margin-left: 5px;
   text-transform: uppercase;
@@ -8885,7 +8887,7 @@ button.testimonial-arrow-btn:hover i {
   font-size: 16px;
   font-weight: 700;
   display: inline-block;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #393d48;
   margin-bottom: 0;
   margin-left: 30px;
@@ -9206,7 +9208,7 @@ button.testimonial-arrow-btn:hover i {
 .author-info .author-post a {
   font-size: 16px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #393d48;
   border-bottom: 2px solid rgb(255, 103, 49);
   margin-top: 30px;
@@ -9358,7 +9360,7 @@ button.testimonial-arrow-btn:hover i {
 
 .blog-post-nav .post-navigation .text span {
   font-size: 14px;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   text-transform: uppercase;
   font-weight: 700;
   display: block;
@@ -9584,7 +9586,7 @@ button.testimonial-arrow-btn:hover i {
   font-size: 21px;
   line-height: 28px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   margin: 0;
   color: #393d48;
   -webkit-transition: all 0.5s ease-out;
@@ -10022,7 +10024,7 @@ button.testimonial-arrow-btn:hover i {
   color: #393d48;
   font-size: 18px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .skill-progressbar .progressbar-number {
@@ -10046,7 +10048,7 @@ button.testimonial-arrow-btn:hover i {
   letter-spacing: 0px;
   font-weight: 400;
   text-transform: none;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #5e6f92;
 }
 
@@ -10096,7 +10098,7 @@ button.testimonial-arrow-btn:hover i {
 }
 
 .price-card .card-title .sub-title {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -10111,7 +10113,7 @@ button.testimonial-arrow-btn:hover i {
   font-size: 30px;
   line-height: 30px;
   color: #393d48;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   margin-bottom: 0;
 }
 
@@ -10155,7 +10157,7 @@ button.testimonial-arrow-btn:hover i {
 }
 
 .price-card .price .price-heading {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 48px;
@@ -10172,7 +10174,7 @@ button.testimonial-arrow-btn:hover i {
 }
 
 .price-card .price .price-heading .currency {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
@@ -10184,7 +10186,7 @@ button.testimonial-arrow-btn:hover i {
 }
 
 .price-card .price .price-heading .under-dot {
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
@@ -10196,7 +10198,7 @@ button.testimonial-arrow-btn:hover i {
 }
 
 .price-card .price .price-desc {
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 30px;
@@ -10253,7 +10255,7 @@ button.testimonial-arrow-btn:hover i {
 }
 
 .price-card .list .price-list-item .text {
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-weight: 400;
   font-size: 18px;
   color: #5e6f92;
@@ -10481,7 +10483,7 @@ button.testimonial-arrow-btn:hover i {
 .section-title .short-title {
   font-size: 22px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: rgb(255, 103, 49);
 }
 
@@ -10495,7 +10497,7 @@ button.testimonial-arrow-btn:hover i {
   font-size: 33px;
   line-height: 50px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #393d48;
   margin-bottom: 0;
 }
@@ -10533,7 +10535,7 @@ button.testimonial-arrow-btn:hover i {
 .section-title .desc {
   font-size: 18px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #5e6f92;
   margin-bottom: 0;
   margin-top: 10px;
@@ -10586,13 +10588,13 @@ button.testimonial-arrow-btn:hover i {
 
 .page-heading h3,
 .page-heading .page-title {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 72px;
   text-align: center;
   color: #ffffff;
   margin-bottom: 20px;
   text-transform: capitalize;
-  line-height: 84px;
+  line-height: 64px;
   font-weight: 700;
 }
 
@@ -10676,8 +10678,8 @@ button.testimonial-arrow-btn:hover i {
 }
 
 .breadcrumb-list ul li a {
-  font-family: "Roboto", sans-serif;
-  font-size: 16px;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
+  font-size: 19px;
   text-align: center;
   color: #ffffff;
   text-transform: capitalize;
@@ -10945,7 +10947,7 @@ button.testimonial-arrow-btn:hover i {
   display: inline-block;
   margin-left: 50px;
   color: #393d48;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   display: inline-block;
   font-size: 21px;
   line-height: 20px;
@@ -11104,7 +11106,7 @@ button.testimonial-arrow-btn:hover i {
 
 .time-card-wrapper .time-card-item .time-card-desc .title h2 {
   margin: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 21px;
   line-height: 60px;
   font-weight: 700;
@@ -11117,7 +11119,7 @@ button.testimonial-arrow-btn:hover i {
 
 .time-card-wrapper .time-card-item .time-card-desc .desc p {
   margin: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 18px;
   line-height: 30px;
   font-weight: 400;
@@ -11890,7 +11892,7 @@ button.testimonial-arrow-btn:hover i {
   padding: 12px 32px;
   text-align: center;
   font-weight: 500;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   text-transform: capitalize;
   position: relative;
   z-index: 1;
@@ -11947,7 +11949,7 @@ button.testimonial-arrow-btn:hover i {
   font-weight: 700;
   margin-bottom: 30px;
   color: #393d48;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .widget .wp-block-search input,
@@ -12346,7 +12348,7 @@ button.testimonial-arrow-btn:hover i {
   font-size: 18px;
   line-height: 24px;
   color: #393d48;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .widget_latest_post ul li .latest-post-desc .latest-post-title a {
@@ -12357,7 +12359,7 @@ button.testimonial-arrow-btn:hover i {
   text-transform: capitalize;
   -webkit-transition: all 0.5s ease-out;
   transition: all 0.5s ease-out;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .widget_latest_post ul li .latest-post-desc .latest-post-title a:hover {
@@ -12453,7 +12455,7 @@ button.testimonial-arrow-btn:hover i {
   color: #393d48;
   padding: 12px 104px;
   font-weight: 600;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   text-transform: capitalize;
   position: relative;
   z-index: 1;
@@ -12528,7 +12530,7 @@ button.testimonial-arrow-btn:hover i {
   -ms-flex-negative: 0;
   flex-shrink: 0;
   color: #393d48;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 18px;
   font-weight: 700;
   width: 100%;
@@ -12589,7 +12591,7 @@ button.testimonial-arrow-btn:hover i {
 
 .widget_service_promotion .widget-subtitle p {
   color: rgb(255, 103, 49);
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 16px;
   line-height: 60px;
   font-weight: 700;
@@ -12611,7 +12613,7 @@ button.testimonial-arrow-btn:hover i {
 
 .widget_service_promotion .promotion-card h4 {
   color: #ffffff;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 24px;
   line-height: 36px;
   font-weight: 700;
@@ -12670,7 +12672,7 @@ button.testimonial-arrow-btn:hover i {
   margin: 0;
   text-align: start;
   color: #ffffff;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 16px;
   line-height: 30px;
   font-weight: 400;
@@ -12680,7 +12682,7 @@ button.testimonial-arrow-btn:hover i {
   margin: 0;
   text-align: start;
   color: #ffffff;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 21px;
   line-height: 30px;
   font-weight: 700;
@@ -12721,7 +12723,7 @@ button.testimonial-arrow-btn:hover i {
 
 .widget_service_brochura .widget-title-wrapper .widget-subtitle {
   color: rgb(255, 103, 49);
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 700;
@@ -12730,7 +12732,7 @@ button.testimonial-arrow-btn:hover i {
 
 .widget_service_brochura .widget-title-wrapper .widget-title {
   color: #393d48;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 24px;
   line-height: 36px;
   font-weight: 700;
@@ -12753,7 +12755,7 @@ button.testimonial-arrow-btn:hover i {
 
 .widget_service_brochura .button-wrapper .btn-text {
   color: #ffffff;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 700;
@@ -12832,7 +12834,7 @@ button.testimonial-arrow-btn:hover i {
   font-size: 21px;
   margin-bottom: 5px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #393d48;
 }
 
@@ -12845,7 +12847,7 @@ button.testimonial-arrow-btn:hover i {
   color: #9ba8c3;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .wp-block-comments .wp-block-comment-template li .wp-block-columns .wp-block-comment-reply-link a {
@@ -12935,7 +12937,7 @@ button.testimonial-arrow-btn:hover i {
   font-size: 21px;
   margin-bottom: 5px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -12951,7 +12953,7 @@ button.testimonial-arrow-btn:hover i {
   color: #9ba8c3;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 @media only screen and (min-width: 0px) and (max-width: 767px) {
@@ -13017,7 +13019,7 @@ ul.children {
 .post-comments-title .sub-title {
   font-size: 18px;
   font-weight: 700;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: rgb(255, 103, 49);
   display: inline-block;
   width: 100%;
@@ -13047,7 +13049,7 @@ ul.children {
 
 .post-comments-title h2 small {
   font-size: 16px;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   color: #005bac;
 }
 
@@ -13111,7 +13113,7 @@ ul.children {
   gap: 12px;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
 }
 
 .comment-respond .comment-form-cookies-consent {
@@ -13404,7 +13406,7 @@ ul.children {
   line-height: 32px;
   font-weight: 700;
   color: #ffffff;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   margin: 0;
 }
 
@@ -13413,7 +13415,7 @@ ul.children {
   line-height: 28px;
   font-weight: 400;
   color: #c7cdda;
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   margin: 0;
 }
 
@@ -15799,7 +15801,7 @@ ul.children {
 }
 
 .footer-widget-title {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Bhaijaan 2", sans-serif;
   font-size: 21px;
   line-height: 26px;
   color: #ffffff;
@@ -16684,7 +16686,7 @@ input[type=number]::-webkit-outer-spin-button {
   border-radius: 24px;
 }
 
-.overlay_img:hover h2{
+.overlay_img:hover h2 {
   z-index: 2;
 }
 
@@ -16720,6 +16722,344 @@ input[type=number]::-webkit-outer-spin-button {
   margin: auto;
 }
 
+.align-items-center.center_div {
+  justify-content: center !important;
+}
+
+.align-items-center.left_div {
+  justify-content: end !important;
+}
+
+.container {
+  max-width: 100%;
+  padding: 0 100px;
+}
+
+.flex_header {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.hover_drop {
+  position: relative;
+}
+
+.arrow_div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hover_drop:hover .box_div {
+  display: block;
+}
+
+.arrow_div h5 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #de0019;
+  cursor: pointer;
+}
+
+.ref_div {
+  font-size: 19px;
+  font-weight: 700;
+  color: #393d48;
+}
+
+.box_div {
+  background: #fff;
+  padding: 30px 25px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 15px;
+  width: 350px;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+}
+
+.box_div h5 {
+  font-size: 21px;
+  margin: 0;
+  font-weight: normal;
+  padding-bottom: 10px;
+}
+
+.search_div {
+  position: relative;
+}
+
+.svg_div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #e21b1b;
+  height: 100%;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px 0px 0px 7px;
+  cursor: pointer;
+}
+
+.svg_search {
+  fill: #ffffff;
+}
+
+.form-control:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: unset;
+  outline: 0;
+  box-shadow: none;
+}
+
+.form-control.num_input {
+  border-left: 0;
+}
+
+.flow_titel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flow_titel .page-title,
+.flow_titel p {
+  margin: 0;
+}
+
+.flow_titel .page-title {
+  font-size: 46px;
+  line-height: 150%;
+  padding-bottom: 10px;
+}
+
+.flow_titel p {
+  color: #fff;
+  font-size: 21px;
+}
+
+.breadcrumb-wrapper.w_div {
+  padding: 0;
+  width: 500px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  inset: 0;
+  margin: auto;
+}
+
+.breadcrumb-wrapper.w_div .search_div {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.my_effct {
+  position: relative;
+}
+
+.my_effct::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background-color: #0000004f;
+  z-index: -1;
+}
+
+.my_effct .page-overlay {
+  display: none;
+}
+
+.fllow_sec {
+  /* padding: 150px 0px; */
+  border: 1px solid #f1eeee;
+  margin-top: 100px 0px;
+  padding: 27px 0px;
+  border-radius: 10px;
+}
+
+.fllow_sec .upper_cont {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 25px;
+  padding-right: 21px;
+}
+
+.span_num {
+  font-size: 14px;
+  line-height: 0;
+  padding-bottom: 3px;
+}
+
+.upper_cont h1 {
+  font-size: 24px;
+  line-height: 0;
+  margin: 0;
+  font-weight: 500;
+}
+
+.upper_cont p {
+  margin: 0;
+  line-height: 0;
+  font-size: 17px;
+  padding-top: 7px;
+}
+
+.ul_circle {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.cricle_sec {
+  padding: 25px 100px 0px 100px;
+}
+
+
+.li_circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  gap: 15px;
+  position: relative;
+}
+
+.li_circle h5 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 100;
+  margin: 0;
+  line-height: 150%;
+}
+
+.svg_circle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  position: relative;
+  z-index: 1;
+  background-color: #fff;
+}
+
+.svg_circle svg {
+  color: #F44336 !important;
+}
+
+.li_circle.status_bg .svg_circle {
+  background: green;
+}
+
+
+.status_bg svg {
+  color: #fff !important;
+}
+
+.li_circle::after {
+  position: absolute;
+  background-color: #ddd;
+  content: "";
+  width: 50%;
+  top: 18px;
+  left: 0;
+  height: 5px;
+}
+
+.li_circle.status_bg::after  {
+  position: absolute;
+  background-color:green;
+  content: "";
+  width: 50%;
+  top: 18px;
+  left: 0;
+  height: 5px;
+}
+
+.li_circle.status_bg::before  {
+  position: absolute;
+  background-color:green;
+  content: "";
+  width: 50%;
+  top: 18px;
+  left: 0;
+  height: 5px;
+}
+
+.li_circle:first-child::before {
+  display: none;
+}
+
+.li_circle:last-child::after {
+  display: none;
+}
+
+.li_circle::before {
+  position: absolute;
+  content: "";
+  width: 50%;
+  height: 5px;
+  top: 18px;
+  right: 0;
+  background: #ddd;
+
+}
+
+
+.svg_circle svg {
+  /* fill: #ddd; */
+  color: white;
+  width: 26px;
+  height: 26px;
+}
+
+.page_cont {
+  margin: 50px 0px 20px 100px;
+  min-height: 700px;
+}
+
+.show_more {
+  margin: 0;
+  padding: 15px 0px;
+  background-color: unset;
+  color: #000;
+}
+
+@media (max-width:1100px) {
+  .container {
+    max-width: 100%;
+    padding: 0 60px;
+  }
+
+  .page_cont {
+    margin: 50px 0px 20px 0px;
+  }
+
+  .cricle_sec {
+    padding: 25px 50px 0px 50px;
+  }
+}
+
 @media(max-width:992px) {
   .login_sec.creat_acc {
     margin: 50px 0px;
@@ -16729,7 +17069,100 @@ input[type=number]::-webkit-outer-spin-button {
   .log_img {
     top: 15px;
   }
+
+  .cricle_sec {
+    padding: 25px 25px 0px 25px;
+  }
+
+  .container {
+    padding: 0 30px;
+  }
 }
+
+@media (max-width:768px) {
+  .flow_titel .page-title {
+    font-size: 35px;
+
+  }
+
+  .breadcrumb-wrapper.w_div {
+    width: 100%;
+  }
+
+  .breadcrumb-wrapper.w_div .search_div {
+    margin-top: 30px;
+  }
+
+  .page-breadcrumb-area {
+    padding: 35px 0;
+  }
+
+  .page_cont {
+    margin: 35px 0px 20px 0px;
+  }
+
+  .upper_cont h1 {
+    font-size: 22px;
+  }
+
+  .upper_cont p {
+    font-size: 16px;
+    padding-top: 4px;
+  }
+
+  .fllow_sec {
+    padding: 27px 0px 0px;
+  }
+
+
+}
+
+@media (max-width:567px) {
+  .cricle_sec {
+    padding: 15px 10px 0px 10px;
+  }
+
+  .li_circle h5 {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .ul_circle {
+    padding-right: 0;
+  }
+
+  .svg_circle {
+    width: 35px;
+    height: 35px;
+
+  }
+
+  .ul_circle {
+    margin-bottom: 15px;
+  }
+
+  .show_more {
+    padding: 10px 0px;
+
+}
+
+table th, table td {
+  font-size: 17px;
+}
+
+.flow_titel .page-title {
+  font-size: 26px;
+}
+
+.flow_titel p {
+  font-size: 18px;
+}
+
+.breadcrumb-wrapper.w_div .search_div {
+  margin-top: 20px;
+}
+}
+
 
 @media(max-width:450px) {
   .login_sec {
@@ -16764,4 +17197,17 @@ input[type=number]::-webkit-outer-spin-button {
   .accout_img img {
     width: 100%;
   }
+
+  .ul_circle {
+    flex-direction: column;
+    gap: 16px;
+}
+
+.li_circle{
+  width: 100%;
+}
+.li_circle::after,
+.li_circle::before{
+  display: none;
+}
 }

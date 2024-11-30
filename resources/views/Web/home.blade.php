@@ -5,94 +5,35 @@
     <!-- Slider Section Start !-->
     <div class="slider-area style-1">
         <div class="slider-wrapper">
-            <!-- single slider start -->
-            <div class="single-slider-wrapper">
-                <div class="single-slider"
-                    style="background-image: url('{{ asset('assets/web') }}/images/slider/slider-1.jpg')">
-                    <div class="slider-overlay"></div>
-                    <div class="container h-100 align-self-center">
-                        <div class="row h-100">
-                            <div class="col-md-6 align-self-center order-2 order-md-1">
-                                <div class="slider-content-wrapper">
-                                    <div class="slider-content">
-                                        <span class="slider-short-title">نحن شركة ترانسو</span>
-                                        <h1 class="slider-title">تغطية واسعة للمناطق</h1>
-                                        <p class="slider-short-desc">نحن نوفر خدمة التوصيل لجميع المناطق، سواء في
-                                            المدينة أو المناطق الريفية، لتلبية احتياجات جميع العملاء</p>
+            @foreach ($sliders as $slider)
+                <!-- single slider start -->
+                <div class="single-slider-wrapper">
+                    <div class="single-slider"
+                        style="background-image: url('{{ asset('storage') . '/' . $slider->cover }}')">
+                        <div class="slider-overlay"></div>
+                        <div class="container h-100 align-self-center">
+                            <div class="row h-100">
+                                <div class="col-md-6 align-self-center order-2 order-md-1">
+                                    <div class="slider-content-wrapper">
+                                        <div class="slider-content">
+                                            {{-- <span class="slider-short-title">نحن شركة بوصلة</span> --}}
+                                            <h1 class="slider-title">{{ $slider->title }}</h1>
+                                            <p class="slider-short-desc">{{ $slider->description }}</p>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 align-self-center order-1 order-md-2">
-                                <div class="slider-image">
-                                    <img src="{{ asset('assets/web') }}/images/slider/home-1-feature-slider-1.png"
-                                        alt="feature image" />
+                                <div class="col-md-6 align-self-center order-1 order-md-2">
+                                    <div class="slider-image">
+                                        <img src="{{ asset('storage') . '/' . $slider->image }}" alt="feature image" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- single slider end -->
-            <!-- single slider start -->
-            <div class="single-slider-wrapper">
-                <div class="single-slider"
-                    style="background-image: url('{{ asset('assets/web') }}/images/slider/slider-2.jpg')">
-                    <div class="slider-overlay"></div>
-                    <div class="container h-100 align-self-center">
-                        <div class="row h-100">
-                            <div class="col-md-6 align-self-center order-2 order-md-1">
-                                <div class="slider-content-wrapper">
-                                    <div class="slider-content">
-                                        <span class="slider-short-title">شريك عملك في متجرك</span>
-                                        <h1 class="slider-title">فريق خدمة عملاء متفانٍ لخدمتك</h1>
-                                        <p class="slider-short-desc">فريقنا متاح على مدار الساعة لتلبية احتياجات
-                                            العملاء
-                                            وضمان توصيل الطلبات في أي وقت.</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 align-self-center order-1 order-md-2">
-                                <div class="slider-image">
-                                    <img src="{{ asset('assets/web') }}/images/slider/home-1-feature-slider-2.png"
-                                        alt="feature image" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- single slider end -->
-            <!-- single slider start -->
-            <div class="single-slider-wrapper">
-                <div class="single-slider"
-                    style="background-image: url('{{ asset('assets/web') }}/images/slider/slider-3.jpg')">
-                    <div class="slider-overlay"></div>
-                    <div class="container h-100 align-self-center">
-                        <div class="row h-100">
-                            <div class="col-md-6 align-self-center order-2 order-md-1">
-                                <div class="slider-content-wrapper">
-                                    <div class="slider-content">
-                                        <span class="slider-short-title">Journey with Transco</span>
-                                        <h1 class="slider-title">توصيل آمن وموثوق</h1>
-                                        <p class="slider-short-desc">نحرص على توصيل طلباتكم بأمان وجودة عالية، مع
-                                            الاهتمام بحماية وسلامة المنتجات أثناء النقل</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 align-self-center order-1 order-md-2">
-                                <div class="slider-image">
-                                    <img src="{{ asset('assets/web') }}/images/slider/home-1-feature-slider-3.png"
-                                        alt="feature image" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- single slider end -->
+                <!-- single slider end -->
+            @endforeach
         </div>
         <!-- Social Profile Start -->
         <div class="container social-share-wrapper">
@@ -128,13 +69,13 @@
                                         <p class="desc">اطلب التقاط الاوردر وسنأتي لعتبة دارك في نفس اليوم لتوصيله.
                                         </p>
                                         <!-- <div class="read-more">
-                                                <a href="service-details.html">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </span>
-                                                    عرض المزيد
-                                                </a>
-                                            </div> -->
+                                                                <a href="service-details.html">
+                                                                    <span class="icon">
+                                                                        <i class="fa-solid fa-angle-right"></i>
+                                                                    </span>
+                                                                    عرض المزيد
+                                                                </a>
+                                                            </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -160,13 +101,13 @@
                                         <p class="desc">من خلال هاتفك المحمول وبكل راحة، يُمكنك الحصول على تتبع دقيق
                                             لطلباتك والحصول على وسيلة للقيام بالإجراءات الحصرية لأوردراتك.</p>
                                         <!-- <div class="read-more">
-                                                <a href="service-details.html">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </span>
-                                                    المزيد عرض
-                                                </a>
-                                            </div> -->
+                                                                <a href="service-details.html">
+                                                                    <span class="icon">
+                                                                        <i class="fa-solid fa-angle-right"></i>
+                                                                    </span>
+                                                                    المزيد عرض
+                                                                </a>
+                                                            </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -192,13 +133,13 @@
                                             الاستلام مباشرة من عملائك الذين استلموا أوردراتهم سواءً في اليوم التالي أو
                                             بشكل أسبوعي أو كل</p>
                                         <!-- <div class="read-more">
-                                                <a href="service-details.html">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </span>
-                                                    عرض المزيد
-                                                </a>
-                                            </div> -->
+                                                                <a href="service-details.html">
+                                                                    <span class="icon">
+                                                                        <i class="fa-solid fa-angle-right"></i>
+                                                                    </span>
+                                                                    عرض المزيد
+                                                                </a>
+                                                            </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -213,8 +154,7 @@
                                 <div class="content-wrapper">
                                     <div class="title-wrapper">
                                         <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/unboxing.png"
-                                                alt="support" />
+                                            <img src="{{ asset('assets/web') }}/images/icon/unboxing.png" alt="support" />
                                         </div>
                                         <h2 class="title">تخطى عبء التغليف.
                                         </h2>
@@ -226,13 +166,13 @@
                                             التالي.
                                         </p>
                                         <!-- <div class="read-more">
-                                                <a href="service-details.html">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </span>
-                                                    عرض المزيد
-                                                </a>
-                                            </div> -->
+                                                                <a href="service-details.html">
+                                                                    <span class="icon">
+                                                                        <i class="fa-solid fa-angle-right"></i>
+                                                                    </span>
+                                                                    عرض المزيد
+                                                                </a>
+                                                            </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -340,8 +280,8 @@
                                 <p class="title">مخزن</p>
                             </div>
                             <!-- <div class="counter-content">
-                                    <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
-                                </div> -->
+                                                    <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
+                                                </div> -->
 
                         </div>
                         <div class="counter-item">
@@ -352,8 +292,8 @@
                                 <p class="title">بائع</p>
                             </div>
                             <!-- <div class="counter-content">
-                                    <p class="text">kccusa mnis iste natus error sit vol uptatem accusa bulla </p>
-                                </div> -->
+                                                    <p class="text">kccusa mnis iste natus error sit vol uptatem accusa bulla </p>
+                                                </div> -->
                         </div>
                         <div class="counter-item">
                             <div class="counter-title">
@@ -363,8 +303,8 @@
                                 <p class="title">طرود ناجحة</p>
                             </div>
                             <!-- <div class="counter-content">
-                                    <p class="text">bccusa mnis iste natus error sit vol uptatem accusa pulla </p>
-                                </div> -->
+                                                    <p class="text">bccusa mnis iste natus error sit vol uptatem accusa pulla </p>
+                                                </div> -->
                         </div>
                         <div class="counter-item">
                             <div class="counter-title">
@@ -374,8 +314,8 @@
                                 <p class="title">مندوب</p>
                             </div>
                             <!-- <div class="counter-content">
-                                    <p class="text">dccusa mnis iste natus error sit vol uptatem accusa culla </p>
-                                </div> -->
+                                                    <p class="text">dccusa mnis iste natus error sit vol uptatem accusa culla </p>
+                                                </div> -->
                         </div>
                     </div>
                 </div>
