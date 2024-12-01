@@ -25,9 +25,9 @@ class TrackingOrderController extends Controller
 
         $status = [
             'new' => 'جديد',
-            'converted_to_delivery' => 'محول إلي مندوب',
-            'total_delivery_to_customer' => 'مسلم كلياً',
-            'partial_delivery_to_customer' => 'مسلم جزئي',
+            'converted_to_delivery' => 'خارج للتوصيل',
+                        'total_delivery_to_customer' => 'تم التسليم',
+            'partial_delivery_to_customer' => 'تم التسليم جزئياً',
             'not_delivery' => 'عدم استلام',
             'under_implementation' => 'تحت التنفيذ',
             'cancel' => 'ملغي',
