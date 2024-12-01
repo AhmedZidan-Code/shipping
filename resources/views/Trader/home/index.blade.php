@@ -66,7 +66,7 @@
                     </div>
                     <div class="text-white">
                         <h6 class="text-uppercase mb-3 font-size-16 text-white">نسبة التسليمات</h6>
-                        <h2 class="mb-4 text-white">{{number_format(($mohsala/$totalOrders) * 100 , 1)}} %</h2>
+                        <h2 class="mb-4 text-white">{{ $totalOrders > 0 ? number_format(($mohsala / $totalOrders) * 100, 1) : 0 }} %</h2>
                         {{--                        <span class="badge bg-info"> +11% </span> <span class="ms-2">From previous period</span>--}}
                     </div>
                 </div>

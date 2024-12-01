@@ -28,7 +28,7 @@ class RegisterController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => 'مرحباً بك في منصتك ' . trader()->user()->name,
-                'redirect_url' => route('web.home'),
+                'redirect_url' => route('trader.index'),
             ], 201);
 
         }
