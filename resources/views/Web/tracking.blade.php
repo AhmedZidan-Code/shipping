@@ -121,7 +121,7 @@
                                 </div>
 
                                 <h5><span>تم استلام الطلب
-                                    </span><span>{{ carbon\carbon::parse($order->updated_at)->translatedFormat('l j F Y') }}
+                                    </span><span>{{ carbon\carbon::parse($order->created_at)->translatedFormat('l j F Y') }}
                                     </span></h5>
                             </li>
                             <li
@@ -239,7 +239,7 @@
                                             تم التوصيل
                                         @endif
 
-                                    </span><span>{{ carbon\carbon::parse($order->delivery_time)->translatedFormat('l j F Y') }}
+                                    </span><span>{{ carbon\carbon::parse($order->converted_date)->translatedFormat('l j F Y') }}
                                     </span></h5>
                             </li>
 
