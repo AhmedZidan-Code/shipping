@@ -158,7 +158,7 @@
                                     </svg>
                                 </div>
 
-                                <h5><span>تجهيز
+                                <h5><span>تجهيز الطلب
                                     </span><span>{{ carbon\carbon::parse($order->updated_at)->translatedFormat('l j F Y') }}
                                     </span></h5>
                             </li>
