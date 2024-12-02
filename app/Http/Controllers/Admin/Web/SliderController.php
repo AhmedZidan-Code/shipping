@@ -79,18 +79,15 @@ class SliderController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'required|image|mimes:jpg,jpeg,png',
-            'cover' => 'required|image|mimes:jpg,jpeg,png',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $imagePath = $this->uploadImage($request->file('image'), 'sliders');
-        $coverPath = $this->uploadImage($request->file('cover'), 'sliders');
 
         $slider = Slider::create([
             'title' => $request->title,
             'description' => $request->description,
             'image' => $imagePath,
-            'cover' => $coverPath,
         ]);
 
         return response()->json(
@@ -114,8 +111,7 @@ class SliderController extends Controller
         $request->validate([
             'title' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png',
-            'cover' => 'nullable|image|mimes:jpg,jpeg,png',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
@@ -125,14 +121,6 @@ class SliderController extends Controller
             // Upload the new image
             $imagePath = $this->uploadImage($request->file('image'), 'sliders');
             $slider->update(['image' => $imagePath]);
-        }
-        if ($request->hasFile('cover')) {
-            // Delete the old image
-            $this->deleteImage($slider->cover);
-
-            // Upload the new image
-            $imagePath = $this->uploadImage($request->file('cover'), 'sliders');
-            $slider->update(['cover' => $imagePath]);
         }
 
         $slider->update($request->only('title', 'description'));

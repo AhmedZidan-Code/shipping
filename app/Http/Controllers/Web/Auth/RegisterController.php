@@ -21,14 +21,14 @@ class RegisterController extends Controller
     {
         $data = $request->validate([
             'user_name' => 'required|exists:traders,user_name',
-            'password' => 'required',
+            'password' => 'required|min:8',
         ]);
 
         if (trader()->attempt($data)) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'مرحباً بك في منصتك ' . trader()->user()->name,
-                'redirect_url' => route('trader.index'),
+                'redirect_url' => route('web.home'),
             ], 201);
 
         }

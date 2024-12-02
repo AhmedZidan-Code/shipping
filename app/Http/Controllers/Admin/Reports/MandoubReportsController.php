@@ -213,7 +213,7 @@ class MandoubReportsController extends Controller
             $company_commission = $rows->get()->sum(function ($row) {
                 return $row->company_commission;
             });
-            $profit = $company_commission - ($solar + $salary/*+ $fees + $commission_after_fees */);
+            $profit = $company_commission - ($solar+ $salary /*+ $fees + $commission_after_fees */);
 
             $dataTable = DataTables::of($rows)
                 ->editColumn('orderDetails', function ($row) {
@@ -305,6 +305,7 @@ class MandoubReportsController extends Controller
             } else {
                 echo '<td id="td' . $row->id . '"> <button class="btn btn-info info" data-id= "' . $row->id . '">' . $arr[$request->status] . '</button> </td>';
             }
+
         } else {
             return response()->json(['error' => 'Order not found'], 404);
         }

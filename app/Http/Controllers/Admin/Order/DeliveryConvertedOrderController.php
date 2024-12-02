@@ -237,6 +237,7 @@ class DeliveryConvertedOrderController extends Controller
 
     public function changeStatusForOrder_store(Request $request, $id)
     {
+
         $order = Order::findOrFail($id);
         $data = $request->validate([
             'partial_value' => 'required_if:status,partial_delivery_to_customer',
