@@ -6,7 +6,7 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled">
                 <li>
-                    <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block ">
                         <meta name="csrf-token" content="{{ csrf_token() }}">
                         <div class="position-relative">
                             <input type="text" id="myInput" onkeyup="myFunction()" class="form-control"

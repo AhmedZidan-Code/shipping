@@ -10,39 +10,31 @@
     <div class="card">
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1"> عرض  طلبات التاجر</h5>
-
-
         </div>
 
         <div class="card-body">
+            <div class="table-responsive">
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                 style="width:100%">
                 <thead>
                     <tr>
-
-                        <th>#</th>
-                        <th>الحالة</th>
-                        <th>اسم العميل</th>
-                        <th>المحافظة</th>
-
-                        <th>رقم تليفون العميل</th>
-                        <th>وقت التسليم</th>
-                        <th>عدد القطع داخل الشحنة</th>
-                        <th>قيمة الشحنة</th>
-                        <th>قيمة الاوردر</th>
-
-                        <th> الملاحظات </th>
-                        <th>قيمة التوصيل</th>
-
-
-                        <th>تاريخ التحويل</th>
-                        <th> تاريخ الانشاء</th>
+                        <th class="th_style">#</th>
+                        <th class="th_style">الحالة</th>
+                        <th class="th_style">اسم العميل</th>
+                        <th class="th_style">المحافظة</th>
+                        <th class="th_style">رقم تليفون العميل</th>
+                        <th class="th_style">وقت التسليم</th>
+                        <th class="th_style">عدد القطع داخل الشحنة</th>
+                        <th class="th_style">قيمة الشحنة</th>
+                        <th class="th_style">قيمة الاوردر</th>
+                        <th class="th_style"> الملاحظات </th>
+                        <th class="th_style">قيمة التوصيل</th>
+                        <th class="th_style">تاريخ التحويل</th>
+                        <th class="th_style"> تاريخ الانشاء</th>
 
                     </tr>
             </table>
-
-
-
+            </div>
         </div>
     </div>
 @endsection

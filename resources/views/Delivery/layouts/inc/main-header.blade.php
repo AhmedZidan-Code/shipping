@@ -10,7 +10,7 @@ $locale=app()->getLocale();
     <div class="navbar-header">
         <div class="d-flex">
             <!-- LOGO -->
-            <div class="navbar-brand-box">
+            <div class="navbar-brand-box ">
                 <a href="{{ route('delivery.index') }}" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{get_file($settings->logo_header)}}" alt="" height="22">
@@ -54,7 +54,7 @@ $locale=app()->getLocale();
         <div class="d-flex">
 
             <!-- App Search-->
-{{--            <form class="app-search d-none d-lg-block">--}}
+{{--            <form class="app-search d-none d-lg-block ">--}}
 {{--                <div class="position-relative">--}}
 {{--                    <input type="text" class="form-control" placeholder="ابحث هنا....">--}}
 {{--                    <span class="fa fa-search"></span>--}}
