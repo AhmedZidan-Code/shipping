@@ -625,6 +625,9 @@ body[data-layout=horizontal] .footer {
 
 .vertical-collpsed .navbar-brand-box {
     width: 70px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .vertical-collpsed .logo span.logo-lg {
@@ -2249,9 +2252,9 @@ body[data-layout=horizontal][data-layout-size=boxed] .container-fluid {
     height: 64px;
     line-height: 64px;
     text-align: center;
-    color: #fff !important;
+    color: #000 !important;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background:#fff !important;
     display: inline-block;
 }
 
@@ -4575,17 +4578,204 @@ body[data-sidebar=dark] .mm-active .active {
     border-radius: 25px 3px;
 }
 
+body[data-sidebar=dark] .mm-active>a {
+    color: #fd4006 !important;
+    background-color: #ffffff;
+    border-radius: 25px 3px;
+}
+
+
 body[data-sidebar=dark] .mm-active .active i {
     color: #fe4006 !important;
     padding: 4px;
 }
 
 #sidebar-menu ul li a {
-    font-size: 16px;
+    font-size: 17px;
 }
 
 .vertical-menu.menu_style .metismenu {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 25px;
+}
+
+#sidebar-menu ul li ul.sub-menu li a {
+    font-size: 15px;
+
+}
+
+.app-search.search_style {
+    margin-bottom: 10px !important;
+    border-radius: 10px !important;
+}
+
+.page-content {
+    padding: calc(60px + 40px) calc(178px / 2) 60px calc(20px / 2);
+}
+
+body:has(.sidebar-enable.vertical-collpsed) .page-content {
+    padding: calc(60px + 40px) calc(20px / 2) 60px calc(20px / 2) !important;
+}
+
+
+.sidebar-enable.vertical-collpsed .page-content {
+    padding: calc(60px + 40px) calc(20px / 2) 60px calc(20px / 2) !important;
+}
+
+.vertical-collpsed .vertical-menu #sidebar-menu>ul>li>a span {
+    padding-right: 7px;
+}
+
+.vertical-collpsed .vertical-menu #sidebar-menu>ul>li>a {
+    padding: 15px 7px;
+}
+
+.vertical-collpsed .vertical-menu #sidebar-menu>ul>li:hover>a {
+    width: calc(120px + 70px);
+    color: #7a6fbe;
+}
+
+body[data-sidebar=dark].vertical-collpsed .vertical-menu #sidebar-menu>ul>li:hover>a {
+    background: #ebedef;
+    color: #ffffff;
+}
+
+body[data-sidebar=dark].vertical-collpsed .vertical-menu #sidebar-menu ul li.mm-active .active {
+    color: #ff4006 !important;
+}
+
+body[data-sidebar=dark].vertical-collpsed .vertical-menu #sidebar-menu ul li.mm-active .active i {
+    color: #ff4006 !important;
+}
+
+body[data-sidebar=dark] #sidebar-menu ul>li>a.mm-active {
+    background-color: #ffff;
+}
+
+body[data-sidebar=dark] .mm-active>a i {
+    color: #ff4006 !important;
+}
+
+.small_logo img {
+    height: 40px;
+}
+
+.card.mini-stat {
+    border-radius: 25px 4px !important;
+}
+
+.card-body.mini-stat-img {
+    padding: 30px 25px;
+}
+
+.font-size-16 {
+    font-size: 18px !important;
+    margin: 0 !important;
+}
+
+.titels_style {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.titels_style h6,
+.titels_style h2 {
+    margin: 0 !important;
+}
+
+.mini-stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -57px;
+    position: relative
+}
+
+/* .mini-stat .mini-stat-icon i {
+    color: #000 !important;
+    background: #fff;
+    opacity: 1 !important;
+}
+
+.table-responsive tbody tr td {
+    min-width: 200px;
+    text-align: center;
+} */
+
+.btn-success {
+    font-size: 15px;
+    border-radius: 21px;
+}
+
+.btn-info {
+    font-size: 15px;
+    border-radius: 21px;
+}
+
+.page-item.active .page-link {
+    background-color: #ff4006;
+    border-color: #7a6fbe;
+}
+
+.page-item.disabled .page-link {
+    color: #ff4006;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #ff4006;
+}
+
+.page-link {
+    color: #ff4006;
+    border: 1px solid #ff4006;
+}
+
+.page-item.active .page-link {
+    background-color: #ff4006;
+    border-color: #ff4006;
+} 
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
+
+.bg-1 {
+    background: #fa3f06 !important;
+}
+
+.bg-2 {
+    background: #41c4ff !important;
+}
+
+.bg-3 {
+    background: #42cbbe !important;
+}
+
+.bg-4 {
+    background: #ff4081 !important;
+}
+
+.bg-5 {
+    background: #3fa583 !important;
+}
+
+.bg-6 {
+    background: #cf8f3a !important;
+}
+
+.bg-7 {
+    background: #e83e8c !important;
+}
+
+.bg-8 {
+    background: #16505c !important;
+}
+
+.th_style {
+    min-width: 150px;
+    text-align: center;
 }
