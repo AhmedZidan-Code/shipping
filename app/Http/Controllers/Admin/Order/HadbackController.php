@@ -66,21 +66,15 @@ class HadbackController extends Controller
                 }
             });
 
-            $totalShipmentValue2 = $rows->get()->sum(function ($row) {
-                if ($row->status == 'shipping_on_messanger') {
-                    return $row->delivery_value;
-                }
-            });
+            $totalShipmentValue = $rows->get()->sum('shipment_value');
 
-            $totalShipmentValue = $totalShipmentValue1 - $totalShipmentValue2;
+            // $totalShipmentValue = $totalShipmentValue1 - $totalShipmentValue2;
 
             $dataTable = DataTables::of($rows)
 
                 ->addColumn('checkbox', function ($row) {
                     if ($row->status == 'partial_delivery_to_customer') {
                         $database = $row->total_value - $row->partial_value;
-                    } else if ($row->status == 'shipping_on_messanger') {
-                        $database = -$row->delivery_value;
                     } else {
 
                         $database = $row->shipment_value;
@@ -170,8 +164,6 @@ class HadbackController extends Controller
                 ->editColumn('shipment_value', function ($row) {
                     if ($row->status == 'partial_delivery_to_customer') {
                         return $row->total_value - $row->partial_value;
-                    } else if ($row->status == 'shipping_on_messanger') {
-                        return -$row->delivery_value;
                     } else {
 
                         return $row->shipment_value;

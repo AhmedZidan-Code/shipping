@@ -302,6 +302,28 @@
                         </ul>
                     </li>
                 @endcan
+                                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="mdi mdi-buffer"></i>
+                            <span>   إدارة الموقع </span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li><a href="{{ route('sliders.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>  السلايدر</span></a></li>
+                            <li><a href="{{ route('features.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>  السمات</span></a></li>
+                            <li><a href="{{ route('static-pages.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>  الصفحات الثابتة</span></a></li>
+                            <li><a href="{{ route('services.index') }}"><i class="mdi mdi-album"></i>
+                                    <span> الخدمات</span></a></li>
+                            <li><a href="{{ route('processes.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>العمليات</span></a></li>
+                            <li><a href="{{ route('videos.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>الفيديوهات</span></a></li>
+                            <li><a href="{{ route('statistics.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>الاحصائيات</span></a></li>
+                        </ul>
+                    </li>
             </ul>
         </div>
         <!-- Sidebar -->

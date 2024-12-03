@@ -1,17 +1,17 @@
 @extends('Admin.layouts.inc.app')
 @section('title')
-    الصفحات الثابتة
+    العمليات
 @endsection
 @section('css')
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1"> الصفحات الثابتة</h5>
+            <h5 class="card-title mb-0 flex-grow-1"> العمليات</h5>
 
-            @can('إنشاء الصفحات الثابتة')
+            @can('إنشاء العمليات')
                 <div>
-                    <button id="addBtn" class="btn btn-primary">اضافة صفحة</button>
+                    <button id="addBtn" class="btn btn-primary">اضافة عملية</button>
                 </div>
             @endcan
 
@@ -24,7 +24,6 @@
                         <th>#</th>
                         <th> الصورة</th>
                         <th> العنوان</th>
-                        <th> اسم الصفحة</th>
                         <th> التاريخ</th>
                         <th>العمليات</th>
                     </tr>
@@ -41,7 +40,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2><span id="operationType"></span> الصفحات الثابتة </h2>
+                    <h2><span id="operationType"></span> العمليات </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
@@ -95,10 +94,6 @@
                 name: 'title'
             },
             {
-                data: 'page_name',
-                name: 'page_name'
-            },
-            {
                 data: 'date',
                 name: 'date'
             },
@@ -110,5 +105,5 @@
             },
         ];
     </script>
-    @include('Admin.layouts.inc.ajax', ['url' => 'static-pages'])
+    @include('Admin.layouts.inc.ajax', ['url' => 'processes'])
 @endsection

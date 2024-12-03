@@ -14,8 +14,12 @@ use App\Http\Controllers\Admin\Reports\TraderProfitController;
 use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\TraderDebtController;
 use App\Http\Controllers\Admin\Web\FeatureController;
+use App\Http\Controllers\Admin\Web\ProcessController;
+use App\Http\Controllers\Admin\Web\ServiceController;
 use App\Http\Controllers\Admin\Web\SliderController;
 use App\Http\Controllers\Admin\Web\StaticPageController;
+use App\Http\Controllers\Admin\Web\StatisticsController;
+use App\Http\Controllers\Admin\Web\VideoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('admin/login', [AuthController::class, 'loginView'])->name('admin.login');
@@ -111,7 +115,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('mandoubReports', \App\Http\Controllers\Admin\Reports\MandoubReportsController::class); //setting
 
     Route::resource('tradersReports', \App\Http\Controllers\Admin\Reports\TraderReportsController::class); //setting
-    Route::resource('mandoub-salary', MandoubSalaryController::class); 
+    Route::resource('mandoub-salary', MandoubSalaryController::class);
 
     Route::resource('todayOrdersReports', \App\Http\Controllers\Admin\Reports\TodayOrdersReportsController::class); //setting
     Route::get('todayOrdersReports-details', [\App\Http\Controllers\Admin\Reports\TodayOrdersReportsController::class, 'details'])->name('todayOrdersReports.details'); //setting
@@ -154,15 +158,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('company-profits', CompanyProfitController::class);
     Route::resource('delivery-profits', DeliveryProfitController::class);
     Route::resource('trader-profits', TraderProfitController::class);
-    
 
     //sliders
     Route::resource('sliders', SliderController::class);
 
     //features
     Route::resource('features', FeatureController::class);
- 
+
     //static pages
     Route::resource('static-pages', StaticPageController::class);
+    //processes
+    Route::resource('processes', ProcessController::class);
+    //services
+    Route::resource('services', ServiceController::class);
+    //videos
+    Route::resource('videos', VideoController::class);
+    //statistics
+    Route::resource('statistics', StatisticsController::class);
 });
 //

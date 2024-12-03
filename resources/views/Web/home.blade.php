@@ -5,94 +5,34 @@
     <!-- Slider Section Start !-->
     <div class="slider-area style-1">
         <div class="slider-wrapper">
-            <!-- single slider start -->
-            <div class="single-slider-wrapper">
-                <div class="single-slider"
-                    style="background-image: url('{{ asset('assets/web') }}/images/slider/slider-1.jpg')">
-                    <div class="slider-overlay"></div>
-                    <div class="container h-100 align-self-center">
-                        <div class="row h-100">
-                            <div class="col-md-6 align-self-center order-2 order-md-1">
-                                <div class="slider-content-wrapper">
-                                    <div class="slider-content">
-                                        <span class="slider-short-title">نحن شركة ترانسو</span>
-                                        <h1 class="slider-title">تغطية واسعة للمناطق</h1>
-                                        <p class="slider-short-desc">نحن نوفر خدمة التوصيل لجميع المناطق، سواء في
-                                            المدينة أو المناطق الريفية، لتلبية احتياجات جميع العملاء</p>
+            @foreach ($sliders as $slider)
+                <!-- single slider start -->
+                <div class="single-slider-wrapper">
+                    <div class="single-slider" style="background-image: url('{{ asset('storage') . '/' . $slider->cover }}')">
+                        <div class="slider-overlay"></div>
+                        <div class="container h-100 align-self-center">
+                            <div class="row h-100">
+                                <div class="col-md-6 align-self-center order-2 order-md-1">
+                                    <div class="slider-content-wrapper">
+                                        <div class="slider-content">
+                                            {{-- <span class="slider-short-title">نحن شركة بوصلة</span> --}}
+                                            <h1 class="slider-title">{{ $slider->title }}</h1>
+                                            <p class="slider-short-desc">{{ $slider->description }}</p>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 align-self-center order-1 order-md-2">
-                                <div class="slider-image">
-                                    <img src="{{ asset('assets/web') }}/images/slider/home-1-feature-slider-1.png"
-                                        alt="feature image" />
+                                <div class="col-md-6 align-self-center order-1 order-md-2">
+                                    <div class="slider-image">
+                                        <img src="{{ asset('storage') . '/' . $slider->image }}" alt="feature image" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- single slider end -->
-            <!-- single slider start -->
-            <div class="single-slider-wrapper">
-                <div class="single-slider"
-                    style="background-image: url('{{ asset('assets/web') }}/images/slider/slider-2.jpg')">
-                    <div class="slider-overlay"></div>
-                    <div class="container h-100 align-self-center">
-                        <div class="row h-100">
-                            <div class="col-md-6 align-self-center order-2 order-md-1">
-                                <div class="slider-content-wrapper">
-                                    <div class="slider-content">
-                                        <span class="slider-short-title">شريك عملك في متجرك</span>
-                                        <h1 class="slider-title">فريق خدمة عملاء متفانٍ لخدمتك</h1>
-                                        <p class="slider-short-desc">فريقنا متاح على مدار الساعة لتلبية احتياجات
-                                            العملاء
-                                            وضمان توصيل الطلبات في أي وقت.</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 align-self-center order-1 order-md-2">
-                                <div class="slider-image">
-                                    <img src="{{ asset('assets/web') }}/images/slider/home-1-feature-slider-2.png"
-                                        alt="feature image" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- single slider end -->
-            <!-- single slider start -->
-            <div class="single-slider-wrapper">
-                <div class="single-slider"
-                    style="background-image: url('{{ asset('assets/web') }}/images/slider/slider-3.jpg')">
-                    <div class="slider-overlay"></div>
-                    <div class="container h-100 align-self-center">
-                        <div class="row h-100">
-                            <div class="col-md-6 align-self-center order-2 order-md-1">
-                                <div class="slider-content-wrapper">
-                                    <div class="slider-content">
-                                        <span class="slider-short-title">Journey with Transco</span>
-                                        <h1 class="slider-title">توصيل آمن وموثوق</h1>
-                                        <p class="slider-short-desc">نحرص على توصيل طلباتكم بأمان وجودة عالية، مع
-                                            الاهتمام بحماية وسلامة المنتجات أثناء النقل</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 align-self-center order-1 order-md-2">
-                                <div class="slider-image">
-                                    <img src="{{ asset('assets/web') }}/images/slider/home-1-feature-slider-3.png"
-                                        alt="feature image" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- single slider end -->
+                <!-- single slider end -->
+            @endforeach
         </div>
         <!-- Social Profile Start -->
         <div class="container social-share-wrapper">
@@ -111,134 +51,39 @@
         <div class="container">
             <div class="feature-area-wrapper">
                 <div class="row">
-                    <div class="col-md-6 col-lg-3 p-lg-0">
-                        <!-- single info-card start -->
-                        <div class="info-card ">
-                            <div class="divider"></div>
-                            <div class="info-card-inner">
-                                <div class="content-wrapper">
-                                    <div class="title-wrapper">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/support.png" alt="support" />
+                    @foreach ($features as $feature)
+                        <div class="col-md-6 col-lg-3 p-lg-0">
+                            <!-- single info-card start -->
+                            <div class="info-card ">
+                                <div class="divider"></div>
+                                <div class="info-card-inner">
+                                    <div class="content-wrapper">
+                                        <div class="title-wrapper">
+                                            <div class="icon">
+                                                <img src="{{ asset('storage') . '/' . $feature->image }}" alt="support" />
+                                            </div>
+                                            <h2 class="title"> {{ $feature->title }}
+                                            </h2>
                                         </div>
-                                        <h2 class="title">التقاط من عتبة دارك.
-                                        </h2>
-                                    </div>
-                                    <div class="content">
-                                        <p class="desc">اطلب التقاط الاوردر وسنأتي لعتبة دارك في نفس اليوم لتوصيله.
-                                        </p>
-                                        <!-- <div class="read-more">
-                                                <a href="service-details.html">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </span>
-                                                    عرض المزيد
-                                                </a>
-                                            </div> -->
+                                        <div class="content">
+                                            <p class="desc"> {{ $feature->description }}
+                                            </p>
+                                            <!-- <div class="read-more">
+                                                                                <a href="service-details.html">
+                                                                                    <span class="icon">
+                                                                                        <i class="fa-solid fa-angle-right"></i>
+                                                                                    </span>
+                                                                                    عرض المزيد
+                                                                                </a>
+                                                                            </div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- single info-card End-->
                         </div>
-                        <!-- single info-card End-->
-                    </div>
-                    <div class="col-md-6 col-lg-3 p-lg-0">
-                        <!-- single info-card start -->
-                        <div class="info-card ">
-                            <div class="divider"></div>
-                            <div class="info-card-inner">
-                                <div class="content-wrapper">
-                                    <div class="title-wrapper">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/world-distribution.png"
-                                                alt="support" />
-                                        </div>
-                                        <h2 class="title">
-                                            تتبع مباشر وسهل.
-                                        </h2>
-                                    </div>
-                                    <div class="content">
-                                        <p class="desc">من خلال هاتفك المحمول وبكل راحة، يُمكنك الحصول على تتبع دقيق
-                                            لطلباتك والحصول على وسيلة للقيام بالإجراءات الحصرية لأوردراتك.</p>
-                                        <!-- <div class="read-more">
-                                                <a href="service-details.html">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </span>
-                                                    المزيد عرض
-                                                </a>
-                                            </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single info-card End-->
-                    </div>
-                    <div class="col-md-6 col-lg-3 p-lg-0">
-                        <!-- single info-card start -->
-                        <div class="info-card ">
-                            <div class="divider"></div>
-                            <div class="info-card-inner">
-                                <div class="content-wrapper">
-                                    <div class="title-wrapper">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/courier.png" alt="support" />
-                                        </div>
-                                        <h2 class="title">احصل على نقودك سريعًا.
-                                        </h2>
-                                    </div>
-                                    <div class="content">
-                                        <p class="desc"> تضمن لك بوسطة استرداد أموالك التي تم تحصيلها من خلال الدفع
-                                            عند
-                                            الاستلام مباشرة من عملائك الذين استلموا أوردراتهم سواءً في اليوم التالي أو
-                                            بشكل أسبوعي أو كل</p>
-                                        <!-- <div class="read-more">
-                                                <a href="service-details.html">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </span>
-                                                    عرض المزيد
-                                                </a>
-                                            </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single info-card End-->
-                    </div>
-                    <div class="col-md-6 col-lg-3 p-lg-0">
-                        <!-- single info-card start -->
-                        <div class="info-card ">
-                            <div class="divider"></div>
-                            <div class="info-card-inner">
-                                <div class="content-wrapper">
-                                    <div class="title-wrapper">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/unboxing.png"
-                                                alt="support" />
-                                        </div>
-                                        <h2 class="title">تخطى عبء التغليف.
-                                        </h2>
-                                    </div>
-                                    <div class="content">
-                                        <p class="desc">قل وداعًا للجهد المبذول والوقت المُهدر في تغليف و طباعة
-                                            فواتير
-                                            بوليصة الشحن، فبمجرد أن نلتقط الاوردر؛ سيتم تغليفه من أجلك وتوصيله في اليوم
-                                            التالي.
-                                        </p>
-                                        <!-- <div class="read-more">
-                                                <a href="service-details.html">
-                                                    <span class="icon">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </span>
-                                                    عرض المزيد
-                                                </a>
-                                            </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single info-card End-->
-                    </div>
+                    @endforeach
+
                 </div>
             </div>
         </div>
@@ -311,10 +156,10 @@
                 <div class="col-lg-10">
                     <div class="video-popup-card">
                         <div class="video-popup-image">
-                            <img src="{{ asset('assets/web') }}/images/video-popup/popup-img-1.jpg" alt="popup image" />
+                            <img src="{{ asset('storage') . '/' . $video->image }}" alt="popup image" />
                         </div>
                         <div class="video-popup-btn">
-                            <a href="https://www.youtube.com/watch?v=SZEflIVnhH8" class="mfp-iframe video-play">
+                            <a href="{{ asset('storage') . '/' . $video->video }}" class="mfp-iframe video-play">
                                 <i class="fa-solid fa-play" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -332,51 +177,21 @@
             <div class="row">
                 <div class="col-12">
                     <div class="counter-card">
-                        <div class="counter-item">
-                            <div class="counter-title">
-                                <h1 class="number">
-                                    <span class="counter">90</span>
-                                </h1>
-                                <p class="title">مخزن</p>
-                            </div>
-                            <!-- <div class="counter-content">
-                                    <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
-                                </div> -->
+                        @foreach ($statistics as $statistic)
+                            <div class="counter-item">
+                                <div class="counter-title">
+                                    <h1 class="number">
+                                        <span class="counter">{{ $statistic->value }}</span>
+                                    </h1>
+                                    <p class="title">{{ $statistic->title }}</p>
+                                </div>
+                                <!-- <div class="counter-content">
+                                                                    <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
+                                                                </div> -->
 
-                        </div>
-                        <div class="counter-item">
-                            <div class="counter-title">
-                                <h1 class="number">
-                                    <span class="counter">230</span>
-                                </h1>
-                                <p class="title">بائع</p>
                             </div>
-                            <!-- <div class="counter-content">
-                                    <p class="text">kccusa mnis iste natus error sit vol uptatem accusa bulla </p>
-                                </div> -->
-                        </div>
-                        <div class="counter-item">
-                            <div class="counter-title">
-                                <h1 class="number">
-                                    <span class="counter">500</span> <span>+</span>
-                                </h1>
-                                <p class="title">طرود ناجحة</p>
-                            </div>
-                            <!-- <div class="counter-content">
-                                    <p class="text">bccusa mnis iste natus error sit vol uptatem accusa pulla </p>
-                                </div> -->
-                        </div>
-                        <div class="counter-item">
-                            <div class="counter-title">
-                                <h1 class="number">
-                                    <span class="counter">10</span> <span>M</span>
-                                </h1>
-                                <p class="title">مندوب</p>
-                            </div>
-                            <!-- <div class="counter-content">
-                                    <p class="text">dccusa mnis iste natus error sit vol uptatem accusa culla </p>
-                                </div> -->
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -402,33 +217,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <a href="#" class="info-card style-two">
-                        <div class="overlay_img"
-                            style="background-image: url({{ asset('assets/web') }}/images/ebd03a4bebc0dde638ec65fd3aecd307.png);">
-                            <h2 class="title">التخزين</h2>
-                        </div>
+                @foreach ($processes as $process)
+                    <div class="col-md-6 col-lg-4">
+                        <a href="#" class="info-card style-two">
+                            <div class="overlay_img"
+                                style="background-image: url({{ asset('storage') . '/' . $process->image }});">
+                                <h2 class="title">{{ $process->title }}</h2>
+                            </div>
 
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <a href="#" class="info-card style-two">
-                        <div class="overlay_img"
-                            style="background-image: url({{ asset('assets/web') }}/images/2e09abd833fbeca67c93bcc6b473aa49.png);">
-                            <h2 class="title">التغليف</h2>
-                        </div>
+                        </a>
+                    </div>
+                @endforeach
 
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <a href="#" class="info-card style-two"
-                        style="background-image: url('{{ asset('assets/web') }}/images/service/service-item-1.jpg')">
-                        <div class="overlay_img">
-                            <h2 class="title">شحن</h2>
-                        </div>
-
-                    </a>
-                </div>
             </div>
         </div>
     </div>
@@ -450,49 +250,24 @@
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-5 col-xl-3">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>01</span>
+                        @foreach ($services as $k => $service)
+                            @if (++$k % 2 != 0)
+                                <div class="col-12">
+                                    <div class="process-step">
+                                        <div class="icon">
+                                            <div class="count">
+                                                <span>0{{ ++$k }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <h2 class="title">{{ $service->title }}</h2>
+                                            <p class="desc">{{ $service->description }}</p>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="content">
-                                    <h2 class="title">توصيل في 12 ساعة</h2>
-                                    <p class="desc">توصيل أسرع للشحنات لجميع محافظات مصر بأسعار تناسبك.</p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>03</span>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    <h2 class="title">تخزين احترافي وفريق متخصص</h2>
-                                    <p class="desc">مكان مجهز و فريق مدرب لتخزين المنتجات وعملية سلسة بدون تدخل من
-                                        التاجر</p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>05</span>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    <h2 class="title">تنظيم المخزون</h2>
-                                    <p class="desc">وضع نظام فعال لإدارة المخزون يتضمن تسجيل المداخل والمخرجات</p>
-                                </div>
-
-                            </div>
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
                 <div class="align-self-end d-none d-lg-block col-lg-2 col-xl-6">
@@ -503,53 +278,27 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-5 col-xl-3">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>02</span>
+                        @foreach ($services as $k => $service)
+                            @if (++$k % 2 == 0)
+                                <div class="col-12">
+                                    <div class="process-step">
+                                        <div class="icon">
+                                            <div class="count">
+                                                <span>0{{ ++$k }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <h2 class="title">{{ $service->title }}
+
+                                            </h2>
+                                            <p class="desc">{{ $service->description }}
+                                            </p>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="content">
-                                    <h2 class="title">أحدث التقنيات للتخزين
-
-                                    </h2>
-                                    <p class="desc">تتبع دقيق لمخزونك من على حسابك ببوسطة من وقت الاستلام لحد
-                                        التحصيل.
-                                    </p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>04</span>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    <h2 class="title">سرعة التحصيل</h2>
-                                    <p class="desc">تحصيل في خلال 24 ساعة من وقت وصول الشحنة الى العميل.</p>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>06</span>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    <h2 class="title">مراقبة الجودة</h2>
-                                    <p class="desc">يشمل فحص المنتجات المخزنة بانتظام للتأكد من سلامتها وجودتها</p>
-                                </div>
-
-                            </div>
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>

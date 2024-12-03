@@ -4,19 +4,19 @@ namespace App\Http\Controllers\Admin\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
-use App\Models\Feature;
+use App\Models\Service;
 use App\Traits\ImageHandler;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class FeatureController extends Controller
+class ServiceController extends Controller
 {
-       use LogActivityTrait, ImageHandler;
+    use LogActivityTrait, ImageHandler;
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $rows = Feature::query();
+            $rows = Service::query();
             return DataTables::of($rows)
 
                 ->addColumn('action', function ($row) {
@@ -24,11 +24,11 @@ class FeatureController extends Controller
                     $edit = '';
                     $delete = '';
 
-                    if (!auth()->user()->can('تعديل السلايدر')) {
+                    if (!auth()->user()->can('تعديل الخدمات')) {
                         $edit = 'hidden';
                     }
 
-                    if (!auth()->user()->can('حذف السلايدر')) {
+                    if (!auth()->user()->can('حذف الخدمات')) {
                         $delete = 'hidden';
                     }
 
@@ -55,39 +55,36 @@ class FeatureController extends Controller
                 ->addColumn('date', function ($row) {
                     return $row->created_at->format('Y-m-d');
                 })
-                ->editColumn('image', function ($row) {
-                    return '<img src="' . asset('/storage/' . $row->image) . '" alt="Image" width="50" height="50">';
-                })
+            // ->editColumn('image', function ($row) {
+            //     return '<img src="' . asset('/storage/' . $row->image) . '" alt="Image" width="50" height="50">';
+            // })
                 ->escapeColumns([])
                 ->make(true);
 
         } else {
-            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  السمات");
+            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الخدمات");
 
         }
-        return view('Admin.web.features.index');
+        return view('Admin.web.services.index');
 
     }
     public function create()
     {
 
-        return view('Admin.web.features.parts.create');
+        return view('Admin.web.services.parts.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'description' => 'required|string',
         ]);
 
-        $imagePath = $this->uploadImage($request->file('image'), 'sliders');
 
-        Feature::create([
+        Service::create([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $imagePath,
         ]);
 
         return response()->json(
@@ -100,30 +97,21 @@ class FeatureController extends Controller
     public function edit($id)
     {
 
-        $row = Feature::findOrFail($id);
+        $row = Service::findOrFail($id);
 
-        return view('Admin.web.features.parts.edit', ['row' => $row]);
+        return view('Admin.web.services.parts.edit', ['row' => $row]);
 
     }
 
-    public function update(Request $request, Feature $feature)
+    public function update(Request $request, Service $service)
     {
         $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'title' => 'required|required|string|max:255',
+            'description' => 'required|string',
         ]);
 
-        if ($request->hasFile('image')) {
-            // Delete the old image
-            $this->deleteImage($feature->image);
 
-            // Upload the new image
-            $imagePath = $this->uploadImage($request->file('image'), 'features');
-            $feature->update(['image' => $imagePath]);
-        }
-
-        $feature->update($request->only('title', 'description'));
+        $service->update($request->only('title', 'description'));
 
         return response()->json(
             [
@@ -132,12 +120,11 @@ class FeatureController extends Controller
             ]);
     }
 
-    public function destroy(Feature $feature)
+    public function destroy(Service $service)
     {
         // Delete the image associated with the feature
-        $this->deleteImage($feature->image);
 
-        $feature->delete();
+        $service->delete();
 
         return response()->json(
             [
