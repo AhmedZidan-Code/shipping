@@ -8,8 +8,7 @@
             @foreach ($sliders as $slider)
                 <!-- single slider start -->
                 <div class="single-slider-wrapper">
-                    <div class="single-slider"
-                        style="background-image: url('{{ asset('storage') . '/' . $slider->cover }}')">
+                    <div class="single-slider" style="background-image: url('{{ asset('storage') . '/' . $slider->cover }}')">
                         <div class="slider-overlay"></div>
                         <div class="container h-100 align-self-center">
                             <div class="row h-100">
@@ -52,133 +51,39 @@
         <div class="container">
             <div class="feature-area-wrapper">
                 <div class="row">
-                    <div class="col-md-6 col-lg-3 p-lg-0">
-                        <!-- single info-card start -->
-                        <div class="info-card ">
-                            <div class="divider"></div>
-                            <div class="info-card-inner">
-                                <div class="content-wrapper">
-                                    <div class="title-wrapper">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/support.png" alt="support" />
+                    @foreach ($features as $feature)
+                        <div class="col-md-6 col-lg-3 p-lg-0">
+                            <!-- single info-card start -->
+                            <div class="info-card ">
+                                <div class="divider"></div>
+                                <div class="info-card-inner">
+                                    <div class="content-wrapper">
+                                        <div class="title-wrapper">
+                                            <div class="icon">
+                                                <img src="{{ asset('assets/web') . '/' . $feature->image }}" alt="support" />
+                                            </div>
+                                            <h2 class="title">   {{ $feature->title }}
+                                            </h2>
                                         </div>
-                                        <h2 class="title">التقاط من عتبة دارك.
-                                        </h2>
-                                    </div>
-                                    <div class="content">
-                                        <p class="desc">اطلب التقاط الاوردر وسنأتي لعتبة دارك في نفس اليوم لتوصيله.
-                                        </p>
-                                        <!-- <div class="read-more">
-                                                                <a href="service-details.html">
-                                                                    <span class="icon">
-                                                                        <i class="fa-solid fa-angle-right"></i>
-                                                                    </span>
-                                                                    عرض المزيد
-                                                                </a>
-                                                            </div> -->
+                                        <div class="content">
+                                            <p class="desc"> {{ $feature->description }}
+                                            </p>
+                                            <!-- <div class="read-more">
+                                                                    <a href="service-details.html">
+                                                                        <span class="icon">
+                                                                            <i class="fa-solid fa-angle-right"></i>
+                                                                        </span>
+                                                                        عرض المزيد
+                                                                    </a>
+                                                                </div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- single info-card End-->
                         </div>
-                        <!-- single info-card End-->
-                    </div>
-                    <div class="col-md-6 col-lg-3 p-lg-0">
-                        <!-- single info-card start -->
-                        <div class="info-card ">
-                            <div class="divider"></div>
-                            <div class="info-card-inner">
-                                <div class="content-wrapper">
-                                    <div class="title-wrapper">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/world-distribution.png"
-                                                alt="support" />
-                                        </div>
-                                        <h2 class="title">
-                                            تتبع مباشر وسهل.
-                                        </h2>
-                                    </div>
-                                    <div class="content">
-                                        <p class="desc">من خلال هاتفك المحمول وبكل راحة، يُمكنك الحصول على تتبع دقيق
-                                            لطلباتك والحصول على وسيلة للقيام بالإجراءات الحصرية لأوردراتك.</p>
-                                        <!-- <div class="read-more">
-                                                                <a href="service-details.html">
-                                                                    <span class="icon">
-                                                                        <i class="fa-solid fa-angle-right"></i>
-                                                                    </span>
-                                                                    المزيد عرض
-                                                                </a>
-                                                            </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single info-card End-->
-                    </div>
-                    <div class="col-md-6 col-lg-3 p-lg-0">
-                        <!-- single info-card start -->
-                        <div class="info-card ">
-                            <div class="divider"></div>
-                            <div class="info-card-inner">
-                                <div class="content-wrapper">
-                                    <div class="title-wrapper">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/courier.png" alt="support" />
-                                        </div>
-                                        <h2 class="title">احصل على نقودك سريعًا.
-                                        </h2>
-                                    </div>
-                                    <div class="content">
-                                        <p class="desc"> تضمن لك بوسطة استرداد أموالك التي تم تحصيلها من خلال الدفع
-                                            عند
-                                            الاستلام مباشرة من عملائك الذين استلموا أوردراتهم سواءً في اليوم التالي أو
-                                            بشكل أسبوعي أو كل</p>
-                                        <!-- <div class="read-more">
-                                                                <a href="service-details.html">
-                                                                    <span class="icon">
-                                                                        <i class="fa-solid fa-angle-right"></i>
-                                                                    </span>
-                                                                    عرض المزيد
-                                                                </a>
-                                                            </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single info-card End-->
-                    </div>
-                    <div class="col-md-6 col-lg-3 p-lg-0">
-                        <!-- single info-card start -->
-                        <div class="info-card ">
-                            <div class="divider"></div>
-                            <div class="info-card-inner">
-                                <div class="content-wrapper">
-                                    <div class="title-wrapper">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/web') }}/images/icon/unboxing.png" alt="support" />
-                                        </div>
-                                        <h2 class="title">تخطى عبء التغليف.
-                                        </h2>
-                                    </div>
-                                    <div class="content">
-                                        <p class="desc">قل وداعًا للجهد المبذول والوقت المُهدر في تغليف و طباعة
-                                            فواتير
-                                            بوليصة الشحن، فبمجرد أن نلتقط الاوردر؛ سيتم تغليفه من أجلك وتوصيله في اليوم
-                                            التالي.
-                                        </p>
-                                        <!-- <div class="read-more">
-                                                                <a href="service-details.html">
-                                                                    <span class="icon">
-                                                                        <i class="fa-solid fa-angle-right"></i>
-                                                                    </span>
-                                                                    عرض المزيد
-                                                                </a>
-                                                            </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single info-card End-->
-                    </div>
+                    @endforeach
+
                 </div>
             </div>
         </div>
@@ -280,8 +185,8 @@
                                 <p class="title">مخزن</p>
                             </div>
                             <!-- <div class="counter-content">
-                                                    <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
-                                                </div> -->
+                                                        <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
+                                                    </div> -->
 
                         </div>
                         <div class="counter-item">
@@ -292,8 +197,8 @@
                                 <p class="title">بائع</p>
                             </div>
                             <!-- <div class="counter-content">
-                                                    <p class="text">kccusa mnis iste natus error sit vol uptatem accusa bulla </p>
-                                                </div> -->
+                                                        <p class="text">kccusa mnis iste natus error sit vol uptatem accusa bulla </p>
+                                                    </div> -->
                         </div>
                         <div class="counter-item">
                             <div class="counter-title">
@@ -303,8 +208,8 @@
                                 <p class="title">طرود ناجحة</p>
                             </div>
                             <!-- <div class="counter-content">
-                                                    <p class="text">bccusa mnis iste natus error sit vol uptatem accusa pulla </p>
-                                                </div> -->
+                                                        <p class="text">bccusa mnis iste natus error sit vol uptatem accusa pulla </p>
+                                                    </div> -->
                         </div>
                         <div class="counter-item">
                             <div class="counter-title">
@@ -314,8 +219,8 @@
                                 <p class="title">مندوب</p>
                             </div>
                             <!-- <div class="counter-content">
-                                                    <p class="text">dccusa mnis iste natus error sit vol uptatem accusa culla </p>
-                                                </div> -->
+                                                        <p class="text">dccusa mnis iste natus error sit vol uptatem accusa culla </p>
+                                                    </div> -->
                         </div>
                     </div>
                 </div>
