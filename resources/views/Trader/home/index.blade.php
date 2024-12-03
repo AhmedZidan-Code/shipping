@@ -138,7 +138,7 @@
             </a>
         </div>
 
-        <div class="col-sm-12 col-md-6">
+        <div class="col-lg-6 col-md-6 col-sm-12">
               <div class="card">
                 <div class="card-header border-bottom-0">
                   <h3>الطلبات</h3>

@@ -781,8 +781,12 @@ body[data-sidebar=dark] #sidebar-menu ul li a {
     color: #ffffff;
 }
 
-body[data-sidebar=dark] #sidebar-menu ul li a i {
-    color: #ffffff !important;
+body[data-sidebar=dark] #sidebar-menu ul li .waves-effect i {
+    color:#f6341c !important;
+}
+
+#sidebar-menu ul li a i{
+color: #fff;
 }
 
 body[data-sidebar=dark] #sidebar-menu ul li a:hover {
