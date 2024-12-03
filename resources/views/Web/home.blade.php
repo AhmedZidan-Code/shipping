@@ -24,7 +24,8 @@
                                 </div>
                                 <div class="col-md-6 align-self-center order-1 order-md-2">
                                     <div class="slider-image">
-                                        <img src="{{ asset('storage') . '/' . $slider->image }}" alt="feature image" />
+                                        <img src="{{ asset('storage') . '/' . $slider->image ?? '' }}"
+                                            alt="feature image" />
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +61,8 @@
                                     <div class="content-wrapper">
                                         <div class="title-wrapper">
                                             <div class="icon">
-                                                <img src="{{ asset('storage') . '/' . $feature->image }}" alt="support" />
+                                                <img src="{{ asset('storage') . '/' . $feature->image ?? '' }}"
+                                                    alt="support" />
                                             </div>
                                             <h2 class="title"> {{ $feature->title }}
                                             </h2>
@@ -69,13 +71,13 @@
                                             <p class="desc"> {{ $feature->description }}
                                             </p>
                                             <!-- <div class="read-more">
-                                                                        <a href="service-details.html">
-                                                                            <span class="icon">
-                                                                                <i class="fa-solid fa-angle-right"></i>
-                                                                            </span>
-                                                                            عرض المزيد
-                                                                        </a>
-                                                                    </div> -->
+                                                                                                <a href="service-details.html">
+                                                                                                    <span class="icon">
+                                                                                                        <i class="fa-solid fa-angle-right"></i>
+                                                                                                    </span>
+                                                                                                    عرض المزيد
+                                                                                                </a>
+                                                                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -156,10 +158,10 @@
                 <div class="col-lg-10">
                     <div class="video-popup-card">
                         <div class="video-popup-image">
-                            <img src="{{ asset('storage') . '/' . $video->image }}" alt="popup image" />
+                            <img src="{{ asset('storage') . '/' . $video->image ?? '' }}" alt="popup image" />
                         </div>
                         <div class="video-popup-btn">
-                            <a href="{{ asset('storage') . '/' . $video->video }}" class="mfp-iframe video-play">
+                            <a href="{{ asset('storage') . '/' . $video->video ?? '' }}" class="mfp-iframe video-play">
                                 <i class="fa-solid fa-play" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -186,8 +188,8 @@
                                     <p class="title">{{ $statistic->title }}</p>
                                 </div>
                                 <!-- <div class="counter-content">
-                                                            <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
-                                                        </div> -->
+                                                                                    <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
+                                                                                </div> -->
 
                             </div>
                         @endforeach
@@ -221,7 +223,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#" class="info-card style-two">
                             <div class="overlay_img"
-                                style="background-image: url({{ asset('storage') . '/' . $process->image }});">
+                                style="background-image: url({{ asset('storage') . '/' . $process->image ?? '' }});">
                                 <h2 class="title">{{ $process->title }}</h2>
                             </div>
 
@@ -251,20 +253,22 @@
                 <div class="col-12 col-md-6 col-lg-5 col-xl-3">
                     <div class="row">
                         @foreach ($services as $k => $service)
-                            <div class="col-12">
-                                <div class="process-step">
-                                    <div class="icon">
-                                        <div class="count">
-                                            <span>{{ ++$k }}</span>
+                            @if (++$k % 2 != 0)
+                                <div class="col-12">
+                                    <div class="process-step">
+                                        <div class="icon">
+                                            <div class="count">
+                                                <span>0{{ ++$k }}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="content">
-                                        <h2 class="title">{{ $service->title }}</h2>
-                                        <p class="desc">{{ $service->description }}</p>
-                                    </div>
+                                        <div class="content">
+                                            <h2 class="title">{{ $service->title }}</h2>
+                                            <p class="desc">{{ $service->description }}</p>
+                                        </div>
 
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
@@ -276,53 +280,27 @@
                 </div>
                 <div class="col-12 col-md-6 col-lg-5 col-xl-3">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>02</span>
+                        @foreach ($services as $k => $service)
+                            @if (++$k % 2 == 0)
+                                <div class="col-12">
+                                    <div class="process-step">
+                                        <div class="icon">
+                                            <div class="count">
+                                                <span>0{{ ++$k }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <h2 class="title">{{ $service->title }}
+
+                                            </h2>
+                                            <p class="desc">{{ $service->description }}
+                                            </p>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="content">
-                                    <h2 class="title">أحدث التقنيات للتخزين
-
-                                    </h2>
-                                    <p class="desc">تتبع دقيق لمخزونك من على حسابك ببوسطة من وقت الاستلام لحد
-                                        التحصيل.
-                                    </p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>04</span>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    <h2 class="title">سرعة التحصيل</h2>
-                                    <p class="desc">تحصيل في خلال 24 ساعة من وقت وصول الشحنة الى العميل.</p>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>06</span>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                    <h2 class="title">مراقبة الجودة</h2>
-                                    <p class="desc">يشمل فحص المنتجات المخزنة بانتظام للتأكد من سلامتها وجودتها</p>
-                                </div>
-
-                            </div>
-                        </div>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>

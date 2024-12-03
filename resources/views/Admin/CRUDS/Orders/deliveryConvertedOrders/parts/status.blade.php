@@ -47,6 +47,7 @@
             </select>
         </div>
 
+        
         <div class=" col-sm-6 partial_value" @if ($order->status != 'partial_delivery_to_customer') style="display: none;" @endif>
             <!--begin::Label-->
             <label for="status-convert" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
