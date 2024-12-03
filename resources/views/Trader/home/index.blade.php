@@ -137,6 +137,17 @@
                 </div>
             </a>
         </div>
+
+        <div class="col-sm-12 col-md-6">
+              <div class="card">
+                <div class="card-header border-bottom-0">
+                  <h3>الطلبات</h3>
+                </div>
+                <div class="card-body pt-0">
+                  <div id="chartone" class="chart"></div>
+                </div>
+              </div>
+            </div>
     </div>
     <!-- end row -->
 
@@ -207,5 +218,88 @@
             alert($(this).attr('id'))
         })
     </script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script>
+    var myChart = echarts.init(document.getElementById('chartone'));
+    option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        },
+        textStyle: {
+          fontFamily: 'Bahij_Plain'
+        }
+      },
+      grid: {
+        top: "9%",
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: [{
+        data: ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'],
+        axisLabel: {
+          textStyle: {
+            fontSize: 14,
+            fontFamily: 'Bahij_Plain'
+          }
+        }
+      }],
+      yAxis: [{
+        type: 'value'
+      }],
+      series: [{
+        name: 'الطلبات',
+        type: 'bar',
+        barWidth: '45%',
+        data: [{
+            value: 35,
+            itemStyle: {
+              color: '#69F0AE'
+            }
+          },
+          {
+            value: 30,
+            itemStyle: {
+              color: '#FFAB40'
+            }
+          },
+          {
+            value: 25,
+            itemStyle: {
+              color: '#41C4FF'
+            }
+          },
+          {
+            value: 20,
+            itemStyle: {
+              color: '#536DFE'
+            }
+          },
+          {
+            value: 15,
+            itemStyle: {
+              color: '#FF4081'
+            }
+          },
+          {
+            value: 10,
+            itemStyle: {
+              color: '#26A69A'
+            }
+          },
+          {
+            value: 5,
+            itemStyle: {
+              color: '#D4E157'
+            }
+          }
+        ]
+      }]
+    };
+    myChart.setOption(option);
+  </script>
 
 @endsection
