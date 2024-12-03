@@ -63,7 +63,7 @@
                 <span class="required mr-1"> قيمه التوصيل</span>
 
             </label>
-            <input type="number" value="{{ $order->delivery_value }}" name="delivery_value" class="form-control"
+            <input type="number" value="{{ $order->delivery_value }}"  name="delivery_value" class="form-control"
                 id="delivery_value" />
         </div>
 
