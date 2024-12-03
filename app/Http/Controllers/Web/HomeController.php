@@ -17,9 +17,9 @@ class HomeController extends Controller
         $sliders = Slider::all();
         $features = Feature::all();
         $services = Service::all();
-        $process = Process::all();
+        $processes = Process::all();
         $statistics = Statistics::all();
         $video = Video::where('page_id', 1)->first();
-        return view('Web.home', compact('sliders', 'features', 'services', 'process', 'statistics', 'video'));
+        return view('Web.home', compact('sliders', 'features', 'services', 'processes', 'statistics', 'video'));
     }
 }
