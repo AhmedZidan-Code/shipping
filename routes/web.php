@@ -45,3 +45,4 @@ Route::get('storage-link', function () {
     \Artisan::call('storage:link');
     return "storage linked successfully";
 });
+//

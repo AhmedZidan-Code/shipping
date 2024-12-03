@@ -90,6 +90,10 @@
                 name: 'title'
             },
             {
+                data: 'value',
+                name: 'value'
+            },
+            {
                 data: 'date',
                 name: 'date'
             },
