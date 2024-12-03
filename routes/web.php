@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Web\Auth\RegisterController;
 use App\Http\Controllers\Web\HomeController;
-use App\Http\Controllers\Web\TrackingOrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,10 +26,7 @@ Route::post('/register', [RegisterController::class, 'register'])->name('doRegis
 
 // Home Route
 Route::get('/home', [HomeController::class, 'index'])->name('web.home');
-
-Route::get('/tracking-order/{order?}', [TrackingOrderController::class, 'trace'])->name('order.tracking');
-Route::group(['middleware' => 'trader_web'], function () {
-
+Route::group(['middleware' => 'trader'], function () {
     Route::get('/profile', function () {
         return 'done';
     });
@@ -38,10 +34,5 @@ Route::group(['middleware' => 'trader_web'], function () {
 // Artisan Command Route
 Route::get('migrate-run', function () {
     \Artisan::call('migrate');
-    \Artisan::call('db:seed');
     return "sd";
-});
-Route::get('storage-link', function () {
-    \Artisan::call('storage:link');
-    return "storage linked successfully";
 });

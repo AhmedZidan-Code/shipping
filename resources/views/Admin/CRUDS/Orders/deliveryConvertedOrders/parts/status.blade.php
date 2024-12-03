@@ -39,7 +39,7 @@
             <!--end::Label-->
             <select name="delivery_id" class="form-control select2" style="width:100%;">
                 @foreach ($deliveries as $delivery)
-                    <option value="{{ $delivery->id }}"
+                    <option value="{{ $order->delivery_id }}"
                         {{ $delivery->id == $order->delivery_id ? 'selected' : '' }}>
                         {{ $delivery->name }}
                     </option>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Feature;
 use App\Models\Slider;
 
+
 class HomeController extends Controller
 {
     public function index()

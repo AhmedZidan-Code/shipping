@@ -1,12 +1,12 @@
 <!-- ========== Left Sidebar Start ========== -->
-<div class="vertical-menu">
+<div class="vertical-menu menu_style">
     <div data-simplebar class="h-100">
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled">
                 <li>
-                    <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block ">
                         <meta name="csrf-token" content="{{ csrf_token() }}">
                         <div class="position-relative">
                             <input type="text" id="myInput" onkeyup="myFunction()" class="form-control"

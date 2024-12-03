@@ -502,11 +502,11 @@
             complete: function() {},
             success: function(data) {
                 // alert(data);
+                console.log(data);
                 $('#td' + row_id).html(data);
+
                 //$('.delivery_value'+valu).val(data);
                 // get_order_value(valu);
-                
-                // location.reload();
             },
 
             error: function(data) {

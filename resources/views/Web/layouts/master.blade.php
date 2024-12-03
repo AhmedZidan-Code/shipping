@@ -12,7 +12,6 @@
     <title>Bosla - Transport and Logistic</title>
 
     @include('Web.layouts.includes.css')
-    @yield('styles')
 </head>
 
 <body>

@@ -8,7 +8,7 @@
             <!-- Left Menu Start -->
             <!-- App Search-->
             <ul class="metismenu list-unstyled">
-                <li> <form class="app-search d-none d-lg-block">
+                <li> <form class="app-search d-none d-lg-block ">
                         <meta name="csrf-token" content="{{ csrf_token() }}">
                         <div class="position-relative">
                             <input type="text" id="myInput" onkeyup="myFunction()" class="form-control" placeholder="ابحث هنا ..." onchange="SearchP($(this))">

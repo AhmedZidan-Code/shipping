@@ -10,7 +10,7 @@ $locale=app()->getLocale();
     <div class="navbar-header">
         <div class="d-flex">
             <!-- LOGO -->
-            <div class="navbar-brand-box">
+            <div class="navbar-brand-box box_style">
                 <a href="{{ route('trader.index') }}" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{get_file($settings->logo_header)}}" alt="" height="22">
@@ -21,11 +21,11 @@ $locale=app()->getLocale();
                 </a>
 
                 <a href="{{route('trader.index') }}" class="logo logo-light">
-                    <span class="logo-sm">
-                        <img src="{{get_file($settings->logo_header)}}" alt="" height="30">
+                    <span class="logo-sm small_logo">
+                    <img src="{{ asset('assets/dashboard') }}/images/logo_small.png" alt="" height="50px">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{get_file($settings->logo_header)}}" alt="" height="50px">
+                    <img src="{{ asset('assets/dashboard') }}/images/logo_white.png" alt="" height="50px">
                     </span>
                 </a>
             </div>
@@ -54,7 +54,7 @@ $locale=app()->getLocale();
         <div class="d-flex">
 
             <!-- App Search-->
-{{--            <form class="app-search d-none d-lg-block">--}}
+{{--            <form class="app-search d-none d-lg-block ">--}}
 {{--                <div class="position-relative">--}}
 {{--                    <input type="text" class="form-control" placeholder="ابحث هنا....">--}}
 {{--                    <span class="fa fa-search"></span>--}}
