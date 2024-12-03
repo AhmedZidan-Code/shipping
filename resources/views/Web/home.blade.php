@@ -24,7 +24,8 @@
                                 </div>
                                 <div class="col-md-6 align-self-center order-1 order-md-2">
                                     <div class="slider-image">
-                                        <img src="{{ asset('storage') . '/' . $slider->image }}" alt="feature image" />
+                                        <img src="{{ asset('storage') . '/' . $slider->image ?? '' }}"
+                                            alt="feature image" />
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +61,8 @@
                                     <div class="content-wrapper">
                                         <div class="title-wrapper">
                                             <div class="icon">
-                                                <img src="{{ asset('storage') . '/' . $feature->image }}" alt="support" />
+                                                <img src="{{ asset('storage') . '/' . $feature->image ?? '' }}"
+                                                    alt="support" />
                                             </div>
                                             <h2 class="title"> {{ $feature->title }}
                                             </h2>
@@ -69,13 +71,13 @@
                                             <p class="desc"> {{ $feature->description }}
                                             </p>
                                             <!-- <div class="read-more">
-                                                                                <a href="service-details.html">
-                                                                                    <span class="icon">
-                                                                                        <i class="fa-solid fa-angle-right"></i>
-                                                                                    </span>
-                                                                                    عرض المزيد
-                                                                                </a>
-                                                                            </div> -->
+                                                                                                <a href="service-details.html">
+                                                                                                    <span class="icon">
+                                                                                                        <i class="fa-solid fa-angle-right"></i>
+                                                                                                    </span>
+                                                                                                    عرض المزيد
+                                                                                                </a>
+                                                                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -156,10 +158,10 @@
                 <div class="col-lg-10">
                     <div class="video-popup-card">
                         <div class="video-popup-image">
-                            <img src="{{ asset('storage') . '/' . $video->image }}" alt="popup image" />
+                            <img src="{{ asset('storage') . '/' . $video->image ?? '' }}" alt="popup image" />
                         </div>
                         <div class="video-popup-btn">
-                            <a href="{{ asset('storage') . '/' . $video->video }}" class="mfp-iframe video-play">
+                            <a href="{{ asset('storage') . '/' . $video->video ?? '' }}" class="mfp-iframe video-play">
                                 <i class="fa-solid fa-play" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -186,8 +188,8 @@
                                     <p class="title">{{ $statistic->title }}</p>
                                 </div>
                                 <!-- <div class="counter-content">
-                                                                    <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
-                                                                </div> -->
+                                                                                    <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
+                                                                                </div> -->
 
                             </div>
                         @endforeach
@@ -221,7 +223,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#" class="info-card style-two">
                             <div class="overlay_img"
-                                style="background-image: url({{ asset('storage') . '/' . $process->image }});">
+                                style="background-image: url({{ asset('storage') . '/' . $process->image ?? '' }});">
                                 <h2 class="title">{{ $process->title }}</h2>
                             </div>
 
