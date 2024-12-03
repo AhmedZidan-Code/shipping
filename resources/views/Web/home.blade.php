@@ -62,20 +62,20 @@
                                             <div class="icon">
                                                 <img src="{{ asset('storage') . '/' . $feature->image }}" alt="support" />
                                             </div>
-                                            <h2 class="title">   {{ $feature->title }}
+                                            <h2 class="title"> {{ $feature->title }}
                                             </h2>
                                         </div>
                                         <div class="content">
                                             <p class="desc"> {{ $feature->description }}
                                             </p>
                                             <!-- <div class="read-more">
-                                                                    <a href="service-details.html">
-                                                                        <span class="icon">
-                                                                            <i class="fa-solid fa-angle-right"></i>
-                                                                        </span>
-                                                                        عرض المزيد
-                                                                    </a>
-                                                                </div> -->
+                                                                        <a href="service-details.html">
+                                                                            <span class="icon">
+                                                                                <i class="fa-solid fa-angle-right"></i>
+                                                                            </span>
+                                                                            عرض المزيد
+                                                                        </a>
+                                                                    </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -156,10 +156,10 @@
                 <div class="col-lg-10">
                     <div class="video-popup-card">
                         <div class="video-popup-image">
-                            <img src="{{ asset('assets/web') }}/images/video-popup/popup-img-1.jpg" alt="popup image" />
+                            <img src="{{ asset('storage') . '/' . $video->image }}" alt="popup image" />
                         </div>
                         <div class="video-popup-btn">
-                            <a href="https://www.youtube.com/watch?v=SZEflIVnhH8" class="mfp-iframe video-play">
+                            <a href="{{ asset('storage') . '/' . $video->video }}" class="mfp-iframe video-play">
                                 <i class="fa-solid fa-play" aria-hidden="true"></i>
                             </a>
                         </div>
@@ -177,51 +177,21 @@
             <div class="row">
                 <div class="col-12">
                     <div class="counter-card">
-                        <div class="counter-item">
-                            <div class="counter-title">
-                                <h1 class="number">
-                                    <span class="counter">90</span>
-                                </h1>
-                                <p class="title">مخزن</p>
-                            </div>
-                            <!-- <div class="counter-content">
-                                                        <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
-                                                    </div> -->
+                        @foreach ($statistics as $statistic)
+                            <div class="counter-item">
+                                <div class="counter-title">
+                                    <h1 class="number">
+                                        <span class="counter">{{ $statistic->value }}</span>
+                                    </h1>
+                                    <p class="title">{{ $statistic->title }}</p>
+                                </div>
+                                <!-- <div class="counter-content">
+                                                            <p class="text">accusa mnis iste natus error sit vol uptatem accusa nulla </p>
+                                                        </div> -->
 
-                        </div>
-                        <div class="counter-item">
-                            <div class="counter-title">
-                                <h1 class="number">
-                                    <span class="counter">230</span>
-                                </h1>
-                                <p class="title">بائع</p>
                             </div>
-                            <!-- <div class="counter-content">
-                                                        <p class="text">kccusa mnis iste natus error sit vol uptatem accusa bulla </p>
-                                                    </div> -->
-                        </div>
-                        <div class="counter-item">
-                            <div class="counter-title">
-                                <h1 class="number">
-                                    <span class="counter">500</span> <span>+</span>
-                                </h1>
-                                <p class="title">طرود ناجحة</p>
-                            </div>
-                            <!-- <div class="counter-content">
-                                                        <p class="text">bccusa mnis iste natus error sit vol uptatem accusa pulla </p>
-                                                    </div> -->
-                        </div>
-                        <div class="counter-item">
-                            <div class="counter-title">
-                                <h1 class="number">
-                                    <span class="counter">10</span> <span>M</span>
-                                </h1>
-                                <p class="title">مندوب</p>
-                            </div>
-                            <!-- <div class="counter-content">
-                                                        <p class="text">dccusa mnis iste natus error sit vol uptatem accusa culla </p>
-                                                    </div> -->
-                        </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>
@@ -247,33 +217,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 col-lg-4">
-                    <a href="#" class="info-card style-two">
-                        <div class="overlay_img"
-                            style="background-image: url({{ asset('assets/web') }}/images/ebd03a4bebc0dde638ec65fd3aecd307.png);">
-                            <h2 class="title">التخزين</h2>
-                        </div>
+                @foreach ($processes as $process)
+                    <div class="col-md-6 col-lg-4">
+                        <a href="#" class="info-card style-two">
+                            <div class="overlay_img"
+                                style="background-image: url({{ asset('storage') . '/' . $process->image }});">
+                                <h2 class="title">{{ $process->title }}</h2>
+                            </div>
 
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <a href="#" class="info-card style-two">
-                        <div class="overlay_img"
-                            style="background-image: url({{ asset('assets/web') }}/images/2e09abd833fbeca67c93bcc6b473aa49.png);">
-                            <h2 class="title">التغليف</h2>
-                        </div>
+                        </a>
+                    </div>
+                @endforeach
 
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <a href="#" class="info-card style-two"
-                        style="background-image: url('{{ asset('assets/web') }}/images/service/service-item-1.jpg')">
-                        <div class="overlay_img">
-                            <h2 class="title">شحن</h2>
-                        </div>
-
-                    </a>
-                </div>
             </div>
         </div>
     </div>
@@ -295,49 +250,22 @@
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-5 col-xl-3">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>01</span>
+                        @foreach ($services as $k => $service)
+                            <div class="col-12">
+                                <div class="process-step">
+                                    <div class="icon">
+                                        <div class="count">
+                                            <span>{{ ++$k }}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="content">
-                                    <h2 class="title">توصيل في 12 ساعة</h2>
-                                    <p class="desc">توصيل أسرع للشحنات لجميع محافظات مصر بأسعار تناسبك.</p>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>03</span>
+                                    <div class="content">
+                                        <h2 class="title">{{ $service->title }}</h2>
+                                        <p class="desc">{{ $service->description }}</p>
                                     </div>
-                                </div>
-                                <div class="content">
-                                    <h2 class="title">تخزين احترافي وفريق متخصص</h2>
-                                    <p class="desc">مكان مجهز و فريق مدرب لتخزين المنتجات وعملية سلسة بدون تدخل من
-                                        التاجر</p>
-                                </div>
 
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="process-step">
-                                <div class="icon">
-                                    <div class="count">
-                                        <span>05</span>
-                                    </div>
                                 </div>
-                                <div class="content">
-                                    <h2 class="title">تنظيم المخزون</h2>
-                                    <p class="desc">وضع نظام فعال لإدارة المخزون يتضمن تسجيل المداخل والمخرجات</p>
-                                </div>
-
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="align-self-end d-none d-lg-block col-lg-2 col-xl-6">
