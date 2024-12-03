@@ -60,7 +60,7 @@
                                     <div class="content-wrapper">
                                         <div class="title-wrapper">
                                             <div class="icon">
-                                                <img src="{{ asset('assets/web') . '/' . $feature->image }}" alt="support" />
+                                                <img src="{{ asset('storage') . '/' . $feature->image }}" alt="support" />
                                             </div>
                                             <h2 class="title">   {{ $feature->title }}
                                             </h2>
