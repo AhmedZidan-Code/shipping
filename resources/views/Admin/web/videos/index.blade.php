@@ -1,17 +1,17 @@
 @extends('Admin.layouts.inc.app')
 @section('title')
-    الصفحات الثابتة
+     الفيديوهات
 @endsection
 @section('css')
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1"> الصفحات الثابتة</h5>
+            <h5 class="card-title mb-0 flex-grow-1"> الفيديوهات</h5>
 
-            @can('إنشاء الصفحات الثابتة')
+            @can('إنشاء الفيديوهات')
                 <div>
-                    <button id="addBtn" class="btn btn-primary">اضافة صفحة</button>
+                    <button id="addBtn" class="btn btn-primary">اضافة فيديو</button>
                 </div>
             @endcan
 
@@ -23,7 +23,7 @@
                     <tr>
                         <th>#</th>
                         <th> الصورة</th>
-                        <th> العنوان</th>
+                        <th> الفيديو</th>
                         <th> اسم الصفحة</th>
                         <th> التاريخ</th>
                         <th>العمليات</th>
@@ -41,7 +41,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2><span id="operationType"></span> الصفحات الثابتة </h2>
+                    <h2><span id="operationType"></span> اعدادات </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
@@ -91,8 +91,8 @@
                 name: 'image'
             },
             {
-                data: 'title',
-                name: 'title'
+                data: 'video',
+                name: 'video'
             },
             {
                 data: 'page_name',
@@ -110,5 +110,5 @@
             },
         ];
     </script>
-    @include('Admin.layouts.inc.ajax', ['url' => 'static-pages'])
+    @include('Admin.layouts.inc.ajax', ['url' => 'videos'])
 @endsection

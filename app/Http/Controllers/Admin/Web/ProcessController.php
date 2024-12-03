@@ -4,19 +4,19 @@ namespace App\Http\Controllers\Admin\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
-use App\Models\Feature;
+use App\Models\Process;
 use App\Traits\ImageHandler;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class FeatureController extends Controller
+class ProcessController extends Controller
 {
-       use LogActivityTrait, ImageHandler;
+    use LogActivityTrait, ImageHandler;
 
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $rows = Feature::query();
+            $rows = Process::query();
             return DataTables::of($rows)
 
                 ->addColumn('action', function ($row) {
@@ -24,11 +24,11 @@ class FeatureController extends Controller
                     $edit = '';
                     $delete = '';
 
-                    if (!auth()->user()->can('تعديل السلايدر')) {
+                    if (!auth()->user()->can('تعديل العمليات')) {
                         $edit = 'hidden';
                     }
 
-                    if (!auth()->user()->can('حذف السلايدر')) {
+                    if (!auth()->user()->can('حذف العمليات')) {
                         $delete = 'hidden';
                     }
 
@@ -62,31 +62,29 @@ class FeatureController extends Controller
                 ->make(true);
 
         } else {
-            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  السمات");
+            $this->add_log_activity(null, auth('admin')->user(), "تم عرض  العمليات");
 
         }
-        return view('Admin.web.features.index');
+        return view('Admin.web.processes.index');
 
     }
     public function create()
     {
 
-        return view('Admin.web.features.parts.create');
+        return view('Admin.web.processes.parts.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $imagePath = $this->uploadImage($request->file('image'), 'sliders');
+        $imagePath = $this->uploadImage($request->file('image'), 'processes');
 
-        Feature::create([
+        Process::create([
             'title' => $request->title,
-            'description' => $request->description,
             'image' => $imagePath,
         ]);
 
@@ -100,30 +98,29 @@ class FeatureController extends Controller
     public function edit($id)
     {
 
-        $row = Feature::findOrFail($id);
+        $row = Process::findOrFail($id);
 
-        return view('Admin.web.features.parts.edit', ['row' => $row]);
+        return view('Admin.web.processes.parts.edit', ['row' => $row]);
 
     }
 
-    public function update(Request $request, Feature $feature)
+    public function update(Request $request, Process $process)
     {
         $request->validate([
             'title' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
             // Delete the old image
-            $this->deleteImage($feature->image);
+            $this->deleteImage($process->image);
 
             // Upload the new image
-            $imagePath = $this->uploadImage($request->file('image'), 'features');
-            $feature->update(['image' => $imagePath]);
+            $imagePath = $this->uploadImage($request->file('image'), 'processes');
+            $process->update(['image' => $imagePath]);
         }
 
-        $feature->update($request->only('title', 'description'));
+        $process->update($request->only('title'));
 
         return response()->json(
             [
@@ -132,12 +129,12 @@ class FeatureController extends Controller
             ]);
     }
 
-    public function destroy(Feature $feature)
+    public function destroy(Process $process)
     {
         // Delete the image associated with the feature
-        $this->deleteImage($feature->image);
+        $this->deleteImage($process->image);
 
-        $feature->delete();
+        $process->delete();
 
         return response()->json(
             [

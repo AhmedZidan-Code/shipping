@@ -314,6 +314,14 @@
                                     <span>  السمات</span></a></li>
                             <li><a href="{{ route('static-pages.index') }}"><i class="mdi mdi-album"></i>
                                     <span>  الصفحات الثابتة</span></a></li>
+                            <li><a href="{{ route('services.index') }}"><i class="mdi mdi-album"></i>
+                                    <span> الخدمات</span></a></li>
+                            <li><a href="{{ route('processes.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>العمليات</span></a></li>
+                            <li><a href="{{ route('videos.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>الفيديوهات</span></a></li>
+                            <li><a href="{{ route('statistics.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>الاحصائيات</span></a></li>
                         </ul>
                     </li>
             </ul>
