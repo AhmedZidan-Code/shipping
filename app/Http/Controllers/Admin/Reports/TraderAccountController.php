@@ -49,7 +49,6 @@ class TraderAccountController extends Controller
                     ->unionAll(
                         DB::table('trader_payments')
                             ->join('traders', 'trader_payments.trader_id', '=', 'traders.id')
-                            ->where('traders.is_collectible', true)
                             ->select([
                                 DB::raw('0 AS total_shipment_value'),
                                 DB::raw('0 AS order_count'),
@@ -59,14 +58,23 @@ class TraderAccountController extends Controller
                                 DB::raw('DATE(date) as date'),
                             ])
                             ->where('trader_id', $request->trader_id)
+                            ->when($request->trader_id, function ($query) use ($request) {
+                                return $query->whereIn('type', function ($subQuery) use ($request) {
+                                    $subQuery->select('type')
+                                        ->from('trader_payments')
+                                        ->where('trader_id', $request->trader_id);
+                                })
+                                    ->when(DB::table('traders')->where('id', $request->trader_id)->value('is_collectible') == false, function ($query) {
+                                        return $query->whereIn('type', [2, 3]);
+                                    });
+                            })
                             ->when($startDate, function ($query) use ($startDate) {
                                 return $query->whereDate('date', '>=', $startDate);
                             })
                             ->when($endDate, function ($query) use ($endDate) {
                                 return $query->whereDate('date', '<=', $endDate);
                             })
-                            ->groupBy('type')
-                            // ->groupBy([DB::raw('DATE(date)'), 'type'])
+                            ->groupBy([DB::raw('DATE(date)'), 'type'])
                     )
                     ->union(
                         DB::table('traders')
