@@ -123,6 +123,20 @@
             <span class="text-danger mt-1"> لو التاجر له فلوس تكون القيمة بالموجب عليه تكون بالسالب*</span>
 
         </div>
+        <div class="d-flex flex-column mb-7 fv-row col-sm-6">
+            <!--begin::Label-->
+            <label for="is_collectible" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                <span class="required mr-1"> قابل للتحصيل</span>
+            </label>
+
+            <select id="is_collectible" class="form-control" name="is_collectible">
+                <option selected disabled> اختر</option>
+                <option value="1" {{ $row->is_collectible == 1 ? 'selected' : '' }}>نعم</option>
+                <option value="0" {{ $row->is_collectible == 0 ? 'selected' : '' }}>لا</option>
+            </select>
+
+        </div>
+
 
 
 

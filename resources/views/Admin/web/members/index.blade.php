@@ -1,17 +1,17 @@
 @extends('Admin.layouts.inc.app')
 @section('title')
-    الاحصائيات
+    أعضاء الفريق
 @endsection
 @section('css')
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1"> الاحصائيات</h5>
+            <h5 class="card-title mb-0 flex-grow-1"> أعضاء الفريق</h5>
 
-            @can('إنشاء الاحصائيات')
+            @can('إنشاء أعضاء الفريق')
                 <div>
-                    <button id="addBtn" class="btn btn-primary">اضافة الاحصائيات</button>
+                    <button id="addBtn" class="btn btn-primary">اضافة عضو للفريق</button>
                 </div>
             @endcan
 
@@ -22,9 +22,9 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th> اسم الصفحة</th>
-                        <th> العنوان</th>
-                        <th> القيمة</th>
+                        <th> الصورة</th>
+                        <th> الاسم</th>
+                        <th> الوظيفة</th>
                         <th> التاريخ</th>
                         <th>العمليات</th>
                     </tr>
@@ -41,7 +41,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2><span id="operationType"></span> الاحصائيات </h2>
+                    <h2><span id="operationType"></span> أعضاء الفريق </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
@@ -87,16 +87,16 @@
                 name: 'id'
             },
             {
-                data: 'page_name',
-                name: 'page_name'
+                data: 'image',
+                name: 'image'
             },
             {
-                data: 'title',
-                name: 'title'
+                data: 'name',
+                name: 'name'
             },
             {
-                data: 'value',
-                name: 'value'
+                data: 'job_title',
+                name: 'job_title'
             },
             {
                 data: 'date',
@@ -110,5 +110,5 @@
             },
         ];
     </script>
-    @include('Admin.layouts.inc.ajax', ['url' => 'statistics'])
+    @include('Admin.layouts.inc.ajax', ['url' => 'members'])
 @endsection

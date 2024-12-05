@@ -19,4 +19,9 @@ class TraderPayments extends Model
     {
         return $this->hasMany(Order::class, 'paid_id');
     }
+
+    public function scopeCollectibleTraders()
+    {
+        return $this->trader()->where('is_collectible', true);
+    }
 }

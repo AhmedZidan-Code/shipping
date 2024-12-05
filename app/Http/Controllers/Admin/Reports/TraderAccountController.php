@@ -48,6 +48,8 @@ class TraderAccountController extends Controller
                     ->groupBy(DB::raw('DATE(created_at)'))
                     ->unionAll(
                         DB::table('trader_payments')
+                            ->join('traders', 'trader_payments.trader_id', '=', 'traders.id')
+                            ->where('traders.is_collectible', true)
                             ->select([
                                 DB::raw('0 AS total_shipment_value'),
                                 DB::raw('0 AS order_count'),
@@ -96,7 +98,7 @@ class TraderAccountController extends Controller
                 ])
                 ->orderBy('date', 'asc')
                 ->orderBy('type');
-           
+
             return DataTables::of($results)
                 ->addColumn('type', function ($row) {
                     return TransactionType::nameInAr($row->type);

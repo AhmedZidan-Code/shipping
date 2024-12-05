@@ -118,6 +118,7 @@ class TraderController extends Controller
             'competent_name' => 'nullable',
             'phone' => 'required|unique:traders,phone',
             'logo' => 'nullable|mimes:jpeg,jpg,png,gif,svg,webp,avif',
+            'is_collectible'=>'required|in:0,1'
 
         ]);
         if ($request->logo) {
@@ -161,6 +162,7 @@ class TraderController extends Controller
             'competent_name' => 'nullable',
             'phone' => 'required|unique:traders,phone,' . $id,
             'logo' => 'nullable|mimes:jpeg,jpg,png,gif,svg,webp,avif',
+            'is_collectible'=>'required|in:0,1'
 
         ]);
         $row = Trader::findOrFail($id);

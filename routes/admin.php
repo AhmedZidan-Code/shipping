@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Reports\TraderProfitController;
 use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\TraderDebtController;
 use App\Http\Controllers\Admin\Web\FeatureController;
+use App\Http\Controllers\Admin\Web\MemberController;
 use App\Http\Controllers\Admin\Web\ProcessController;
 use App\Http\Controllers\Admin\Web\ServiceController;
 use App\Http\Controllers\Admin\Web\SliderController;
@@ -175,5 +176,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('videos', VideoController::class);
     //statistics
     Route::resource('statistics', StatisticsController::class);
+    //statistics
+    Route::resource('members', MemberController::class);
 });
 //
