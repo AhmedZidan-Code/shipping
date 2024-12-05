@@ -1,6 +1,6 @@
 @extends('Admin.layouts.inc.app')
 @section('title')
-     المصروفات
+    المصروفات
 @endsection
 @section('css')
 @endsection
@@ -34,10 +34,10 @@
                 <label for="expense_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> فئةالصرف</span>
                 </label>
-                <select class="form-control" id='expense_id' name="expense_id" >
+                <select class="form-control" id='expense_id' name="expense_id">
                     <option selected disabled>- ابحث عن فئةالصرف</option>
-                    @foreach ($expensesTypes as $type )
-                    <option value="{{ $type->id }}"> {{ $type->title }} </option>
+                    @foreach ($expensesTypes as $type)
+                        <option value="{{ $type->id }}"> {{ $type->title }} </option>
                     @endforeach
                 </select>
             </div>
@@ -51,9 +51,9 @@
 
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1">  المصروفات</h5>
+            <h5 class="card-title mb-0 flex-grow-1"> المصروفات</h5>
 
-               @can('إنشاء المصروفات')
+            @can('إنشاء المصروفات')
                 <div>
                     <button id="addBtn" class="btn btn-primary">اضافة المصروفات</button>
                 </div>
@@ -62,17 +62,23 @@
         </div>
         <div class="card-body">
             <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                   style="width:100%">
+                style="width:100%">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>الاسم</th>
-                    <th>قيمة المصروف</th>
-                    <th> فئة الصرف</th>
-                    <th> تاريخ الصرف</th>
-                    <th>العمليات</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>الاسم</th>
+                        <th>قيمة المصروف</th>
+                        <th> فئة الصرف</th>
+                        <th> تاريخ الصرف</th>
+                        <th>العمليات</th>
+                    </tr>
                 </thead>
+                <tfoot>
+                    <tr style="text-align: center;">
+                        <td colspan="2">الاجمالي</td>
+                        <td colspan="4" id="total"></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -88,7 +94,8 @@
                     <h2><span id="operationType"></span> اعدادات </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
-                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
+                        aria-label="Close">
                         <i class="fa fa-times"></i>
                     </button>
                     <!--end::Close-->
@@ -114,20 +121,36 @@
         </div>
         <!--end::Modal dialog-->
     </div>
-
 @endsection
 @section('js')
     <script>
-        var columns = [
-            {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'value', name: 'value'},
-            {data: 'expense_category', name: 'expense_category'},
-            {data: 'date', name: 'date'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+        var columns = [{
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'value',
+                name: 'value'
+            },
+            {
+                data: 'expense_category',
+                name: 'expense_category'
+            },
+            {
+                data: 'date',
+                name: 'date'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
         ];
     </script>
-    @include('Admin.layouts.inc.ajax',['url'=>'expenses'])
-
-
+    @include('Admin.layouts.inc.ajax', ['url' => 'expenses'])
 @endsection

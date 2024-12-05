@@ -35,10 +35,10 @@ class ExpenseController extends Controller
 
             }
             if ($request->toDate) {
-                $rows->where('date', '<=', $request->toDate );
+                $rows->where('date', '<=', $request->toDate);
 
             }
-
+            $total = $rows->sum('value');
             return DataTables::of($rows)
 
                 ->addColumn('action', function ($row) {
@@ -80,6 +80,7 @@ class ExpenseController extends Controller
                 ->addColumn('expense_category', function ($row) {
                     return $row->setting->title;
                 })
+                ->with('total', $total)
                 ->escapeColumns([])
                 ->make(true);
 
