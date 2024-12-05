@@ -5,6 +5,50 @@
 @section('css')
 @endsection
 @section('content')
+    <form action="{{ route('expenses.index') }}">
+        <div class="row mb-3">
+            <div class="col-md-3 ">
+                <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> تاريخ البداية </span>
+
+                </label>
+                <input type="date" id="fromDate"
+                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}"
+                       @endisset
+                    name="fromDate" class="showBonds form-control">
+
+            </div>
+            <div class="col-md-3">
+                <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> تاريخ النهاية </span>
+
+                </label>
+                <input type="date" id="toDate"
+                    @isset($request['toDate']) value="{{ $request['toDate'] }}"
+                       @endisset
+                    name="toDate" class="showBonds form-control">
+            </div>
+
+            <div class="d-flex flex-column mb-7 fv-row col-sm-3">
+                <!--begin::Label-->
+                <label for="expense_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> فئةالصرف</span>
+                </label>
+                <select class="form-control" id='expense_id' name="expense_id" >
+                    <option selected disabled>- ابحث عن فئةالصرف</option>
+                    @foreach ($expensesTypes as $type )
+                    <option value="{{ $type->id }}"> {{ $type->title }} </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary my-4">بحث</button>
+            </div>
+        </div>
+
+    </form>
+
+
     <div class="card">
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1">  المصروفات</h5>
