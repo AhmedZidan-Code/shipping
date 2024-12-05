@@ -65,7 +65,8 @@ class TraderAccountController extends Controller
                             ->when($endDate, function ($query) use ($endDate) {
                                 return $query->whereDate('date', '<=', $endDate);
                             })
-                            ->groupBy([DB::raw('DATE(date)'), 'type'])
+                            ->groupBy('type')
+                            // ->groupBy([DB::raw('DATE(date)'), 'type'])
                     )
                     ->union(
                         DB::table('traders')
