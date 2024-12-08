@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Reports\TraderAccountController;
 use App\Http\Controllers\Admin\Reports\TraderProfitController;
 use App\Http\Controllers\Admin\Reports\TreasuryController;
 use App\Http\Controllers\Admin\TraderDebtController;
+use App\Http\Controllers\Admin\Web\ContactController;
 use App\Http\Controllers\Admin\Web\FeatureController;
 use App\Http\Controllers\Admin\Web\MemberController;
 use App\Http\Controllers\Admin\Web\ProcessController;
@@ -178,5 +179,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::resource('statistics', StatisticsController::class);
     //statistics
     Route::resource('members', MemberController::class);
+    //contacts
+    Route::resource('contacts', ContactController::class);
 });
 //

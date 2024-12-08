@@ -10,3 +10,4 @@
     <script src="{{ asset('assets/web') }}/js/wow.js"></script>
     <script src="{{ asset('assets/web') }}/js/tilt.jquery.js"></script>
     <script src="{{ asset('assets/web') }}/js/custom-rtl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

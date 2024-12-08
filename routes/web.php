@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\AboutController;
 use App\Http\Controllers\Web\Auth\RegisterController;
+use App\Http\Controllers\Web\ContactController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\TrackingOrderController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,8 @@ Route::post('/register', [RegisterController::class, 'register'])->name('doRegis
 // Home Route
 Route::get('/home', [HomeController::class, 'index'])->name('web.home');
 Route::get('/about-us', [AboutController::class, 'index'])->name('web.about');
+Route::get('/contact-us', [ContactController::class, 'index'])->name('web.contact');
+Route::post('/contact-us', [ContactController::class, 'store'])->name('web.send.contact');
 
 Route::get('/tracking-order/{order?}', [TrackingOrderController::class, 'trace'])->name('order.tracking');
 Route::group(['middleware' => 'trader_web'], function () {

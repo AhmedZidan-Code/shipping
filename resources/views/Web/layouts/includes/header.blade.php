@@ -62,7 +62,7 @@
                                             <li><a href="index-3.html">الرئيسية 3</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="about.html">من نحن</a></li>
+                                    <li><a href="{{ route('web.about') }}">من نحن</a></li>
                                     <li class="dropdown">
                                         <a href="service.html">خدمتنا</a>
                                         <ul class="submenu">
@@ -73,7 +73,7 @@
                                     <li><a href="pricing.html">التخزين</a></li>
                                     <li><a href="pricing.html">التسعير</a></li>
 
-                                    <li><a href="contact.html">تواصل معنا</a></li>
+                                    <li><a href="{{ route('web.contact') }}">تواصل معنا</a></li>
                                 </ul>
                             </nav>
                         </div>
@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#" class="ref_div">
+                            <a href="{{ route('register') }}" class="ref_div">
                                 تسجيل الدخول
                             </a>
                             <a href="tel:+123-456-7890" class="header-btn">
