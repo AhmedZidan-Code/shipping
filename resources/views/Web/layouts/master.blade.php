@@ -24,6 +24,7 @@
     @include('Web.layouts.includes.footer')
     <!-- Scroll Up Section End -->
     @include('Web.layouts.includes.js')
+    @yield('js')
 </body>
 
 

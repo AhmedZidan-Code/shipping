@@ -33,3 +33,4 @@
     <link rel="stylesheet" href="{{ asset('assets/web') }}/css/animate.css" />
     <link rel="stylesheet" href="{{ asset('assets/web') }}/css/style-rtl.css" />
 
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" type="text/css" />
