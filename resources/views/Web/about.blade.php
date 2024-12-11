@@ -52,12 +52,12 @@
                         <div class="page-heading">
                             <h3 class="page-title">About Us</h3>
                         </div>
-                        <div class="breadcrumb-list">
+                        {{-- <div class="breadcrumb-list">
                             <ul>
                                 <li><a href="index.html">Home</a></li>
                                 <li class="active"><a href="#">About</a></li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
