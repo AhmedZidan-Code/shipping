@@ -39,7 +39,7 @@
                 <div class="row">
                     <div class="col-xl-2 col-lg-2 col-md-6 col-6 d-flex align-items-center">
                         <div class="logo">
-                            <a href="index.html" class="standard-logo">
+                            <a href="{{route('web.home') }}" class="standard-logo">
                                 <img src="{{ asset('assets/web') }}/images/logo/logo.png" alt="logo" />
                             </a>
                             <a href="index.html" class="sticky-logo">
@@ -55,12 +55,7 @@
                             <nav id="main-menu" class="main-menu">
                                 <ul>
                                     <li class="dropdown active">
-                                        <a href="index.html">الرئيسية</a>
-                                        <ul>
-                                            <li><a href="index.html">الرئيسية1</a></li>
-                                            <li><a href="index-2.html">الرئيسية 2</a></li>
-                                            <li><a href="index-3.html">الرئيسية 3</a></li>
-                                        </ul>
+                                        <a href="{{route('web.home') }}">الرئيسية</a>
                                     </li>
                                     <li><a href="about.html">من نحن</a></li>
                                     <li class="dropdown">
