@@ -114,9 +114,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="{{ route('register') }}" class="ref_div">
-                                تسجيل الدخول
-                            </a>
+                            @guest('trader')
+                                <a href="{{ route('register') }}" class="ref_div">
+                                    تسجيل الدخول
+                                </a>
+                            @endguest
+                            @auth('trader')
+                                <a href="{{ route('trader.index') }}" class="ref_div">
+                                    الملف الشخصي
+                                </a>
+                            @endauth
                             <a href="tel:+123-456-7890" class="header-btn">
                                 <div class="icon-wrapper">
                                     <div class="icon">
