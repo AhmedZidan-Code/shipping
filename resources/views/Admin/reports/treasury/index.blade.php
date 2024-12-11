@@ -13,7 +13,7 @@
                     <span class="required mr-1"> من تاريخ </span>
 
                 </label>
-                <input type="date" id="fromDate" value="{{ request('fromDate') ?? date('Y-m-d') }}" name="fromDate"
+                <input type="date" id="fromDate" value="{{ request('fromDate') ?? '' }}" name="fromDate"
                     class="showBonds form-control">
 
             </div>
@@ -22,7 +22,7 @@
                     <span class="required mr-1"> إلي تاريخ </span>
 
                 </label>
-                <input type="date" id="toDate" value="{{ request('toDate') ?? date('Y-m-d') }}" name="toDate"
+                <input type="date" id="toDate" value="{{ request('toDate') ?? '' }}" name="toDate"
                     class="showBonds form-control">
             </div>
 

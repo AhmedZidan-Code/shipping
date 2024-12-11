@@ -22,12 +22,23 @@ class ExpenseController extends Controller
         $this->middleware('permission:حذف المصروفات')->only('destroy');
     }
 
-
     public function index(Request $request)
     {
 
         if ($request->ajax()) {
             $rows = Expenses::query()->with(['setting', 'admin']);
+            if ($request->expense_id) {
+                $rows->where('setting_id', $request->expense_id);
+            }
+            if ($request->fromDate) {
+                $rows->where('date', '>=', $request->fromDate);
+
+            }
+            if ($request->toDate) {
+                $rows->where('date', '<=', $request->toDate);
+
+            }
+            $total = $rows->sum('value');
             return DataTables::of($rows)
 
                 ->addColumn('action', function ($row) {
@@ -69,6 +80,7 @@ class ExpenseController extends Controller
                 ->addColumn('expense_category', function ($row) {
                     return $row->setting->title;
                 })
+                ->with('total', $total)
                 ->escapeColumns([])
                 ->make(true);
 
@@ -76,7 +88,9 @@ class ExpenseController extends Controller
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  المصروفات");
 
         }
-        return view('Admin.CRUDS.administrative-setting.expenses.index');
+        $expensesTypes = AdministrativeSetting::where('type', SettingType::EXPENSES)->get();
+
+        return view('Admin.CRUDS.administrative-setting.expenses.index', compact('expensesTypes'));
     }
 
     public function create()

@@ -1,19 +1,13 @@
 @extends('Admin.layouts.inc.app')
 @section('title')
-    الاحصائيات
+    رسائل التواصل
 @endsection
 @section('css')
 @endsection
 @section('content')
     <div class="card">
         <div class="card-header d-flex align-items-center">
-            <h5 class="card-title mb-0 flex-grow-1"> الاحصائيات</h5>
-
-            @can('إنشاء الاحصائيات')
-                <div>
-                    <button id="addBtn" class="btn btn-primary">اضافة الاحصائيات</button>
-                </div>
-            @endcan
+            <h5 class="card-title mb-0 flex-grow-1"> رسائ التواصل</h5>
 
         </div>
         <div class="card-body">
@@ -22,9 +16,11 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th> اسم الصفحة</th>
+                        <th> الاسم</th>
+                        <th> الايميل</th>
+                        <th> رقم التليفون</th>
                         <th> العنوان</th>
-                        <th> القيمة</th>
+                        <th> الرسالة</th>
                         <th> التاريخ</th>
                         <th>العمليات</th>
                     </tr>
@@ -41,7 +37,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
-                    <h2><span id="operationType"></span> الاحصائيات </h2>
+                    <h2><span id="operationType"></span> السمات </h2>
                     <!--end::Modal title-->
                     <!--begin::Close-->
                     <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal"
@@ -87,16 +83,24 @@
                 name: 'id'
             },
             {
-                data: 'page_name',
-                name: 'page_name'
+                data: 'name',
+                name: 'name'
             },
             {
-                data: 'title',
-                name: 'title'
+                data: 'email',
+                name: 'email'
             },
             {
-                data: 'value',
-                name: 'value'
+                data: 'phone',
+                name: 'phone'
+            },
+            {
+                data: 'subject',
+                name: 'subject'
+            },
+            {
+                data: 'message',
+                name: 'message'
             },
             {
                 data: 'date',
@@ -110,5 +114,5 @@
             },
         ];
     </script>
-    @include('Admin.layouts.inc.ajax', ['url' => 'statistics'])
+    @include('Admin.layouts.inc.ajax', ['url' => 'contacts'])
 @endsection

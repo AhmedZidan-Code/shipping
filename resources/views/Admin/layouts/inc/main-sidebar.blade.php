@@ -322,6 +322,8 @@
                                     <span>الفيديوهات</span></a></li>
                             <li><a href="{{ route('statistics.index') }}"><i class="mdi mdi-album"></i>
                                     <span>الاحصائيات</span></a></li>
+                            <li><a href="{{ route('contacts.index') }}"><i class="mdi mdi-album"></i>
+                                    <span>رسائل التواصل</span></a></li>
                         </ul>
                     </li>
             </ul>

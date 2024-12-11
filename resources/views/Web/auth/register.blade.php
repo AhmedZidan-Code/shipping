@@ -73,7 +73,7 @@
                                     <div class="fxt-middle-content">
                                         <h1 class="fxt-main-title">قم باانشاء حساب للقيام باالشحن المباشر</h1>
                                         <div class="fxt-switcher-description1">إذا لم يكن لديك حساب يمكنك ذلك<a
-                                                href="login-34.html" class="fxt-switcher-text ms-2">تسجيل الدخول</a>
+                                                href="{{ route('web.login') }}" class="fxt-switcher-text ms-2">تسجيل الدخول</a>
                                         </div>
                                     </div>
                                 </div>
