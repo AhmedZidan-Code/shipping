@@ -81,12 +81,7 @@ class TraderAccountController extends Controller
                                 DB::raw('DATE(updated_at) as date'),
                             ])
                             ->where('id', $request->trader_id)
-                        // ->when($startDate, function ($query) use ($startDate) {
-                        //     return $query->whereDate('created_at', '>=', $startDate);
-                        // })
-                        // ->when($endDate, function ($query) use ($endDate) {
-                        //     return $query->whereDate('created_at', '<=', $endDate);
-                        // })
+
                     );
             }, 'union_subquery');
 
@@ -106,10 +101,10 @@ class TraderAccountController extends Controller
                     return TransactionType::nameInAr($row->type);
                 })
                 ->addColumn('remainder', function ($row) {
-                    if ($row->type === 0) {
+                    if ($row->type === 0 || $row->type === 4) {
                         return $this->total += $row->amount;
                     } else {
-                        return $this->total += -$row->amount;
+                        return $this->total += - ($row->amount);
                     }
                 })
                 ->escapeColumns([])
