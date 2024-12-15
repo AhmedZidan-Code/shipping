@@ -102,9 +102,9 @@ class TraderAccountController extends Controller
                 })
                 ->addColumn('remainder', function ($row) {
                     if ($row->type === 0 || $row->type === 4) {
-                        return $this->total += $row->amount;
+                        return $this->total = $this->total + $row->amount;
                     } else {
-                        return $this->total += - ($row->amount);
+                        return $this->total = $this->total - $row->amount;
                     }
                 })
                 ->escapeColumns([])
