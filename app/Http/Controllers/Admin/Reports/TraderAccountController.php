@@ -84,12 +84,12 @@ class TraderAccountController extends Controller
                                 DB::raw('DATE(updated_at) as date'),
                             ])
                             ->where('id', $request->trader_id)
-                            ->when($startDate, function ($query) use ($startDate) {
-                                return $query->whereDate('created_at', '>=', $startDate);
-                            })
-                            ->when($endDate, function ($query) use ($endDate) {
-                                return $query->whereDate('created_at', '<=', $endDate);
-                            })
+                            // ->when($startDate, function ($query) use ($startDate) {
+                            //     return $query->whereDate('created_at', '>=', $startDate);
+                            // })
+                            // ->when($endDate, function ($query) use ($endDate) {
+                            //     return $query->whereDate('created_at', '<=', $endDate);
+                            // })
                     );
             }, 'union_subquery');
 
