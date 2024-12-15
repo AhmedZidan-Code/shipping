@@ -95,16 +95,16 @@ class TraderAccountController extends Controller
                 ->orderByRaw("CASE WHEN type = 4 THEN 0 ELSE 1 END")
                 ->orderBy('date', 'asc')
                 ->orderBy('type');
-
+                    // dd($results);
                 return DataTables::of($results)
                 ->addColumn('type', function ($row) {
                     return TransactionType::nameInAr($row->type);
                 })
                 ->addColumn('remainder', function ($row) {
                     if ($row->type === 0 || $row->type === 4) {
-                        return $this->total = $this->total + $row->amount;
-                    } else {
                         return $this->total = $this->total - $row->amount;
+                    } else {
+                        return $this->total = $this->total + $row->amount;
                     }
                 })
                 ->escapeColumns([])
