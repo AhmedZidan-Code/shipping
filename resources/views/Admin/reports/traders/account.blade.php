@@ -57,7 +57,6 @@
                         <th>التاريخ</th>
                         <th>عدد الاوردرات</th>
                         <th>الاجمالي</th>
-                        <th>المديونية السابقة</th>
                         <th>العملية</th>
                         <th>المدفوع</th>
                         <th>المتبقي</th>
@@ -87,10 +86,6 @@
                     name: 'total_shipment_value'
                 },
                 {
-                    data: 'debt',
-                    name: 'debt'
-                },
-                {
                     data: 'type',
                     name: 'type'
                 },
@@ -106,7 +101,7 @@
             var newUrl = "{{ route('trader-accounts.index', ['trader_id' => request('trader_id')]) }}";
             $(function() {
 
-                var test = $("#table").DataTable({
+                var table = $("#table").DataTable({
                     processing: true,
                     // pageLength: 50,
                     paging: false,
@@ -116,9 +111,9 @@
                     ajax: {
                         url: newUrl,
                         data: {
-                            fromDate:"{{request('fromDate')}}",
-                            toDate:"{{request('toDate')}}",
-                            trader_id:"{{request('trader_id')}}",
+                            fromDate: "{{ request('fromDate') }}",
+                            toDate: "{{ request('toDate') }}",
+                            trader_id: "{{ request('trader_id') }}",
                         }
                     },
                     columns: columns,
@@ -182,7 +177,6 @@
 
 
                 });
-
 
             });
         </script>

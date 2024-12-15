@@ -35,7 +35,6 @@ class TraderAccountController extends Controller
                         DB::raw('COUNT(*) AS order_count'),
                         DB::raw('0 AS amount'),
                         DB::raw("0 AS type"),
-                        DB::raw('0 AS debt'),
                         DB::raw('DATE(created_at) AS date'),
                     ])
                     ->where('trader_id', $request->trader_id)
@@ -54,7 +53,6 @@ class TraderAccountController extends Controller
                                 DB::raw('0 AS order_count'),
                                 DB::raw('SUM(amount) as amount'),
                                 'type',
-                                DB::raw('0 AS debt'),
                                 DB::raw('DATE(date) as date'),
                             ])
                             ->where('trader_id', $request->trader_id)
@@ -81,10 +79,9 @@ class TraderAccountController extends Controller
                             ->select([
                                 DB::raw('0 AS total_shipment_value'),
                                 DB::raw('0 AS order_count'),
-                                DB::raw('0 as amount'),
+                                DB::raw('debt as amount'),
                                 DB::raw('4 as type'),
-                                'debt',
-                                DB::raw('DATE(created_at) as date'),
+                                DB::raw('DATE(updated_at) as date'),
                             ])
                             ->where('id', $request->trader_id)
                             ->when($startDate, function ($query) use ($startDate) {
@@ -103,8 +100,8 @@ class TraderAccountController extends Controller
                     'total_shipment_value',
                     'order_count',
                     'amount',
-                    'debt',
                 ])
+                ->orderByRaw("CASE WHEN type = 4 THEN 0 ELSE 1 END") 
                 ->orderBy('date', 'asc')
                 ->orderBy('type');
 
@@ -113,7 +110,7 @@ class TraderAccountController extends Controller
                     return TransactionType::nameInAr($row->type);
                 })
                 ->addColumn('remainder', function ($row) {
-                    return $this->total += $row->total_shipment_value + $row->debt - $row->amount;
+                    return $this->total += $row->total_shipment_value  - $row->amount;
                 })
                 ->escapeColumns([])
                 ->make(true);
