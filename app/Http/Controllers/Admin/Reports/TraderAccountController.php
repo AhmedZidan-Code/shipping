@@ -101,7 +101,7 @@ class TraderAccountController extends Controller
                     return TransactionType::nameInAr($row->type);
                 })
                 ->addColumn('remainder', function ($row) {
-                    if ($row->type === 0 || $row->type === 4) {
+                    if ($row->type == 0 || $row->type == 4) {
                         return $this->total = $this->total + $row->amount;
                     } else {
                         return $this->total = $this->total - $row->amount;
