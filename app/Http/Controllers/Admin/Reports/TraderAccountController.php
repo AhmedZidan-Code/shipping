@@ -31,9 +31,8 @@ class TraderAccountController extends Controller
             $subQuery = DB::query()->fromSub(function ($query) use ($request, $startDate, $endDate) {
                 $query->from('orders')
                     ->select([
-                        DB::raw('SUM(orders.shipment_value) AS total_shipment_value'),
                         DB::raw('COUNT(*) AS order_count'),
-                        DB::raw('0 AS amount'),
+                        DB::raw('SUM(orders.shipment_value) AS amount'),
                         DB::raw("0 AS type"),
                         DB::raw('DATE(created_at) AS date'),
                     ])
@@ -49,7 +48,6 @@ class TraderAccountController extends Controller
                         DB::table('trader_payments')
                             ->join('traders', 'trader_payments.trader_id', '=', 'traders.id')
                             ->select([
-                                DB::raw('0 AS total_shipment_value'),
                                 DB::raw('0 AS order_count'),
                                 DB::raw('SUM(amount) as amount'),
                                 'type',
@@ -77,19 +75,18 @@ class TraderAccountController extends Controller
                     ->union(
                         DB::table('traders')
                             ->select([
-                                DB::raw('0 AS total_shipment_value'),
                                 DB::raw('0 AS order_count'),
                                 DB::raw('debt as amount'),
                                 DB::raw('4 as type'),
                                 DB::raw('DATE(updated_at) as date'),
                             ])
                             ->where('id', $request->trader_id)
-                            // ->when($startDate, function ($query) use ($startDate) {
-                            //     return $query->whereDate('created_at', '>=', $startDate);
-                            // })
-                            // ->when($endDate, function ($query) use ($endDate) {
-                            //     return $query->whereDate('created_at', '<=', $endDate);
-                            // })
+                        // ->when($startDate, function ($query) use ($startDate) {
+                        //     return $query->whereDate('created_at', '>=', $startDate);
+                        // })
+                        // ->when($endDate, function ($query) use ($endDate) {
+                        //     return $query->whereDate('created_at', '<=', $endDate);
+                        // })
                     );
             }, 'union_subquery');
 
@@ -97,11 +94,10 @@ class TraderAccountController extends Controller
                 ->select([
                     'date',
                     'type',
-                    'total_shipment_value',
                     'order_count',
                     'amount',
                 ])
-                ->orderByRaw("CASE WHEN type = 4 THEN 0 ELSE 1 END") 
+                ->orderByRaw("CASE WHEN type = 4 THEN 0 ELSE 1 END")
                 ->orderBy('date', 'asc')
                 ->orderBy('type');
 
@@ -110,7 +106,11 @@ class TraderAccountController extends Controller
                     return TransactionType::nameInAr($row->type);
                 })
                 ->addColumn('remainder', function ($row) {
-                    return $this->total += $row->total_shipment_value  - $row->amount;
+                    if ($row->type === 0) {
+                        return $this->total += $row->amount;
+                    } else {
+                        return $this->total += -$row->amount;
+                    }
                 })
                 ->escapeColumns([])
                 ->make(true);

@@ -56,9 +56,8 @@
                         {{-- <th>#</th> --}}
                         <th>التاريخ</th>
                         <th>عدد الاوردرات</th>
-                        <th>الاجمالي</th>
                         <th>العملية</th>
-                        <th>المدفوع</th>
+                        <th>المبلغ</th>
                         <th>المتبقي</th>
                     </tr>
                 </thead>
@@ -80,10 +79,6 @@
                 {
                     data: 'order_count',
                     name: 'order_count'
-                },
-                {
-                    data: 'total_shipment_value',
-                    name: 'total_shipment_value'
                 },
                 {
                     data: 'type',
