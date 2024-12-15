@@ -96,7 +96,7 @@ class TraderAccountController extends Controller
                 ->orderBy('date', 'asc')
                 ->orderBy('type');
 
-            return DataTables::of($results)
+                return DataTables::of($results)
                 ->addColumn('type', function ($row) {
                     return TransactionType::nameInAr($row->type);
                 })
