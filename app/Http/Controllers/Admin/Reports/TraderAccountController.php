@@ -33,7 +33,7 @@ class TraderAccountController extends Controller
                     ->select([
                         DB::raw('COUNT(*) AS order_count'),
                         DB::raw('SUM(orders.shipment_value) AS amount'),
-                        DB::raw("0 AS type"),
+                        DB::raw("5 AS type"),
                         DB::raw('DATE(created_at) AS date'),
                     ])
                     ->where('trader_id', $request->trader_id)
@@ -101,10 +101,10 @@ class TraderAccountController extends Controller
                     return TransactionType::nameInAr($row->type);
                 })
                 ->addColumn('remainder', function ($row) {
-                    if ($row->type === 0 || $row->type === 4) {
-                        return $this->total = $this->total - $row->amount;
-                    } else {
+                    if ($row->type === 5 || $row->type === 4) {
                         return $this->total = $this->total + $row->amount;
+                    } else {
+                        return $this->total = $this->total - $row->amount;
                     }
                 })
                 ->escapeColumns([])
