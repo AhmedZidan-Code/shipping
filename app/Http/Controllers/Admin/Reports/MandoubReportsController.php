@@ -28,7 +28,6 @@ class MandoubReportsController extends Controller
 
     public function get_delivery_orders(Request $request)
     {
-        dd($request->all());
         $rows = Order::query()->latest()->with(['province', 'trader', 'delivery']);
 
         if ($request->from_date) {
