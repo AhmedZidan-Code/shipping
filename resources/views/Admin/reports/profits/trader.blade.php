@@ -70,7 +70,7 @@
                         <td id="total_orders_shipment"></td>
                         <td id="net_profit"></td>
                         <td id="total_delivery_value"></td>
-                        <td ></td>
+                        <td id="total_sum"></td>
                     </tr>
                 </tfoot>
             </table>
@@ -137,7 +137,6 @@
                 "language": <?php echo json_encode(datatable_lang()); ?>,
 
                 "drawCallback": function(response) {
-
                     if (response.json) {
                         let profit = parseFloat(response.json.total_orders_value) - parseFloat(response.json.total_orders_shipment);                        
                         $('#total_orders_count').html(response.json.total_orders_count);
@@ -145,6 +144,7 @@
                         $('#total_orders_value').html(response.json.total_orders_value);
                         $('#net_profit').html(profit);
                         $('#total_delivery_value').html(response.json.total_delivery_value);
+                        $('#total_sum').html(response.json.total_sum);
                     }
                 },
                 searching: true,

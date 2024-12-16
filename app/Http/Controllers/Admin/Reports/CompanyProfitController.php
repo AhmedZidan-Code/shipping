@@ -21,11 +21,12 @@ class CompanyProfitController extends Controller
             }
             $deliveryOrders->select(
                 'date',
-                'company_commission',
-                'fees',
-                'solar',
+                DB::raw('SUM(company_commission) as company_commission'),
+                DB::raw('SUM(fees) as fees'),
+                DB::raw('SUM(solar) as solar'),
                 DB::raw('0 as value')
-            );
+            )
+                ->groupBy('date');
 
             $expenses = DB::table('expenses');
             if ($request->month) {
@@ -39,10 +40,13 @@ class CompanyProfitController extends Controller
                 DB::raw('0 as company_commission'),
                 DB::raw('0 as fees'),
                 DB::raw('0 as solar'),
-                'value'
-            );
+                DB::raw('SUM(value) as value')
+            )
+                ->groupBy('date');
 
-            $rows = $deliveryOrders->unionAll($expenses);
+            $rows = $deliveryOrders->unionAll($expenses)
+                ->orderBy('date', 'asc');
+
             $salaries = DB::table('salaries');
             $totalExpenses = DB::table('expenses');
             if ($request->month) {
@@ -53,7 +57,7 @@ class CompanyProfitController extends Controller
                 $salaries->where('year', $request->year);
                 $totalExpenses->whereRaw('YEAR(date) = ?', [$request->year]);
             }
-            $commissionAfterFees = $rows->sum(DB::raw('company_commission - (fees + solar)'));
+            $commissionAfterFees = $rows->sum(DB::raw('company_commission -  solar'));
             $totalExpenses = $totalExpenses->sum('value');
             $totalRemainder = $commissionAfterFees - $totalExpenses;
             $total_salary = $salaries->sum('total_salary');
@@ -66,7 +70,7 @@ class CompanyProfitController extends Controller
             $dataTable = DataTables::of($rows)
                 ->addIndexColumn()
                 ->editColumn('remainder', function ($row) {
-                    return $row->company_commission - ($row->fees + $row->solar);
+                    return $row->company_commission - ($row->value + $row->solar);
                 })
                 ->with('total_salary', $total_salary)
                 ->with('total_remainder', $totalRemainder)
