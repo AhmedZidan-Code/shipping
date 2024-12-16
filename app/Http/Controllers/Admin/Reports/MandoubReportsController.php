@@ -47,6 +47,7 @@ class MandoubReportsController extends Controller
         }
 
         $records = $rows->get();
+        dd($records);
         $delivery_id = $request->delivery_id;
         return view('Admin.reports.mandoubs.get_report', compact('records', 'delivery_id'));
     }
