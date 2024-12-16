@@ -6,6 +6,7 @@ use App\Exports\OrderFormExport;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
 use App\Imports\OrderImport;
+use App\Models\AgentPrice;
 use App\Models\Area;
 use App\Models\Delivery;
 use App\Models\Order;
@@ -185,7 +186,7 @@ class NewOrderController extends Controller
             'delivery_value' => 'required|array',
             'delivery_value.*' => 'nullable',
             'province_id' => 'nullable|array',
-            'province_id.*' => 'required',
+            'province_id.*' => 'required|exists:areas,id',
             'shipment_pieces_number' => 'nullable|array',
             'shipment_pieces_number.*' => 'nullable',
             'shipment_value' => 'nullable|array',
@@ -203,16 +204,24 @@ class NewOrderController extends Controller
                 $delivery_id = null;
 
                 $total_value = $total_value + (int) $request->delivery_value[$i] + (int) $request->shipment_value[$i];
-
-                if ($request->delivery_id[$i] != null) {
-                    if ($request->delivery_id[$i] != 0) {
-                        $status = 'converted_to_delivery';
-                        $delivery_id = $request->delivery_id[$i];
-
+                $row = [];
+                if ($request->delivery_id[$i] != null && $request->delivery_id[$i] != 0) {
+                    $status = 'converted_to_delivery';
+                    $delivery_id = $request->delivery_id[$i];
+                    $delivery = Delivery::where('id', $delivery_id)->first();
+                    if ($delivery && $delivery->type == 'agent') {
+                        if ($agentPrice = AgentPrice::where(['agent_id' => $delivery->id, 'govern_id' => $request->province_id[$i]])->first()) {
+                            $row['agent_shipping'] = $agentPrice->value;
+                            $total_value = $total_value + (int) $agentPrice->value + (int) $request->shipment_value[$i];
+                        } else {
+                            return response()->json([
+                                'code' => 404,
+                                'message' => ' من فضلك أدخل أسعار شحن الوكيل ' . $delivery->name,
+                            ]);
+                        }
                     }
                 }
-                $row = [];
-                $row = [
+                $row += [
                     'trader_id' => $request->trader_id[$i],
                     'status' => $status,
                     'shipment_value' => $request->shipment_value[$i],
@@ -237,7 +246,6 @@ class NewOrderController extends Controller
                     'first_status' => $status,
 
                 ];
-
                 array_push($sql, $row);
 
             }
@@ -331,6 +339,20 @@ class NewOrderController extends Controller
         $data['total_value'] = (int) $request->delivery_value + (int) $request->shipment_value;
         // $data['converted_date']=date('Y-m-d H:i:s') ;
         $old = $order;
+        if ($data['delivery_id'] != null && $data['delivery_id'] != 0) {
+            $delivery = Delivery::where('id', $data['delivery_id'])->first();
+            if ($delivery && $delivery->type == 'agent') {
+                if ($agentPrice = AgentPrice::where(['agent_id' => $delivery->id, 'govern_id' => $data['province_id']])->first()) {
+                    $data['agent_shipping'] = $agentPrice->value;
+                    $data['total_value'] = (int) $agentPrice->value + (int) $data['shipment_value'];
+                } else {
+                    return response()->json([
+                        'code' => 404,
+                        'message' => ' من فضلك أدخل أسعار شحن الوكيل ' . $delivery->name,
+                    ]);
+                }
+            }
+        }
 
         $order->update($data);
 
@@ -457,6 +479,21 @@ class NewOrderController extends Controller
         $history['notes'] = "تغيير في الحاله";
         save_history($history);
         // DB::table('order_history')->insert($history);
+        if ($request->delivery_id != null && $request->delivery_id != 0) {
+            $delivery_id = $request->delivery_id;
+            $delivery = Delivery::where('id', $delivery_id)->first();
+            if ($delivery && $delivery->type == 'agent') {
+                if ($agentPrice = AgentPrice::where(['agent_id' => $delivery->id, 'govern_id' => $row->province_id])->first()) {
+                    $data['agent_shipping'] = $agentPrice->value;
+                    $data['total_value'] = (int) $agentPrice->value + (int) $row->shipment_value;
+                } else {
+                    return response()->json([
+                        'code' => 404,
+                        'message' => ' من فضلك أدخل أسعار شحن الوكيل ' . $delivery->name,
+                    ]);
+                }
+            }
+        }
 
         $row->update($data);
         //=============================
@@ -577,6 +614,21 @@ class NewOrderController extends Controller
             $history['after_edit'] = $data['status'];
             $history['notes'] = "تغيير في الحاله";
             save_history($history);
+            if ($request->delivery_id != null && $request->delivery_id != 0) {
+                $delivery_id = $request->delivery_id;
+                $delivery = Delivery::where('id', $delivery_id)->first();
+                if ($delivery && $delivery->type == 'agent') {
+                    if ($agentPrice = AgentPrice::where(['agent_id' => $delivery->id, 'govern_id' => $row->province_id])->first()) {
+                        $data['agent_shipping'] = $agentPrice->value;
+                        $data['total_value'] = (int) $agentPrice->value + (int) $row->shipment_value;
+                    } else {
+                        return response()->json([
+                            'code' => 404,
+                            'message' => ' من فضلك أدخل أسعار شحن الوكيل ' . $delivery->name,
+                        ]);
+                    }
+                }
+            }
 
             $row->update($data);
 

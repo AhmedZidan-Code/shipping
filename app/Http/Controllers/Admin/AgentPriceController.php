@@ -27,7 +27,7 @@ class AgentPriceController extends Controller
     {
 
         if ($request->ajax()) {
-            $rows = AgentPrice::query()->with(['trader', 'govern'])->latest();
+            $rows = AgentPrice::query()->with(['agent', 'govern'])->latest();
             return DataTables::of($rows)
                 ->addColumn('action', function ($row) {
 
@@ -62,8 +62,8 @@ class AgentPriceController extends Controller
                        ';
 
                 })
-                ->editColumn('trader', function ($row) {
-                    return $row->trader->name ?? '';
+                ->editColumn('agent', function ($row) {
+                    return $row->agent->name ?? '';
                 })
 
                 ->editColumn('govern', function ($row) {
@@ -93,7 +93,7 @@ class AgentPriceController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'trader_id' => 'required|exists:traders,id',
+            'agent_id' => 'required|exists:deliveries,id',
             'govern_id' => 'required|exists:areas,id|array',
             'value' => 'required|array',
             'value.*' => 'required',
@@ -103,7 +103,7 @@ class AgentPriceController extends Controller
 
         for ($x = 0; $x < $count; $x++) {
             if ($request->value[$x] > 0) {
-                $price['trader_id'] = $request->trader_id;
+                $price['agent_id'] = $request->agent_id;
                 $price['govern_id'] = $request->govern_id[$x];
                 $price['value'] = $request->value[$x];
                 $row = AgentPrice::create($price);
@@ -134,7 +134,7 @@ class AgentPriceController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'trader_id' => 'required|exists:traders,id',
+            'agent_id' => 'required|exists:deliveries,id',
             'govern_id' => 'required|exists:areas,id',
             'value' => 'required',
 

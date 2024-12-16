@@ -9,7 +9,7 @@
         <div class="card-header d-flex align-items-center">
             <h5 class="card-title mb-0 flex-grow-1">المستخدمين</h5>
 
-            @can('اضافة مستخدمين')
+            @can('إنشاء المستخدمين')
                 <div>
                     <button id="addBtn" class="btn btn-primary">اضافة مستخدم</button>
                 </div>
