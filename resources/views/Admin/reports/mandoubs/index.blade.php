@@ -17,21 +17,21 @@
                 </div>
 
                 <div class="col-md-4 ">
-                    <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <label for="from_date" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                         <span class="required mr-1"> من تاريخ </span>
 
                     </label>
-                    <input type="date" id="from_date" value="{{ date('Y-m-d') }}" name="fromDate"
+                    <input type="date" id="from_date" value="{{ request('fromDate') ?? date('Y-m-d') }}" name="fromDate"
                         class="showBonds form-control">
 
                 </div>
 
                 <div class="col-md-4 ">
-                    <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <label for="to_date" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                         <span class="required mr-1"> الي تاريخ </span>
 
                     </label>
-                    <input type="date" value="{{ date('Y-m-d') }}" id="to_date" name="fromDate"
+                    <input type="date" value="{{ request('toDate') ?? date('Y-m-d') }}" id="to_date" name="toDate"
                         class="showBonds form-control">
 
                 </div>
