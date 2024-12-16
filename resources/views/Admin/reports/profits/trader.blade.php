@@ -57,9 +57,10 @@
                         <th>#</th>
                         <th>التاريخ</th>
                         <th>عدد الاوردرات</th>
-                        <th>شحن الشركة</th>
-                        <th>قيمة الاوردرات</th>
-                        <th>الربح</th>
+                        <th>اجمالي قيمة الاوردرات</th>
+                        <th>قيمة شحن الشركة</th>
+                        <th>قيمة شحن المندوب</th>
+                        <th> عمولة الشركة</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -67,8 +68,9 @@
                         <td colspan="2">المجموع</td>
                         <td id="total_orders_count"></td>
                         <td id="total_orders_shipment"></td>
-                        <td id="total_orders_value"></td>
                         <td id="net_profit"></td>
+                        <td id="total_delivery_value"></td>
+                        <td ></td>
                     </tr>
                 </tfoot>
             </table>
@@ -98,12 +100,16 @@
                 name: 'total_value'
             },
             {
-                data: 'shipment_value',
-                name: 'shipment_value'
+                data: 'delivery_value',
+                name: 'delivery_value'
             },
             {
                 data: 'profit',
                 name: 'profit'
+            },
+            {
+                data: 'company_commission',
+                name: 'company_commission'
             },
         ];
         var newUrl = "{{ route('trader-profits.index') }}";
@@ -138,6 +144,7 @@
                         $('#total_orders_shipment').html(response.json.total_orders_shipment);
                         $('#total_orders_value').html(response.json.total_orders_value);
                         $('#net_profit').html(profit);
+                        $('#total_delivery_value').html(response.json.total_delivery_value);
                     }
                 },
                 searching: true,
