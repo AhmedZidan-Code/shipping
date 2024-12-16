@@ -68,7 +68,7 @@
                     <tr style="text-align: center;">
                         <td>اجمالي الرواتب</td>
                         <td id="total_salary"></td>
-                        <td colspan="4">الصــــــافي</td>
+                        <td colspan="4">صـــــافي الربح</td>
                         <td id="net_profit"></td>
                     </tr>
                 </tfoot>

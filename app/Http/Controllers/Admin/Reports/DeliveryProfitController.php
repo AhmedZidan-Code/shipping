@@ -27,7 +27,7 @@ class DeliveryProfitController extends Controller
                 $salaries->where('year', $request->year);
 
             }
-            $totalRemainder = $rows->sum(DB::raw('company_commission - (fees + solar)'));
+            $totalRemainder = $rows->sum(DB::raw('company_commission -  solar'));
             $total_salary = $salaries->sum('total_salary');
             $netProfit = $totalRemainder - $total_salary;
             $ordersSum = $rows->sum('num_mandoub_orders');
