@@ -22,7 +22,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>التاجر</th>
+                    <th>الوكيل</th>
                     <th>المحافظه</th>
                     <th> قيمه التوصيل</th>
                     <th>العمليات</th>
@@ -77,7 +77,7 @@
     <script>
         var columns = [
             {data: 'id', name: 'id'},
-            {data: 'trader', name: 'trader'},
+            {data: 'agent', name: 'agent'},
             {data: 'govern', name: 'govern'},
             {data: 'value', name: 'value'},
             {data: 'action', name: 'action', orderable: false, searchable: false},

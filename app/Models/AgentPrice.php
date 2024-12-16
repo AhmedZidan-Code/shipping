@@ -9,14 +9,14 @@ class AgentPrice extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'trader_id',
+        'agent_id',
         'govern_id',
         'value',
     ];
 
-    public function trader()
+    public function agent()
     {
-        return $this->belongsTo(Trader::class, 'trader_id');
+        return $this->belongsTo(Delivery::class, 'agent_id');
     }
 
     public function govern()

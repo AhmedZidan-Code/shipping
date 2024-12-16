@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Order;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
+use App\Models\AgentPrice;
 use App\Models\Delivery;
 use App\Models\Order;
 use Carbon\Carbon;
@@ -304,6 +305,22 @@ class DeliveryConvertedOrderController extends Controller
         // DB::table('order_history')->insert($history);
         //===================
         //if()
+        if ($request->delivery_id != null && $request->delivery_id != 0) {
+            $delivery_id = $request->delivery_id;
+            $delivery = Delivery::where('id', $delivery_id)->first();
+            if ($delivery && $delivery->type == 'agent') {
+                if ($agentPrice = AgentPrice::where(['agent_id' => $delivery->id, 'govern_id' => $order->province_id])->first()) {
+                    $data['agent_shipping'] = $agentPrice->value;
+                    $data['total_value'] = (int) $agentPrice->value + (int) $order->shipment_value;
+                } else {
+                    return response()->json([
+                        'code' => 404,
+                        'message' => ' من فضلك أدخل أسعار شحن الوكيل ' . $delivery->name,
+                    ]);
+                }
+            }
+        }
+
         $order->update($data);
 
         return response()->json(
@@ -341,6 +358,22 @@ class DeliveryConvertedOrderController extends Controller
                 if ($order->delivery_id != $request->delivery_id) {
                     save_history($history2);
                 }
+                if ($request->delivery_id != null && $request->delivery_id != 0) {
+                    $delivery_id = $request->delivery_id;
+                    $delivery = Delivery::where('id', $delivery_id)->first();
+                    if ($delivery && $delivery->type == 'agent') {
+                        if ($agentPrice = AgentPrice::where(['agent_id' => $delivery->id, 'govern_id' => $order->province_id])->first()) {
+                            $data['agent_shipping'] = $agentPrice->value;
+                            $data['total_value'] = (int) $agentPrice->value + (int) $order->shipment_value;
+                        } else {
+                            return response()->json([
+                                'code' => 404,
+                                'message' => ' من فضلك أدخل أسعار شحن الوكيل ' . $delivery->name,
+                            ]);
+                        }
+                    }
+                }
+
                 $order->update($data);
             }
             return response()->json(

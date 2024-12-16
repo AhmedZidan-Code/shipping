@@ -660,7 +660,6 @@
     <script>
 
         (function () {
-
             $("#province_id").select2({
                 placeholder: 'Channel...',
                 // width: '350px',
@@ -670,6 +669,8 @@
                     dataType: 'json',
                     delay: 250,
                     data: function (params) {
+                        console.log(params);
+                        
                         return {
                             term: params.term || '',
                             page: params.page || 1

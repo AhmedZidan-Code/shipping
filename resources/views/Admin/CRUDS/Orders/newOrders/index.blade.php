@@ -545,7 +545,6 @@
     <script>
         $(document).on('submit', "#form-delivery", function(e) {
             e.preventDefault();
-
             var id = $('#order_id_delivery').val();
 
             var route = "{{ route('admin.insertingDeliveryForOrder', ':id') }}";
