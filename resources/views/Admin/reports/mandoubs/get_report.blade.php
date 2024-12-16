@@ -64,7 +64,7 @@
                         ->where('order_id', $row->id)
                         ->count();
                 @endphp
-                @if ($count > 0)
+                @if ($count <= 0)
                     @continue
                 @endif
 
@@ -505,7 +505,7 @@
                 $('#td' + row_id).html(data);
                 //$('.delivery_value'+valu).val(data);
                 // get_order_value(valu);
-                
+
                 // location.reload();
             },
 
