@@ -12,7 +12,7 @@ class TraderProfitController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $rows = DB::table('orders')->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'not_delivery', 'under_implementation', 'cancel', 'delaying', 'paid']);
+            $rows = DB::table('orders')->whereIn('status', ['total_delivery_to_customer', 'partial_delivery_to_customer', 'not_delivery', 'shipping_on_messanger']);
             if ($request->trader_id) {
                 $rows->where('trader_id', $request->trader_id);
             }
