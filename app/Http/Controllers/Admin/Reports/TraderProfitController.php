@@ -22,12 +22,16 @@ class TraderProfitController extends Controller
             if ($request->toDate) {
                 $rows->whereDate('created_at', '<=', $request->toDate);
             }
+
             $rows->selectRaw('DATE(created_at) as order_date, COUNT(*) as orders_count, SUM(total_value) as total_value, SUM(shipment_value) as shipment_value,  SUM(delivery_value) as delivery_value')
-                ->groupBy(DB::raw('DATE(created_at)'))->get();
+                ->groupBy(DB::raw('DATE(created_at)'));
+
             $totalOrdersCount = $rows->get()->sum('orders_count');
             $totalOrdersValue = $rows->get()->sum('total_value');
             $totalOrdersShipment = $rows->get()->sum('shipment_value');
             $totalDeliveryValue = $rows->get()->sum('delivery_value');
+            $totalSum = $totalOrdersValue - ($totalOrdersShipment + $totalDeliveryValue);
+
             $dataTable = DataTables::of($rows)
                 ->addIndexColumn()
                 ->addColumn('profit', function ($row) {
@@ -40,6 +44,7 @@ class TraderProfitController extends Controller
                 ->with('total_orders_value', $totalOrdersValue)
                 ->with('total_orders_shipment', $totalOrdersShipment)
                 ->with('total_delivery_value', $totalDeliveryValue)
+                ->with('total_sum', $totalSum)
                 ->escapeColumns([])
                 ->make(true);
             return $dataTable;
