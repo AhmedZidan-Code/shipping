@@ -60,7 +60,7 @@ class HadbackController extends Controller
                 if ($row->status == 'partial_delivery_to_customer') {
                     return ($row->total_value - $row->partial_value);
                 } else if ($row->status == 'shipping_on_messanger') {
-                    return 0;
+                    return $row->total_value;
                 } else {
                     return $row->shipment_value;
                 }
@@ -75,6 +75,8 @@ class HadbackController extends Controller
                 ->addColumn('checkbox', function ($row) {
                     if ($row->status == 'partial_delivery_to_customer') {
                         $database = $row->total_value - $row->partial_value;
+                    } elseif ($row->status == 'shipping_on_messanger') {
+                        $database = $row->total_value; // Replace with the actual logic for your else if condition
                     } else {
 
                         $database = $row->shipment_value;
@@ -164,6 +166,8 @@ class HadbackController extends Controller
                 ->editColumn('shipment_value', function ($row) {
                     if ($row->status == 'partial_delivery_to_customer') {
                         return $row->total_value - $row->partial_value;
+                    } elseif ($row->status == 'shipping_on_messanger') {
+                        return $row->total_value; // Replace with the actual logic for your else if condition
                     } else {
 
                         return $row->shipment_value;
@@ -185,8 +189,8 @@ class HadbackController extends Controller
                     return date('Y/m/d', strtotime($admin->converted_date));
                 })
 
-                ->with('total2', function () use ($totalShipmentValue) {
-                    return $totalShipmentValue;
+                ->with('total2', function () use ($totalShipmentValue1) {
+                    return $totalShipmentValue1;
                 })
                 ->escapeColumns([])
                 ->make(true);
@@ -393,7 +397,7 @@ class HadbackController extends Controller
                 if ($row->status == 'partial_delivery_to_customer') {
                     return ($row->total_value - $row->partial_value);
                 } else if ($row->status == 'shipping_on_messanger') {
-                    return 0;
+                    return $row->total_value;
                 } else {
                     return $row->shipment_value;
                 }
@@ -490,7 +494,7 @@ class HadbackController extends Controller
                     if ($row->status == 'partial_delivery_to_customer') {
                         return $row->total_value - $row->partial_value;
                     } elseif ($row->status == 'shipping_on_messanger') {
-                        return -$row->delivery_value; // Replace with the actual logic for your else if condition
+                        return $row->total_value; // Replace with the actual logic for your else if condition
                     } else {
                         return $row->shipment_value;
                     }
