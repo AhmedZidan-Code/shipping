@@ -59,7 +59,7 @@
                         <th>عدد الاوردرات</th>
                         <th>اجمالي قيمة الاوردرات</th>
                         <th>قيمة شحن الشركة</th>
-                        <th>قيمة شحن المندوب</th>
+                        {{-- <th>قيمة شحن المندوب</th> --}}
                         <th> عمولة الشركة</th>
                     </tr>
                 </thead>
@@ -67,9 +67,9 @@
                     <tr>
                         <td colspan="2">المجموع</td>
                         <td id="total_orders_count"></td>
+                        <td id="total_orders_value"></td>
                         <td id="total_orders_shipment"></td>
-                        <td id="net_profit"></td>
-                        <td id="total_delivery_value"></td>
+                        {{-- <td id="total_delivery_value"></td> --}}
                         <td id="total_sum"></td>
                     </tr>
                 </tfoot>
@@ -99,13 +99,13 @@
                 data: 'total_value',
                 name: 'total_value'
             },
+            // {
+            //     data: 'delivery_value',
+            //     name: 'delivery_value'
+            // },
             {
-                data: 'delivery_value',
-                name: 'delivery_value'
-            },
-            {
-                data: 'profit',
-                name: 'profit'
+                data: 'shipment_value',
+                name: 'shipment_value'
             },
             {
                 data: 'company_commission',
@@ -138,12 +138,12 @@
 
                 "drawCallback": function(response) {
                     if (response.json) {
-                        let profit = parseFloat(response.json.total_orders_value) - parseFloat(response.json.total_orders_shipment);                        
+                        // let profit = parseFloat(response.json.total_orders_value) - parseFloat(response.json.total_orders_shipment);                        
                         $('#total_orders_count').html(response.json.total_orders_count);
                         $('#total_orders_shipment').html(response.json.total_orders_shipment);
                         $('#total_orders_value').html(response.json.total_orders_value);
-                        $('#net_profit').html(profit);
-                        $('#total_delivery_value').html(response.json.total_delivery_value);
+                        // $('#net_profit').html(profit);
+                        // $('#total_delivery_value').html(response.json.total_delivery_value);
                         $('#total_sum').html(response.json.total_sum);
                     }
                 },

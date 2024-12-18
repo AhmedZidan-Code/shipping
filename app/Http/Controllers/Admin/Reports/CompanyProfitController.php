@@ -9,82 +9,120 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CompanyProfitController extends Controller
 {
-    public function index(Request $request)
-    {
-        if ($request->ajax()) {
-            $deliveryOrders = DB::table('delivery_orders');
-            if ($request->month) {
-                $deliveryOrders->where('month', $request->month);
-            }
-            if ($request->year) {
-                $deliveryOrders->where('year', $request->year);
-            }
-            $deliveryOrders->select(
+public function index(Request $request)
+{
+    if ($request->ajax()) {
+        // Prepare base queries with common filtering
+        $baseQuery = function ($query) use ($request) {
+            return $query
+                ->when($request->month, function ($q) use ($request) {
+                    return $q->whereMonth('date', $request->month);
+                })
+                ->when($request->year, function ($q) use ($request) {
+                    return $q->whereYear('date', $request->year);
+                });
+        };
+
+        // Delivery Orders Query
+        $deliveryOrders = DB::table('delivery_orders')
+            ->when($request->month, function ($query) use ($request) {
+                return $query->where('month', $request->month);
+            })
+            ->when($request->year, function ($query) use ($request) {
+                return $query->where('year', $request->year);
+            })
+            ->select(
                 'date',
                 DB::raw('SUM(company_commission) as company_commission'),
                 DB::raw('SUM(fees) as fees'),
                 DB::raw('SUM(solar) as solar'),
                 DB::raw('0 as value')
             )
-                ->groupBy('date');
+            ->groupBy('date');
 
-            $expenses = DB::table('expenses');
-            if ($request->month) {
-                $expenses->whereRaw('MONTH(date) = ?', [$request->month]);
-            }
-            if ($request->year) {
-                $expenses->whereRaw('YEAR(date) = ?', [$request->year]);
-            }
-            $expenses->select(
+        // Expenses Query
+        $expenses = DB::table('expenses')
+            ->when($request->month, function ($query) use ($request) {
+                return $query->whereRaw('MONTH(date) = ?', [$request->month]);
+            })
+            ->when($request->year, function ($query) use ($request) {
+                return $query->whereRaw('YEAR(date) = ?', [$request->year]);
+            })
+            ->select(
                 'date',
                 DB::raw('0 as company_commission'),
                 DB::raw('0 as fees'),
                 DB::raw('0 as solar'),
                 DB::raw('SUM(value) as value')
             )
-                ->groupBy('date');
+            ->groupBy('date');
 
-            $rows = $deliveryOrders->unionAll($expenses)
-                ->orderBy('date', 'asc');
+        // Combine Queries
+        $unionQuery = DB::query()->fromSub(function ($query) use ($deliveryOrders, $expenses) {
+            $query->from($deliveryOrders)
+                ->unionAll($expenses);
+        }, 'combined_data')
+        ->select([
+            'date',
+            DB::raw('SUM(company_commission) as company_commission'),
+            DB::raw('SUM(fees) as fees'),
+            DB::raw('SUM(solar) as solar'),
+            DB::raw('SUM(value) as value'),
+        ])
+        ->groupBy('date')
+        ->orderBy('date', 'desc')
+        ->get();
 
-            $salaries = DB::table('salaries');
-            $totalExpenses = DB::table('expenses');
-            if ($request->month) {
-                $salaries->where('month', $request->month);
-                $totalExpenses->whereRaw('MONTH(date) = ?', [$request->month]);
-            }
-            if ($request->year) {
-                $salaries->where('year', $request->year);
-                $totalExpenses->whereRaw('YEAR(date) = ?', [$request->year]);
-            }
-            $commissionAfterFees = $rows->sum(DB::raw('company_commission -  solar'));
-            $totalExpenses = $totalExpenses->sum('value');
-            $totalRemainder = $commissionAfterFees - $totalExpenses;
-            $total_salary = $salaries->sum('total_salary');
-            $netProfit = $totalRemainder - $total_salary;
-            $commissionSum = $rows->sum('company_commission');
-            $feesSum = $rows->sum('fees');
-            $solarSum = $rows->sum('solar');
-            $valueSum = $rows->sum('value');
+        // Salaries Query
+        $salaries = DB::table('salaries')
+            ->when($request->month, function ($query) use ($request) {
+                return $query->where('month', $request->month);
+            })
+            ->when($request->year, function ($query) use ($request) {
+                return $query->where('year', $request->year);
+            });
 
-            $dataTable = DataTables::of($rows)
-                ->addIndexColumn()
-                ->editColumn('remainder', function ($row) {
-                    return $row->company_commission - ($row->value + $row->solar);
-                })
-                ->with('total_salary', $total_salary)
-                ->with('total_remainder', $totalRemainder)
-                ->with('net_profit', $netProfit)
-                ->with('commission_sum', $commissionSum)
-                ->with('fees_sum', $feesSum)
-                ->with('solar_sum', $solarSum)
-                ->with('value_sum', $valueSum)
-                ->escapeColumns([])
-                ->make(true);
+        // Expenses Query for Total Calculation
+        $totalExpensesQuery = DB::table('expenses')
+            ->when($request->month, function ($query) use ($request) {
+                return $query->whereRaw('MONTH(date) = ?', [$request->month]);
+            })
+            ->when($request->year, function ($query) use ($request) {
+                return $query->whereRaw('YEAR(date) = ?', [$request->year]);
+            });
 
-            return $dataTable;
-        }
+        // Calculations
+        $commissionSum = $unionQuery->sum('company_commission');
+        $totalExpenses = $totalExpensesQuery->sum('value');
+        $solarSum = $unionQuery->sum('solar');
+        $commissionAfterFees = $commissionSum - $totalExpenses;
+        $total_salary = $salaries->sum('total_salary');
+        $totalRemainder = $commissionAfterFees - $totalExpenses;
+        $netProfit = $totalRemainder - $total_salary;
 
-        return view('Admin.reports.profits.company');
+        // Sums
+        $feesSum = $unionQuery->sum('fees');
+        $valueSum = $unionQuery->sum('value');
+
+        // DataTables Response
+        return DataTables::of($unionQuery)
+            ->addIndexColumn()
+            ->editColumn('remainder', function ($row) {
+                return $row->company_commission - $row->value;
+            })
+            ->with([
+                'total_salary' => $total_salary,
+                'total_remainder' => $totalRemainder,
+                'net_profit' => $netProfit,
+                'commission_sum' => $commissionSum,
+                'fees_sum' => $feesSum,
+                'solar_sum' => $solarSum,
+                'value_sum' => $valueSum,
+            ])
+            ->escapeColumns([])
+            ->make(true);
     }
+
+    return view('Admin.reports.profits.company');
+}
 }
