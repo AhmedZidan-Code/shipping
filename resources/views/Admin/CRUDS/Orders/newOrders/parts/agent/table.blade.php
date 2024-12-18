@@ -12,6 +12,7 @@
                     <th>قيمة التوصيل</th>
                     <th>الاجمالي في الاكسيل</th>
                     <th>الاجمالي في قاعدة البيانات</th>
+                    <th>تفاصيل</th>
                     <th>اسم العميل في قاعدة البيانات </th>
                     <th>المندوب</th>
                     <th>المدينة</th>
@@ -48,7 +49,13 @@
                         </td>
                         <td class="text-nowrap">{{ $convertedOrder->customer_name }}</td>
                         <td class="text-nowrap">{{ $convertedOrder->customer_phone }}</td>
-                        <td class="text-nowrap">{{ $convertedOrder->agent_value }}</td>
+                        <td class="text-nowrap">
+                            {{-- {{ $convertedOrder->agent_value }} --}}
+                            @if ($convertedOrder->agent_value)
+                                <input type="number" class="form-control form-control-sm" name="agent_value[]"
+                                    value="{{ $convertedOrder->agent_value }}" style="width: 70px;">
+                            @endif
+                        </td>
                         <td class="text-nowrap">
                             @if ($convertedOrder->order)
                                 {{ $convertedOrder->order->delivery_value }}
@@ -57,10 +64,13 @@
                         <td class="text-nowrap">{{ $convertedOrder->total }}</td>
                         <td class="text-nowrap">
                             @if ($convertedOrder->order)
-                                {{-- <input type="number" class="form-control form-control-sm" name="total_value[]"
-                                    value="{{ $convertedOrder->order['total_value'] }}"> --}}
-                                {{ $convertedOrder->order['total_value'] }}
+                                <input type="number" class="form-control form-control-sm" name="total_value[]"
+                                    value="{{ $convertedOrder->order['total_value'] }}" style="width: 70px;">
+                                {{-- {{ $convertedOrder->order['total_value'] }} --}}
                             @endif
+                        </td>
+                        <td class="text-break">
+                            <textarea name="agent_details[]" id="" cols="8" rows="2"></textarea>
                         </td>
                         <td class="text-nowrap">{{ $convertedOrder->order['customer_name'] ?? ' ' }}</td>
                         <td class="text-nowrap">{{ optional($convertedOrder->order)->delivery->name ?? ' ' }}</td>

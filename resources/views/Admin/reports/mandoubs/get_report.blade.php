@@ -101,8 +101,12 @@
                     @endphp
                 @endif
                 <tr>
-                    <td> <input checked="" type="checkbox" data-status="{{ $row->status }}" class="myCheckboxClass"
-                            value="{{ $row->id }}" /> </td>
+                    <td>
+                        @if ($row->status != 'converted_to_delivery')
+                            <input checked="" type="checkbox" data-status="{{ $row->status }}"
+                                class="myCheckboxClass" value="{{ $row->id }}" />
+                        @endif
+                    </td>
                     <td>{{ $row->id }}</td>
                     @if ($row->status == 'new')
                         <td id="td{{ $row->id }}"> <button class="btn btn-info insertDelivery"
@@ -505,7 +509,7 @@
                 $('#td' + row_id).html(data);
                 //$('.delivery_value'+valu).val(data);
                 // get_order_value(valu);
-                
+
                 // location.reload();
             },
 
