@@ -29,21 +29,18 @@ class TraderProfitController extends Controller
             $totalOrdersCount = $rows->get()->sum('orders_count');
             $totalOrdersValue = $rows->get()->sum('total_value');
             $totalOrdersShipment = $rows->get()->sum('shipment_value');
-            $totalDeliveryValue = $rows->get()->sum('delivery_value');
-            $totalSum = $totalOrdersValue - ($totalOrdersShipment + $totalDeliveryValue);
+            // $totalDeliveryValue = $rows->get()->sum('delivery_value');
+            $totalSum = $totalOrdersValue - $totalOrdersShipment ;
 
             $dataTable = DataTables::of($rows)
                 ->addIndexColumn()
-                ->addColumn('profit', function ($row) {
-                    return $row->total_value - $row->shipment_value;
-                })
                 ->addColumn('company_commission', function ($row) {
-                    return $row->total_value - ($row->shipment_value + $row->delivery_value);
+                    return $row->total_value - $row->shipment_value ;
                 })
                 ->with('total_orders_count', $totalOrdersCount)
                 ->with('total_orders_value', $totalOrdersValue)
                 ->with('total_orders_shipment', $totalOrdersShipment)
-                ->with('total_delivery_value', $totalDeliveryValue)
+                // ->with('total_delivery_value', $totalDeliveryValue)
                 ->with('total_sum', $totalSum)
                 ->escapeColumns([])
                 ->make(true);
