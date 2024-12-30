@@ -71,9 +71,9 @@
         <div class="d-flex flex-column mb-7 fv-row col-sm-12">
             <!--begin::Label-->
             <label for="refused_reason" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                <span class="required mr-1"> السبب</span>
+                <span class="required mr-1"> الملاحظات</span>
             </label>
-            <textarea name="refused_reason" id="refused_reason" rows="5" class="form-control" placeholder=" اكتب هنا "></textarea>
+            <textarea name="notes" id="refused_reason" rows="5" class="form-control" placeholder=" اكتب هنا "> {{ $order->notes }}</textarea>
         </div>
 
     </div>

@@ -51,3 +51,7 @@ Route::get('storage-link', function () {
     \Artisan::call('storage:link');
     return "storage linked successfully";
 });
+
+Route::get('time-stamp', function () {
+   return date("Y-m-d h:i");
+});

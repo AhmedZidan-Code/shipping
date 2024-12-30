@@ -1,4 +1,3 @@
-
 <form id="form" enctype="multipart/form-data" method="POST" action="{{route('deliveryConvertedOrders.store')}}">
     @csrf
     <div class="row g-4">
