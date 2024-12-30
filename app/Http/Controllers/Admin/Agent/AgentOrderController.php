@@ -210,8 +210,8 @@ class AgentOrderController extends Controller
                 Temporary::create([
                     'customer_name' => $customer->customer_name,
                     'customer_phone' => $customer->customer_phone,
-                    'agent_value' => $row['delivery_value'],
-                    'total' => $row['total'],
+                    'agent_value' => $customer->agent_shipping,
+                    'total' => $customer->total_value,
                 ]);
             }
         }

@@ -9,7 +9,7 @@
                     <th>اسم العميل في الاكسيل</th>
                     <th>رقم العميل في الاكسيل</th>
                     <th>قيمة الوكيل</th>
-                    <th>قيمة التوصيل</th>
+                    <th>قيمة الوكيل في قاعدة البيانات</th>
                     <th>الاجمالي في الاكسيل</th>
                     <th>الاجمالي في قاعدة البيانات</th>
                     <th>تفاصيل</th>
@@ -50,16 +50,18 @@
                         <td class="text-nowrap">{{ $convertedOrder->customer_name }}</td>
                         <td class="text-nowrap">{{ $convertedOrder->customer_phone }}</td>
                         <td class="text-nowrap">
-                            {{-- {{ $convertedOrder->agent_value }} --}}
-                            @if ($convertedOrder->agent_value)
+                            {{ $convertedOrder->agent_value }}
+                            {{-- @if ($convertedOrder->agent_value)
                                 <input type="number" class="form-control form-control-sm" name="agent_value[]"
                                     value="{{ $convertedOrder->agent_value }}" style="width: 70px;">
-                            @endif
+                            @endif --}}
                         </td>
                         <td class="text-nowrap">
-                            @if ($convertedOrder->order)
-                                {{ $convertedOrder->order->delivery_value }}
-                            @endif
+                            {{-- @if ($convertedOrder->order) --}}
+                                {{-- {{ $convertedOrder->agent_shipping }} --}}
+                                <input type="number" class="form-control form-control-sm" name="agent_shipping[]"
+                                    value="{{ $convertedOrder->agent_value  }}" style="width: 70px;">
+                            {{-- @endif --}}
                         </td>
                         <td class="text-nowrap">{{ $convertedOrder->total }}</td>
                         <td class="text-nowrap">

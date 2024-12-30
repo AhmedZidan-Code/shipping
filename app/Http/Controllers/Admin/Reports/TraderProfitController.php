@@ -50,3 +50,4 @@ class TraderProfitController extends Controller
         return view('Admin.reports.profits.trader');
     }
 }
+//
