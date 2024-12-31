@@ -128,7 +128,7 @@ class MandoubReportsController extends Controller
             'status_id' => json_encode($request->status),
             'year' => date('Y'),
             'month' => $request->month,
-            'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
+            'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
             'date' => date('Y-m-d'),
             'publisher' => auth()->id(),
         ]);
@@ -142,7 +142,7 @@ class MandoubReportsController extends Controller
                     'status' => $request->status[$i],
                     'order_id' => $request->selectedValues[$i],
                     'month' => $request->month,
-                    'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
+                    'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
                     'date' => date('Y-m-d'),
                     'publisher' => auth()->id(),
                 ];
