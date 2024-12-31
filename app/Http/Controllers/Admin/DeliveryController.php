@@ -208,7 +208,7 @@ class DeliveryController extends Controller
         if ($request->ajax()) {
 
             $term = trim($request->term);
-            $posts = DB::table('deliveries')->select('id', 'name as text')
+            $posts = DB::table('deliveries')->whereNull('deleted_at')->select('id', 'name as text')
                 ->where('name', 'LIKE', '%' . $term . '%')
                 ->orderBy('name', 'asc')->simplePaginate(3);
 

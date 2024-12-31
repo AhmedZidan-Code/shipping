@@ -151,7 +151,7 @@ class NewOrderController extends Controller
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الطلبات  الجديدة");
 
         }
-        $delivieries = DB::table('deliveries')->get();
+        $delivieries = DB::table('deliveries')->whereNull('deleted_at')->get();
 
         return view('Admin.CRUDS.Orders.newOrders.index', compact('delivieries'));
     }
