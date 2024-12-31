@@ -15,6 +15,10 @@
                 </label>
                 <select id='delivery_id' name="delivery_id">
                     <option selected disabled>- ابحث عن مندوب</option>
+                    @if (request('delivery_id'))
+                        <option value="{{ request('delivery_id') }}" selected>
+                            {{ App\Models\Delivery::where('id', request('delivery_id'))->first()?->name }}</option>
+                    @endif
                 </select>
             </div>
 

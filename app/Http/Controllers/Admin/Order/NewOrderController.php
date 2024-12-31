@@ -239,8 +239,8 @@ class NewOrderController extends Controller
                     'trader_collection' => $request->shipment_value[$i],
 
                     'created_at' => date('Y-m-d H:i:s'),
-                    'converted_date' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
-                    'converted_date_s' => strtotime(Carbon::now()->addHours(1)->format('Y-m-d H:i:s')),
+                    'converted_date' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'converted_date_s' => strtotime(Carbon::now()->format('Y-m-d H:i:s')),
                     'updated_at' => date('Y-m-d H:i:s'),
                     'publisher' => auth()->id(),
                     'first_status' => $status,
@@ -314,8 +314,8 @@ class NewOrderController extends Controller
             $history['after_edit'] = $data['delivery_id'] . '->' . DB::table('deliveries')->where('id', $data['delivery_id'])->first()->name;
 
             //===========================================
-            $data['converted_date'] = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
-            $data['converted_date_s'] = strtotime(Carbon::now()->addHours(1)->format('Y-m-d H:i:s'));
+            $data['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
+            $data['converted_date_s'] = strtotime(Carbon::now()->format('Y-m-d H:i:s'));
 
             //=====================================================
 
@@ -459,7 +459,7 @@ class NewOrderController extends Controller
 
         ]);
         $data['status'] = 'converted_to_delivery';
-        $data['converted_date'] = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+        $data['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
         $data['converted_date_s'] = strtotime($data['converted_date']);
 
         //=====================
@@ -594,7 +594,7 @@ class NewOrderController extends Controller
 
         foreach ($rows as $row) {
             $data['status'] = 'converted_to_delivery';
-            $data['converted_date'] = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+            $data['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
             $data['converted_date_s'] = strtotime($data['converted_date']);
             $data['delivery_id'] = $validation['delivery_id'];
 

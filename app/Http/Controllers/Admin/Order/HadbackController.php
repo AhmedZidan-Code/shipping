@@ -235,7 +235,7 @@ class HadbackController extends Controller
             for ($x = 0; $x < $count; $x++) {
 
                 $data_update['paid_as_mortag3'] = 1;
-                $data_update['converted_date'] = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+                $data_update['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
                 $data_update['converted_date_s'] = strtotime($data_update['converted_date']);
                 Order::where('id', $request->selectedValues[$x])->update($data_update + ['paid_id' => $traderPayment->id]);
 

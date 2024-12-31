@@ -6,11 +6,12 @@ use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Trader extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     protected $guarded=[];
 
     public function category(){

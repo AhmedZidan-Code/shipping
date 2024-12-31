@@ -45,6 +45,11 @@
                                     </label>
                                     <select id='trader_excel' name="trader_id" onchange="get_delivery_value(1)"
                                         class="formv1 trader_id1" style='width: 200px;'>
+                                        @if (request('trader_id'))
+                                            <option value="{{ request('trader_id') }}" selected>
+                                                {{ App\Models\Trader::where('id', request('trader_id'))->first()?->name }}
+                                            </option>
+                                        @endif
 
                                     </select>
                                 </div>
@@ -56,6 +61,11 @@
                                     </label>
                                     <select id='delivery_excel' name="delivery_id" style='width: 200px;'>
                                         <option selected value="0">- ابحث عن مندوب</option>
+                                        @if (request('delivery_id'))
+                                            <option value="{{ request('delivery_id') }}" selected>
+                                                {{ App\Models\Delivery::where('id', request('delivery_id'))->first()?->name }}
+                                            </option>
+                                        @endif
                                     </select>
                                 </div>
 
