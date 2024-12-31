@@ -13,7 +13,7 @@
                 <span class="required mr-1"> تاريخ البداية    </span>
 
             </label>
-            <input type="date" id="fromDate" @isset($request['fromDate']) value="{{$request['fromDate']}}" @endisset name="fromDate"
+            <input type="date" id="fromDate"  value="{{ request('fromDate') }}"  name="fromDate"
                    class="showBonds form-control">
 
         </div>
@@ -22,7 +22,7 @@
                 <span class="required mr-1">   تاريخ النهاية    </span>
 
             </label>
-            <input type="date" id="toDate"@isset($request['toDate']) value="{{$request['toDate']}}" @endisset name="toDate"
+            <input type="date" id="toDate" value="{{ request('toDate') }}"  name="toDate"
                    class="showBonds form-control">
         </div>
     </div>

@@ -11,8 +11,12 @@
                     <label for="delivery_data" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                         <span class="required mr-1"> المندوب</span>
                     </label>
-                    <select id='delivery_data'  name="delivery_id" style='width: 200px;'>
+                    <select id='delivery_data' name="delivery_id" style='width: 200px;'>
                         <option selected value="0">- ابحث عن مندوب</option>
+                        @if (request('delivery_id'))
+                            <option value="{{ request('delivery_id') }}" selected>
+                                {{ App\Models\Delivery::where('id', request('delivery_id'))->first()?->name }}</option>
+                        @endif
                     </select>
                 </div>
 

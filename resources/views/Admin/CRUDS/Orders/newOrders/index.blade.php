@@ -15,6 +15,10 @@
                 </label>
                 <select id='trader_id' name="trader_id">
                     <option selected disabled>- ابحث عن التاجر</option>
+                    @if (request('trader_id'))
+                        <option value="{{ request('trader_id') }}" selected>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->first()?->name }}</option>
+                    @endif
                 </select>
             </div>
             <div class="d-flex flex-column mb-7 fv-row col-sm-2">
@@ -24,6 +28,10 @@
                 </label>
                 <select id="delivery_data" name="delivery_id">
                     <option selected disabled>- ابحث عن المندوب</option>
+                    @if (request('delivery_id'))
+                        <option value="{{ request('delivery_id') }}" selected>
+                            {{ App\Models\Delivery::where('id', request('delivery_id'))->first()?->name }}</option>
+                    @endif
                 </select>
             </div>
             <div class="col-md-2 ">
@@ -32,7 +40,7 @@
 
                 </label>
                 <input type="date" id="fromDate"
-                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}" @endisset name="fromDate"
+                   value="{{ request('fromDate')}}"  name="fromDate"
                     class="showBonds form-control">
 
             </div>
@@ -42,7 +50,7 @@
 
                 </label>
                 <input type="date"
-                    id="toDate"@isset($request['toDate']) value="{{ $request['toDate'] }}" @endisset
+                    id="toDate" value="{{ request('toDate')}}"
                     name="toDate" class="showBonds form-control">
             </div>
             <div class="col-md-2">
@@ -217,8 +225,9 @@
                     },
                     cache: true
                 }
-            });
+            })
         })();
+
         (function() {
             $("#delivery_data").select2({
                 placeholder: 'Channel...',

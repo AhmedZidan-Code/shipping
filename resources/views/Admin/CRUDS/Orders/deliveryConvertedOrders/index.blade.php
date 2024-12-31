@@ -16,6 +16,10 @@
                 </label>
                 <select id='trader_id' name="trader_id">
                     <option selected disabled>- ابحث عن التاجر</option>
+                    @if (request('trader_id'))
+                        <option value="{{ request('trader_id') }}" selected>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->first()?->name }}</option>
+                    @endif
                 </select>
             </div>
             <div class="col-md-2">
@@ -26,7 +30,9 @@
                     <option value="">اختر</option>
                     @if (!empty($delivieries))
                         @foreach ($delivieries as $delivery)
-                            <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
+                            <option value="{{ $delivery->id }}"
+                                {{ request('delivery_id') == $delivery->id ? 'selected' : '' }}>{{ $delivery->name }}
+                            </option>
                         @endforeach
                     @endif
                 </select>
@@ -36,8 +42,12 @@
                 <label for="province_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> المدينه</span>
                 </label>
-                <select id='province_id' class="province_id1" name="province_id[]" style='width: 200px;'>
+                <select id='province_id' class="province_id1" name="province_id" style='width: 200px;'>
                     <option selected disabled>- ابحث عن مدينة</option>
+                    @if (request('province_id'))
+                        <option value="{{ request('province_id') }}" selected>
+                            {{ App\Models\Area::where('id', request('province_id'))->first()?->title }}</option>
+                    @endif
                 </select>
             </div>
 
@@ -46,8 +56,7 @@
                     <span class="required mr-1"> من تاريخ </span>
 
                 </label>
-                <input type="date" id="fromDate"
-                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}" @endisset name="fromDate"
+                <input type="date" id="fromDate" value="{{ request('fromDate') }}" name="fromDate"
                     class="showBonds form-control">
 
             </div>
@@ -56,9 +65,8 @@
                     <span class="required mr-1"> إلي تاريخ </span>
 
                 </label>
-                <input type="date"
-                    id="toDate"@isset($request['toDate']) value="{{ $request['toDate'] }}" @endisset
-                    name="toDate" class="showBonds form-control">
+                <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
+                    class="showBonds form-control">
             </div>
 
 
@@ -119,7 +127,8 @@
                         <option value="">اختر</option>
                         @if (!empty($delivieries))
                             @foreach ($delivieries as $delivery)
-                                <option value="{{ $delivery->id }}">{{ $delivery->name }}</option>
+                                <option value="{{ $delivery->id }}">{{ $delivery->name }}
+                                </option>
                             @endforeach
                         @endif
                     </select>

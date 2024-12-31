@@ -13,10 +13,8 @@
                     <span class="required mr-1"> تاريخ البداية </span>
 
                 </label>
-                <input type="date" id="fromDate"
-                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}"
-                       @endisset
-                    name="fromDate" class="showBonds form-control">
+                <input type="date" id="fromDate" value="{{ request('fromDate') }}" name="fromDate"
+                    class="showBonds form-control">
 
             </div>
             <div class="col-md-4">
@@ -24,10 +22,8 @@
                     <span class="required mr-1"> تاريخ النهاية </span>
 
                 </label>
-                <input type="date" id="toDate"
-                    @isset($request['toDate']) value="{{ $request['toDate'] }}"
-                       @endisset
-                    name="toDate" class="showBonds form-control">
+                <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
+                    class="showBonds form-control">
             </div>
 
             <div class="d-flex flex-column mb-7 fv-row col-sm-4">
@@ -37,6 +33,11 @@
                 </label>
                 <select id='trader_id' name="trader_id" style='width: 200px;'>
                     <option selected value="0">- ابحث عن التاجر</option>
+                    @if (request('trader_id'))
+                        <option value="{{ request('trader_id') }}" selected>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->first()?->name }}</option>
+                    @endif
+
                 </select>
             </div>
 
@@ -410,11 +411,11 @@
                 var totalValue = parseFloat($('#total_value').val()) || 0;
                 var chequeValue = parseFloat($(this).val()) || 0;
                 var cashValue = parseFloat($('#cash').val()) || 0;
-                
+
                 if (chequeValue + cashValue > totalValue) {
                     alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
-                }    
-               
+                }
+
             });
         });
         $(document).ready(function() {
@@ -422,11 +423,11 @@
                 var totalValue = parseFloat($('#total_value').val()) || 0;
                 var cashValue = parseFloat($(this).val()) || 0;
                 var chequeValue = parseFloat($('#cheque').val()) || 0;
-            
-                if (chequeValue + cashValue > totalValue) {                    
+
+                if (chequeValue + cashValue > totalValue) {
                     alert('لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ')
                 }
-                
+
             });
         });
     </script>

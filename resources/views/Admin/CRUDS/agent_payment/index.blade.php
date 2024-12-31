@@ -29,10 +29,8 @@
                     <span class="required mr-1"> من تاريخ </span>
 
                 </label>
-                <input type="date" id="fromDate"
-                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}"
-                       @endisset
-                    name="fromDate" class="showBonds form-control">
+                <input type="date" id="fromDate" value="{{ request('fromDate') }}" name="fromDate"
+                    class="showBonds form-control">
 
             </div>
             <div class="col-md-4">
@@ -40,10 +38,8 @@
                     <span class="required mr-1"> إلى تاريخ </span>
 
                 </label>
-                <input type="date" id="toDate"
-                    @isset($request['toDate']) value="{{ $request['toDate'] }}"
-                       @endisset
-                    name="toDate" class="showBonds form-control">
+                <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
+                    class="showBonds form-control">
             </div>
             <div class="col-md-2">
                 <button class="btn btn-primary my-4">بحث</button>

@@ -14,10 +14,8 @@
                     <span class="required mr-1"> تاريخ البداية </span>
 
                 </label>
-                <input type="date" id="fromDate"
-                    @isset($request['fromDate']) value="{{ $request['fromDate'] }}"
-                       @endisset
-                    name="fromDate" class="showBonds form-control">
+                <input type="date" id="fromDate" ) value="{{ request('fromDate') }}" name="fromDate"
+                    class="showBonds form-control">
 
             </div>
             <div class="col-md-4 " style="display: none;">
@@ -25,10 +23,8 @@
                     <span class="required mr-1"> تاريخ النهاية </span>
 
                 </label>
-                <input type="date" id="toDate"
-                    @isset($request['toDate']) value="{{ $request['toDate'] }}"
-                       @endisset
-                    name="toDate" class="showBonds form-control">
+                <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
+                    class="showBonds form-control">
             </div>
             <div class="col-md-4">
                 <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
@@ -148,9 +144,9 @@
                     </tr>
                     <tr>
                         {{-- <td></td> --}}
-                        <td colspan="3">عمولة الشركة : 
-                            <input style="  outline: none; border: none; box-shadow: none;" type="text" name="company_commission"
-                                id="company_commission" readonly>
+                        <td colspan="3">عمولة الشركة :
+                            <input style="  outline: none; border: none; box-shadow: none;" type="text"
+                                name="company_commission" id="company_commission" readonly>
                         </td>
                         <td colspan="2"> مصاريف البنزين :
                             <input style="  outline: none; border: none; box-shadow: none;" type="text" name="solar"

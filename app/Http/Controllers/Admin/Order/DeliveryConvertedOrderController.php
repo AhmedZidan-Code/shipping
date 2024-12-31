@@ -245,7 +245,7 @@ class DeliveryConvertedOrderController extends Controller
             'status' => 'required',
             'refused_reason' => 'nullable',
         ]);
-        $data['converted_date'] = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+        $data['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
         $data['converted_date_s'] = strtotime($data['converted_date']);
 
         $data['delivery_id'] = $request->delivery_id;
@@ -336,7 +336,7 @@ class DeliveryConvertedOrderController extends Controller
         $orders_ids = $request->orders_ids;
         if (isset($orders_ids) && !empty($orders_ids)) {
             for ($x = 0; $x < Count($orders_ids); $x++) {
-                $data['converted_date'] = Carbon::now()->addHours(1)->format('Y-m-d H:i:s');
+                $data['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
                 $data['converted_date_s'] = strtotime($data['converted_date']);
                 $data['delivery_id'] = $request->delivery_id;
                 $order = Order::findOrFail($orders_ids[$x]);
