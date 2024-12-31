@@ -17,7 +17,7 @@
                     <option selected value="0">- ابحث عن التاجر</option>
                     @if (request('trader_id'))
                         <option value="{{ request('trader_id') }}" selected>
-                            {{ App\Models\Trader::where('id', request('trader_id'))->first()()->name }}</option>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->first()->name }}</option>
                     @endif
                 </select>
             </div>

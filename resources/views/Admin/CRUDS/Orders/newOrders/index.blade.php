@@ -17,7 +17,7 @@
                     <option selected disabled>- ابحث عن التاجر</option>
                     @if (request('trader_id'))
                         <option value="{{ request('trader_id') }}" selected>
-                            {{ App\Models\Trader::where('id', request('trader_id'))->first()()->name }}</option>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->first()->name }}</option>
                     @endif
                 </select>
             </div>
@@ -30,7 +30,7 @@
                     <option selected disabled>- ابحث عن المندوب</option>
                     @if (request('delivery_id'))
                         <option value="{{ request('delivery_id') }}" selected>
-                            {{ App\Models\Delivery::where('id', request('delivery_id'))->first()()->name }}</option>
+                            {{ App\Models\Delivery::where('id', request('delivery_id'))->first()->name }}</option>
                     @endif
                 </select>
             </div>
