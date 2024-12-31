@@ -42,11 +42,9 @@ class DeliveryConvertedOrderController extends Controller
             }
             if ($request->fromDate) {
                 $rows->where('converted_date', '>=', $request->fromDate . ' ' . '00:00:00');
-
             }
             if ($request->toDate) {
                 $rows->where('converted_date', '<=', $request->toDate . ' ' . '23:59:59');
-
             }
 
             $rowsCount = $rows->count();
@@ -83,7 +81,6 @@ class DeliveryConvertedOrderController extends Controller
                              <a href=' . $route . ' class="btn rounded-pill btn-outline-dark"><i class="fa fa-edit" aria-hidden="true"></i></a>
 
                        ';
-
                 })
 
                 ->addColumn('convert_order', function ($row) {
@@ -157,7 +154,6 @@ class DeliveryConvertedOrderController extends Controller
 </button>";
 
                     return $status;
-
                 })
 
                 ->editColumn('trader_id', function ($row) {
@@ -169,10 +165,8 @@ class DeliveryConvertedOrderController extends Controller
                 ->escapeColumns([])
                 ->with(['rowsCount' => $rowsCount, 'total' => $total])
                 ->make(true);
-
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الطلبات المحولة للمناديب");
-
         }
         $delivieries = DB::table('deliveries')->get();
 
@@ -192,7 +186,7 @@ class DeliveryConvertedOrderController extends Controller
         $data = $request->validate([
             'order_id' => 'required|exists:orders,id',
             'status' => 'required',
-            'refused_reason' => 'required',
+            'notes' => 'required',
 
         ]);
 
@@ -210,7 +204,8 @@ class DeliveryConvertedOrderController extends Controller
             [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
-            ]);
+            ]
+        );
     }
 
     public function destroy($id)
@@ -225,7 +220,8 @@ class DeliveryConvertedOrderController extends Controller
             [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
-            ]);
+            ]
+        );
     } //end fun
 
     public function changeStatusForOrder($id)
@@ -233,7 +229,6 @@ class DeliveryConvertedOrderController extends Controller
         $order = Order::with('delivery')->findOrFail($id);
         $deliveries = Delivery::all();
         return view('Admin.CRUDS.Orders.deliveryConvertedOrders.parts.status', compact('order', 'deliveries'));
-
     }
 
     public function changeStatusForOrder_store(Request $request, $id)
@@ -243,15 +238,19 @@ class DeliveryConvertedOrderController extends Controller
             'partial_value' => 'required_if:status,partial_delivery_to_customer',
             'delivery_value' => 'required_if:status,not_delivery',
             'status' => 'required',
-            'refused_reason' => 'nullable',
+            'notes' => 'nullable',
         ]);
         $data['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
         $data['converted_date_s'] = strtotime($data['converted_date']);
 
+        // dd($data);
+
+
         $data['delivery_id'] = $request->delivery_id;
         //================
 
-        $arr = array('converted_to_delivery' => 'محول الي مندوب',
+        $arr = array(
+            'converted_to_delivery' => 'محول الي مندوب',
 
             'total_delivery_to_customer' => 'التسليم',
             'partial_delivery_to_customer' => 'تسليم جزئي',
@@ -327,8 +326,8 @@ class DeliveryConvertedOrderController extends Controller
             [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
-            ]);
-
+            ]
+        );
     }
 
     public function convert_order(Request $request)
@@ -380,10 +379,8 @@ class DeliveryConvertedOrderController extends Controller
                 [
                     'code' => 200,
                     'message' => 'تمت العملية بنجاح!',
-                ]);
-
+                ]
+            );
         }
-
     }
-
 }
