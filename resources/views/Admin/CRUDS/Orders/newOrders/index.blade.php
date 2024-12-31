@@ -17,7 +17,7 @@
                     <option selected disabled>- ابحث عن التاجر</option>
                     @if (request('trader_id'))
                         <option value="{{ request('trader_id') }}" selected>
-                            {{ App\Models\Trader::where('id', request('trader_id'))->first()?->name }}</option>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->firs()->name }}</option>
                     @endif
                 </select>
             </div>
@@ -30,7 +30,7 @@
                     <option selected disabled>- ابحث عن المندوب</option>
                     @if (request('delivery_id'))
                         <option value="{{ request('delivery_id') }}" selected>
-                            {{ App\Models\Delivery::where('id', request('delivery_id'))->first()?->name }}</option>
+                            {{ App\Models\Delivery::where('id', request('delivery_id'))->firs()->name }}</option>
                     @endif
                 </select>
             </div>
@@ -39,8 +39,7 @@
                     <span class="required mr-1"> من تاريخ </span>
 
                 </label>
-                <input type="date" id="fromDate"
-                   value="{{ request('fromDate')}}"  name="fromDate"
+                <input type="date" id="fromDate" value="{{ request('fromDate') }}" name="fromDate"
                     class="showBonds form-control">
 
             </div>
@@ -49,9 +48,8 @@
                     <span class="required mr-1"> إلي تاريخ </span>
 
                 </label>
-                <input type="date"
-                    id="toDate" value="{{ request('toDate')}}"
-                    name="toDate" class="showBonds form-control">
+                <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
+                    class="showBonds form-control">
             </div>
             <div class="col-md-2">
                 <button class="btn btn-primary my-4">بحث</button>
