@@ -18,7 +18,7 @@
                     <option selected disabled>- ابحث عن التاجر</option>
                     @if (request('trader_id'))
                         <option value="{{ request('trader_id') }}" selected>
-                            {{ App\Models\Trader::where('id', request('trader_id'))->firs()->name }}</option>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->first()()->name }}</option>
                     @endif
                 </select>
             </div>
@@ -46,7 +46,7 @@
                     <option selected disabled>- ابحث عن مدينة</option>
                     @if (request('province_id'))
                         <option value="{{ request('province_id') }}" selected>
-                            {{ App\Models\Area::where('id', request('province_id'))->firs()->title }}</option>
+                            {{ App\Models\Area::where('id', request('province_id'))->first()()->title }}</option>
                     @endif
                 </select>
             </div>
