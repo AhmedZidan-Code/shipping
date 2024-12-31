@@ -47,7 +47,7 @@
                                         class="formv1 trader_id1" style='width: 200px;'>
                                         @if (request('trader_id'))
                                             <option value="{{ request('trader_id') }}" selected>
-                                                {{ App\Models\Trader::where('id', request('trader_id'))->firs()->name }}
+                                                {{ App\Models\Trader::where('id', request('trader_id'))->first()()->name }}
                                             </option>
                                         @endif
                                     </select>
@@ -62,7 +62,7 @@
                                         <option selected value="0">- ابحث عن مندوب</option>
                                         @if (request('delivery_id'))
                                             <option value="{{ request('delivery_id') }}" selected>
-                                                {{ App\Models\Delivery::where('id', request('delivery_id'))->firs()->name }}
+                                                {{ App\Models\Delivery::where('id', request('delivery_id'))->first()()->name }}
                                             </option>
                                         @endif
                                     </select>

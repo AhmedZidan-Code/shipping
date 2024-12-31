@@ -236,7 +236,7 @@
 
             <tbody>
 
-                @if ($order->first_status == 'converted_to_delivery')
+                @if ($order->first()t_status == 'converted_to_delivery')
                     <tr>
                         <td> اضافه لاول مره</td>
                         <td> الاضافه </td>

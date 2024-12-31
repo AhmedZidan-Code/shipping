@@ -199,7 +199,7 @@
                     if (jqXHR.status === 422) { // Laravel validation error
                         var errors = jqXHR.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            toastr.error(value[0]); // Show the first error message for each field
+                            toastr.error(value[0]); // Show the first()t error message for each field
                         });
                     } else {
                         toastr.error('حدث خطأ غير متوقع، حاول مرة أخرى.');

@@ -35,7 +35,7 @@
                     <option selected value="0">- ابحث عن التاجر</option>
                     @if (request('trader_id'))
                         <option value="{{ request('trader_id') }}" selected>
-                            {{ App\Models\Trader::where('id', request('trader_id'))->firs()->name }}</option>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->first()()->name }}</option>
                     @endif
 
                 </select>
@@ -361,7 +361,7 @@
                     if (jqXHR.status === 422) { // Laravel validation error
                         var errors = jqXHR.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            toastr.error(value[0]); // Show the first error message for each field
+                            toastr.error(value[0]); // Show the first()t error message for each field
                         });
                     } else {
                         toastr.error('حدث خطأ غير متوقع، حاول مرة أخرى.');

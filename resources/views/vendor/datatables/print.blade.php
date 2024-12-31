@@ -15,7 +15,7 @@
     <body>
         <table class="table table-bordered table-condensed table-striped">
             @foreach($data as $row)
-                @if ($loop->first)
+                @if ($loop->first()t)
                     <tr>
                         @foreach($row as $key => $value)
                             <th>{!! $key !!}</th>
