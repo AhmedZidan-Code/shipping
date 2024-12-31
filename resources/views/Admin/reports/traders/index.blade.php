@@ -35,7 +35,7 @@
                     <option selected value="0">- ابحث عن التاجر</option>
                     @if (request('trader_id'))
                         <option value="{{ request('trader_id') }}" selected>
-                            {{ App\Models\Trader::where('id', request('trader_id'))->first()?->name }}</option>
+                            {{ App\Models\Trader::where('id', request('trader_id'))->firs()->name }}</option>
                     @endif
                 </select>
             </div>
@@ -147,25 +147,25 @@
                     </tr>
                     </thead>
                     <!--
-                                <tfoot>
-                                <tr>
-                                    <th>المجموع</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>   {{ $shipment_pieces_number }}</th>
-                                    <th>{{ $shipment_value }}</th>
-                                    <th>{{ $delivery_value }}</th>
-                                    <th>{{ $delivery_ratio_val }}</th>
-                                    <th>{{ $total_value }}</th>
-                                    <th></th>
-                                </tr>
-                                -->
+                                    <tfoot>
+                                    <tr>
+                                        <th>المجموع</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th>   {{ $shipment_pieces_number }}</th>
+                                        <th>{{ $shipment_value }}</th>
+                                        <th>{{ $delivery_value }}</th>
+                                        <th>{{ $delivery_ratio_val }}</th>
+                                        <th>{{ $total_value }}</th>
+                                        <th></th>
+                                    </tr>
+                                    -->
                 </tfoot>
             </table>
         </div>
