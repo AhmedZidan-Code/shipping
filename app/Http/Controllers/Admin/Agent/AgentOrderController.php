@@ -148,7 +148,7 @@ class AgentOrderController extends Controller
                 'status_id' => json_encode($status),
                 'year' => date('Y'),
                 'month' => $request->month,
-                'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
+                'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
                 'date' => date('Y-m-d'),
                 'publisher' => auth()->id(),
             ]);
@@ -161,7 +161,7 @@ class AgentOrderController extends Controller
                         'status' => "total_delivery_to_customer",
                         'order_id' => $request->ids[$i],
                         'month' => $request->month,
-                        'date_time' => Carbon::now()->addHours(1)->format('Y-m-d H:i:s'),
+                        'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
                         'date' => date('Y-m-d'),
                         'publisher' => auth()->id(),
                     ];
