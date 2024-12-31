@@ -168,7 +168,7 @@ class DeliveryConvertedOrderController extends Controller
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الطلبات المحولة للمناديب");
         }
-        $delivieries = DB::table('deliveries')->get();
+        $delivieries = DB::table('deliveries')->whereNull('deleted_at')->get();
 
         return view('Admin.CRUDS.Orders.deliveryConvertedOrders.index', ['delivieries' => $delivieries, 'rowsCount' => isset($rowsCount) ? $rowsCount : 0, 'total' => isset($total) ? $total : 0]);
     }

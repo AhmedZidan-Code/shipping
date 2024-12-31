@@ -170,7 +170,7 @@ class ProvinceController extends Controller
         if ($request->ajax()) {
 
             $term = trim($request->term);
-            $posts = DB::table('areas')->where('from_id', '!=', null)->select('id', 'title as text')
+            $posts = DB::table('areas')->whereNull('deleted_at')->where('from_id', '!=', null)->select('id', 'title as text')
                 ->where('title', 'LIKE', '%' . $term . '%')
                 ->orderBy('title', 'asc')->simplePaginate(3);
 

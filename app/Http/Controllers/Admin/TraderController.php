@@ -310,7 +310,7 @@ class TraderController extends Controller
         if ($request->ajax()) {
 
             $term = trim($request->term);
-            $posts = DB::table('traders')->select('id', 'name as text')
+            $posts = DB::table('traders')->whereNull('deleted_at')->select('id', 'name as text')
                 ->where('name', 'LIKE', '%' . $term . '%')
                 ->orderBy('name', 'asc')->simplePaginate(3);
 
