@@ -85,7 +85,7 @@
                         <th>التاريخ</th>
                         <th>عدد الاوردرات</th>
                         <th>عمولة الشركة</th>
-                        <th>قيمة المندوب</th>
+                        {{-- <th>قيمة المندوب</th> --}}
                         <th>المصروف</th>
                         <th>البنزين</th>
                         <th>المتبقي</th>
@@ -94,7 +94,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="2">المجموع</td>
-                        <td colspan="2" id="orders_sum"></td>
+                        <td colspan="1" id="orders_sum"></td>
                         <td id="commission_sum"></td>
                         <td id="fees_sum"></td>
                         <td id="solar_sum"></td>
@@ -103,7 +103,7 @@
                     <tr style="text-align: center;">
                         <td>اجمالي الرواتب</td>
                         <td id="total_salary"></td>
-                        <td colspan="4">صـــــافي الربح</td>
+                        <td colspan="3">صـــــافي الربح</td>
                         <td colspan="2" id="net_profit"></td>
                     </tr>
                 </tfoot>
@@ -133,10 +133,10 @@
                 data: 'company_commission',
                 name: 'company_commission'
             },
-            {
-                data: 'mandoub_commission',
-                name: 'mandoub_commission'
-            },
+            // {
+            //     data: 'mandoub_commission',
+            //     name: 'mandoub_commission'
+            // },
             {
                 data: 'fees',
                 name: 'fees'
