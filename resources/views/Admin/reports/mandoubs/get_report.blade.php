@@ -104,6 +104,8 @@
                     <td>
                         @if ($row->status != 'converted_to_delivery')
                             <input checked="" type="checkbox" data-status="{{ $row->status }}"
+                                data-shipping={{ $row->delivery_value ?? 0 }}
+                                data-partial={{ $row->partial_value ?? 0 }} data-total={{ $row->total_value ?? 0 }}
                                 class="myCheckboxClass" value="{{ $row->id }}" />
                         @endif
                     </td>
@@ -139,7 +141,7 @@
                         @endif
                     </td>
                     <td>{{ $row->customer_name }}</td>
-                    <td>{{ $row->province->title }}</td>
+                    <td>{{ $row->province?->title }}</td>
                     <td>{{ $row->customer_address }}</td>
                     <td>{{ $row->customer_phone }}</td>
                     <td>{{ $row->trader->name }}</td>
@@ -155,43 +157,43 @@
         </tbody>
         <tfoot>
             <tr style="background-color: whitesmoke;">
-                <td style="width: 2%;"><input style="width: 30px;" type="text" width="10px" id="all_orders"
-                        readonly="" value="{{ $x }}" /></td>
-
-                <td colspan=""> تنفيذات المندوب :
-
-                    <input type="text" style="width: 60px;" id="mandoub_orders" readonly=""
-                        value="{{ $num_for_mandoub }}" />
-
+                <td colspan="2"> عدد الاوردرات:
+                    <input type="text" id="all_orders" readonly="" value="{{ $x }}" />
                 </td>
-
-                <td colspan="">
-                    اجمالي قيمه الشحن :
-
-                    <input type="text" style="width: 60px;" id="total_shipping" readonly=""
-                        value="{{ $total_for_mndoub }}" />
-
+                <td colspan="2"> تنفيذات المندوب :
+                    <input type="text" id="mandoub_orders" readonly="" value="{{ $num_for_mandoub }}" />
                 </td>
-
+                <td colspan="2"> اجمالي قيمه الشحن :
+                    <input type="text" id="total_shipping" readonly="" value="{{ $total_for_mndoub }}" />
+                </td>
                 <td style="color: red;" colspan="3">
                     الاجمالي :
-                    <input type="text" style="width: 50px;" id="total_orders" readonly=""
-                        value="{{ $all_total }}" />
+                    <input type="text" id="total_orders" readonly="" value="{{ $all_total }}" />
+                </td>
+                <td colspan="3">
                     نقدي :
-                    <input type="text" style="width: 50px;" id="cash" value="" />
+                    <input type="text" id="cash" value="" onkeyup="calculate_remainder()" />
+                </td>
+                <td colspan="2">
                     غير نقدي :
-                    <input type="text" style="width: 50px;" id="cheque" value="" />
+                    <input type="text" id="cheque" value="" onkeyup="calculate_remainder()" />
 
                 </td>
-
-                <td style="color: red;"> المصروف :<input type="number" value="0" id="fees" name="fees" />
+            </tr>
+            <tr>
+                <td colspan="2" style="color: red;"> المصروف :<input type="number" value="0" id="fees"
+                        name="fees" onkeyup="calculate_remainder()" />
                 </td>
-
-                <td style="color: red;"> بدل بنزين :<input type="number" style="width: 90px;" value="0"
-                        id="solar" name="solar" /> </td>
-                <td style="color: red; width: 2%;"> <input type="date" name="day_date"
-                        value="<?= date('Y-m-d') ?>" /> </td>
-                <td colspan="2"> <select class="form-control" id="month" name="month">
+                <td colspan="2" style="color: red;"> بدل بنزين :<input type="number" style="width: 90px;"
+                        value="0" id="solar" name="solar" onkeyup="calculate_remainder()" />
+                </td>
+                <td colspan="2" style="color: red;"> المتبقي :<input type="number" value="{{ $all_total }}"
+                        readonly id="remainder" />
+                </td>
+                <td colspan="2" style="color: red; width: 2%;"> <input type="date" name="day_date"
+                        value="<?= date('Y-m-d') ?>" />
+                </td>
+                <td colspan="3"> <select class="form-control" id="month" name="month">
                         <option value=""> اختر الشهر </option>
                         <option value="1" <?php if (date('m') == 1) {
                             echo 'selected';
@@ -230,7 +232,8 @@
                             echo 'selected';
                         } ?>> ديسمبر </option>
                     </select> </td>
-                <td> <button type="button" class="btn btn-success form-control" onclick="save_result();"> حفظ
+                <td colspan=3"> <button type="button" class="btn btn-success form-control" onclick="save_result();">
+                        حفظ
                     </button></td>
             </tr>
         </tfoot>
@@ -325,10 +328,16 @@
 <!----------------------------------------------------------------------------------------------------------------------------------------->
 <script>
     $(document).ready(function() {
-        $('#table2').DataTable({
-            scrollX: true,
-            // Other DataTable options can go here
-        });
+if (!$.fn.DataTable.isDataTable('#table2')) {
+    $('#table2').DataTable({
+       scrollx:true
+    });
+} else {
+    $('#table2').DataTable().destroy();
+    $('#table2').DataTable({
+              scrollx:true
+    });
+}
     });
 </script>
 @include('Admin.layouts.inc.ajax', ['url' => 'orders'])
@@ -425,9 +434,6 @@
                         toastr.error(data.message)
                     }
                 }, 1000);
-
-
-
             },
             error: function(data) {
                 $('#form-load-delivery > .linear-background').hide(loader_form)
@@ -532,7 +538,6 @@
 
 <script>
     $(document).on('click', '.StatusTotalDelivery', function() {
-
         var id = $(this).attr('data-id');
 
 
@@ -545,7 +550,6 @@
         setTimeout(function() {
             $('#form-load').load(url)
         }, 1000)
-
 
     })
 </script>
@@ -794,4 +798,14 @@
 
         });
     });
+
+    function calculate_remainder() {
+        let remainder = 0;
+        let total = parseFloat($('#total_orders').val()) || 0;
+        let cash = parseFloat($('#cash').val()) || 0;
+        let cheque = parseFloat($('#cheque').val()) || 0;
+        let solar = parseFloat($('#solar').val()) || 0;
+        let fees = parseFloat($('#fees').val()) || 0;
+        $('#remainder').val(total - cash - cheque - solar - fees);
+    }
 </script>

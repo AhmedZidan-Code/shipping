@@ -61,16 +61,17 @@
                         <th>#</th>
                         <th>التاريخ</th>
                         <th>عدد الاوردرات</th>
-                        <th>اجمالي قيمة الاوردرات</th>
-                        <th>قيمة شحن الشركة</th>
+                        <th>  اجمالي قيمة الاوردرات بالشحن</th>
+                        <th>  اجمالي قيمة المندوب</th>
+                        <th> اجمالي قيمة الشحنة</th>
                         {{-- <th>قيمة شحن المندوب</th> --}}
-                        <th> عمولة الشركة</th>
+                        <th> المتبقي</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <td colspan="2">المجموع</td>
-                        <td id="total_orders_count"></td>
+                        <td colspan="2" id="total_orders_count"></td>
                         <td id="total_orders_value"></td>
                         <td id="total_orders_shipment"></td>
                         {{-- <td id="total_delivery_value"></td> --}}
@@ -103,10 +104,10 @@
                 data: 'total_value',
                 name: 'total_value'
             },
-            // {
-            //     data: 'delivery_value',
-            //     name: 'delivery_value'
-            // },
+            {
+                data: 'delivery_value',
+                name: 'delivery_value'
+            },
             {
                 data: 'shipment_value',
                 name: 'shipment_value'

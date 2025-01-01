@@ -173,7 +173,9 @@
                     }
                 }, 1000);
 
-
+                get_result();
+                $('#Modal').modal('hide');
+                $('.overlay-class').hide();
 
             },
             error: function(data) {

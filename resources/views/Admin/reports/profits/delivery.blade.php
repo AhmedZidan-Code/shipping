@@ -26,12 +26,42 @@
                 <label for="month-select" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">اختر الشهر:</label>
                 <select id="month-select" class="select2" name="month">
                     <!-- Options will be dynamically added -->
+                    <option value="">الشهر </option>
+                    @php
+                        $months = [
+                            1 => 'يناير',
+                            2 => 'فبراير',
+                            3 => 'مارس',
+                            4 => 'ابريل',
+                            5 => 'مايو',
+                            6 => 'يونيو',
+                            7 => 'يوليو',
+                            8 => 'أغسطس',
+                            9 => 'سبتمبر',
+                            10 => 'أكتوبر',
+                            11 => 'نوفمبر',
+                            12 => 'ديسمبر',
+                        ];
+                    @endphp
+                    @foreach ($months as $key => $month)
+                        <option value="{{ $key }}" {{ request('month') == $key ? 'selected' : '' }}>
+                            {{ $month }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
             <div class="d-flex flex-column mb-7  col-sm-3">
                 <label for="year-select" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">اختر السنة:</label>
                 <select id="year-select" class="select2" name="year">
-                    <!-- Options will be dynamically added -->
+                    @php
+                        $currentYear = date('Y');
+                        $startYear = 2015;
+                    @endphp
+                    @for ($year = $currentYear; $year >= $startYear; $year--)
+                        <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
+                            {{ $year }}
+                        </option>
+                    @endfor
                 </select>
 
             </div>
@@ -55,6 +85,7 @@
                         <th>التاريخ</th>
                         <th>عدد الاوردرات</th>
                         <th>عمولة الشركة</th>
+                        <th>قيمة المندوب</th>
                         <th>المصروف</th>
                         <th>البنزين</th>
                         <th>المتبقي</th>
@@ -63,7 +94,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="2">المجموع</td>
-                        <td id="orders_sum"></td>
+                        <td colspan="2" id="orders_sum"></td>
                         <td id="commission_sum"></td>
                         <td id="fees_sum"></td>
                         <td id="solar_sum"></td>
@@ -73,7 +104,7 @@
                         <td>اجمالي الرواتب</td>
                         <td id="total_salary"></td>
                         <td colspan="4">صـــــافي الربح</td>
-                        <td id="net_profit"></td>
+                        <td colspan="2" id="net_profit"></td>
                     </tr>
                 </tfoot>
             </table>
@@ -85,8 +116,10 @@
     <script src="{{ URL::asset('assets_new/datatable/datatables.min.js') }}"></script>
     <script>
         var columns = [{
-                data: 'id',
-                name: 'id'
+                data: 'DT_RowIndex',
+                name: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
             },
             {
                 data: 'date',
@@ -99,6 +132,10 @@
             {
                 data: 'company_commission',
                 name: 'company_commission'
+            },
+            {
+                data: 'mandoub_commission',
+                name: 'mandoub_commission'
             },
             {
                 data: 'fees',
@@ -190,45 +227,5 @@
             });
         })();
     </script>
-    <script>
-        const months = [
-            "يناير", "فبراير", "مارس", "ابريل",
-            "مايو", "يونيو", "يوليو", "أغسطس",
-            "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-        ];
-        const monthSelect = document.getElementById('month-select');
-        const currentMonth = new Date().getMonth(); // Current month (0-based index)
 
-        months.forEach((month, index) => {
-            const option = document.createElement('option');
-            option.value = index + 1; // Month value (1-12)
-            option.textContent = month; // Month name
-
-            // Mark the current month as selected
-            if (index === currentMonth) {
-                option.selected = true;
-            }
-
-            monthSelect.appendChild(option);
-        });
-    </script>
-    </script>
-    <script>
-        const startYear = 2015; // Start year for the dropdown
-        const endYear = new Date().getFullYear(); // Current year
-        const yearSelect = document.getElementById('year-select');
-
-        for (let year = startYear; year <= endYear; year++) {
-            const option = document.createElement('option');
-            option.value = year;
-            option.textContent = year;
-
-            // Check if the year is the current year and mark it as selected
-            if (year === endYear) {
-                option.selected = true;
-            }
-
-            yearSelect.appendChild(option);
-        }
-    </script>
 @endsection
