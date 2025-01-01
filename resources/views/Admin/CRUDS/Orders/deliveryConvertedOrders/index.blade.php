@@ -307,6 +307,7 @@
 
     <script>
         $(document).on('change', '.changeStatus', function() {
+          
             var id = $(this).attr('data-id');
             var status = $(this).val();
 

@@ -12,8 +12,22 @@ class DeliveryProfitController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $rows = $rows = DB::table('delivery_orders');
+            $rows = DB::table('delivery_orders')
+                ->select(
+                    'date',
+                    DB::raw('MIN(id) as id'), 
+                    DB::raw('SUM(num_mandoub_orders) as num_mandoub_orders'),
+                    DB::raw('SUM(company_commission) as company_commission'),
+                    DB::raw('SUM(fees) as fees'),
+                    DB::raw('SUM(solar) as solar'),
+                    DB::raw('SUM(mandoub_commission) as mandoub_commission'),
+                    DB::raw('SUM(company_commission - mandoub_commission) as remainder')
+                );
+               
+
             $salaries = DB::table('salaries');
+
+            // Apply filters
             if ($request->delivery_id) {
                 $rows->where('delivery_id', $request->delivery_id);
                 $salaries->where('delivery_id', $request->delivery_id);
@@ -25,19 +39,24 @@ class DeliveryProfitController extends Controller
             if ($request->year) {
                 $rows->where('year', $request->year);
                 $salaries->where('year', $request->year);
-
             }
-            $totalRemainder = $rows->sum(DB::raw('company_commission -  solar'));
+
+            // Calculate totals from the base query to ensure filters are applied
+            $totalsQuery = clone $rows;
+            $totalRemainder = $totalsQuery->sum(DB::raw('company_commission - solar'));
             $total_salary = $salaries->sum('total_salary');
             $netProfit = $totalRemainder - $total_salary;
-            $ordersSum = $rows->sum('num_mandoub_orders');
-            $commissionSum = $rows->sum('company_commission');
-            $feesSum = $rows->sum('fees');
-            $solarSum = $rows->sum('solar');
+
+            // Get sums for the filtered data
+            $sumsQuery = clone $rows;
+            $ordersSum = $sumsQuery->sum('num_mandoub_orders');
+            $commissionSum = $sumsQuery->sum('company_commission');
+            $feesSum = $sumsQuery->sum('fees');
+            $solarSum = $sumsQuery->sum('solar');
+            $rows->groupBy('date');
             $dataTable = DataTables::of($rows)
-                ->editColumn('remainder', function ($row) {
-                    return $row->company_commission - ($row->fees + $row->solar);
-                })
+                ->addIndexColumn()
+                ->orderColumn('id', 'date $1') // Change ordering to use date instead of id
                 ->with('total_salary', $total_salary)
                 ->with('total_remainder', $totalRemainder)
                 ->with('net_profit', $netProfit)
@@ -47,6 +66,7 @@ class DeliveryProfitController extends Controller
                 ->with('solar_sum', $solarSum)
                 ->escapeColumns([])
                 ->make(true);
+
             return $dataTable;
         }
 

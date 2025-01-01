@@ -170,10 +170,51 @@
 
 
                     });
-
-
-
-
                 }
+            </script>
+            <script>
+                $(document).on('click', '.myCheckboxClass', function() {
+                    let ORDERS_COUNT = parseInt($('#all_orders').val(), 10) || 0;
+                    let MANDOUB_ORDERS = parseInt($('#mandoub_orders').val(), 10) || 0;
+                    let TOTAL_SHIPPING = parseInt($('#total_shipping').val(), 10) || 0;
+                    let TOTAL_ORDERS = parseInt($('#total_orders').val(), 10) || 0;
+
+                    let CASES = [
+                        'total_delivery_to_customer',
+                        'paid',
+                        'not_delivery',
+                        'partial_delivery_to_customer'
+                    ];
+
+                    const status = $(this).data('status');
+
+                    let TOTAL_VALUE = {
+                        'total_delivery_to_customer': parseInt($(this).data('total')) || 0,
+                        'paid': parseInt($(this).data('total')) || 0,
+                        'not_delivery': parseInt($(this).data('shipping')) || 0,
+                        'partial_delivery_to_customer': parseInt($(this).data('partial')) || 0
+                    };
+
+                    if ($(this).is(':checked')) {
+                        $('#all_orders').val(ORDERS_COUNT + 1);
+                        if (CASES.includes(status)) {
+                            $('#mandoub_orders').val(MANDOUB_ORDERS + 1);
+                            $('#total_shipping').val(TOTAL_SHIPPING + (parseInt($(this).data('shipping')) || 0));
+
+                            const valueToAdd = parseInt(TOTAL_VALUE[status]) || 0;
+                            $('#total_orders').val(TOTAL_ORDERS + valueToAdd);
+                        }
+                    } else {
+                        $('#all_orders').val(ORDERS_COUNT - 1);
+                        if (CASES.includes(status)) {
+                            $('#mandoub_orders').val(MANDOUB_ORDERS - 1);
+                            $('#total_shipping').val(TOTAL_SHIPPING - (parseInt($(this).data('shipping')) || 0));
+
+                            const valueToSubtract = parseInt(TOTAL_VALUE[status]) || 0;
+                            $('#total_orders').val(TOTAL_ORDERS - valueToSubtract);
+                        }
+                    }
+                    calculate_remainder();
+                });
             </script>
         @endsection

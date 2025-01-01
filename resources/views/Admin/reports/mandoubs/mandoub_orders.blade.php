@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-4 " style="display: none;">
                 <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                    <span class="required mr-1"> تاريخ النهاية </span>
+                    <span class="required mr-1"> اختر الشهر </span>
 
                 </label>
                 <input type="date" id="toDate" value="{{ request('toDate') }}" name="toDate"
@@ -28,7 +28,7 @@
             </div>
             <div class="col-md-4">
                 <label for="toDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                    <span class="required mr-1"> تاريخ النهاية </span>
+                    <span class="required mr-1"> الشهر</span>
 
                 </label>
                 <select class="form-control" id="month" name="month">

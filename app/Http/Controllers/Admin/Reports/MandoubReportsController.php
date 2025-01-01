@@ -35,7 +35,6 @@ class MandoubReportsController extends Controller
         }
         if ($request->to_date) {
             $rows->where('converted_date', '<=', $request->to_date . ' ' . '23:59:59');
-
         }
 
         if ($request->delivery_id) {
@@ -43,7 +42,6 @@ class MandoubReportsController extends Controller
         }
         if ($request->order_status != null) {
             $rows->where('status', $request->order_status);
-
         }
 
         $records = $rows->get();
@@ -105,7 +103,6 @@ class MandoubReportsController extends Controller
                 'code' => 500,
                 'message' => "قم بادخال اعدادات الراتب للمندوب",
             ], 500);
-
         }
 
         // Insert into delivery_orders and get the last inserted ID
@@ -257,7 +254,6 @@ class MandoubReportsController extends Controller
         }
 
         return view('Admin.reports.mandoubs.mandoub_orders', compact('request', 'deliveries'));
-
     }
 
     public function get_order_mandoub_details($order_id)
@@ -309,6 +305,5 @@ class MandoubReportsController extends Controller
         } else {
             return response()->json(['error' => 'Order not found'], 404);
         }
-
     }
 }
