@@ -65,6 +65,7 @@ class MandoubReportsController extends Controller
             'month' => 'required', // Ensure month is validated
             'fees' => 'required',
             'solar' => 'required',
+            'day_date' => 'required|date',
         ]);
 
         // try {

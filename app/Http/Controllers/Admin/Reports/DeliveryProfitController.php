@@ -20,7 +20,7 @@ class DeliveryProfitController extends Controller
                     DB::raw('SUM(company_commission) as company_commission'),
                     DB::raw('SUM(fees) as fees'),
                     DB::raw('SUM(solar) as solar'),
-                    DB::raw('SUM(mandoub_commission) as mandoub_commission'),
+                    // DB::raw('SUM(mandoub_commission) as mandoub_commission'),
                     DB::raw('SUM(company_commission - mandoub_commission) as remainder')
                 );
                

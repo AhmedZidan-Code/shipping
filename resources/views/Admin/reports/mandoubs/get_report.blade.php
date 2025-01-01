@@ -328,16 +328,16 @@
 <!----------------------------------------------------------------------------------------------------------------------------------------->
 <script>
     $(document).ready(function() {
-if (!$.fn.DataTable.isDataTable('#table2')) {
-    $('#table2').DataTable({
-       scrollx:true
-    });
-} else {
-    $('#table2').DataTable().destroy();
-    $('#table2').DataTable({
-              scrollx:true
-    });
-}
+        if (!$.fn.DataTable.isDataTable('#table2')) {
+            $('#table2').DataTable({
+                scrollx: true
+            });
+        } else {
+            $('#table2').DataTable().destroy();
+            $('#table2').DataTable({
+                scrollx: true
+            });
+        }
     });
 </script>
 @include('Admin.layouts.inc.ajax', ['url' => 'orders'])
@@ -691,6 +691,10 @@ if (!$.fn.DataTable.isDataTable('#table2')) {
 <!------------------------------------------------------------------------------------------------------------------------------------------------>
 <script>
     function save_result() {
+        if ($('#remainder').val() < 0) {
+            alert('قيمة المتبقي أصغر من الصفر');
+            return;
+        }
         var delivery_id = $('.delivery_id').val();
         var all_orders = $('#all_orders').val();
         var mandoub_orders = $('#mandoub_orders').val();
@@ -701,6 +705,7 @@ if (!$.fn.DataTable.isDataTable('#table2')) {
         var month = $('#month').val();
         var fees = $('#fees').val();
         var solar = $('#solar').val();
+        var day_date = $('#day_date').val();
         var selectedValues = [];
         var status = [];
         $('.myCheckboxClass:checked').each(function() {
@@ -734,7 +739,8 @@ if (!$.fn.DataTable.isDataTable('#table2')) {
                 status: status,
                 month: month,
                 fees: fees,
-                solar: solar
+                solar: solar,
+                day_date: day_date
             },
             beforeSend: function() {
                 // Optional: Add loading spinner or disable submit button
