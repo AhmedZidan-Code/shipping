@@ -141,7 +141,7 @@
                         @endif
                     </td>
                     <td>{{ $row->customer_name }}</td>
-                    <td>{{ option($row->province)->title }}</td>
+                    <td>{{ optional($row->province)->title }}</td>
                     <td>{{ $row->customer_address }}</td>
                     <td>{{ $row->customer_phone }}</td>
                     <td>{{ $row->trader->name }}</td>
