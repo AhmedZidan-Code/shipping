@@ -7,6 +7,15 @@
 @section('content')
     <form action="{{ route('expenses.index') }}">
         <div class="row mb-3">
+            <div class="col-md-3">
+                <label for="delivery_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1"> اختر المندوب </span>
+
+                </label>
+                <select id="delivery_data" class="delivery_data" name="delivery_id" style="width: 100%;">
+                    <option selected disabled>- ابحث عن المندوب</option>
+                </select>
+            </div>
             <div class="col-md-3 ">
                 <label for="fromDate" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                     <span class="required mr-1"> تاريخ البداية </span>
@@ -63,6 +72,7 @@
                     <tr>
                         <th>#</th>
                         <th>الاسم</th>
+                        <th>المندوب</th>
                         <th>قيمة المصروف</th>
                         <th> فئة الصرف</th>
                         <th> تاريخ الصرف</th>
@@ -71,7 +81,7 @@
                 </thead>
                 <tfoot>
                     <tr style="text-align: center;">
-                        <td colspan="2">الاجمالي</td>
+                        <td colspan="3">الاجمالي</td>
                         <td colspan="4" id="total"></td>
                     </tr>
                 </tfoot>
@@ -129,6 +139,10 @@
                 name: 'name'
             },
             {
+                data: 'delivery',
+                name: 'delivery'
+            },
+            {
                 data: 'value',
                 name: 'value'
             },
@@ -149,4 +163,51 @@
         ];
     </script>
     @include('Admin.layouts.inc.ajax', ['url' => 'expenses'])
+    <script>
+        (function() {
+            $("#delivery_data").select2({
+                placeholder: 'Channel...',
+                // width: '350px',
+                allowClear: true,
+                ajax: {
+                    url: '{{ route('admin.getDeliveries') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term || '',
+                            page: params.page || 1
+                        }
+                    },
+                    cache: true
+                }
+            });
+        })();
+        $('#Modal').on('shown.bs.modal', function(event) {
+            $(document).ready(function() {
+
+                setTimeout(function() {
+                    $(".delivery_data").select2({
+                        placeholder: 'Channel...',
+                        dropdownParent: $('#Modal'),
+                        // width: '350px',
+                        allowClear: true,
+                        ajax: {
+                            url: '{{ route('admin.getDeliveries') }}',
+                            dataType: 'json',
+                            delay: 250,
+                            data: function(params) {
+                                return {
+                                    term: params.term || '',
+                                    page: params.page || 1
+                                }
+                            },
+                            cache: true
+                        }
+                    });
+                }, 1500);
+
+            });
+        });
+    </script>
 @endsection

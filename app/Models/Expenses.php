@@ -16,8 +16,14 @@ class Expenses extends Model
     {
         return $this->belongsTo(AdministrativeSetting::class, 'setting_id')->where('type', SettingType::EXPENSES);
     }
+
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'expense_by');
+    }
+
+    public function delivery()
+    {
+        return $this->belongsTo(Delivery::class, 'delivery_id');
     }
 }

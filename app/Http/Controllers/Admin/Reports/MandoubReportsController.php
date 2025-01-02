@@ -127,6 +127,7 @@ class MandoubReportsController extends Controller
             'year' => date('Y'),
             'month' => $request->month,
             'date_time' => Carbon::now()->format('Y-m-d H:i:s'),
+            'day_date' => $request->day_date,
             'date' => date('Y-m-d'),
             'publisher' => auth()->id(),
         ]);
