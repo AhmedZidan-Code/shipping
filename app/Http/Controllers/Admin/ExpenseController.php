@@ -31,6 +31,9 @@ class ExpenseController extends Controller
             if ($request->expense_id) {
                 $rows->where('setting_id', $request->expense_id);
             }
+            if ($request->delivery_id) {
+                $rows->where('delivery_id', $request->delivery_id);
+            }
             if ($request->fromDate) {
                 $rows->where('date', '>=', $request->fromDate);
             }
