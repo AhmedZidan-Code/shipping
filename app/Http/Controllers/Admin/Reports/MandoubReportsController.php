@@ -186,7 +186,7 @@ class MandoubReportsController extends Controller
                 $rows->where('delivery_id', $request->delivery_id);
             }
             if ($request->month) {
-                $rows->where('month', $request->month)->where('delivery_orders.year', date('Y'));
+                $rows->where('month', $request->month)->where('delivery_orders.year','!=' ,2023);
             }
             $rows->join('deliveries', 'deliveries.id', '=', 'delivery_orders.delivery_id')
                 ->select('delivery_orders.*', 'deliveries.name')
