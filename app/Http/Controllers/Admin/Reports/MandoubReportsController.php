@@ -213,7 +213,7 @@ class MandoubReportsController extends Controller
             $company_commission = $rows->get()->sum(function ($row) {
                 return $row->company_commission;
             });
-            $profit = $company_commission - ($solar + $salary/*+ $fees + $commission_after_fees */);
+            $profit = $company_commission -  $salary;
 
             $dataTable = DataTables::of($rows)
                 ->editColumn('orderDetails', function ($row) {
