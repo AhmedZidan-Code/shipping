@@ -18,7 +18,7 @@ class DeliveryProfitController extends Controller
                     $subquery->from('delivery_orders')
                         ->select(
                             DB::raw('SUM(num_mandoub_orders) as num_mandoub_orders'),
-                            DB::raw('SUM(commission_after_fees) as commission_after_fees'),
+                            DB::raw('SUM(company_commission) as company_commission'),
                             DB::raw('SUM(fees) as fees'),
                             DB::raw('SUM(solar) as solar'),
                             DB::raw('0 as expenses'),
@@ -40,7 +40,7 @@ class DeliveryProfitController extends Controller
                                 ->whereNotNull('delivery_id')
                                 ->select(
                                     DB::raw('0 as num_mandoub_orders'),
-                                    DB::raw('0 as commission_after_fees'),
+                                    DB::raw('0 as company_commission'),
                                     DB::raw('0 as fees'),
                                     DB::raw('0 as solar'),
                                     DB::raw('SUM(value) as expenses'),
@@ -61,7 +61,7 @@ class DeliveryProfitController extends Controller
                     ->select(
                         'date',
                         DB::raw('SUM(num_mandoub_orders) as num_mandoub_orders'),
-                        DB::raw('SUM(commission_after_fees) as commission_after_fees'),
+                        DB::raw('SUM(company_commission) as company_commission'),
                         DB::raw('SUM(fees) as fees'),
                         DB::raw('SUM(solar) as solar'),
                         DB::raw('SUM(expenses) as expenses'),
@@ -83,14 +83,14 @@ class DeliveryProfitController extends Controller
 
             // Get sums for the filtered data
             $ordersSum = $rows->sum('num_mandoub_orders');
-            $commissionSum = $rows->sum('commission_after_fees');
+            $commissionSum = $rows->sum('company_commission');
             $expensesSum = $rows->sum('expenses');
-            $totalRemainder = $rows->sum('commission_after_fees') - $rows->sum('expenses');
+            $totalRemainder = $rows->sum('company_commission') - $rows->sum('expenses');
             $netProfit = $totalRemainder - $total_salary;
             $dataTable = DataTables::of($rows)
                 ->addIndexColumn()
                 ->addColumn('remainder', function ($row) {
-                    return $row->commission_after_fees - $row->expenses;
+                    return $row->company_commission - $row->expenses;
                 })
                 ->with('total_salary', $total_salary)
                 ->with('total_remainder', $totalRemainder)
