@@ -79,7 +79,7 @@ class DeliveryProfitController extends Controller
             }
 
             // Calculate totals from the base query to ensure filters are applied
-            $total_salary = $salaries->sum('total_salary');
+            $total_salary = $salaries->sum('base_salary');
 
             // Get sums for the filtered data
             $ordersSum = $rows->sum('num_mandoub_orders');
