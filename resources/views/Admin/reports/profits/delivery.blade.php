@@ -86,24 +86,23 @@
                         <th>عدد الاوردرات</th>
                         <th>عمولة الشركة</th>
                         {{-- <th>قيمة المندوب</th> --}}
-                        <th>المصروف</th>
-                        <th>البنزين</th>
+                        <th>المصروفات الادارية</th>
+                        {{-- <th>البنزين</th> --}}
                         <th>المتبقي</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <td colspan="2">المجموع</td>
-                        <td colspan="1" id="orders_sum"></td>
+                        <td id="orders_sum"></td>
                         <td id="commission_sum"></td>
-                        <td id="fees_sum"></td>
-                        <td id="solar_sum"></td>
+                        <td id="expenses_sum"></td>
                         <td id="total_remainder"></td>
                     </tr>
                     <tr style="text-align: center;">
                         <td>اجمالي الرواتب</td>
                         <td id="total_salary"></td>
-                        <td colspan="3">صـــــافي الربح</td>
+                        <td colspan="2">صـــــافي الربح</td>
                         <td colspan="2" id="net_profit"></td>
                     </tr>
                 </tfoot>
@@ -138,13 +137,13 @@
             //     name: 'mandoub_commission'
             // },
             {
-                data: 'fees',
-                name: 'fees'
+                data: 'expenses',
+                name: 'expenses'
             },
-            {
-                data: 'solar',
-                name: 'solar'
-            },
+            // {
+            //     data: 'solar',
+            //     name: 'solar'
+            // },
             {
                 data: 'remainder',
                 name: 'remainder'
@@ -182,8 +181,7 @@
                         $('#net_profit').html(response.json.net_profit);
                         $('#orders_sum').html(response.json.orders_sum);
                         $('#commission_sum').html(response.json.commission_sum);
-                        $('#fees_sum').html(response.json.fees_sum);
-                        $('#solar_sum').html(response.json.solar_sum);
+                        $('#expenses_sum').html(response.json.expenses_sum);
                     }
                 },
                 searching: true,

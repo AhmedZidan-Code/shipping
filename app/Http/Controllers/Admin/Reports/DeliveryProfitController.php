@@ -12,58 +12,92 @@ class DeliveryProfitController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $rows = DB::table('delivery_orders')
-                ->select(
-                    'date',
-                    DB::raw('MIN(id) as id'), 
-                    DB::raw('SUM(num_mandoub_orders) as num_mandoub_orders'),
-                    DB::raw('SUM(company_commission) as company_commission'),
-                    DB::raw('SUM(fees) as fees'),
-                    DB::raw('SUM(solar) as solar'),
-                    // DB::raw('SUM(mandoub_commission) as mandoub_commission'),
-                    DB::raw('SUM(company_commission - mandoub_commission) as remainder')
-                );
-               
+            $rows = DB::query()->fromSub(function ($query) {
+                $query->from(function ($subquery) {
+                    // First query for delivery orders
+                    $subquery->from('delivery_orders')
+                        ->select(
+                            DB::raw('SUM(num_mandoub_orders) as num_mandoub_orders'),
+                            DB::raw('SUM(company_commission) as company_commission'),
+                            DB::raw('SUM(fees) as fees'),
+                            DB::raw('SUM(solar) as solar'),
+                            DB::raw('0 as expenses'),
+                            'date'
+                        )
+                        ->when(request('delivery_id'), function ($q) {
+                            return $q->where('delivery_id', request('delivery_id'));
+                        })
+                        ->when(request('year'), function ($q) {
+                            return $q->where('year', request('year'));
+                        })
+                        ->when(request('month'), function ($q) {
+                            return $q->where('month', request('month'));
+                        })
+                        ->groupBy('date')
+                        ->unionAll(
+                            // Second query for expenses
+                            DB::table('expenses')
+                                ->whereNotNull('delivery_id')
+                                ->select(
+                                    DB::raw('0 as num_mandoub_orders'),
+                                    DB::raw('0 as company_commission'),
+                                    DB::raw('0 as fees'),
+                                    DB::raw('0 as solar'),
+                                    DB::raw('SUM(value) as expenses'),
+                                    'date'
+                                )
+                                ->when(request('delivery_id'), function ($q) {
+                                    return $q->where('delivery_id', request('delivery_id'));
+                                })
+                                ->when(request('year'), function ($q) {
+                                    return $q->whereYear('date', request('year'));
+                                })
+                                ->when(request('month'), function ($q) {
+                                    return $q->whereMonth('date', request('month'));
+                                })
+                                ->groupBy('date')
+                        );
+                }, 'union_table')
+                    ->select(
+                        'date',
+                        DB::raw('SUM(num_mandoub_orders) as num_mandoub_orders'),
+                        DB::raw('SUM(company_commission) as company_commission'),
+                        DB::raw('SUM(fees) as fees'),
+                        DB::raw('SUM(solar) as solar'),
+                        DB::raw('SUM(expenses) as expenses'),
+                    )
+                    ->groupBy('date');
+            }, 'final_results')
+                ->select('*')
+                ->orderBy('date');;
 
             $salaries = DB::table('salaries');
 
             // Apply filters
             if ($request->delivery_id) {
-                $rows->where('delivery_id', $request->delivery_id);
                 $salaries->where('delivery_id', $request->delivery_id);
-            }
-            if ($request->month) {
-                $rows->where('month', $request->month);
-                $salaries->where('month', $request->month);
-            }
-            if ($request->year) {
-                $rows->where('year', $request->year);
-                $salaries->where('year', $request->year);
             }
 
             // Calculate totals from the base query to ensure filters are applied
-            $totalsQuery = clone $rows;
-            $totalRemainder = $totalsQuery->sum(DB::raw('company_commission - solar'));
             $total_salary = $salaries->sum('total_salary');
-            $netProfit = $totalRemainder - $total_salary;
 
             // Get sums for the filtered data
-            $sumsQuery = clone $rows;
-            $ordersSum = $sumsQuery->sum('num_mandoub_orders');
-            $commissionSum = $sumsQuery->sum('company_commission');
-            $feesSum = $sumsQuery->sum('fees');
-            $solarSum = $sumsQuery->sum('solar');
-            $rows->groupBy('date');
+            $ordersSum = $rows->sum('num_mandoub_orders');
+            $commissionSum = $rows->sum('company_commission');
+            $expensesSum = $rows->sum('expenses');
+            $totalRemainder = $rows->sum('company_commission') - $rows->sum('expenses');
+            $netProfit = $totalRemainder - $total_salary;
             $dataTable = DataTables::of($rows)
                 ->addIndexColumn()
-                ->orderColumn('id', 'date $1') // Change ordering to use date instead of id
+                ->addColumn('remainder', function ($row) {
+                    return $row->company_commission - $row->expenses;
+                })
                 ->with('total_salary', $total_salary)
                 ->with('total_remainder', $totalRemainder)
                 ->with('net_profit', $netProfit)
                 ->with('orders_sum', $ordersSum)
                 ->with('commission_sum', $commissionSum)
-                ->with('fees_sum', $feesSum)
-                ->with('solar_sum', $solarSum)
+                ->with('expenses_sum', $expensesSum)
                 ->escapeColumns([])
                 ->make(true);
 

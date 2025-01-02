@@ -18,9 +18,16 @@ class HomeController extends Controller
         $newOrders=Order::where('status','new')->count();
         $convertedOrders=Order::where('status','converted_to_delivery')->count();
         $totalDeliveryOrders=Order::where('status','total_delivery_to_customer')->count();
-        $partialDeliveryOrders=Order::where('status','total_delivery_to_customer')->count();
+        $mohsala = Order::query()
+            ->whereIn('status', array('total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'))
+            ->where('paid_as_money', 1)
+            ->count();
+        $hadback = Order::whereIn('status', ['cancel', 'not_delivery'])->count();
+        $totalOrders = Order::count();
+        $partial = Order::where('status', 'partial_delivery_to_customer')->where('paid_as_money', 0)->count();
+        $notDelivery = Order::query()->with(['province', 'trader', 'delivery'])->whereIn('status', array('cancel', 'not_delivery', 'partial_delivery_to_customer', 'shipping_on_messanger'))->where('paid_as_mortag3', 0)->count();
 
-        return view('Admin.home.index',compact('newOrders','convertedOrders','totalDeliveryOrders','partialDeliveryOrders'));
+        return view('Admin.home.index',compact('newOrders','convertedOrders','totalDeliveryOrders', 'partial', 'notDelivery', 'hadback', 'totalOrders',  'mohsala'));
     }//end fun
 
 
