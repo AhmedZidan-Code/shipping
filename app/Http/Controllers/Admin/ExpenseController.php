@@ -8,6 +8,7 @@ use App\Http\Traits\LogActivityTrait;
 use App\Models\AdministrativeSetting;
 use App\Models\Expenses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Optional;
 use Yajra\DataTables\Facades\DataTables;
 
 class ExpenseController extends Controller
@@ -78,7 +79,7 @@ class ExpenseController extends Controller
                     return $row->setting->title;
                 })
                 ->addColumn('delivery', function ($row) {
-                    return $row->delivery?->name;
+                    return Optional($row->delivery)->name;
                 })
                 ->with('total', $total)
                 ->escapeColumns([])
