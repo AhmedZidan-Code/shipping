@@ -129,8 +129,8 @@
                 name: 'num_mandoub_orders'
             },
             {
-                data: 'company_commission',
-                name: 'company_commission'
+                data: 'commission_after_fees',
+                name: 'commission_after_fees'
             },
             // {
             //     data: 'mandoub_commission',
