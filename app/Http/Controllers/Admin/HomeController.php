@@ -17,7 +17,7 @@ class HomeController extends Controller
         $this->add_log_activity(null, auth('admin')->user(), "تم عرض  الرئيسية");
         $newOrders=Order::where('status','new')->count();
         $convertedOrders=Order::where('status','converted_to_delivery')->count();
-        $totalDeliveryOrders=Order::where('status','total_delivery_to_customer')->count();
+        $totalDeliveryOrders=Order::where('paid_as_money', 1)->count();
         $mohsala = Order::query()
             ->whereIn('status', array('total_delivery_to_customer', 'partial_delivery_to_customer', 'shipping_on_messanger'))
             ->where('paid_as_money', 1)

@@ -7,7 +7,7 @@
 @endsection
 @section('content')
     <div class="row">
-                <div class="col-xl-3 col-sm-6">
+        <div class="col-xl-3 col-sm-6">
             <a href="#">
                 <div class="card mini-stat bg-primary">
                     <div class="card-body mini-stat-img">
