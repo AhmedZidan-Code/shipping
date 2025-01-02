@@ -191,7 +191,7 @@
                         readonly id="remainder" />
                 </td>
                 <td colspan="2" style="color: red; width: 2%;"> <input type="date" name="day_date"
-                        value="<?= date('Y-m-d') ?>" />
+                        value="<?= date('Y-m-d') ?>" id="day_date" />
                 </td>
                 <td colspan="3"> <select class="form-control" id="month" name="month">
                         <option value=""> اختر الشهر </option>

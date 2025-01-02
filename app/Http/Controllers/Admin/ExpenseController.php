@@ -26,17 +26,15 @@ class ExpenseController extends Controller
     {
 
         if ($request->ajax()) {
-            $rows = Expenses::query()->with(['setting', 'admin']);
+            $rows = Expenses::query()->with(['setting', 'admin', 'delivery']);
             if ($request->expense_id) {
                 $rows->where('setting_id', $request->expense_id);
             }
             if ($request->fromDate) {
                 $rows->where('date', '>=', $request->fromDate);
-
             }
             if ($request->toDate) {
                 $rows->where('date', '<=', $request->toDate);
-
             }
             $total = $rows->sum('value');
             return DataTables::of($rows)
@@ -72,7 +70,6 @@ class ExpenseController extends Controller
                             </span>
                             </button>
                        ';
-
                 })
                 ->addColumn('name', function ($row) {
                     return $row->admin->name;
@@ -80,13 +77,14 @@ class ExpenseController extends Controller
                 ->addColumn('expense_category', function ($row) {
                     return $row->setting->title;
                 })
+                ->addColumn('delivery', function ($row) {
+                    return $row->delivery?->name;
+                })
                 ->with('total', $total)
                 ->escapeColumns([])
                 ->make(true);
-
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  المصروفات");
-
         }
         $expensesTypes = AdministrativeSetting::where('type', SettingType::EXPENSES)->get();
 
@@ -102,6 +100,7 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'delivery_id' => 'nullable|exists:deliveries,id',
             'value' => 'required|numeric',
             'setting_id' => 'required|exists:administrative_settings,id',
             'date' => 'required|date_format:Y-m-d',
@@ -118,21 +117,22 @@ class ExpenseController extends Controller
             [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
-            ]);
+            ]
+        );
     }
 
     public function edit($id)
     {
 
-        $row = Expenses::findOrFail($id);
+        $row = Expenses::with('delivery')->findOrFail($id);
 
         return view('Admin.CRUDS.administrative-setting.expenses.parts.edit', ['row' => $row, 'settings' => AdministrativeSetting::where('type', SettingType::EXPENSES)->get()]);
-
     }
 
     public function update(Request $request, $id)
     {
         $data = $request->validate([
+            'delivery_id' => 'nullable|exists:deliveries,id',
             'value' => 'required|numeric',
             'setting_id' => 'required|exists:administrative_settings,id',
             'date' => 'required|date_format:Y-m-d',
@@ -151,7 +151,8 @@ class ExpenseController extends Controller
             [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
-            ]);
+            ]
+        );
     }
 
     public function destroy($id)
@@ -166,7 +167,8 @@ class ExpenseController extends Controller
             [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
-            ]);
+            ]
+        );
     } //end fun
 
 }

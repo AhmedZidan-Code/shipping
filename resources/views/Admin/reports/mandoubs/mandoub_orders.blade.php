@@ -253,8 +253,8 @@
                 name: 'id'
             },
             {
-                data: 'date_time',
-                name: 'date_time'
+                data: 'day_date',
+                name: 'day_date'
             },
             {
                 data: 'name',
