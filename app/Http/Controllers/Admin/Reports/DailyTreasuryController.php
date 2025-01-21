@@ -41,6 +41,7 @@ class DailyTreasuryController extends Controller
             ->selectRaw('SUM(value) as previous_expenses')
             ->first();
         $traderPayments =  DB::table('trader_payments')
+            ->whereIn('type', [1, 2])
             ->when($fromDate, fn($q) => $q->whereDate('date', '<', $fromDate))
             ->when($openingDate, fn($q) => $q->whereDate('date', '>=', $openingDate))
             ->selectRaw('SUM(amount) as previous_traderPayment, SUM(cash) as previous_traderCash, SUM(cheque) as previous_traderCheque')
@@ -71,6 +72,7 @@ class DailyTreasuryController extends Controller
             ->selectRaw('SUM(value) as expenses')
             ->first();
         $traderPayments =  DB::table('trader_payments')
+            ->whereIn('type', [1, 2])
             ->when($fromDate, fn($q) => $q->whereDate('date', '>=', $fromDate))
             ->when($toDate, fn($q) => $q->whereDate('date', '<=', $toDate))
             ->selectRaw('SUM(amount) as traderPayment, SUM(cash) as traderCash, SUM(cheque) as traderCheque')
