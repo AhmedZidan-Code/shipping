@@ -222,6 +222,10 @@
                                 <li><a href="{{ route('daily-treasury.index') }}"><i class="mdi mdi-album"></i>
                                         <span>يومية الخزينة</span></a></li>
                             @endcan
+                            @can('عرض الخزينة')
+                                <li><a href="{{ route('detailed') }}"><i class="mdi mdi-album"></i>
+                                        <span>تفاصيل يومية الخزينة</span></a></li>
+                            @endcan
                         </ul>
                     </li>
                 @endcanany

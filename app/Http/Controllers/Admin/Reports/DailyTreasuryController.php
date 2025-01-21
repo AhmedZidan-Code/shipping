@@ -17,7 +17,7 @@ class DailyTreasuryController extends Controller
         if ($openingBalance && $fromDate < $openingBalance->date) {
             $fromDate = $openingBalance->date;
         }
-        $data = (array) array_merge((array) $this->filteredBalance($fromDate, $toDate), (array) $this->previousBalance($fromDate,  $openingBalance?->date));
+        $data = (array) array_merge((array) $this->filteredBalance($fromDate, $toDate), (array) $this->previousBalance($fromDate, isset($openingBalance) ? $openingBalance->date : null));
         $view = \view('Admin.reports.daily_treasury.parts.data', $data)->render();
 
         return response()->json(['view' => $view]);
