@@ -23,7 +23,7 @@ class DailyTreasuryDetailsController extends Controller
         if ($openingBalance && $fromDate < $openingBalance->date) {
             $fromDate = $openingBalance->date;
         }
-        $previousBalance = $this->previousBalance($fromDate, $openingBalance?->date);
+        $previousBalance = $this->previousBalance($fromDate, isset($openingBalance) ? $openingBalance->date : null);
 
         $query = DB::query()->fromSub(function ($query) use ($fromDate, $toDate) {
             $query->from('delivery_orders')
@@ -170,9 +170,12 @@ class DailyTreasuryDetailsController extends Controller
             ->first();
 
         $data = (object) array_merge((array) $dliveryOrders, (array) $expenses, (array) $traderPayments);
-        $previous['total_previous'] = ($data->previous_total_orders + $openingBalance?->balance ?? 0) - ($data->previous_fees + $data->previous_solar + $data->previous_expenses + $data->previous_traderPayment);
-        $previous['previous_cash'] =  ($data->previous_cash + $openingBalance?->cash ?? 0) - ($data->previous_fees + $data->previous_solar + $data->previous_expenses + $data->previous_traderCash);
-        $previous['previous_cheque'] =  ($data->previous_cheque + $openingBalance?->cheque ?? 0) - ($data->previous_fees + $data->previous_solar + $data->previous_expenses + $data->previous_traderCheque);
+        $balance = isset($openingBalance) ? $openingBalance->balance : 0;
+        $balanceCash = isset($openingBalance) ? $openingBalance->cash : 0;
+        $balanceCheque = isset($openingBalance) ? $openingBalance->cheque : 0;
+        $previous['total_previous'] = ($data->previous_total_orders + $balance) - ($data->previous_fees + $data->previous_solar + $data->previous_expenses + $data->previous_traderPayment);
+        $previous['previous_cash'] =  ($data->previous_cash + $balanceCash) - ($data->previous_fees + $data->previous_solar + $data->previous_expenses + $data->previous_traderCash);
+        $previous['previous_cheque'] =  ($data->previous_cheque + $balanceCheque) - ($data->previous_fees + $data->previous_solar + $data->previous_expenses + $data->previous_traderCheque);
         return $previous;
     }
 }
