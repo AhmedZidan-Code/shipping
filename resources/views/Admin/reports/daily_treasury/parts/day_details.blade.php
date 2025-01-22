@@ -55,9 +55,9 @@
         @foreach ($traderPayments as $key => $payment)
             <tr>
                 <td>{{ ++$key }}</td>
-                <td>{{ $expense->amount }}</td>
-                <td>{{ $expense->cash }}</td>
-                <td>{{ $expense->cheque }}</td>
+                <td>{{ $payment->amount }}</td>
+                <td>{{ $payment->cash }}</td>
+                <td>{{ $payment->cheque }}</td>
             </tr>
         @endforeach
     </tbody>
