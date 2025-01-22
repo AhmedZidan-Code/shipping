@@ -32,6 +32,13 @@
                                 id="Form">
                                 @csrf
                                 <div class="mb-3">
+                                    <label for="year" class="form-label">العام المالي</label>
+                                    <select name="year" id="year" class="form-control">
+                                        <option value="2025">2025</option>
+                                        <option value="2024">2024</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="email" class="form-label">البريد الالكتروني</label>
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="Enter email">

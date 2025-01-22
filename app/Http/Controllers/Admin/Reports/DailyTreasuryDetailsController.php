@@ -107,6 +107,11 @@ class DailyTreasuryDetailsController extends Controller
             ->get();
 
         return DataTables::of($query)
+            ->addColumn('details', function ($row) {
+                // $url = route('admin.d', $row->date);
+                $url = '#';
+                return  '<a href=' . $url . ' class="btn rounded-pill btn-outline-dark treasur_details" data-date=' . $row->date . '><i class="fa fa-eye" aria-hidden="true"></i></a>';
+            })
             ->with('total_daily_orders', function () use ($query) {
                 return $query->sum('daily_orders');
             })
@@ -146,7 +151,7 @@ class DailyTreasuryDetailsController extends Controller
             ->with('total_daily_cheque_net', function () use ($query) {
                 return $query->sum('daily_cheque_net');
             })
-            ->rawColumns([])
+            ->rawColumns(['details'])
             ->make(true);
     }
 
@@ -179,5 +184,23 @@ class DailyTreasuryDetailsController extends Controller
         $previous['previous_cash'] =  ($data->previous_cash + $balanceCash) - ($data->previous_fees + $data->previous_solar + $data->previous_expenses + $data->previous_traderCash);
         $previous['previous_cheque'] =  ($data->previous_cheque + $balanceCheque) - ($data->previous_fees + $data->previous_solar + $data->previous_expenses + $data->previous_traderCheque);
         return $previous;
+    }
+
+    public function getDataOfDay($date)
+    {
+        $dliveryOrders =  DB::table('delivery_orders')
+            ->when($date, fn($q) => $q->whereDate('date',  $date))
+            ->get();
+        $expenses =  DB::table('expenses')
+            ->when($date, fn($q) => $q->whereDate('date',  $date))
+            ->get();
+        $traderPayments =  DB::table('trader_payments')
+            ->whereIn('type', [1, 2])
+            ->when($date, fn($q) => $q->whereDate('date',  $date))
+            ->get();
+
+        $view = \view('Admin.reports.daily_treasury.parts.day_details', \compact('dliveryOrders', 'expenses', 'traderPayments'))->render();
+
+        return \response()->json(['view' => $view]);
     }
 }

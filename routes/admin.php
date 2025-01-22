@@ -163,6 +163,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     Route::get('/daily-treasury-details', [DailyTreasuryDetailsController::class, 'index'])->name('detailed');
     Route::get('/daily-treasury-details/details/data', [DailyTreasuryDetailsController::class, 'getData'])->name('detailed.data');
+    Route::get('/treasury-day/{day}', [DailyTreasuryDetailsController::class, 'getDataOfDay'])->name('treasury-details.day');
 
     //profits
     Route::resource('company-profits', CompanyProfitController::class);

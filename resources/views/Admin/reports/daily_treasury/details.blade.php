@@ -49,6 +49,7 @@
                         <th>الصافي </th>
                         <th> الصافي نقدي</th>
                         <th>الصافي غير نقدي</th>
+                        <th> التفاصيل</th>
                     </tr>
                 </thead>
                 <tfoot style="text-align: center; background-color: rgb(237, 235, 238)">
@@ -66,6 +67,7 @@
                         <td id="total_daily_net"></td>
                         <td id="total_daily_cash_net"></td>
                         <td id="total_daily_cheque_net"></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td colspan="2">الرصيـــــــــــد الســـابق</td>
@@ -75,12 +77,48 @@
                         <td colspan="2">إجمــــالي الرصيد النهائي للخزنه</td>
                         <td colspan="2" id="finish_balance"></td>
                         <td colspan="2" id="finish_cash"></td>
-                        <td id="finish_cheque"></td>
+                        <td colspan="2" id="finish_cheque"></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
+        <div class="modal fade" id="Modal" tabindex="-1" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered modal-lg mw-650px">
+            <!--begin::Modal content-->
+            <div class="modal-content" id="modalContent">
+                <!--begin::Modal header-->
+                <div class="modal-header">
+                    <!--begin::Modal title-->
+                    <h2><span id="operationType"></span>  </h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <button class="btn btn-sm btn-icon btn-active-color-primary" type="button" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <!--end::Close-->
+                </div>
+                <!--begin::Modal body-->
+                <div class="modal-body py-4" id="form-load">
+
+                </div>
+                <!--end::Modal body-->
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button type="reset" data-bs-dismiss="modal" aria-label="Close" class="btn btn-light me-2">
+                            الغاء
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--end::Modal content-->
+        </div>
+        <!--end::Modal dialog-->
+    </div>
+
 @endsection
 @section('js')
     <script src="{{ URL::asset('assets_new/datatable/feather.min.js') }}"></script>
@@ -138,6 +176,10 @@
             {
                 data: 'daily_cheque_net',
                 name: 'daily_cheque_net'
+            },
+            {
+                data: 'details',
+                name: 'details'
             },
         ];
 
@@ -199,6 +241,34 @@
             $('#filterButton').on('click', function() {
                 console.log('omar pero');
                 table.ajax.reload();
+            });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.treasur_details', function() {
+            var date = $(this).data('date');             
+            $('#operationType').text('تفاصيل ' + date);
+
+            var url = "{{ route("treasury-details.day", ':date') }}";
+            url = url.replace(':date', date)
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(data) {
+                    $('#Modal').modal('show')
+                    $('#form-load').html(data.view); // Load form if request is successful
+                },
+                error: function(xhr) {
+                    if (xhr.status === 403) {
+                        toastr.error('You are not authorized to perform this action.',
+                            'Unauthorized');
+                    } else {
+                        toastr.error(
+                            'An error occurred while loading the form. Please try again.',
+                            'Error');
+                    }
+                }
             });
         });
     </script>
