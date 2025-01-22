@@ -59,7 +59,7 @@
            </div>
            <div class="header">رصيد الخزنة لفترة</div>
            <div class="row total-row">
-               <div class="cell" colspan="2">{{ $total_orders - ($expenses + $fees + $solar) }}</div>
+               <div class="cell" colspan="2">{{ $total_orders - ($traderPayment + $expenses + $fees + $solar) }}</div>
                <!-- Merged cells horizontally -->
            </div>
            <div class="row">
@@ -75,7 +75,7 @@
            <div class="header">اجمالي الرصيد النهائي للخزنة</div>
            <div class="row total-row">
                <div class="cell" colspan="2">
-                   {{ $total_orders + $total_previous - ($expenses + $fees + $solar) }}</div>
+                   {{ $total_orders + $total_previous - ($traderPayment + $expenses + $fees + $solar) }}</div>
                <!-- Merged cells horizontally -->
            </div>
            <div class="row">
