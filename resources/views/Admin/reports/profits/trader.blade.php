@@ -68,7 +68,7 @@
                         <th> المتبقي</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tfoot style="background-color: rgb(223, 235, 242)">
                     <tr>
                         <td colspan="2">المجموع</td>
                         <td colspan="2" id="total_orders_count"></td>

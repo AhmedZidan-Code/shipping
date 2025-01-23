@@ -6,6 +6,7 @@ use App\Enums\TransactionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TraderPaymentRequest;
 use App\Http\Traits\LogActivityTrait;
+use App\Models\Trader;
 use App\Models\TraderPayments;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -89,11 +90,14 @@ class TraderPaymentController extends Controller
     public function store(TraderPaymentRequest $request)
     {
         $data = $request->validated();
+        $trader = Trader::where('id', $data['trader_id'])->first();
+        if ($trader->is_collectible == false) {
+            $data['in_safe'] = false;
+        }
         $data['amount'] = $data['cash'] + $data['cheque'];
         $data['total_balance'] = $data['amount'];
         $row = TraderPayments::create($data);
-        $row->load('trader');
-        $this->add_log_activity($row, auth('admin')->user(), " تم اضافة تسديد للتاجر  {$row->trader->name}");
+        $this->add_log_activity($row, auth('admin')->user(), " تم اضافة تسديد للتاجر  {$trader->name}");
 
         return response()->json(
             [
@@ -118,6 +122,10 @@ class TraderPaymentController extends Controller
 
         $old = $row;
         $data = $request->validated();
+        $trader = Trader::where('id', $row->trader_id)->first();
+        if ($trader->is_collectible == false) {
+            $data['in_safe'] = false;
+        }
         $data['amount'] = $data['cash'] + $data['cheque'];
         $data['total_balance'] = $data['amount'];
         // $data['type'] = TransactionType::DEPOSIT;

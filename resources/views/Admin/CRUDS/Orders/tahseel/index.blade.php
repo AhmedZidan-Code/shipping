@@ -102,8 +102,8 @@
 
                         <th> تفاصيل الطلب</th>
                     </tr>
-                <tfoot>
-                    <tr style="background: whitesmoke;">
+                <tfoot style="background-color: rgb(223, 235, 242)">
+                    <tr>
                         <td> </td>
 
 
@@ -121,8 +121,6 @@
                         <td> </td>
                         <td> </td>
                     </tr>
-
-
                 </tfoot>
 
             </table>
@@ -138,13 +136,13 @@
                         <label for="cash" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                             <span class="required mr-1"> نقدي </span>
                         </label>
-                        <input type="number" id="cash" name="cashe" class="showBonds form-control">
+                        <input type="number" id="cash" name="cashe" value="0" class="showBonds form-control">
                     </div>
                     <div class="col-md-2 ">
                         <label for="cheque" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                             <span class="required mr-1"> غير نقدي</span>
                         </label>
-                        <input type="number" id="cheque" name="cheque" class="showBonds form-control">
+                        <input type="number" id="cheque" name="cheque" value="0" class="showBonds form-control">
                     </div>
                     <div class="col-md-3 ">
                         <label for="date" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">

@@ -29,7 +29,7 @@
                         <th>العمليات</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tfoot style="background-color: rgb(223, 235, 242)">
                     <tr>
 
                         <th></th>

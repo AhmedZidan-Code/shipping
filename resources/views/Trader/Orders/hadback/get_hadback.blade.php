@@ -37,8 +37,8 @@
                         <th> تاريخ الانشاء</th>
 
                     </tr>
-                <tfoot>
-                    <tr style="background: whitesmoke;">
+                <tfoot style="background-color: rgb(223, 235, 242)"> 
+                    <tr>
                         <td colspan="6"> </td>
                         <td> المجموع </td>
                         <td id="ahmed" colspan="6"> </td>

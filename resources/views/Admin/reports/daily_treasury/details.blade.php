@@ -52,8 +52,8 @@
                         <th> التفاصيل</th>
                     </tr>
                 </thead>
-                <tfoot style="text-align: center; background-color: rgb(237, 235, 238)">
-                    <tr>
+                <tfoot style="text-align: center;">
+                    <tr style="background-color: rgb(223, 235, 242)">
                         <td>المحصلة</td>
                         <td id="total_daily_orders"></td>
                         <td id="total_cash_orders"> </td>
@@ -70,14 +70,14 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td colspan="2">الرصيـــــــــــد الســـابق</td>
-                        <td colspan="2" id="previous_balance"></td>
-                        <td id="cash_previous_balance"></td>
-                        <td id="chequeprevious_balance"></td>
-                        <td colspan="2">إجمــــالي الرصيد النهائي للخزنه</td>
-                        <td colspan="2" id="finish_balance"></td>
-                        <td colspan="2" id="finish_cash"></td>
-                        <td colspan="2" id="finish_cheque"></td>
+                        <td colspan="2" style="background-color: rgb(169, 216, 243)">الرصيـــــــــــد الســـابق</td>
+                        <td colspan="2" id="previous_balance" style="background-color: rgb(169, 216, 243)"></td>
+                        <td id="cash_previous_balance" style="background-color: rgb(169, 216, 243)"></td>
+                        <td id="chequeprevious_balance" style="background-color: rgb(169, 216, 243)"></td>
+                        <td colspan="2" style="background-color: rgb(159, 159, 235)">إجمــــالي الرصيد النهائي للخزنه</td>
+                        <td colspan="2" id="finish_balance" style="background-color: rgb(159, 159, 235)"></td>
+                        <td colspan="2" id="finish_cash" style="background-color: rgb(159, 159, 235)"></td>
+                        <td colspan="2" id="finish_cheque" style="background-color: rgb(159, 159, 235)"></td>
                     </tr>
                 </tfoot>
             </table>

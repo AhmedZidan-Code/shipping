@@ -31,13 +31,13 @@
             <label for="cash" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                 <span class="required mr-1"> نقدي </span>
             </label>
-            <input type="number" id="cash" name="cash" class="showBonds form-control">
+            <input type="number" id="cash" name="cash" value="0" class="showBonds form-control">
         </div>
         <div class="col-md-6 ">
             <label for="cheque" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
                 <span class="required mr-1"> غير نقدي</span>
             </label>
-            <input type="number" id="cheque" name="cheque" class="showBonds form-control">
+            <input type="number" id="cheque" name="cheque" value="0" class="showBonds form-control">
         </div>
         <div class="col-md-12 ">
             <label for="notes" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">

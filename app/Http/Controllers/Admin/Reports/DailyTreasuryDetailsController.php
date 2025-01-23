@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\Reports;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeliveryOrder;
+use App\Models\Expenses;
 use App\Models\OpeningBalance;
+use App\Models\TraderPayments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -62,6 +65,7 @@ class DailyTreasuryDetailsController extends Controller
                 ->unionAll(
                     // Trader Payments Query
                     DB::table('trader_payments')
+                        ->where('in_safe', 1)
                         ->whereIn('type', [1, 2])
                         ->when($fromDate, fn($q) => $q->whereDate('date', '>=', $fromDate))
                         ->when($toDate, fn($q) => $q->whereDate('date', '<=', $toDate))
@@ -169,6 +173,7 @@ class DailyTreasuryDetailsController extends Controller
             ->first();
         $traderPayments =  DB::table('trader_payments')
             ->whereIn('type', [1, 2])
+            ->where('in_safe', 1)
             ->when($fromDate, fn($q) => $q->whereDate('date', '<', $fromDate))
             ->when($openingDate, fn($q) => $q->whereDate('date', '>=', $openingDate))
             ->selectRaw('SUM(amount) as previous_traderPayment, SUM(cash) as previous_traderCash, SUM(cheque) as previous_traderCheque')
@@ -188,14 +193,14 @@ class DailyTreasuryDetailsController extends Controller
 
     public function getDataOfDay($date)
     {
-        $dliveryOrders =  DB::table('delivery_orders')
-            ->when($date, fn($q) => $q->whereDate('date',  $date))
+        $dliveryOrders =  DeliveryOrder::when($date, fn($q) => $q->whereDate('date',  $date))
+            ->with('delivery')
             ->get();
-        $expenses =  DB::table('expenses')
-            ->when($date, fn($q) => $q->whereDate('date',  $date))
+        $expenses =  Expenses::when($date, fn($q) => $q->whereDate('date',  $date))
+            ->with('setting')
             ->get();
-        $traderPayments =  DB::table('trader_payments')
-            ->whereIn('type', [1, 2])
+        $traderPayments =  TraderPayments::whereIn('type', [1, 2])->with('trader')
+            ->where('in_safe', 1)
             ->when($date, fn($q) => $q->whereDate('date',  $date))
             ->get();
 

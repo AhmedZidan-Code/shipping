@@ -83,7 +83,7 @@
                 @endforeach
             </tbody>
             <tfoot>
-                <tr style="background-color: whitesmoke;">
+                <tr style="background-color: rgb(223, 235, 242)">
                     <td style="color: red;" colspan="13">
                         عدد الاوردرات :
 

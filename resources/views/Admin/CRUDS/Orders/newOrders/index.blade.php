@@ -88,10 +88,10 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <td colspan="3">عدد الاوردرات</td>
-                        <td colspan="3" id="rows-count"></td>
-                        <td colspan="3">الاجمالي</td>
-                        <td colspan="3" id="total"></td>
+                        <td colspan="3" style="background-color: rgb(223, 235, 242)">عدد الاوردرات</td>
+                        <td colspan="3" id="rows-count" style="background-color: rgb(223, 235, 242)"></td>
+                        <td colspan="3" style="background-color: rgb(197, 222, 237)">الاجمالي</td>
+                        <td colspan="3" id="total" style="background-color: rgb(197, 222, 237)"></td>
                     </tr>
                 </tfoot>
             </table>

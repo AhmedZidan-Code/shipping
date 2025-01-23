@@ -92,7 +92,7 @@
                     </tr>
                 </thead>
                 <tfoot>
-                    <tr>
+                    <tr style="background-color: rgb(223, 235, 242)">
                         <td colspan="2">المجموع</td>
                         <td id="orders_sum"></td>
                         <td id="commission_sum"></td>
@@ -100,10 +100,10 @@
                         <td id="total_remainder"></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td>اجمالي الرواتب</td>
-                        <td id="total_salary"></td>
-                        <td colspan="2">صـــــافي الربح</td>
-                        <td colspan="2" id="net_profit"></td>
+                        <td style="background-color: rgb(191, 231, 255)">اجمالي الرواتب</td>
+                        <td id="total_salary" style="background-color: rgb(191, 231, 255)"></td>
+                        <td colspan="2" style="background-color: rgb(182, 228, 255)">صـــــافي الربح</td>
+                        <td colspan="2" id="net_profit" style="background-color: rgb(182, 228, 255)"></td>
                     </tr>
                 </tfoot>
             </table>

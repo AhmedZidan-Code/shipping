@@ -24,7 +24,6 @@ class DeliveryController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $rows = Delivery::query()->latest();
             return DataTables::of($rows)
