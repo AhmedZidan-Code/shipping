@@ -3,6 +3,7 @@
     <thead>
         <tr>
             <td>#</td>
+            <td>المندوب</td>
             <td>اجمالي الاوردرات</td>
             <td>نقدي الاوردرات</td>
             <td>غير نقدي الاوردرات</td>
@@ -14,6 +15,7 @@
         @foreach ($dliveryOrders as $key => $order)
             <tr>
                 <td>{{ ++$key }}</td>
+                <td>{{ $order->delivery->name }}</td>
                 <td>{{ $order->total_orders }}</td>
                 <td>{{ $order->cash }}</td>
                 <td>{{ $order->cheque }}</td>
@@ -29,6 +31,7 @@
     <thead>
         <tr>
             <td>#</td>
+            <td>ملاحظات</td>
             <td>القيمة</td>
         </tr>
     </thead>
@@ -36,6 +39,7 @@
         @foreach ($expenses as $key => $expense)
             <tr>
                 <td>{{ ++$key }}</td>
+                <td>{{ $expense->setting->title }}</td>
                 <td>{{ $expense->value }}</td>
             </tr>
         @endforeach
@@ -46,6 +50,7 @@
     <thead>
         <tr>
             <td>#</td>
+            <td>التاجر</td>
             <td>الاجمالي</td>
             <td>نقدي</td>
             <td>غير نقدي</td>
@@ -55,6 +60,7 @@
         @foreach ($traderPayments as $key => $payment)
             <tr>
                 <td>{{ ++$key }}</td>
+                <td>{{ $payment->trader->name }}</td>
                 <td>{{ $payment->amount }}</td>
                 <td>{{ $payment->cash }}</td>
                 <td>{{ $payment->cheque }}</td>

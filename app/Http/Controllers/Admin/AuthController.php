@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -13,7 +14,7 @@ class AuthController extends Controller
         if (admin()->check())
             return redirect()->route('admin.index');
         return view('Admin.Auth.login');
-    }//end fun
+    } //end fun
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -23,20 +24,25 @@ class AuthController extends Controller
 
         $data = $request->validate([
             'email' => 'required|email|exists:admins',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6',
+            'year' => 'required|in:2024,2025'
         ]);
 
-        if (admin()->attempt($data))
-            return response()->json(200);
+        $credentials = [
+            'email' => $data['email'],
+            'password' => $data['password']
+        ];
+        if (admin()->attempt($credentials))
+            Session::put('year', $data['year']);
+        return response()->json(200);
 
         return response()->json(405);
-
-    }//end fun
+    } //end fun
     public function logout()
     {
+        Session::remove('year');
         admin()->logout();
         toastr()->info('logged out successfully');
         return redirect()->route('admin.login');
     }
-
 }//end class

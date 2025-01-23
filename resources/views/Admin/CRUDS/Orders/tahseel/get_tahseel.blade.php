@@ -103,8 +103,8 @@
                         <th> تفاصيل الطلب</th>
                     </tr>
 
-                <tfoot>
-                    <tr style="background: whitesmoke;">
+                <tfoot style="background-color: rgb(223, 235, 242)">
+                    <tr>
                         <td> </td>
 
                         <td> </td>
@@ -124,17 +124,9 @@
                         <td> </td>
                         <td> </td>
                         <td> </td>
-
-
                     </tr>
-
-
                 </tfoot>
-
             </table>
-
-
-
         </div>
     </div>
 @endsection

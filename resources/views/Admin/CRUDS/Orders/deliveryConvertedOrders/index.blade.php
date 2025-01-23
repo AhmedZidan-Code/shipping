@@ -22,18 +22,16 @@
                     @endif
                 </select>
             </div>
-            <div class="col-md-2">
-                <label for="order_status" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                    <span class="required mr-1"> المندوب </span>
+            <div class="d-flex flex-column mb-7 fv-row col-sm-2">
+                <!--begin::Label-->
+                <label for="delivery_id" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                    <span class="required mr-1">المندوب</span>
                 </label>
-                <select id="delivery_id" class="form-control showBonds" name="delivery_id">
-                    <option value="">اختر</option>
-                    @if (!empty($delivieries))
-                        @foreach ($delivieries as $delivery)
-                            <option value="{{ $delivery->id }}"
-                                {{ request('delivery_id') == $delivery->id ? 'selected' : '' }}>{{ $delivery->name }}
-                            </option>
-                        @endforeach
+                <select id="delivery_id" name="delivery_id">
+                    <option selected disabled>- ابحث عن المندوب</option>
+                    @if (request('delivery_id'))
+                        <option value="{{ request('delivery_id') }}" selected>
+                            {{ App\Models\Delivery::where('id', request('delivery_id'))->first()->name }}</option>
                     @endif
                 </select>
             </div>
@@ -107,7 +105,7 @@
                         <th>العمليات</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tfoot style="background-color: rgb(223, 235, 242)">
                     <tr>
                         <td colspan="5">عدد الاوردرات</td>
                         <td colspan="3" id="rows-count"></td>
@@ -561,5 +559,26 @@
                 });
             });
         });
+    </script>
+    <script>
+        (function() {
+            $("#delivery_id").select2({
+                placeholder: 'Channel...',
+                // width: '350px',
+                allowClear: true,
+                ajax: {
+                    url: '{{ route('admin.getDeliveries') }}',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            term: params.term || '',
+                            page: params.page || 1
+                        }
+                    },
+                    cache: true
+                }
+            });
+        })();
     </script>
 @endsection

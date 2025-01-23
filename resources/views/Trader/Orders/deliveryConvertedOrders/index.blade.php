@@ -32,7 +32,7 @@
                         <th> تاريخ الانشاء</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tfoot style="background-color: rgb(223, 235, 242)">
                     <tr>
                         <td colspan="8">الاجمالي</td>
                         <td colspan="4"  id="total_sum"></td>

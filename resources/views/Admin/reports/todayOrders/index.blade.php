@@ -62,7 +62,7 @@
                         <th>الطلبات</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tfoot style="background-color: rgb(223, 235, 242)">
                     <tr>
                         <td colspan="2" style="text-align: center;">الاجمالي</td>
                         <td colspan="2"  id="total"></td>

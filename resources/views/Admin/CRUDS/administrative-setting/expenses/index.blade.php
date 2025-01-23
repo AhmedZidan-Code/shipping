@@ -79,7 +79,7 @@
                         <th>العمليات</th>
                     </tr>
                 </thead>
-                <tfoot>
+                <tfoot style="background-color: rgb(223, 235, 242)">
                     <tr style="text-align: center;">
                         <td colspan="3">الاجمالي</td>
                         <td colspan="4" id="total"></td>

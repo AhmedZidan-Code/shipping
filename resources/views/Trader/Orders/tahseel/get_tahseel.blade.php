@@ -37,8 +37,8 @@
 
                     </tr>
 
-                <tfoot>
-                    <tr style="background: whitesmoke;">
+                <tfoot style="background-color: rgb(223, 235, 242)">
+                    <tr>
                         <td colspan="7"> المجموع </td>
                         <td id="ahmed" colspan="7"> </td>
                     </tr>

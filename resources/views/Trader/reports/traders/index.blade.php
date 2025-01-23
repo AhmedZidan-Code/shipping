@@ -124,7 +124,7 @@
                         <th> تفاصيل الطلب</th>
                     </tr>
 
-                <tfoot>
+                <tfoot style="background-color: rgb(223, 235, 242)">
                     <tr>
                         <th></th>
                         <th></th>
