@@ -126,7 +126,6 @@ class AgentOrderController extends Controller
 
             $status[] = "total_delivery_to_customer";
         }
-
         try {
             DB::beginTransaction();
 
