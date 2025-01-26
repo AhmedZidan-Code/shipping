@@ -71,13 +71,13 @@ class MandoubReportsController extends Controller
 
         // try {
 
-        $sum = $request->cash + $request->cheque;
-        if ($sum > $request->total_orders) {
+        $sum = $request->cash + $request->cheque +  $request->fees +  $request->solar;
+        if ($sum != $request->total_orders) {
             return response()->json([
                 'code' => 422,
-                'message' => 'لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ',
+                'message' => 'لابد وأن تكون مجموع قيم النقدي وغير النقدي والبنزين ومصاريف المندوب مساوية المبلغ',
                 'errors' => [
-                    'sum' => ['لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ'],
+                    'sum' => ['لابد وأن تكون مجموع قيم النقدي وغير النقدي والبنزين ومصاريف المندوب مساوية المبلغ'],
                 ],
             ], 422);
         }
