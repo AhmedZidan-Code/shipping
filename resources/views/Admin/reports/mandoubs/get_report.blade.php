@@ -233,7 +233,7 @@
                             echo 'selected';
                         } ?>> ديسمبر </option>
                     </select> </td>
-                <td colspan=3"> <button type="button" class="btn btn-success form-control" onclick="save_result();">
+                <td colspan=3"> <button type="button" class="btn btn-success form-control" onclick="save_result(this);">
                         حفظ
                     </button></td>
             </tr>

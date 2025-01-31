@@ -527,7 +527,7 @@
             <!----------------------------------------------------------------------------------------------------------------------------------------------->
             <!------------------------------------------------------------------------------------------------------------------------------------------------>
             <script>
-                function save_result() {
+                function save_result(button) {
                     if ($('#remainder').val() < 0) {
                         alert('قيمة المتبقي أصغر من الصفر');
                         return;
@@ -559,6 +559,9 @@
                         alert("من فضلك قم باختيار المندوب");
                         return;
                     }
+                    // Disable the button
+                    let $btn = $(button);
+                    $btn.prop('disabled', true).text('جاري المعالجة...');
 
                     $.ajax({
                         url: '{{ route('admin.add_delivery_orders') }}',
@@ -589,8 +592,9 @@
                             toastr.success(data.message);
                             setTimeout(function() {
                                 location.reload();
-                            }, 1000);
+                                $btn.prop('disabled', false).text('حفظ');
 
+                            }, 1000);
                         },
                         error: function(data) {
 
@@ -608,8 +612,11 @@
                                         });
                                     }
                                 });
+                                $btn.prop('disabled', false).text('حفظ');
                             } else if (data.status === 421) {
                                 toastr.error(data.message);
+                                $btn.prop('disabled', false).text('حفظ');
+
                             }
                         },
 

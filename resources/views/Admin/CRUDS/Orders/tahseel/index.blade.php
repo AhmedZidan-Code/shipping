@@ -157,7 +157,8 @@
                         <textarea id="notes" name="notes" class="showBonds form-control"></textarea>
                     </div>
                     <div class="col-md-3 ">
-                        <button class="btn btn-success" onclick="change_status();" style="margin-right: 80%; width: 200px;">
+                        <button class="btn btn-success" onclick="change_status(this);"
+                            style="margin-right: 80%; width: 200px;">
                             تم
                             الدفع</button>
                     </div>
@@ -305,22 +306,6 @@
     </script>
 
     <script>
-        // let totalValue = 0;
-
-        // $(document).on('change', '.myCheckboxClass', function() {
-        //     let dataBaseValue = parseFloat($(this).attr('data_base')) || 0;
-
-        //     if ($(this).is(':checked')) {
-        //         totalValue += dataBaseValue;
-        //     } else {
-        //         totalValue -= dataBaseValue;
-        //     }
-        //     $('#total_value').val(totalValue);
-        //     console.log(totalValue);
-
-        // });
-
-
         function change_status(button) {
             var selectedValues = [];
             let tota_balance = $('#total_value').val();
@@ -340,7 +325,8 @@
             }
 
             // Disable the button
-            $(button).prop('disabled', true);
+            let $btn = $(button);
+            $btn.prop('disabled', true).text('جاري المعالجة...');
 
             $.ajax({
                 url: '{{ route('Tahseel.store') }}',
@@ -362,13 +348,15 @@
                     if (data.code === 200) {
                         toastr.success(data.message);
                         $('#table').DataTable().ajax.reload(null,
-                        false); // Reload the table without resetting pagination
+                            false); // Reload the table without resetting pagination
                         setTimeout(function() {
                             location.reload(); // Refresh the page after a delay
                         }, 1000); // 1-second delay
                     } else {
                         toastr.error(data.message);
                     }
+                    $btn.prop('disabled', false).text('تم الدفع');
+
                 },
                 error: function(jqXHR) {
                     if (jqXHR.status === 422) { // Laravel validation error
@@ -379,6 +367,7 @@
                     } else {
                         toastr.error('حدث خطأ غير متوقع، حاول مرة أخرى.');
                     }
+                    $btn.prop('disabled', false).text('تم الدفع');
                 },
                 complete: function() {
                     // Enable the button after the AJAX call is complete, regardless of success or error
