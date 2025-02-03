@@ -171,7 +171,7 @@
                     </div>
                     <div class=" d-flex justify-content-center ">
 
-                        <button class="btn btn-success" onclick="change_status();" style="margin-right: 80%; width: 200px;">
+                        <button class="btn btn-success" onclick="change_status(this);" style="margin-right: 80%; width: 200px;">
                             تم
                             الدفع</button>
                     </div>
@@ -333,7 +333,8 @@
             }
 
             // Disable the button
-            $(button).prop('disabled', true);
+          let $btn = $(button);
+            $btn.prop('disabled', true).text('جاري المعالجة...');
 
             $.ajax({
                 url: '{{ route('hadback.store') }}',
@@ -359,6 +360,7 @@
                     } else {
                         toastr.error(data.message);
                     }
+                    $btn.prop('disabled', false).text('تم الدفع');
                 },
                 error: function(jqXHR) {
                     if (jqXHR.status === 422) { // Laravel validation error
@@ -369,6 +371,7 @@
                     } else {
                         toastr.error('حدث خطأ غير متوقع، حاول مرة أخرى.');
                     }
+                    $btn.prop('disabled', false).text('تم الدفع');
                 },
                 complete: function() {
                     // Enable the button after the AJAX call

@@ -310,42 +310,7 @@
                     $('#total').val(parseFloat(settings.json.salary) + parseFloat(settings.json
                         .commission_after_fees) - (parseFloat(settings.json.expenses)));
                     $('#company_commission').val(settings.json.company_commission);
-
-
-                    // parseFloat()
-                    // console.log(settings.json.total2); 
-
-                    //$('#ahmed').html(settings.json.total2);
-
-                    //do whatever  
                 },
-
-                // "language": {
-                //     paginate: {
-                //         previous: "<i class='simple-icon-arrow-left'></i>",
-                //         next: "<i class='simple-icon-arrow-right'></i>"
-                //     },
-                //     "sProcessing": "جاري التحميل ..",
-                //     "sLengthMenu": "اظهار _MENU_ سجل",
-                //     "sZeroRecords": "لا يوجد نتائج",
-                //     "sInfo": "اظهار _START_ الى  _END_ من _TOTAL_ سجل",
-                //     "sInfoEmpty": "لا نتائج",
-                //     "sInfoFiltered": "للبحث",
-                //     "sSearch": "بحث :    ",
-                //     "oPaginate": {
-                //         "sPrevious": "السابق",
-                //         "sNext": "التالي",
-                //     }
-                // },
-                // buttons: [
-                //     'colvis',
-                //     'excel',
-                //     'print',
-                //     'copy',
-                //     'csv',
-                //     // 'pdf'
-                // ],
-
                 searching: true,
                 destroy: true,
                 info: false,
