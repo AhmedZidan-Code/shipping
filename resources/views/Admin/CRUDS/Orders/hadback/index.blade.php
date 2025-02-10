@@ -3,6 +3,37 @@
     المرتجعات
 @endsection
 @section('css')
+    <style>
+        .row {
+            flex-wrap: nowrap !important;
+        }
+
+        .form-control {
+            width: 150px;
+            height: 38px;
+        }
+
+        textarea.form-control {
+            resize: none;
+            height: 38px;
+        }
+
+        .btn-success {
+            height: 38px;
+            width: 120px;
+            white-space: nowrap;
+        }
+
+        .required::after {
+            content: "*";
+            color: red;
+            margin-right: 4px;
+        }
+
+        .col-auto {
+            padding: 0 8px;
+        }
+    </style>
 @endsection
 @section('content')
     <form action="{{ route('hadback.index') }}">
@@ -138,44 +169,43 @@
 
             </table>
             @if (request('trader_id'))
-                <div class="row">
-                    <div class="col-md-3 ">
-                        <label for="number" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                            <span class="required mr-1"> المبلغ </span>
-                        </label>
-                        <input type="number" name="total" id="total_value" class="showBonds form-control" disabled>
-                    </div>
-                    {{-- <div class="col-md-2 ">
-                    <label for="cash" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                        <span class="required mr-1"> نقدي </span>
-                    </label>
-                    <input type="number" id="cash" name="cashe" class="showBonds form-control">
-                </div>
-                <div class="col-md-2 ">
-                    <label for="cheque" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                        <span class="required mr-1"> غير نقدي</span>
-                    </label>
-                    <input type="number" id="cheque" name="cheque" class="showBonds form-control">
-                </div> --}}
-                    <div class="col-md-3 ">
-                        <label for="date" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                            <span class="required mr-1"> التاريخ </span>
-                        </label>
-                        <input type="date" id="date" name="date" class="showBonds form-control">
-                    </div>
-                    <div class="col-md-3 ">
-                        <label for="notes" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                            <span class="required mr-1"> الملاحظات </span>
-                        </label>
-                        <textarea id="notes" name="notes" class="showBonds form-control"></textarea>
-                    </div>
-                    <div class=" d-flex justify-content-center ">
+                <div dir="rtl">
+                    <div class="row d-flex align-items-end justify-content-between g-3 mx-2">
+                        <div class="col-auto">
+                            <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                <span class="required">عدد الاوردرات</span>
+                            </label>
+                            <input type="number" name="orders_count" id="orders_count" class="showBonds form-control"
+                                disabled>
+                        </div>
 
-                        <button class="btn btn-success" onclick="change_status(this);" style="margin-right: 80%; width: 200px;">
-                            تم
-                            الدفع</button>
-                    </div>
+                        <div class="col-auto">
+                            <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                <span class="required">المبلغ</span>
+                            </label>
+                            <input type="number" name="total" id="total_value" class="showBonds form-control" disabled>
+                        </div>
 
+                        <div class="col-auto">
+                            <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                <span class="required">التاريخ</span>
+                            </label>
+                            <input type="date" id="date" name="date" class="showBonds form-control">
+                        </div>
+
+                        <div class="col-auto">
+                            <label class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
+                                <span class="required">الملاحظات</span>
+                            </label>
+                            <textarea id="notes" name="notes" class="showBonds form-control"></textarea>
+                        </div>
+
+                        <div class="col-auto">
+                            <button class="btn btn-success" onclick="change_status(this);">
+                                تم الدفع
+                            </button>
+                        </div>
+                    </div>
                 </div>
             @endif
         </div>
@@ -268,6 +298,7 @@
             $(document).on('change', '.myCheckboxClass', function() {
                 updateTotalValue();
                 updateCheckAllState();
+                countCheckedCheckboxes();
             });
 
             // Check All checkbox
@@ -275,13 +306,19 @@
                 let isChecked = $(this).prop('checked');
                 $('.myCheckboxClass').prop('checked', isChecked);
                 updateTotalValue();
+                countCheckedCheckboxes();
             });
-
             // Function to update Check All state
             function updateCheckAllState() {
                 let totalCheckboxes = $('.myCheckboxClass').length;
                 let checkedCheckboxes = $('.myCheckboxClass:checked').length;
                 $('#checkAll').prop('checked', totalCheckboxes === checkedCheckboxes);
+            }
+
+            function countCheckedCheckboxes() {
+                let checkedCount = $('.myCheckboxClass:checked').length;
+                console.log("Checked checkboxes: " + checkedCount);
+                $('#orders_count').val(checkedCount); // If you want to display count in HTML
             }
 
             // Initial setup
@@ -318,6 +355,7 @@
         function change_status(button) {
             var selectedValues = [];
             let amount = $('#total_value').val();
+            let orders_count = $('#orders_count').val();
             let date = $('#date').val();
             let notes = $('#notes').val();
             let trader_id = {{ request('trader_id') }};
@@ -333,7 +371,7 @@
             }
 
             // Disable the button
-          let $btn = $(button);
+            let $btn = $(button);
             $btn.prop('disabled', true).text('جاري المعالجة...');
 
             $.ajax({
@@ -341,6 +379,7 @@
                 type: 'POST',
                 data: {
                     amount: amount,
+                    orders_count: orders_count,
                     date: date,
                     notes: notes,
                     trader_id: trader_id,

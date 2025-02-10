@@ -44,7 +44,6 @@ class TahseelController extends Controller
                 $rows->where('converted_date', '<=', $request->toDate . ' ' . '23:59:59');
 
                 $condition['converted_date <='] = $request->toDate . ' ' . '23:59:59';
-
             }
             if ($request->trader_id) {
                 $rows->where('trader_id', $request->trader_id);
@@ -54,7 +53,6 @@ class TahseelController extends Controller
                 $rows->where('status', $request->status);
 
                 $condition['status'] = $request->status;
-
             }
 
             $totalShipmentValue1 = $rows->get()->sum(function ($row) {
@@ -92,7 +90,6 @@ class TahseelController extends Controller
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';
                 })
-
                 ->editColumn('delivery_id', function ($row) {
                     return $row->delivery->name ?? '';
                 })
@@ -157,7 +154,6 @@ class TahseelController extends Controller
                     }
 
                     return '<button class="' . $class . '"> ' . $status . ' </button>';
-
                 })
 
                 ->editColumn('address', function ($data) {
@@ -185,7 +181,7 @@ class TahseelController extends Controller
                         return $row->total_value;
                     }
                 })
-                
+
 
                 ->editColumn('created_at', function ($admin) {
                     return date('Y/m/d', strtotime($admin->created_at));
@@ -201,30 +197,28 @@ class TahseelController extends Controller
                 ->make(true);
 
             return $dataTable;
-
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  تقارير التجار  ");
-
         }
 
         return view('Admin.CRUDS.Orders.tahseel.index', compact('request', 'traders'));
-
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'selectedValues' => 'required',
-            'tota_balance' => 'required',
+            'orders_count' => 'required',
+            'total_balance' => 'required',
             'trader_id' => 'required|exists:traders,id',
             'date' => 'required|date',
-            'cash' => 'required|lte:tota_balance',
-            'cheque' => 'required|lte:tota_balance',
+            'cash' => 'required',
+            'cheque' => 'required',
             'notes' => 'nullable',
         ]);
 
         $sum = $request->cash + $request->cheque;
-        if ($sum > $request->tota_balance) {
+        if ($sum > $request->total_balance) {
             return response()->json([
                 'code' => 422,
                 'message' => 'لابد وأن تكون مجموع قيمتي النقدي وغير النقدي لا تزيد عن قيمة المبلغ',
@@ -236,7 +230,8 @@ class TahseelController extends Controller
 
         $traderPayment = TraderPayments::create([
             'trader_id' => $data['trader_id'],
-            'total_balance' => $data['tota_balance'],
+            'orders_count' => $data['orders_count'],
+            'total_balance' => $data['total_balance'],
             'date' => $data['date'],
             'cash' => $data['cash'],
             'notes' => $data['notes'],
@@ -252,7 +247,6 @@ class TahseelController extends Controller
                 $data_update['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
                 $data_update['converted_date_s'] = strtotime(Carbon::now()->format('Y-m-d H:i:s'));
                 Order::where('id', $request->selectedValues[$x])->update($data_update + ['paid_id' => $traderPayment->id]);
-
             }
         }
 
@@ -260,8 +254,8 @@ class TahseelController extends Controller
             [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
-            ]);
-
+            ]
+        );
     }
 
     //===============================================================================
@@ -387,9 +381,9 @@ class TahseelController extends Controller
                 ->editColumn('trader_id', function ($row) {
                     return $row->trader->name ?? '';
                 })
-            //  ->editColumn('shipment_value', function ($row) {
-            //    return $row->status == 'partial_delivery_to_customer' ? $row->partial_value - $row->delivery_value : $row->shipment_value;
-            // })
+                //  ->editColumn('shipment_value', function ($row) {
+                //    return $row->status == 'partial_delivery_to_customer' ? $row->partial_value - $row->delivery_value : $row->shipment_value;
+                // })
                 ->editColumn('shipment_value', function ($row) {
                     if ($row->status == 'partial_delivery_to_customer') {
                         return $row->partial_value - $row->delivery_value;
@@ -399,10 +393,10 @@ class TahseelController extends Controller
                         return $row->shipment_value;
                     }
                 })
-                
-                
-                
-                
+
+
+
+
                 ->editColumn('total_value', function ($row) {
                     return $row->status == 'partial_delivery_to_customer' ? $row->partial_value : $row->total_value;
                 })
@@ -424,5 +418,4 @@ class TahseelController extends Controller
             return view('Admin.CRUDS.Orders.tahseel.get_tahseel', compact('request', 'traders'));
         }
     }
-
 }
