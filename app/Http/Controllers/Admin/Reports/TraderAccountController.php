@@ -66,7 +66,7 @@ class TraderAccountController extends Controller
                             })
                             ->join('traders', 'trader_payments.trader_id', '=', 'traders.id')
                             ->select([
-                                DB::raw('0 AS order_count'),
+                                DB::raw('orders_count AS order_count'),
                                 DB::raw('SUM(amount) as amount'),
                                 'type',
                                 DB::raw('DATE(date) as date'),
