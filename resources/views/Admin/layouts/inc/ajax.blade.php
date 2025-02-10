@@ -71,6 +71,7 @@
                 }
 
                 $('#ahmed').html(settings.json.total2);
+                $('#orders_count').html(settings.json.orders_count);
                 //do whatever  
             },
 

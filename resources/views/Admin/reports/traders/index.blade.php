@@ -3,6 +3,63 @@
     تقارير التجار
 @endsection
 @section('css')
+    <style>
+        .table-container {
+            max-width: 100%;
+            margin: 1rem 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .responsive-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            background-color: #fff;
+        }
+
+        .responsive-table th,
+        .responsive-table td {
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        .responsive-table thead th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .responsive-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .responsive-table tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .responsive-table tfoot {
+            background-color: #dfebf2;
+            font-weight: bold;
+        }
+
+        @media screen and (max-width: 768px) {
+            .table-container {
+                margin: 0.5rem -15px;
+                padding: 0 15px;
+            }
+
+            .responsive-table th,
+            .responsive-table td {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
 @endsection
 @section('content')
     <form action="{{ route('tradersReports.index') }}">
@@ -101,74 +158,56 @@
         </div>
 
         <div class="card-body">
-            <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                style="width:100%">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>الحالة</th>
-                        <th>المندوب</th>
-                        <th>اسم العميل</th>
-                        <th>المحافظة</th>
-                        <th>عنوان العميل</th>
-                        <th>رقم تليفون العميل</th>
-                        <th>وقت التسليم</th>
-                        <th>التاجر</th>
-                        <th>عدد القطع داخل الشحنة</th>
-                        <th>قيمة الشحنة</th>
-                        <th>قيمة التوصيل</th>
-                        <th>قيمة المندوب</th>
-                        <th>الاجمالي</th>
-                        <th>تاريخ التحويل</th>
-                        <th> تاريخ الانشاء</th>
-                        <th> تفاصيل الطلب</th>
-                    </tr>
-
-                <tfoot style="background-color: rgb(223, 235, 242)">
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th id="ahmed"></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-
-                    </tr>
+            <div class="table-container">
+                <table id="table" class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الحالة</th>
+                            <th>المندوب</th>
+                            <th>اسم العميل</th>
+                            <th>المحافظة</th>
+                            <th>عنوان العميل</th>
+                            <th>رقم تليفون العميل</th>
+                            <th>وقت التسليم</th>
+                            <th>التاجر</th>
+                            <th>عدد القطع داخل الشحنة</th>
+                            <th>قيمة الشحنة</th>
+                            <th>قيمة التوصيل</th>
+                            <th>قيمة المندوب</th>
+                            <th>الاجمالي</th>
+                            <th>تاريخ التحويل</th>
+                            <th>تاريخ الانشاء</th>
+                            <th>تفاصيل الطلب</th>
+                        </tr>
                     </thead>
-                    <!--
-                                            <tfoot>
-                                            <tr>
-                                                <th>المجموع</th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th>   {{ $shipment_pieces_number }}</th>
-                                                <th>{{ $shipment_value }}</th>
-                                                <th>{{ $delivery_value }}</th>
-                                                <th>{{ $delivery_ratio_val }}</th>
-                                                <th>{{ $total_value }}</th>
-                                                <th></th>
-                                            </tr>
-                                            -->
-                </tfoot>
-            </table>
+                    <tfoot>
+                        <tr>
+                            <th colspan="2">عدد الاوردرات</th>
+                            <th id="orders_count"></th>
+                            <th></th>
+                            <th>الاجمالي</th>
+                            <th id="ahmed"></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <!-- Table body content will be dynamically added -->
+                    </tbody>
+                </table>
+            </div>
         </div>
+
     </div>
 @endsection
 @section('js')

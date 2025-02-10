@@ -72,7 +72,7 @@ class TahseelController extends Controller
             });
 
             $totalShipmentValue = $totalShipmentValue1 - $totalShipmentValue2;
-
+            $count = $rows->count();
             $dataTable = DataTables::of($rows)
 
                 ->addColumn('checkbox', function ($row) {
@@ -193,6 +193,7 @@ class TahseelController extends Controller
                 ->with('total2', function () use ($totalShipmentValue) {
                     return $totalShipmentValue;
                 })
+                ->with('orders_count', $count)
                 ->escapeColumns([])
                 ->make(true);
 
@@ -306,7 +307,7 @@ class TahseelController extends Controller
             });
 
             $totalShipmentValue = $totalShipmentValue1 - $totalShipmentValue2;
-
+            $count = $rows->count();
             $dataTable = DataTables::of($rows)
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';
@@ -409,6 +410,7 @@ class TahseelController extends Controller
                 ->with('total2', function () use ($totalShipmentValue) {
                     return $totalShipmentValue;
                 })
+                ->with('orders_count', $count)
                 ->escapeColumns([])
                 ->make(true);
 

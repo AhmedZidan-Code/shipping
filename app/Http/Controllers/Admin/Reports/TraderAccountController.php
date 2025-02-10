@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Reports;
 use App\Enums\TransactionType;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\LogActivityTrait;
+use App\Models\Order;
 use App\Models\Trader;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,7 +30,11 @@ class TraderAccountController extends Controller
         $startDate = $request->input('fromDate') ? Carbon::parse($request->input('fromDate'))->format('Y-m-d') : null;
         $endDate = $request->input('toDate') ? Carbon::parse($request->input('toDate'))->format('Y-m-d') : null;
         if ($request->ajax() && $trader) {
-            $subQuery = DB::query()->fromSub(function ($query) use ($request, $startDate, $endDate) {
+            $previous = 0;
+            if ($startDate) {
+                $previous = $this->getPreviousBalance($request->trader_id, $startDate);
+            }
+            $subQuery = DB::query()->fromSub(function ($query) use ($request, $startDate, $endDate, $previous) {
                 $query->from('orders')
                     ->where('trader_id', $request->trader_id)
                     ->when($startDate, function ($query) use ($startDate) {
@@ -79,7 +84,7 @@ class TraderAccountController extends Controller
                             ->where('id', $request->trader_id)
                             ->select([
                                 DB::raw('0 AS order_count'),
-                                DB::raw('debt as amount'),
+                                DB::raw("debt + {$previous} as amount"),
                                 DB::raw('4 as type'),
                                 DB::raw('DATE(updated_at) as date'),
                             ])
@@ -97,7 +102,6 @@ class TraderAccountController extends Controller
                 ->orderByRaw("CASE WHEN type = 4 THEN 0 ELSE 1 END")
                 ->orderBy('date', 'asc')
                 ->orderBy('type');
-
             // $sum = $results->whereIn('type', [0, 4])->sum('amount'); 
             // $subtract = $results->whereNotIn('type', [0, 4])->sum('amount');
 
@@ -119,5 +123,30 @@ class TraderAccountController extends Controller
         $this->add_log_activity(null, auth('admin')->user(), "تم عرض  كشف حساب التاجر");
 
         return view('Admin.reports.traders.account');
+    }
+
+    public function getPreviousBalance($traderId, $startDate)
+    {
+        $orders = Order::query()
+            ->where('trader_id', $traderId)
+            ->whereDate('created_at', '<', $startDate)
+            ->sum('shipment_value');
+
+        // Get trader's collectible status
+        $isCollectible = DB::table('traders')
+            ->where('id', $traderId)
+            ->value('is_collectible');
+
+        // Get sum of all payments before start date
+        $traderPayments = DB::table('trader_payments')
+            ->where('trader_id', $traderId)
+            ->whereDate('date', '<', $startDate)
+            ->when(!$isCollectible, function ($query) {
+                return $query->whereIn('type', [2, 3]);
+            })
+            ->sum('amount');
+
+        // Calculate total previous balance
+        return $orders  - $traderPayments;
     }
 }
