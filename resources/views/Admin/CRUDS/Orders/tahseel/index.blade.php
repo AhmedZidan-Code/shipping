@@ -3,6 +3,64 @@
     المرتجعات
 @endsection
 @section('css')
+<style>
+.form-container {
+  padding: 15px;
+  background: #fff;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 120px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  height: 38px;
+}
+
+textarea.form-control {
+  resize: none;
+  height: 38px;
+}
+
+.button-group {
+  display: flex;
+  align-items: flex-end;
+}
+
+.btn-success {
+  background-color: #198754;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 38px;
+  white-space: nowrap;
+}
+
+.btn-success:hover {
+  background-color: #157347;
+}
+</style>
 @endsection
 @section('content')
     <form action="{{ route('Tahseel.index') }}">
@@ -125,44 +183,44 @@
 
             </table>
             @if (request('trader_id'))
-                <div class="row">
-                    <div class="col-md-2 ">
-                        <label for="number" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                            <span class="required mr-1"> المبلغ </span>
-                        </label>
-                        <input type="number" name="total" id="total_value" class="showBonds form-control" disabled>
-                    </div>
-                    <div class="col-md-2 ">
-                        <label for="cash" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                            <span class="required mr-1"> نقدي </span>
-                        </label>
-                        <input type="number" id="cash" name="cashe" value="0" class="showBonds form-control">
-                    </div>
-                    <div class="col-md-2 ">
-                        <label for="cheque" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                            <span class="required mr-1"> غير نقدي</span>
-                        </label>
-                        <input type="number" id="cheque" name="cheque" value="0" class="showBonds form-control">
-                    </div>
-                    <div class="col-md-3 ">
-                        <label for="date" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                            <span class="required mr-1"> التاريخ </span>
-                        </label>
-                        <input type="date" id="date" name="date" class="showBonds form-control">
-                    </div>
-                    <div class="col-md-3 ">
-                        <label for="notes" class="d-flex align-items-center fs-6 fw-bold form-label mb-2">
-                            <span class="required mr-1"> الملاحظات </span>
-                        </label>
-                        <textarea id="notes" name="notes" class="showBonds form-control"></textarea>
-                    </div>
-                    <div class="col-md-3 ">
-                        <button class="btn btn-success" onclick="change_status(this);"
-                            style="margin-right: 80%; width: 200px;">
-                            تم
-                            الدفع</button>
-                    </div>
+                <div class="form-container" dir="rtl">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>عدد الاوردرات</label>
+                            <input type="number" name="orders_count" id="orders_count" class="form-control" disabled>
+                        </div>
 
+                        <div class="form-group">
+                            <label>المبلغ</label>
+                            <input type="number" name="total" id="total_value" class="form-control" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>نقدي</label>
+                            <input type="number" id="cash" name="cashe" value="0" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>غير نقدي</label>
+                            <input type="number" id="cheque" name="cheque" value="0" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>التاريخ</label>
+                            <input type="date" id="date" name="date" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>الملاحظات</label>
+                            <textarea id="notes" name="notes" class="form-control"></textarea>
+                        </div>
+
+                        <div class="form-group button-group">
+                            <button class="btn btn-success" onclick="change_status(this);">
+                                تم الدفع
+                            </button>
+                        </div>
+                    </div>
                 </div>
             @endif
         </div>
@@ -258,6 +316,7 @@
             $(document).on('change', '.myCheckboxClass', function() {
                 updateTotalValue();
                 updateCheckAllState();
+                countCheckedCheckboxes();
             });
 
             // Check All checkbox
@@ -265,6 +324,7 @@
                 let isChecked = $(this).prop('checked');
                 $('.myCheckboxClass').prop('checked', isChecked);
                 updateTotalValue();
+                countCheckedCheckboxes();
             });
 
             // Function to update Check All state
@@ -274,6 +334,11 @@
                 $('#checkAll').prop('checked', totalCheckboxes === checkedCheckboxes);
             }
 
+            function countCheckedCheckboxes() {
+                let checkedCount = $('.myCheckboxClass:checked').length;
+                console.log("Checked checkboxes: " + checkedCount);
+                $('#orders_count').val(checkedCount); // If you want to display count in HTML
+            }
             // Initial setup
             updateTotalValue();
             if (checkedCheckboxes) {
@@ -308,7 +373,8 @@
     <script>
         function change_status(button) {
             var selectedValues = [];
-            let tota_balance = $('#total_value').val();
+            let orders_count = $('#orders_count').val();
+            let total_balance = $('#total_value').val();
             let date = $('#date').val();
             let cash = $('#cash').val();
             let cheque = $('#cheque').val();
@@ -333,7 +399,8 @@
                 type: 'POST',
                 data: {
                     trader_id: trader_id,
-                    tota_balance: tota_balance,
+                    total_balance: total_balance,
+                    orders_count: orders_count,
                     date: date,
                     cash: cash,
                     cheque: cheque,

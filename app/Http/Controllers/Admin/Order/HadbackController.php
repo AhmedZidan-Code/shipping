@@ -213,6 +213,7 @@ class HadbackController extends Controller
 
             'selectedValues' => 'required',
             'amount' => 'required',
+            'orders_count' => 'required',
             'trader_id' => 'required|exists:traders,id',
             'date' => 'required|date',
             'notes' => 'nullable',
@@ -221,6 +222,7 @@ class HadbackController extends Controller
 
         $traderPayment = TraderPayments::create([
             'trader_id' => $data['trader_id'],
+            'orders_count' => $data['orders_count'],
             'type' => TransactionType::HADBACK,
             'amount' => $data['amount'],
             'total_balance' => $data['amount'],
