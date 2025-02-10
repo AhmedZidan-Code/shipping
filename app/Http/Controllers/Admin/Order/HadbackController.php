@@ -43,7 +43,6 @@ class HadbackController extends Controller
                 $rows->where('converted_date', '<=', $request->toDate . ' ' . '23:59:59');
 
                 $condition['converted_date <='] = $request->toDate . ' ' . '23:59:59';
-
             }
             if ($request->trader_id) {
                 $rows->where('trader_id', $request->trader_id);
@@ -53,7 +52,6 @@ class HadbackController extends Controller
                 $rows->where('status', $request->status);
 
                 $condition['status'] = $request->status;
-
             }
 
             $totalShipmentValue1 = $rows->get()->sum(function ($row) {
@@ -67,7 +65,7 @@ class HadbackController extends Controller
             });
 
             $totalShipmentValue = $rows->get()->sum('shipment_value');
-
+            $count = $rows->count();
             // $totalShipmentValue = $totalShipmentValue1 - $totalShipmentValue2;
 
             $dataTable = DataTables::of($rows)
@@ -85,7 +83,7 @@ class HadbackController extends Controller
                     $change_status = '';
                     return '<input  type="checkbox" class="myCheckboxClass" value="' . $row->id . '"; data_base="' . $database . '"  name="check" ' . $change_status . '/>';
                 })
-               
+
 
                 ->editColumn('delivery_id', function ($row) {
                     return $row->delivery->name ?? '';
@@ -151,7 +149,6 @@ class HadbackController extends Controller
                     }
 
                     return '<button class="' . $class . '"> ' . $status . ' </button>';
-
                 })
 
                 ->editColumn('address', function ($data) {
@@ -190,6 +187,7 @@ class HadbackController extends Controller
                 ->with('total2', function () use ($totalShipmentValue1) {
                     return $totalShipmentValue1;
                 })
+                ->with('orders_count', $count)
                 ->editColumn('province_id', function ($row) {
                     return optional($row->province)->title;
                 })
@@ -197,14 +195,11 @@ class HadbackController extends Controller
                 ->make(true);
 
             return $dataTable;
-
         } else {
             $this->add_log_activity(null, auth('admin')->user(), "تم عرض  تقارير التجار  ");
-
         }
 
         return view('Admin.CRUDS.Orders.hadback.index', compact('request', 'traders'));
-
     }
 
     public function store(Request $request)
@@ -241,7 +236,6 @@ class HadbackController extends Controller
                 $data_update['converted_date'] = Carbon::now()->format('Y-m-d H:i:s');
                 $data_update['converted_date_s'] = strtotime($data_update['converted_date']);
                 Order::where('id', $request->selectedValues[$x])->update($data_update + ['paid_id' => $traderPayment->id]);
-
             }
         }
 
@@ -249,8 +243,8 @@ class HadbackController extends Controller
             [
                 'code' => 200,
                 'message' => 'تمت العملية بنجاح!',
-            ]);
-
+            ]
+        );
     }
 
     //===============================================================================
@@ -412,8 +406,8 @@ class HadbackController extends Controller
                 }
             });
 
-            $totalShipmentValue = $totalShipmentValue1 ;
-
+            $totalShipmentValue = $totalShipmentValue1;
+            $count = $rows->count();
             $dataTable = DataTables::of($rows)
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';
@@ -519,6 +513,7 @@ class HadbackController extends Controller
                 ->editColumn('province', function ($row) {
                     return optional($row->province)->title;
                 })
+                ->with('orders_count', $count)
                 ->escapeColumns([])
                 ->make(true);
 

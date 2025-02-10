@@ -3,6 +3,81 @@
     تقارير التجار
 @endsection
 @section('css')
+    <style>
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .responsive-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .responsive-table th,
+        .responsive-table td {
+            padding: 12px 15px;
+            text-align: right;
+            border: 1px solid #ddd;
+            white-space: nowrap;
+        }
+
+        .responsive-table thead th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .responsive-table tfoot {
+            background-color: rgb(223, 235, 242);
+        }
+
+        .responsive-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .responsive-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        @media screen and (max-width: 768px) {
+            .table-container {
+                margin: 10px 0;
+            }
+
+            .responsive-table th,
+            .responsive-table td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+        }
+
+        /* Custom scrollbar for better UX */
+        .table-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
 @endsection
 @section('content')
     <form action="{{ route('trader-accounts.index', ['trader_id' => request('trader_id')]) }}" method="GET">
@@ -55,20 +130,28 @@
         </div>
 
         <div class="card-body">
-            <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                style="width:100%">
-                <thead>
-                    <tr>
-                        {{-- <th>#</th> --}}
-                        <th>التاريخ</th>
-                        <th>عدد الاوردرات</th>
-                        <th>العملية</th>
-                        <th>المبلغ</th>
-                        <th>المتبقي</th>
-                    </tr>
-                </thead>
-
-            </table>
+            <div class="table-container">
+                <table id="table" class="table">
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>عدد الاوردرات</th>
+                            <th>العملية</th>
+                            <th>المبلغ</th>
+                            <th>المتبقي</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th>الاجمالي</th>
+                            <th id="total"></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 @endsection
@@ -124,8 +207,6 @@
                     "language": <?php echo json_encode(datatable_lang()); ?>,
 
                     "drawCallback": function(settings) {
-                        console.log(settings.json.rowsCount);
-                        console.log(settings.json.total);
                         if (settings.json && settings.json.rowsCount) {
                             $('#rows-count').val(settings.json.rowsCount);
                             $('#total').val(settings.json.total);
@@ -143,35 +224,9 @@
                         }
 
                         $('#ahmed').html(settings.json.total2);
-                        //do whatever  
+                        updateLatestValue();
+
                     },
-
-                    // "language": {
-                    //     paginate: {
-                    //         previous: "<i class='simple-icon-arrow-left'></i>",
-                    //         next: "<i class='simple-icon-arrow-right'></i>"
-                    //     },
-                    //     "sProcessing": "جاري التحميل ..",
-                    //     "sLengthMenu": "اظهار _MENU_ سجل",
-                    //     "sZeroRecords": "لا يوجد نتائج",
-                    //     "sInfo": "اظهار _START_ الى  _END_ من _TOTAL_ سجل",
-                    //     "sInfoEmpty": "لا نتائج",
-                    //     "sInfoFiltered": "للبحث",
-                    //     "sSearch": "بحث :    ",
-                    //     "oPaginate": {
-                    //         "sPrevious": "السابق",
-                    //         "sNext": "التالي",
-                    //     }
-                    // },
-                    // buttons: [
-                    //     'colvis',
-                    //     'excel',
-                    //     'print',
-                    //     'copy',
-                    //     'csv',
-                    //     // 'pdf'
-                    // ],
-
                     searching: true,
                     destroy: true,
                     info: false,
@@ -179,6 +234,11 @@
 
                 });
 
+                function updateLatestValue() {
+                    let columnData = table.column(4).data().toArray();
+                    let lastValue = columnData[columnData.length - 1];
+                    $("#total").text(lastValue ? lastValue : 0);
+                }
             });
         </script>
     @endif

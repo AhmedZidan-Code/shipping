@@ -3,6 +3,81 @@
     المدفوع كمرتجع
 @endsection
 @section('css')
+    <style>
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .responsive-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .responsive-table th,
+        .responsive-table td {
+            padding: 12px 15px;
+            text-align: right;
+            border: 1px solid #ddd;
+            white-space: nowrap;
+        }
+
+        .responsive-table thead th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .responsive-table tfoot {
+            background-color: rgb(223, 235, 242);
+        }
+
+        .responsive-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .responsive-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        @media screen and (max-width: 768px) {
+            .table-container {
+                margin: 10px 0;
+            }
+
+            .responsive-table th,
+            .responsive-table td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+        }
+
+        /* Custom scrollbar for better UX */
+        .table-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
 @endsection
 @section('content')
     <form action="{{ route('admin.get_tahseel') }}">
@@ -76,57 +151,53 @@
         </div>
 
         <div class="card-body">
-            <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                style="width:100%">
-                <thead>
-                    <tr>
-
-                        <th>#</th>
-                        <th>الحالة</th>
-                        <th>اسم العميل</th>
-                        <th>المحافظة</th>
-
-                        <th>رقم تليفون العميل</th>
-                        <th>وقت التسليم</th>
-                        <th>التاجر</th>
-                        <th>عدد القطع داخل الشحنة</th>
-                        <th>قيمة الشحنة</th>
-                        {{-- <th>قيمة الاوردر</th> --}}
-                        <th>قيمة التوصيل</th>
-                        <th> الملاحظات </th>
-                        <th>قيمة التوصيل</th>
-
-                        <th>الاجمالي</th>
-                        <th>تاريخ التحويل</th>
-                        <th> تاريخ الانشاء</th>
-
-                        <th> تفاصيل الطلب</th>
-                    </tr>
-
-                <tfoot style="background-color: rgb(223, 235, 242)">
-                    <tr>
-                        <td> </td>
-
-                        <td> </td>
-                        <td> </td>
-                        {{-- <td> </td> --}}
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> المجموع </td>
-                        <td id="ahmed"> </td>
-                        <td> </td>
-
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                    </tr>
-                </tfoot>
-            </table>
+            <div class="table-container">
+                <table id="table" class="responsive-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الحالة</th>
+                            <th>اسم العميل</th>
+                            <th>المحافظة</th>
+                            <th>رقم تليفون العميل</th>
+                            <th>وقت التسليم</th>
+                            <th>التاجر</th>
+                            <th>عدد القطع داخل الشحنة</th>
+                            <th>قيمة الشحنة</th>
+                            <th>قيمة التوصيل</th>
+                            <th>الملاحظات</th>
+                            <th>قيمة التوصيل</th>
+                            <th>الاجمالي</th>
+                            <th>تاريخ التحويل</th>
+                            <th>تاريخ الانشاء</th>
+                            <th>تفاصيل الطلب</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td>عدد الأوردرات</td>
+                            <td id="orders_count"></td>
+                            <td>المجموع</td>
+                            <td id="ahmed"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <!-- Table body content will go here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection

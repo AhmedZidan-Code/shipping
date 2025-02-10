@@ -165,10 +165,9 @@ textarea.form-control {
                         <td> </td>
 
 
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
+                        <td></td>
+                        <td colspan="2">عدد الاوردرات </td>
+                        <td id="orders_count"> </td>
                         <td> </td>
                         <td> </td>
                         <td> </td>

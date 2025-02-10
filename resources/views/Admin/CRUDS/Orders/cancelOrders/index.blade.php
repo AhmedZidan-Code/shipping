@@ -30,6 +30,20 @@
                         <th>العمليات</th>
                     </tr>
                 </thead>
+                <tfoot style="background-color: rgb(223, 235, 242)">
+                    <tr>
+                        <td> </td>
+                        <td></td>
+                        <td colspan="2">عدد الاوردرات </td>
+                        <td id="orders_count"> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>

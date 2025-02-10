@@ -3,6 +3,95 @@
     المدفوع كمرتجع
 @endsection
 @section('css')
+    <style>
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+            border-collapse: collapse;
+            background-color: #fff;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .table-bordered {
+            border: 1px solid #dee2e6;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: middle;
+            border: 1px solid #dee2e6;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            color: #000;
+            /* Changed to black */
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+        }
+
+        .table tfoot {
+            background-color: rgb(223, 235, 242);
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 768px) {
+
+            .table th,
+            .table td {
+                padding: 0.5rem;
+                font-size: 14px;
+            }
+        }
+
+        /* Custom scrollbar */
+        .table-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Focus styles for better accessibility */
+        .table tbody tr:focus {
+            outline: none;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    </style>
 @endsection
 @section('content')
     <form action="{{ route('admin.get_hadback') }}">
@@ -79,65 +168,50 @@
         </div>
 
         <div class="card-body">
-            <table id="table" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                style="width:100%">
-                <thead>
-                    <tr>
-
-                        <th>#</th>
-                        <th>الحالة</th>
-                        <th>اسم العميل</th>
-                        <th>المحافظة</th>
-
-                        <th>رقم تليفون العميل</th>
-                        <th>وقت التسليم</th>
-                        <th>التاجر</th>
-                        <th>عدد القطع داخل الشحنة</th>
-                        <th>قيمة الشحنة</th>
-                        <th>قيمة التوصيل</th>
-
-                        <th> الملاحظات </th>
-                        <th>قيمة التوصيل</th>
-
-
-                        <th>تاريخ التحويل</th>
-                        <th> تاريخ الانشاء</th>
-
-                        <th> تفاصيل الطلب</th>
-                    </tr>
-                <tfoot style="background-color: rgb(223, 235, 242)">
-                    <tr>
-                        <td> </td>
-
-
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-                        <td> المجموع </td>
-                        <td id="ahmed"> </td>
-
-
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-
-                        <td> </td>
-                        <td> </td>
-                        <td> </td>
-
-
-
-                    </tr>
-
-
-                </tfoot>
-            </table>
-
-
-
+            <div class="table-container">
+                <table id="table" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>الحالة</th>
+                            <th>اسم العميل</th>
+                            <th>المحافظة</th>
+                            <th>رقم تليفون العميل</th>
+                            <th>وقت التسليم</th>
+                            <th>التاجر</th>
+                            <th>عدد القطع داخل الشحنة</th>
+                            <th>قيمة الشحنة</th>
+                            <th>قيمة التوصيل</th>
+                            <th>الملاحظات</th>
+                            <th>قيمة التوصيل</th>
+                            <th>تاريخ التحويل</th>
+                            <th>تاريخ الانشاء</th>
+                            <th>تفاصيل الطلب</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">عدد الأوردرات</td>
+                            <td id="orders_count"></td>
+                            <td>المجموع</td>
+                            <td id="ahmed"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <!-- Table content will go here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 @endsection

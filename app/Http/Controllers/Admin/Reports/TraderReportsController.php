@@ -49,15 +49,9 @@ class TraderReportsController extends Controller
 
                 $condition['status'] = $request->status;
             }
-
-
-
-
-
+            
+            $count = $rows->count();
             $dataTable = DataTables::of($rows)
-
-
-
                 ->editColumn('province_id', function ($row) {
                     return $row->province->title ?? '';
                 })
@@ -166,6 +160,7 @@ class TraderReportsController extends Controller
                 ->with('total2', function () use ($rows) {
                     return $rows->sum('shipment_value');
                 })
+                ->with('orders_count', $count)
                 ->escapeColumns([])
                 ->make(true);
 
