@@ -380,7 +380,7 @@
         }
 
         .left_side h4 .content.hight_span {
-            height: 138px;
+            height: 287px;
         }
 
 
@@ -470,6 +470,17 @@
                 display: none !important;
             }
         }
+
+        @media print {
+            .box {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .box:nth-child(2n) {
+                page-break-after: always;
+            }
+        }
     </style>
 
 
@@ -526,20 +537,21 @@
                         <div class="third">
                             <h5><span class="spn_trip">الاجمالي</span><span
                                     class="spn_trip2">{{ $order->total_value }}</span></h5>
-                            <img  style="max-width: 100px; max-height:100px;" src="{{ asset('assets/print/') }}/image/Bosla.png">
+                            <img style="max-width: 100px; max-height:100px;"
+                                src="{{ asset('assets/print/') }}/image/Bosla.png">
 
                         </div>
                     </div>
 
                     <div class="fatora_body">
                         <div class="right_side">
-                            <div class="flex-div">
-                                <h5 class="">
+                            <div class="flex-div tow">
+                                <h5 class="adders_h5 higth_h">
                                     <span class="f5_spn">المرسل الية</span>
                                     <span>{{ $order->customer_name ?? '' }}</span>
                                 </h5>
 
-                                <h5 class="">
+                                <h5 class="adders_h5 higth_h">
                                     <span class="f5_spn">المحافظة</span>
                                     <span>
                                         @if ($order->province)
@@ -548,51 +560,45 @@
                                     </span>
                                 </h5>
 
-                                <h5 class="">
+                            </div>
+                            <div class="flex-div tow">
+                                <h5 class="adders_h5 higth_h">
                                     <span class="f5_spn">المدينة</span>
                                     <span>
                                         @if ($order->province)
                                             {{ $order->province->title }}
-                                           
                                         @endif
                                     </span>
                                 </h5>
-                            </div>
-                            <div class="flex-div tow">
-                                <h5 class="number_h5">
+                                <h5 class="adders_h5 higth_h">
                                     <span class="f5_spn">التليفون</span>
                                     <span>
                                         {{ $order->customer_phone }}
                                     </span>
                                 </h5>
+                            </div>
+                            <div class="flex-div three">
 
                                 <h5 class="adders_h5 higth_h">
                                     <span class="f5_spn span_add">العنوان</span>
                                     <span>
-                                         {{ $order->customer_address }}
+                                        {{ $order->customer_address }}
                                     </span>
-
-                                    {{-- <ul class="three_elment">
-                                        <li><span class="span_name">عمارة</span><span class="span_space">1</span></li>
-                                        <li><span class="span_name">دور</span><span class="span_space">2</span></li>
-                                        <li><span class="span_name">شقة</span><span class="span_space">3</span></li>
-
-
-                                    </ul> --}}
                                 </h5>
-                            </div>
-                            <div class="flex-div three">
-                                <h5 class="">
+                                <h5 class="adders_h5 higth_h">
                                     <span class="f5_spn">عدد القطع</span>
                                     <span></span>
                                 </h5>
 
-                                <h5 class="">
+                            </div>
+                            <div class="flex-div three">
+
+                                <h5 class="adders_h5 higth_h">
                                     <span class="f5_spn">السماح بفتح الشحنة</span>
                                     <span></span>
                                 </h5>
 
-                                <h5 class="">
+                                <h5 class="adders_h5 higth_h">
                                     <span class="f5_spn">قابلة للكسر</span>
                                     <span></span>
                                 </h5>
@@ -604,7 +610,11 @@
                         </div>
 
                         <div class="left_side">
-                            <h4><span class="sender">الراسل</span><span class="content"></span></h4>
+                            <h4><span class="sender">الراسل</span><span class="content">
+                                    @if ($order->trader)
+                                        {{ $order->trader->name ?? '' }}
+                                    @endif
+                                </span></h4>
                             <h4><span class="sender">وصف الشحن</span><span class="content hight_span"></span></h4>
 
                         </div>
@@ -622,7 +632,6 @@
     @endforeach
 
 
-    <button type="button" class="btn_print" id="btn_print">طباعة </button>
 
     <script>
         document.getElementById('btn_print').addEventListener('click', function() {
