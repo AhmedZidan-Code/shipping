@@ -33,7 +33,7 @@ class NewOrderController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $orders = Order::query();
+            $orders = Order::query()->with(['province', 'trader', 'delivery']);
             if ($request->delivery_id) {
                 $orders->where('delivery_id', $request->delivery_id);
             }
@@ -48,7 +48,7 @@ class NewOrderController extends Controller
                 $orders->where('created_at', '<=', $request->toDate . ' ' . '23:59:59');
             }
 
-            $orders->where('status','new')->with(['province', 'trader'])->/* where('status', 'new')-> */orderBy('updated_at', 'desc');
+            $orders->where('status', 'new')->with(['province', 'trader'])->/* where('status', 'new')-> */orderBy('updated_at', 'desc');
 
             $rowsCount = $orders->count();
             $total = $orders->sum('shipment_value');
@@ -85,6 +85,7 @@ class NewOrderController extends Controller
                             </button>
 
                            <a href=' . $url . ' class="btn rounded-pill btn-outline-dark"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                           <a href="#" class="btn rounded-pill btn-outline-dark print" data-order=' . $row->id . '><i class="fa fa-print" aria-hidden="true"></i></a>
                            <a href=' . $route . ' class="btn rounded-pill btn-outline-dark"><i class="fa fa-edit" aria-hidden="true"></i></a>
 
                        ';

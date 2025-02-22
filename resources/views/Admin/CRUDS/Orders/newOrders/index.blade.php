@@ -114,6 +114,10 @@
                 <div class="col-md-2">
                     <button type="button" class="btn btn-primary my-4 delivered"> تسليم</button>
                 </div>
+                <div class="col-md-2">
+                    <button type="button" id="print_all" class="btn btn-primary my-4"> طباعة <i class="fa fa-print"
+                            aria-hidden="true"></i></button>
+                </div>
             </div>
         </div>
     </div>
@@ -174,6 +178,7 @@
                         <i class="fa fa-times"></i>
                     </button>
                     <!--end::Close-->
+
                 </div>
                 <!--begin::Modal body-->
                 <div class="modal-body py-4" id="form-load-delivery">
@@ -703,6 +708,76 @@
                         toastr.error('An unexpected error occurred');
                     }
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.print', function(e) {
+                e.preventDefault();
+                var order_id = [];
+                order_id.push($(this).data('order'));
+
+                $.ajax({
+                    url: '{{ route('admin.print.order') }}',
+                    method: 'GET',
+                    data: {
+                        order_id: order_id,
+                    },
+                    success: function(response) {
+                        // Create a new window or iframe for printing
+                        var printWindow = window.open('', '_blank');
+                        printWindow.document.open();
+                        printWindow.document.write(response.html);
+                        printWindow.document.close();
+
+                        // Wait for the content to load and then print
+                        printWindow.onload = function() {
+                            printWindow.print();
+                            printWindow.close();
+                        };
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching printable content:', error);
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
+            $(document).on('click', '#print_all', function(e) {
+                e.preventDefault();
+                if ($('.orders_ids:checked').length <= 0) {
+                    alert('لابد من اختيار أوردرات للطباعة');
+                    return;
+                }
+                var orders_id = [];
+                $('.orders_ids:checked').each(function() {
+                    orders_id.push($(this).val());
+                });
+
+                $.ajax({
+                    url: '{{ route('admin.print.order') }}',
+                    method: 'GET',
+                    data: {
+                        order_id: orders_id,
+                    },
+                    success: function(response) {
+                        // Create a new window or iframe for printing
+                        var printWindow = window.open('', '_blank');
+                        printWindow.document.open();
+                        printWindow.document.write(response.html);
+                        printWindow.document.close();
+
+                        // Wait for the content to load and then print
+                        printWindow.onload = function() {
+                            printWindow.print();
+                            printWindow.close();
+                        };
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching printable content:', error);
+                    }
+                });
             });
         });
     </script>
